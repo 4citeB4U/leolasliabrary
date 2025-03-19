@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leola's Digital Library</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Buttons and interactive elements */
+    button {
+      cursor: pointer;
+      border: none;
+      outline: none;
+      font-family: inherit;
+    }
+    
+    /* Header */
+    .header {
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    
+    .header h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ffc107;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+    }
+    
+    .header p {
+      font-size: 1.25rem;
+      margin-top: 1rem;
+    }
+    
+    .author-name {
+      color: #a855f7;
+      text-shadow: 0 0 8px #a855f7;
+      margin-left: 0.5rem;
+    }
+    
+    /* Action buttons */
+    .action-buttons {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .action-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      background-color: rgba(88, 28, 7, 0.3);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      border-radius: 0.75rem;
+      transition: transform 0.3s;
+      box-shadow: 0 10px 25px -5px rgba(251, 191, 36, 0.3), 0 0 10px rgba(251, 191, 36, 0.2);
+    }
+    
+    .action-button:hover {
+      transform: scale(1.1);
+    }
+    
+    .action-button.settings {
+      background-color: rgba(30, 64, 175, 0.6);
+      border: 1px solid rgba(59, 130, 246, 0.6);
+      box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.3), 0 0 10px rgba(59, 130, 246, 0.3);
+    }
+    
+    .action-button .emoji {
+      font-size: 3rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .action-button .label {
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+    
+    .support-button .label {
+      color: #fcd34d;
+    }
+    
+    .settings-button .label {
+      color: #93c5fd;
+    }
+    
+    /* Scrolling banner */
+    .scrolling-banner {
+      position: relative;
+      width: 100%;
+      height: 4rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    
+    .scrolling-text {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 1.875rem;
+      background: linear-gradient(90deg, #7e22ce, #fbbf24);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: marquee 30s linear infinite;
+    }
+    
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    
+    /* Book grid */
+    .book-container {
+      flex-grow: 1;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+    
+    .book-grid {
+      max-width: 72rem;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 1rem 0;
+    }
+    
+    @media (min-width: 768px) {
+      .book-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    /* Book card */
+    .book-card {
+      border-radius: 0.75rem;
+      overflow: hidden;
+      border: 1px solid #4b5563;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      background-color: rgba(26, 26, 46, 0.6);
+      transition: all 0.3s;
+    }
+    
+    .book-card:hover {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      transform: translateY(-0.5rem);
+    }
+    
+    .book-card-header {
+      padding: 1rem;
+    }
+    
+    .book-title {
+      font-size: 1.875rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    
+    .book-subtitle {
+      font-size: 1.25rem;
+      font-style: italic;
+      margin-bottom: 0.5rem;
+      opacity: 0.9;
+    }
+    
+    .book-author {
+      font-size: 1.125rem;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+    }
+    
+    .author-highlight {
+      color: #a855f7;
+    }
+    
+    .read-button {
+      margin-left: 0.75rem;
+      padding: 0.5rem;
+      border-radius: 9999px;
+      background-color: #2563eb;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .book-cover {
+      width: 100%;
+      height: 400px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .book-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.3s;
+    }
+    
+    .book-card:hover .book-cover img {
+      transform: scale(1.05);
+    }
+    
+    .book-content {
+      padding: 1rem;
+      flex-grow: 1;
+    }
+    
+    .book-description {
+      font-size: 1.125rem;
+      color: #e5e7eb;
+      margin-bottom: 0.75rem;
+    }
+    
+    .genre-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    
+    .genre-tag {
+      display: inline-block;
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .book-card-footer {
+      padding: 1rem;
+    }
+    
+    .open-book-button {
+      width: 100%;
+      padding: 0.75rem 0;
+      color: white;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      font-size: 1.125rem;
+    }
+    
+    /* Book reader modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: none;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .reader-container {
+      width: 100%;
+      height: 100%;
+      max-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 0.5rem;
+    }
+    
+    .reader-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: #1f2937;
+      border-bottom: 1px solid #374151;
+    }
+    
+    .reader-header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .close-button {
+      background-color: #dc2626;
+      color: white;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .close-button:hover {
+      background-color: #ef4444;
+    }
+    
+    .reader-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #ffc107;
+    }
+    
+    @media (min-width: 768px) {
+      .reader-title {
+        font-size: 1.875rem;
+      }
+    }
+    
+    .narration-button {
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      color: white;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #16a34a;
+    }
+    
+    .narration-button:hover {
+      background-color: #22c55e;
+    }
+    
+    .narration-button.active {
+      background-color: #dc2626;
+    }
+    
+    .narration-button.active:hover {
+      background-color: #ef4444;
+    }
+    
+    .reader-content {
+      display: flex;
+      flex-grow: 1;
+      overflow: hidden;
+    }
+    
+    .page-nav {
+      display: flex;
+      align-items: center;
+    }
+    
+    .page-nav-button {
+      height: 100%;
+      padding: 0 1rem;
+      background-color: #1f2937;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .page-nav-button:hover {
+      background-color: #374151;
+    }
+    
+    .page-nav-button:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    
+    @media (min-width: 768px) {
+      .page-nav-button {
+        padding: 0 1.5rem;
+      }
+    }
+    
+    .reader-page {
+      flex-grow: 1;
+      overflow: auto;
+      padding: 1rem;
+    }
+    
+    @media (min-width: 768px) {
+      .reader-page {
+        padding: 2rem;
+      }
+    }
+    
+    .page-content {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      max-width: 64rem;
+      margin: 0 auto;
+    }
+    
+    .page-title {
+      font-size: 2.25rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: #ffc107;
+    }
+    
+    @media (min-width: 768px) {
+      .page-title {
+        font-size: 2.5rem;
+      }
+    }
+    
+    .page-paragraph {
+      margin-bottom: 1.5rem;
+    }
+    
+    .page-help {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .help-text {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      background-color: rgba(55, 65, 81, 0.4);
+      font-size: 1rem;
+    }
+    
+    .reader-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: #1f2937;
+      border-top: 1px solid #374151;
+    }
+    
+    .page-button {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      color: white;
+    }
+    
+    .page-button.prev {
+      background-color: #2563eb;
+    }
+    
+    .page-button.prev:hover {
+      background-color: #3b82f6;
+    }
+    
+    .page-button.prev:disabled {
+      background-color: #4b5563;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .page-button.next {
+      background-color: #2563eb;
+    }
+    
+    .page-button.next:hover {
+      background-color: #3b82f6;
+    }
+    
+    .page-button.next:disabled {
+      background-color: #4b5563;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .page-counter {
+      color: #ffc107;
+    }
+
+    /* Modals: Settings & Support */
+    .settings-modal, .support-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 1rem;
+    }
+    
+    .settings-modal.active, .support-modal.active {
+      display: flex;
+    }
+    
+    .settings-container {
+      background-color: #1f2937;
+      border-radius: 0.75rem;
+      max-width: 48rem;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 1.5rem;
+    }
+    
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .settings-title {
+      font-size: 1.875rem;
+      font-weight: bold;
+      color: #93c5fd;
+    }
+    
+    .close-settings-button {
+      color: #9ca3af;
+      background: none;
+      padding: 0.5rem;
+    }
+    
+    .close-settings-button:hover {
+      color: white;
+    }
+    
+    .settings-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .settings-section h3 {
+      font-size: 1.25rem;
+      color: #93c5fd;
+      margin-bottom: 1rem;
+    }
+    
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    
+    @media (min-width: 640px) {
+      .theme-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+    
+    .theme-option {
+      padding: 1rem;
+      border-radius: 0.5rem;
+      transition: all 0.3s;
+    }
+    
+    .theme-option.active {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+    
+    .theme-inner {
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .theme-name {
+      font-weight: 500;
+    }
+    
+    .reading-settings {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    @media (min-width: 768px) {
+      .reading-settings {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    .setting-label {
+      display: block;
+      color: #d1d5db;
+      margin-bottom: 0.5rem;
+    }
+    
+    .setting-select {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background-color: #374151;
+      color: white;
+      border-radius: 0.5rem;
+      border: none;
+    }
+    
+    .speed-control {
+      display: flex;
+      align-items: center;
+    }
+    
+    .speed-slider {
+      width: 100%;
+      margin-right: 0.75rem;
+    }
+    
+    .settings-actions {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+    
+    .settings-button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      color: white;
+    }
+    
+    .cancel-button {
+      background-color: #4b5563;
+    }
+    
+    .cancel-button:hover {
+      background-color: #6b7280;
+    }
+    
+    .save-button {
+      background-color: #2563eb;
+    }
+    
+    .save-button:hover {
+      background-color: #3b82f6;
+    }
+    
+    /* Support modal */
+    .support-container {
+      position: relative;
+      background: linear-gradient(to bottom, #92400e, #b45309);
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 32rem;
+      width: 100%;
+      box-shadow: 0 20px 60px -10px rgba(255, 193, 7, 0.3), 0 0 30px rgba(255, 193, 7, 0.2);
+      transform: perspective(1000px) rotateX(5deg);
+    }
+    
+    .close-support-button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: #fef3c7;
+      background: none;
+      transition: color 0.3s;
+    }
+    
+    .close-support-button:hover {
+      color: white;
+    }
+    
+    .support-content {
+      text-align: center;
+    }
+    
+    .support-icon {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .support-icon .heart {
+      color: #f87171;
+      font-size: 2.5rem;
+    }
+    
+    .support-title {
+      font-size: 1.875rem;
+      font-weight: bold;
+      color: #fef3c7;
+      margin-bottom: 1.5rem;
+    }
+    
+    .support-message {
+      background-color: rgba(120, 53, 15, 0.3);
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(251, 191, 36, 0.2);
+      margin-bottom: 2rem;
+    }
+    
+    .support-message p {
+      font-size: 1.25rem;
+      color: #fef3c7;
+      line-height: 1.6;
+      font-style: italic;
+    }
+    
+    .donation-options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .donation-option {
+      background-color: rgba(120, 53, 15, 0.4);
+      padding: 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .donation-option:hover {
+      background-color: rgba(120, 53, 15, 0.5);
+    }
+    
+    .donation-option.selected {
+      outline: 4px solid #fcd34d;
+      transform: scale(1.05);
+    }
+    
+    .donation-option-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .donation-info {
+      text-align: left;
+    }
+    
+    .donation-name {
+      font-weight: bold;
+      color: #fef3c7;
+      font-size: 1.25rem;
+    }
+    
+    .donation-description {
+      color: rgba(254, 243, 199, 0.8);
+    }
+    
+    .donation-amount {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fef3c7;
+    }
+    
+    .support-actions {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    
+    .support-button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      transition: background-color 0.3s;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      font-weight: 500;
+    }
+    
+    .later-button {
+      background-color: #4b5563;
+      color: white;
+    }
+    
+    .later-button:hover {
+      background-color: #6b7280;
+    }
+    
+    .checkout-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background-color: #16a34a;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .checkout-button:hover {
+      background-color: #22c55e;
+    }
+    
+    .checkout-button:disabled {
+      background-color: #6b7280;
+      cursor: not-allowed;
+    }
+
+    /* Toast notifications */
+    .toast-container {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 100;
+    }
+    
+    .toast {
+      background-color: #16a34a;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      margin-top: 0.5rem;
+      display: none;
+    }
+    
+    .toast.active {
+      display: block;
+      animation: fadeInOut 2s forwards;
+    }
+    
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(20px); }
+      10% { opacity: 1; transform: translateY(0); }
+      90% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-20px); }
+    }
+
+    /* Particles */
+    .particles-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    
+    .particle {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    /* Reading highlight */
+    .reading-highlight {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating particles -->
+  <div class="particles-container" id="particles-container"></div>
+
+  <!-- Main content -->
+  <div class="header">
+    <h1>Leola's Digital Library</h1>
+    <p>A collection of heartwarming stories and guides by <span class="author-name">Leola "Sister" Lee</span></p>
+    
+    <div class="action-buttons">
+      <button class="action-button support-button" id="support-button" aria-label="Support Leola">
+        <span class="emoji">🎁</span>
+        <span class="label">Support</span>
+      </button>
+      
+      <button class="action-button settings-button" id="settings-button" aria-label="Open settings">
+        <span class="emoji">⚙️</span>
+        <span class="label">Settings</span>
+      </button>
+    </div>
+    
+    <div class="scrolling-banner">
+      <div class="scrolling-text">Find joy in each stitch as your hands create what your heart imagines</div>
+    </div>
+  </div>
+  
+  <div class="book-container">
+    <div class="book-grid" id="book-grid">
+      <!-- Books will be inserted here -->
+    </div>
+  </div>
+  
+  <!-- Book reader modal -->
+  <div class="modal" id="reader-modal">
+    <div class="reader-container" id="reader-container">
+      <div class="reader-header">
+        <div class="reader-header-left">
+          <button class="close-button" id="close-reader">
+            <span>✖</span>
+            Close
+          </button>
+          <h2 class="reader-title" id="reader-title"></h2>
+        </div>
+        <div>
+          <button class="narration-button" id="narration-button">
+            <span>▶</span>
+            Start Reading
+          </button>
+        </div>
+      </div>
+      
+      <div class="reader-content">
+        <div class="page-nav">
+          <button class="page-nav-button" id="prev-page-side" disabled>
+            <span>◀</span>
+          </button>
+        </div>
+        
+        <div class="reader-page" id="reader-page">
+          <div class="page-content" id="page-content">
+            <!-- Page content will be inserted here -->
+          </div>
+        </div>
+        
+        <div class="page-nav">
+          <button class="page-nav-button" id="next-page-side">
+            <span>▶</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="reader-footer">
+        <button class="page-button prev" id="prev-page" disabled>← Previous Page</button>
+        <div class="page-counter" id="page-counter">Page 1 of 6</div>
+        <button class="page-button next" id="next-page">Next Page →</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Settings modal -->
+  <div class="settings-modal" id="settings-modal">
+    <div class="settings-container">
+      <div class="settings-header">
+        <h2 class="settings-title">Library Settings</h2>
+        <button class="close-settings-button" id="close-settings">✖</button>
+      </div>
+      
+      <div class="settings-content">
+        <!-- Color Theme -->
+        <div class="settings-section">
+          <h3>Color Theme</h3>
+          <div class="theme-grid">
+            <button class="theme-option active" data-theme="standard" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+              <div class="theme-inner">
+                <span class="theme-name" style="color: white;">Standard</span>
+              </div>
+            </button>
+            
+            <button class="theme-option" data-theme="warm" style="background: linear-gradient(135deg, #3a0000 0%, #260339 100%);">
+              <div class="theme-inner">
+                <span class="theme-name" style="color: white;">Warm</span>
+              </div>
+            </button>
+            
+            <button class="theme-option" data-theme="cool" style="background: linear-gradient(135deg, #001a33 0%, #002b4d 100%);">
+              <div class="theme-inner">
+                <span class="theme-name" style="color: white;">Cool</span>
+              </div>
+            </button>
+            
+            <button class="theme-option" data-theme="dark" style="background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);">
+              <div class="theme-inner">
+                <span class="theme-name" style="color: white;">Dark</span>
+              </div>
+            </button>
+            
+            <button class="theme-option" data-theme="sepia" style="background: linear-gradient(135deg, #f5eedd 0%, #e8ddbd 100%);">
+              <div class="theme-inner">
+                <span class="theme-name" style="color: #333333;">Sepia</span>
+              </div>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Reading Settings -->
+        <div class="settings-section">
+          <h3>Reading Settings</h3>
+          <div class="reading-settings">
+            <div>
+              <label class="setting-label" for="text-size">Text Size</label>
+              <select id="text-size" class="setting-select">
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large" selected>Large</option>
+                <option value="xlarge">Extra Large</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="setting-label" for="reading-speed">Reading Speed</label>
+              <div class="speed-control">
+                <input 
+                  id="reading-speed" 
+                  type="range" 
+                  min="0.5" 
+                  max="2" 
+                  step="0.1" 
+                  value="0.9" 
+                  class="speed-slider"
+                >
+                <span id="speed-value" style="color: white;">0.9x</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="settings-section">
+          <h3>Narration Voice</h3>
+          <select id="voice-select" class="setting-select">
+            <option value="default">System Default</option>
+            <option value="female-1">Samantha (Female)</option>
+            <option value="female-2">Victoria (Female)</option>
+            <option value="female-3">Allison (Female)</option>
+            <option value="male-1">Daniel (Male)</option>
+          </select>
+          <div style="margin-top: 1rem; padding: 1rem; background-color: rgba(30, 64, 175, 0.3); border-radius: 0.5rem; border: 1px solid rgba(59, 130, 246, 0.3);">
+            <span style="color: #93c5fd;">💡 Tip:</span> 
+            <span style="color: #d1d5db;"> The app will automatically prioritize female voices by default.</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="settings-actions">
+        <button class="settings-button cancel-button" id="cancel-settings">Cancel</button>
+        <button class="settings-button save-button" id="save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Support modal -->
+  <div class="support-modal" id="support-modal">
+    <div class="support-container">
+      <button class="close-support-button" id="close-support">✖</button>
+      
+      <div class="support-content">
+        <div class="support-icon">
+          <span class="heart">❤️</span>
+        </div>
+        <h2 class="support-title">Support Leola's Crafting</h2>
+        <div class="support-message">
+          <p>Your support means the world to me! Every contribution helps me continue creating stories and patterns to share with our crafting community.</p>
+        </div>
+        
+        <div class="donation-options" id="donation-options">
+          <!-- Donation options will be inserted here -->
+        </div>
+        
+        <div class="support-actions">
+          <button class="support-button later-button" id="maybe-later">Maybe Later</button>
+          <button class="support-button checkout-button" id="checkout-button" disabled>
+            <span>💳</span>
+            Checkout with Stripe
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Toast notifications -->
+  <div class="toast-container" id="toast-container">
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    // App data and state
+    const appState = {
+      currentPage: 0,
+      totalPages: 6,
+      selectedBook: null,
+      isNarrating: false,
+      selectedDonation: null,
+      settings: {
+        colorTheme: 'standard',
+        textSize: 'large',
+        voiceSpeed: 0.9,
+        voice: 'default'
+      },
+      themeStyles: {
+        standard: {
+          background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+          text: '#e0e0e0',
+          headerText: '#ffc107',
+          readerBg: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
+        },
+        warm: {
+          background: 'linear-gradient(135deg, #3a0000 0%, #260339 100%)',
+          text: '#f8e3cb',
+          headerText: '#ffb74d',
+          readerBg: 'linear-gradient(135deg, #331c0c 0%, #38220f 100%)'
+        },
+        cool: {
+          background: 'linear-gradient(135deg, #001a33 0%, #002b4d 100%)',
+          text: '#e6f7ff',
+          headerText: '#8ecdf7',
+          readerBg: 'linear-gradient(135deg, #0a1929 0%, #102a43 100%)'
+        },
+        dark: {
+          background: 'linear-gradient(135deg, #121212 0%, #1e1e1e 100%)',
+          text: '#c0c0c0',
+          headerText: '#d4d4d4',
+          readerBg: 'linear-gradient(135deg, #0d0d0d 0%, #141414 100%)'
+        },
+        sepia: {
+          background: 'linear-gradient(135deg, #f5eedd 0%, #e8ddbd 100%)',
+          text: '#5c4b36',
+          headerText: '#8a6d3b',
+          readerBg: 'linear-gradient(135deg, #f7f1e3 0%, #efe5c4 100%)'
+        }
+      }
+    };
+    
+    // Book data
+    const books = [
+      {
+        id: 'needle-and-yarn',
+        title: "The Love Story of a Needle and a Yarn",
+        subtitle: "Stitched Through Time",
+        author: "Leola Sister Lee",
+        description: "A heartwarming tale of love between crafting tools. Follow Needle and Yarn as they navigate challenges, form deep bonds, and create beautiful projects together.",
+        genres: ["Fantasy", "Love Story", "Adventure", "DIY"],
+        bubbleColor: '#7B61FF',
+        coverImage: "NeedleandYarn.png",
+        content: [
+          {
+            title: "Acknowledgment",
+            paragraphs: [
+              "Thank you for the love, lessons, and laughter that have shaped this journey. To my six remarkable children—Freddie, Micky, Timothy, Leonard, Jermaine, and Laron—you are the vibrant threads woven into the fabric of my life.",
+              "This story is also a tribute to the resilient, diverse community of Milwaukee, Wisconsin, whose warmth and spirit have enriched my craft. May this tale reflect my passion for crochet and the enduring power of love."
+            ]
+          },
+          {
+            title: "Chapter 1: A Tangled Beginning",
+            paragraphs: [
+              "Leola's sewing basket was a world unto itself, a community of tools bound by years of craft. Among them was Needle, an experienced crochet hook with a polished silver body, and Yarn, a vibrant ball of orange cotton, eager yet tangled.",
+              "Leola, a warm-hearted woman with decades of crochet experience, had found both at a craft swap—Needle, a well-loved relic, and Yarn, a messy tangle waiting to be smoothed. Placing them together in her basket, she unknowingly set their journey in motion.",
+              "Needle chuckled. \"Nothing I haven't seen before. Let's get you sorted.\" As he worked through her knots with patient expertise, a bond formed. The other tools—Scissors, Thimble, and Measuring Tape—watched with interest."
+            ]
+          },
+          {
+            title: "Chapter 2: The First Dance",
+            paragraphs: [
+              "With Yarn untangled, she was eager to create. \"Needle, I want to make something beautiful!\" she declared. He smiled at her enthusiasm. \"A scarf, perhaps? Simple, yet elegant.\" Yarn agreed, and Needle guided her through the first stitches.",
+              "At first, Yarn fumbled, her tension too tight, then too loose. Needle reassured her. \"It's all about rhythm. Find the flow.\" As she practiced, the stitches grew more even. Scissors, usually sharp-tongued, offered encouragement.",
+              "The scarf grew, a soft cascade of colors reflecting Yarn's newfound confidence. As Yarn moved with more ease, she shared her dreams. \"I want to dance, to move freely, to express myself.\" Needle, listening intently, realized he wanted to be part of that journey."
+            ]
+          },
+          {
+            title: "Chapter 3: A Hat of Hopes",
+            paragraphs: [
+              "As autumn's chill settled in, Yarn shivered. \"I wish I had something to keep my top warm.\" Needle grinned. \"A hat, then. We'll use the half-double crochet stitch—sturdy and warm.\" It was a new challenge, one that required patience and practice.",
+              "Yarn hesitated. \"Isn't that difficult?\" Thimble chimed in. \"Leola once made hats for her grandchildren, each unique, filled with love. Yours will be, too.\" Encouraged, Yarn learned the new stitch, slowly building confidence.",
+              "But as they neared the final rows, disaster struck—Needle snagged on a knot, and with a sharp snap, his tip chipped. The tools gasped. Yarn panicked. \"Needle! Are you alright?\" He winced. \"I've… had better days.\""
+            ]
+          },
+          {
+            title: "Chapter 4: Mended and Magnificent",
+            paragraphs: [
+              "Yarn felt lost without Needle. She tried to finish the hat on her own, but the stitches felt wrong, uneven. Thimble comforted her. \"Needle is strong. He'll be back.\" She wanted to believe it, but without him, her confidence wavered.",
+              "Finally, Leola returned, holding Needle, now repaired. He gleamed, his tip polished smooth. \"Needle!\" Yarn cried, wrapping around him in relief. \"You're back!\" The tools gathered around, relieved to have their friend home.",
+              "Buoyed by joy, Yarn twirled, the finished hat swirling with her. \"Let's create something even bigger!\" she declared. She had found not just her skill, but her voice, her purpose. The tools celebrated together, reveling in the warmth of their craft."
+            ]
+          },
+          {
+            title: "Chapter 5: A Blanket of Dreams",
+            paragraphs: [
+              "Their next project was their most ambitious yet—a blanket. \"Each square will hold a piece of our journey,\" Needle said. Yarn imagined a patchwork of colors, stories woven together. She wanted to create something lasting, something that could embrace others in warmth and love.",
+              "At first, her stitches were uneven, her color changes messy. Frustrated, she cried, \"I can't do it!\" Needle's voice was gentle. \"Even the best creations have knots and flaws. It's not about perfection, it's about love.\"",
+              "Square by square, the blanket grew. When it was finally complete, it was a masterpiece of color and warmth, a testament to patience, creativity, and love. As Yarn draped it over Leola's chair, she whispered to Needle, \"We did it.\" Needle smiled. \"Yes, we did. Together.\""
+            ]
+          }
+        ]
+      },
+      {
+        id: 'crochet-mastery',
+        title: "Crochet Masterier",
+        subtitle: "A Complete Guide",
+        author: "Leola Sista Lee",
+        description: "A comprehensive guide to mastering the art of crochet. From basic stitches to complex techniques, this guide has everything you need to become a crochet master.",
+        genres: ["DIY", "Instruction", "Crafts", "Reference"],
+        bubbleColor: '#F5515F',
+        coverImage: "CrochetMaster.png",
+        content: [
+          {
+            title: "Acknowledgment",
+            paragraphs: [
+              "This guide is dedicated to the crafters, dreamers, and makers who find joy in the art of crochet. To my children—Freddie, Micky, Timothy, Leonard, Jermaine, and Laron—your love and inspiration have woven strength into my life, just like every carefully placed stitch.",
+              "And to the community of Milwaukee, whose resilience and warmth mirror the essence of handmade creations, thank you for shaping my journey. May this guide serve as a roadmap to creativity, patience, and the joy of crafting with love."
+            ]
+          },
+          {
+            title: "Chapter 1: The Essentials of Crochet",
+            paragraphs: [
+              "Before diving into projects, it's important to understand the basic tools and techniques that make up the foundation of crochet. Here's what you need to get started:",
+              "Tools & Materials:\n- Crochet Hook (Needle): Choose an aluminum, plastic, or wooden hook based on personal preference. Hook sizes vary, but a 5mm (H-8) hook is a great beginner size.\n- Yarn: Cotton, acrylic, or wool, depending on the project. Worsted weight is a versatile choice.\n- Scissors: For cutting yarn cleanly.\n- Measuring Tape: Ensures your projects are the correct size.\n- Stitch Markers: Helps track stitches in complex patterns.\n- Thimble (Optional): Useful for hand-sewing and weaving in ends.",
+              "Basic Techniques:\n1. Slip Knot: The foundation of every crochet project. Wrap yarn around two fingers, pull through a loop, and tighten around your hook.\n2. Chain Stitch (ch): Creates the starting base of most projects.\n3. Single Crochet (sc): Insert hook into stitch, yarn over, pull through, yarn over again, pull through both loops.\n4. Half Double Crochet (hdc): Yarn over, insert hook into stitch, yarn over, pull through, yarn over again, pull through all three loops.\n5. Double Crochet (dc): Yarn over, insert hook, yarn over, pull through, yarn over, pull through two loops, yarn over, pull through the last two loops."
+            ]
+          },
+          {
+            title: "Chapter 2: Creating a Cozy Scarf",
+            paragraphs: [
+              "A scarf is a perfect beginner project that introduces fundamental crochet skills.",
+              "Materials Needed:\n- Worsted weight yarn (2-3 skeins, any color)\n- 5mm (H-8) crochet hook\n- Scissors\n- Tapestry needle for weaving in ends",
+              "Instructions:\n1. Create a Foundation Chain: Chain 30 (or more for a wider scarf).\n2. First Row: Work a single crochet (sc) into the second chain from the hook. Continue across.\n3. Next Rows: Chain 1 at the end of each row, turn, and single crochet across until the scarf reaches your desired length.\n4. Finishing Touches: Fasten off and weave in any loose ends."
+            ]
+          },
+          {
+            title: "Chapter 3: Crafting a Warm Hat",
+            paragraphs: [
+              "A hat is slightly more advanced, introducing circular crochet and increases.",
+              "Materials Needed:\n- Worsted weight yarn (1-2 skeins)\n- 5mm (H-8) crochet hook\n- Stitch marker\n- Scissors\n- Tapestry needle",
+              "Instructions:\n1. Magic Ring: Create a loop with yarn, insert hook, and pull up a loop.\n2. Round 1: Chain 2 (counts as first hdc), work 9 half double crochets (hdc) into the ring. Slip stitch to join.\n3. Round 2: Chain 2, 2 hdc in each stitch around (18 stitches total).\n4. Increasing Rounds: Continue increasing in this pattern, adding one more hdc between each increase in each round, until the hat fits your head diameter.\n5. Work Even: Once the crown is the right size, work even hdc rounds until the hat reaches your desired length.\n6. Finishing: Fasten off, weave in ends, and add a decorative edge if desired."
+            ]
+          },
+          {
+            title: "Chapter 4: Making a Beautiful Blanket",
+            paragraphs: [
+              "A granny square blanket is a versatile and customizable project that lets you combine different colors and stitch patterns.",
+              "Materials Needed:\n- Various colors of worsted weight yarn\n- 5mm (H-8) crochet hook\n- Scissors\n- Tapestry needle",
+              "Instructions:\n1. Create a Magic Ring: Chain 3 (counts as first double crochet), work 2 double crochets (dc) into the ring.\n2. Chain 2: This forms a corner. Work 3 dc, chain 2, repeat two more times.\n3. Close the Round: Slip stitch to join.\n4. Increase the Square: Continue working 3 dc in each space along the sides and 3 dc, chain 2, 3 dc in each corner. Change colors as desired.\n5. Join Squares: Use slip stitch, single crochet, or whip stitch to join squares together.\n6. Finishing: Weave in ends and add a border if desired."
+            ]
+          }
+        ]
+      }
+    ];
+    
+    // Donation options
+    const donationOptions = [
+      {
+        id: 'yarn',
+        name: 'Yarn Bundle',
+        amount: 5,
+        description: 'Buy Leola a bundle of premium yarn for her next creation'
+      },
+      {
+        id: 'needles',
+        name: 'Crochet Needles',
+        amount: 10,
+        description: 'Help Leola get a new set of high-quality crochet needles'
+      },
+      {
+        id: 'patron',
+        name: 'Become a Patron',
+        amount: 25,
+        description: 'Support Leola monthly and get exclusive patterns'
+      }
+    ];
+    
+    // Moving particles setup
+    const particleEmojis = ['🧶', '🪡', '🧵', '✂️', '💕', '❤️'];
+    const particles = [];
+    const particleCount = 15;
+    
+    // DOM elements
+    const elements = {
+      bookGrid: document.getElementById('book-grid'),
+      readerModal: document.getElementById('reader-modal'),
+      readerContainer: document.getElementById('reader-container'),
+      readerTitle: document.getElementById('reader-title'),
+      pageContent: document.getElementById('page-content'),
+      pageCounter: document.getElementById('page-counter'),
+      prevPage: document.getElementById('prev-page'),
+      nextPage: document.getElementById('next-page'),
+      prevPageSide: document.getElementById('prev-page-side'),
+      nextPageSide: document.getElementById('next-page-side'),
+      closeReader: document.getElementById('close-reader'),
+      settingsModal: document.getElementById('settings-modal'),
+      settingsButton: document.getElementById('settings-button'),
+      closeSettings: document.getElementById('close-settings'),
+      cancelSettings: document.getElementById('cancel-settings'),
+      saveSettings: document.getElementById('save-settings'),
+      themeOptions: document.querySelectorAll('.theme-option'),
+      textSize: document.getElementById('text-size'),
+      readingSpeed: document.getElementById('reading-speed'),
+      speedValue: document.getElementById('speed-value'),
+      voiceSelect: document.getElementById('voice-select'),
+      supportModal: document.getElementById('support-modal'),
+      supportButton: document.getElementById('support-button'),
+      closeSupport: document.getElementById('close-support'),
+      maybeLater: document.getElementById('maybe-later'),
+      checkoutButton: document.getElementById('checkout-button'),
+      donationOptions: document.getElementById('donation-options'),
+      toast: document.getElementById('toast'),
+      toastContainer: document.getElementById('toast-container'),
+      particlesContainer: document.getElementById('particles-container'),
+      narrationButton: document.getElementById('narration-button')
+    };
+    
+    // Speech synthesis
+    let speechSynthesis = window.speechSynthesis;
+    let currentUtterance = null;
+    let isCancelled = false;
+    
+    // Initialize page
+    function init() {
+      renderBooks();
+      initParticles();
+      setupEventListeners();
+      renderDonationOptions();
+      applyTheme();
+      animateParticles();
+    }
+    
+    // Render books in the grid
+    function renderBooks() {
+      elements.bookGrid.innerHTML = '';
+      
+      books.forEach(book => {
+        const bookCard = document.createElement('div');
+        bookCard.className = 'book-card';
+        bookCard.style.boxShadow = `0 10px 25px -5px ${book.bubbleColor}40`;
+        
+        bookCard.innerHTML = `
+          <div class="book-card-header">
+            <h2 class="book-title" style="color: ${book.bubbleColor}">${book.title}</h2>
+            <h3 class="book-subtitle" style="color: ${book.bubbleColor}cc">${book.subtitle}</h3>
+            <p class="book-author">
+              by <span class="author-highlight">${book.author}</span>
+              <button class="read-button" aria-label="Read description">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+          
+          <div class="book-cover">
+            <img src="${book.coverImage}" alt="${book.title} Cover" />
+          </div>
+          
+          <div class="book-content">
+            <p class="book-description">${book.description}</p>
+            
+            <div class="genre-tags">
+              ${book.genres.map((genre, index) => {
+                const colors = ['#FF6B6B', '#48BEFF', '#9775FA', '#4CAF50'];
+                const color = colors[index % colors.length];
+                
+                return `
+                  <span 
+                    class="genre-tag" 
+                    style="
+                      background-color: ${color}20; 
+                      color: ${color}; 
+                      border: 1px solid ${color}40
+                    ">
+                    ${genre}
+                  </span>
+                `;
+              }).join('')}
+            </div>
+          </div>
+          
+          <div class="book-card-footer">
+            <button 
+              class="open-book-button" 
+              style="background-color: ${book.bubbleColor}"
+              data-book-id="${book.id}">
+              Open Book
+            </button>
+          </div>
+        `;
+        
+        const readButton = bookCard.querySelector('.read-button');
+        readButton.addEventListener('click', (e) => {
+          e.stopPropagation();
+          speakText(book.description);
+          showToast(`🔊 Reading description for "${book.title}"`);
+        });
+        
+        const openButton = bookCard.querySelector('.open-book-button');
+        openButton.addEventListener('click', () => {
+          openBook(book.id);
+          showToast(`📖 Opening "${book.title}"`);
+        });
+        
+        elements.bookGrid.appendChild(bookCard);
+      });
+    }
+    
+    // Initialize particles
+    function initParticles() {
+      elements.particlesContainer.innerHTML = '';
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = {
+          id: i,
+          emoji: particleEmojis[Math.floor(Math.random() * particleEmojis.length)],
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          speedX: (Math.random() - 0.5) * 1.5,
+          speedY: (Math.random() - 0.5) * 1.5,
+          size: 1.5 + Math.random() * 1.5,
+          element: document.createElement('div')
+        };
+        
+        particle.element.className = 'particle';
+        particle.element.textContent = particle.emoji;
+        particle.element.style.left = `${particle.x}px`;
+        particle.element.style.top = `${particle.y}px`;
+        particle.element.style.fontSize = `${particle.size}rem`;
+        
+        elements.particlesContainer.appendChild(particle.element);
+        particles.push(particle);
+      }
+    }
+    
+    // Animate particles
+    function animateParticles() {
+      particles.forEach(particle => {
+        // Update position
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+        
+        // Boundary checking with wrap-around
+        if (particle.x < -50) particle.x = window.innerWidth + 50;
+        if (particle.x > window.innerWidth + 50) particle.x = -50;
+        if (particle.y < -50) particle.y = window.innerHeight + 50;
+        if (particle.y > window.innerHeight + 50) particle.y = -50;
+        
+        // Random direction changes
+        if (Math.random() < 0.01) {
+          particle.speedX += (Math.random() - 0.5) * 0.3;
+          particle.speedY += (Math.random() - 0.5) * 0.3;
+          
+          // Limit max speed
+          const maxSpeed = 2;
+          const currentSpeed = Math.sqrt(particle.speedX * particle.speedX + particle.speedY * particle.speedY);
+          if (currentSpeed > maxSpeed) {
+            particle.speedX = (particle.speedX / currentSpeed) * maxSpeed;
+            particle.speedY = (particle.speedY / currentSpeed) * maxSpeed;
+          }
+        }
+        
+        // Update element position
+        particle.element.style.left = `${particle.x}px`;
+        particle.element.style.top = `${particle.y}px`;
+      });
+      
+      requestAnimationFrame(animateParticles);
+    }
+    
+    // Render donation options
+    function renderDonationOptions() {
+      elements.donationOptions.innerHTML = '';
+      
+      donationOptions.forEach(option => {
+        const donationOption = document.createElement('div');
+        donationOption.className = `donation-option ${appState.selectedDonation === option.id ? 'selected' : ''}`;
+        donationOption.setAttribute('data-donation-id', option.id);
+        
+        donationOption.innerHTML = `
+          <div class="donation-option-content">
+            <div class="donation-info">
+              <h3 class="donation-name">${option.name}</h3>
+              <p class="donation-description">${option.description}</p>
+            </div>
+            <div class="donation-amount">$${option.amount}</div>
+          </div>
+        `;
+        
+        donationOption.addEventListener('click', () => {
+          selectDonation(option.id);
+          showToast(`Selected: ${option.name} - $${option.amount}`);
+        });
+        
+        elements.donationOptions.appendChild(donationOption);
+      });
+    }
+    
+    // Select a donation option
+    function selectDonation(donationId) {
+      appState.selectedDonation = donationId;
+      
+      document.querySelectorAll('.donation-option').forEach(option => {
+        if (option.getAttribute('data-donation-id') === donationId) {
+          option.classList.add('selected');
+        } else {
+          option.classList.remove('selected');
+        }
+      });
+      
+      elements.checkoutButton.disabled = !donationId;
+    }
+    
+    // Find a book by ID
+    function findBook(bookId) {
+      return books.find(book => book.id === bookId);
+    }
+    
+    // Open a book in the reader
+    function openBook(bookId) {
+      const book = findBook(bookId);
+      if (!book) return;
+      
+      appState.selectedBook = book;
+      appState.currentPage = 0;
+      
+      elements.readerTitle.textContent = book.title;
+      updatePageContent();
+      updatePageCounter();
+      toggleReaderModal(true);
+    }
+    
+    // Update the page content in the reader
+    function updatePageContent() {
+      if (!appState.selectedBook) return;
+      
+      const page = appState.selectedBook.content[appState.currentPage];
+      if (!page) return;
+      
+      const textSizeClass = getTextSizeClass();
+      
+      elements.pageContent.innerHTML = `
+        <h3 class="page-title">${page.title}</h3>
+        ${page.paragraphs.map(paragraph => {
+          if (paragraph.includes('\n')) {
+            const lines = paragraph.split('\n');
+            return `
+              <div class="page-paragraph ${textSizeClass}">
+                ${lines.map((line, index) => 
+                  `<p class="${index > 0 ? 'ml-6' : ''}">${line}</p>`
+                ).join('')}
+              </div>
+            `;
+          } else {
+            return `<p class="page-paragraph ${textSizeClass}">${paragraph}</p>`;
+          }
+        }).join('')}
+        
+        <div class="page-help">
+          <span class="help-text" style="color: ${appState.themeStyles[appState.settings.colorTheme].headerText}">
+            ${appState.isNarrating 
+              ? "🔊 Reading in progress... Click on any paragraph to start reading from there." 
+              : "Click 'Start Reading' or click on any paragraph to read aloud"}
+          </span>
+        </div>
+      `;
+      
+      // Add click event to paragraphs for narration
+      const paragraphs = elements.pageContent.querySelectorAll('.page-paragraph');
+      paragraphs.forEach((paragraph, index) => {
+        paragraph.style.cursor = 'pointer';
+        paragraph.addEventListener('click', () => {
+          if (appState.isNarrating) {
+            stopNarration();
+          } else {
+            const text = paragraph.innerText;
+            startNarration(text, paragraph);
+          }
+        });
+      });
+      
+      // Update buttons state
+      updateNavigationButtons();
+    }
+    
+    // Update the page counter
+    function updatePageCounter() {
+      if (!appState.selectedBook) return;
+      
+      const totalPages = appState.selectedBook.content.length;
+      elements.pageCounter.textContent = `Page ${appState.currentPage + 1} of ${totalPages}`;
+    }
+    
+    // Update navigation buttons state
+    function updateNavigationButtons() {
+      if (!appState.selectedBook) return;
+      
+      const totalPages = appState.selectedBook.content.length;
+      const isFirstPage = appState.currentPage === 0;
+      const isLastPage = appState.currentPage >= totalPages - 1;
+      
+      elements.prevPage.disabled = isFirstPage;
+      elements.prevPageSide.disabled = isFirstPage;
+      elements.nextPage.disabled = isLastPage;
+      elements.nextPageSide.disabled = isLastPage;
+      
+      if (isFirstPage) {
+        elements.prevPage.classList.add('cursor-not-allowed', 'opacity-50');
+        elements.prevPageSide.classList.add('cursor-not-allowed', 'opacity-50');
+      } else {
+        elements.prevPage.classList.remove('cursor-not-allowed', 'opacity-50');
+        elements.prevPageSide.classList.remove('cursor-not-allowed', 'opacity-50');
+      }
+      
+      if (isLastPage) {
+        elements.nextPage.classList.add('cursor-not-allowed', 'opacity-50');
+        elements.nextPageSide.classList.add('cursor-not-allowed', 'opacity-50');
+      } else {
+        elements.nextPage.classList.remove('cursor-not-allowed', 'opacity-50');
+        elements.nextPageSide.classList.remove('cursor-not-allowed', 'opacity-50');
+      }
+    }
+    
+    // Navigate to the previous page
+    function goToPreviousPage() {
+      if (appState.currentPage > 0) {
+        stopNarration();
+        appState.currentPage--;
+        updatePageContent();
+        updatePageCounter();
+      }
+    }
+    
+    // Navigate to the next page
+    function goToNextPage() {
+      if (appState.selectedBook && appState.currentPage < appState.selectedBook.content.length - 1) {
+        stopNarration();
+        appState.currentPage++;
+        updatePageContent();
+        updatePageCounter();
+      }
+    }
+    
+    // Toggle the reader modal
+    function toggleReaderModal(show) {
+      if (show) {
+        elements.readerModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        elements.readerModal.classList.remove('active');
+        document.body.style.overflow = '';
+        stopNarration();
+      }
+    }
+    
+    // Toggle the settings modal
+    function toggleSettingsModal(show) {
+      if (show) {
+        elements.settingsModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        elements.settingsModal.classList.remove('active');
+        if (!elements.readerModal.classList.contains('active') && 
+            !elements.supportModal.classList.contains('active')) {
+          document.body.style.overflow = '';
+        }
+      }
+    }
+    
+    // Toggle the support modal
+    function toggleSupportModal(show) {
+      if (show) {
+        elements.supportModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        elements.supportModal.classList.remove('active');
+        if (!elements.readerModal.classList.contains('active') && 
+            !elements.settingsModal.classList.contains('active')) {
+          document.body.style.overflow = '';
+        }
+      }
+    }
+    
+    // Save settings
+    function saveSettings() {
+      const newSettings = {
+        colorTheme: appState.settings.colorTheme,
+        textSize: elements.textSize.value,
+        voiceSpeed: parseFloat(elements.readingSpeed.value),
+        voice: elements.voiceSelect.value
+      };
+      
+      appState.settings = newSettings;
+      applyTheme();
+      updatePageContent();  // Re-render with new text size
+      
+      showToast("✅ Settings saved successfully!");
+      setTimeout(() => toggleSettingsModal(false), 1000);
+    }
+    
+    // Apply theme based on settings
+    function applyTheme() {
+      const theme = appState.themeStyles[appState.settings.colorTheme];
+      
+      document.body.style.background = theme.background;
+      document.body.style.color = theme.text;
+      
+      if (appState.selectedBook) {
+        elements.readerContainer.style.background = theme.readerBg;
+        elements.readerTitle.style.color = theme.headerText;
+        elements.pageCounter.style.color = theme.headerText;
+        
+        const helpText = document.querySelector('.help-text');
+        if (helpText) {
+          helpText.style.color = theme.headerText;
+        }
+      }
+    }
+    
+    // Get text size class based on settings
+    function getTextSizeClass() {
+      switch (appState.settings.textSize) {
+        case 'small': return 'text-base';
+        case 'medium': return 'text-xl';
+        case 'large': return 'text-2xl';
+        case 'xlarge': return 'text-3xl';
+        default: return 'text-xl';
+      }
+    }
+    
+    // Speak text using speech synthesis
+    function speakText(text, element = null) {
+      if (!window.speechSynthesis) {
+        showToast("⚠️ Speech synthesis not supported in your browser");
+        return;
+      }
+      
+      // Cancel any ongoing speech
+      stopNarration();
+      
+      // Begin new narration
+      appState.isNarrating = true;
+      isCancelled = false;
+      
+      if (element) {
+        highlightElement(element);
+      }
+      
+      if (elements.narrationButton) {
+        elements.narrationButton.classList.add('active');
+        elements.narrationButton.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="4" width="4" height="16"></rect>
+            <rect x="14" y="4" width="4" height="16"></rect>
+          </svg>
+          Stop Reading
+        `;
+      }
+      
+      currentUtterance = new SpeechSynthesisUtterance(text);
+      currentUtterance.rate = appState.settings.voiceSpeed;
+      currentUtterance.volume = 1.0;
+      
+      // Set up event handlers
+      currentUtterance.onend = () => {
+        if (!isCancelled) {
+          stopNarration();
+        }
+      };
+      
+      // Select voice based on settings
+      selectVoice(currentUtterance);
+      
+      speechSynthesis.speak(currentUtterance);
+    }
+    
+    // Select voice based on settings
+    function selectVoice(utterance) {
+      try {
+        const voices = speechSynthesis.getVoices();
+        
+        if (voices.length === 0) {
+          setTimeout(() => {
+            const newVoices = speechSynthesis.getVoices();
+            if (newVoices.length > 0) {
+              selectVoiceFromList(utterance, newVoices);
+            }
+          }, 100);
+        } else {
+          selectVoiceFromList(utterance, voices);
+        }
+      } catch (error) {
+        console.error("Error setting voice:", error);
+      }
+    }
+    
+    // Select voice from available voices list
+    function selectVoiceFromList(utterance, voices) {
+      if (appState.settings.voice !== 'default') {
+        const voiceMap = {
+          'female-1': ['Samantha', 'Google US English Female', 'Microsoft Zira'],
+          'female-2': ['Victoria', 'Google UK English Female', 'Microsoft Susan'],
+          'female-3': ['Allison', 'Google US English Female', 'Microsoft Zira'],
+          'male-1': ['Daniel', 'Google US English Male', 'Microsoft David']
+        };
+        
+        const voiceOptions = voiceMap[appState.settings.voice];
+        
+        // Try to find any of the voice options
+        let selectedVoice = null;
+        for (const voiceName of voiceOptions) {
+          selectedVoice = voices.find(v => v.name.includes(voiceName));
+          if (selectedVoice) break;
+        }
+        
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
+      } else {
+        // Find any available female voice as default
+        const femaleVoice = voices.find(v => 
+          v.name.includes('female') || 
+          v.name.includes('Female') || 
+          v.name.includes('Samantha') || 
+          v.name.includes('Victoria') ||
+          v.name.includes('Zira')
+        );
+        
+        if (femaleVoice) {
+          utterance.voice = femaleVoice;
+        }
+      }
+    }
+    
+    // Stop narration
+    function stopNarration() {
+      if (speechSynthesis) {
+        isCancelled = true;
+        speechSynthesis.cancel();
+        
+        // Reset UI
+        appState.isNarrating = false;
+        removeAllHighlights();
+        
+        if (elements.narrationButton) {
+          elements.narrationButton.classList.remove('active');
+          elements.narrationButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Start Reading
+          `;
+        }
+      }
+    }
+    
+    // Start narration of the current page
+    function startNarration(text = null, element = null) {
+      if (!appState.selectedBook) return;
+      
+      const page = appState.selectedBook.content[appState.currentPage];
+      if (!page) return;
+      
+      stopNarration();
+      appState.isNarrating = true;
+      
+      if (text && element) {
+        // Read specific paragraph
+        speakText(text, element);
+      } else {
+        // Read entire page - join all paragraphs
+        const fullText = page.paragraphs.join(' ');
+        speakText(fullText);
+      }
+    }
+    
+    // Highlight an element during narration
+    function highlightElement(element) {
+      removeAllHighlights();
+      element.classList.add('reading-highlight');
+    }
+    
+    // Remove all highlights
+    function removeAllHighlights() {
+      document.querySelectorAll('.reading-highlight').forEach(el => {
+        el.classList.remove('reading-highlight');
+      });
+    }
+    
+    // Show toast notification
+    function showToast(message) {
+      elements.toast.textContent = message;
+      elements.toast.classList.add('active');
+      
+      setTimeout(() => {
+        elements.toast.classList.remove('active');
+      }, 2000);
+    }
+    
+    // Set up event listeners
+    function setupEventListeners() {
+      // Reader navigation
+      elements.prevPage.addEventListener('click', goToPreviousPage);
+      elements.nextPage.addEventListener('click', goToNextPage);
+      elements.prevPageSide.addEventListener('click', goToPreviousPage);
+      elements.nextPageSide.addEventListener('click', goToNextPage);
+      elements.closeReader.addEventListener('click', () => toggleReaderModal(false));
+      
+      // Settings
+      elements.settingsButton.addEventListener('click', () => {
+        toggleSettingsModal(true);
+        showToast("⚙️ Settings panel opened");
+      });
+      elements.closeSettings.addEventListener('click', () => toggleSettingsModal(false));
+      elements.cancelSettings.addEventListener('click', () => toggleSettingsModal(false));
+      elements.saveSettings.addEventListener('click', saveSettings);
+      
+      // Theme options
+      elements.themeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          const theme = option.getAttribute('data-theme');
+          if (theme) {
+            // Remove active class from all options
+            elements.themeOptions.forEach(opt => opt.classList.remove('active'));
+            
+            // Add active class to selected option
+            option.classList.add('active');
+            
+            // Update settings
+            appState.settings.colorTheme = theme;
+            
+            // Apply theme immediately
+            applyTheme();
+            
+            showToast(`🎨 Theme changed to ${theme}`);
+          }
+        });
+      });
+      
+      // Reading speed slider
+      elements.readingSpeed.addEventListener('input', () => {
+        const value = elements.readingSpeed.value;
+        elements.speedValue.textContent = `${value}x`;
+      });
+      
+      // Support modal
+      elements.supportButton.addEventListener('click', () => {
+        toggleSupportModal(true);
+        showToast("🎁 Support modal opened");
+      });
+      elements.closeSupport.addEventListener('click', () => toggleSupportModal(false));
+      elements.maybeLater.addEventListener('click', () => {
+        showToast("👋 Maybe next time!");
+        toggleSupportModal(false);
+      });
+      
+      // Checkout button
+      elements.checkoutButton.addEventListener('click', () => {
+        if (appState.selectedDonation) {
+          const option = donationOptions.find(opt => opt.id === appState.selectedDonation);
+          if (option) {
+            showToast(`💳 Processing $${option.amount} donation`);
+            setTimeout(() => {
+              showToast(`✅ Thank you for your $${option.amount} donation!`);
+              appState.selectedDonation = null;
+              renderDonationOptions();
+              setTimeout(() => toggleSupportModal(false), 1500);
+            }, 1500);
+          }
+        } else {
+          showToast("Please select a donation option");
+        }
+      });
+      
+      // Narration button
+      elements.narrationButton.addEventListener('click', () => {
+        if (appState.isNarrating) {
+          stopNarration();
+        } else {
+          startNarration();
+        }
+      });
+      
+      // Resize handler for particles
+      window.addEventListener('resize', () => {
+        // Reposition particles within new window dimensions
+        particles.forEach(particle => {
+          if (particle.x > window.innerWidth) {
+            particle.x = Math.random() * window.innerWidth;
+          }
+          if (particle.y > window.innerHeight) {
+            particle.y = Math.random() * window.innerHeight;
+          }
+        });
+      });
+    }
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
