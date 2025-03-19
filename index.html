@@ -20,6 +20,7 @@
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
+      overflow-y: hidden; /* Prevent body scrolling */
     }
 
     /* Buttons and interactive elements */
@@ -30,12 +31,12 @@
       font-family: inherit;
     }
     
-    /* Header */
+    /* Header - fixed at top */
     .header {
       padding: 1.5rem;
       text-align: center;
-      margin-bottom: 1.5rem;
       position: relative;
+      z-index: 10;
     }
     
     .header h1 {
@@ -75,18 +76,23 @@
       background-color: rgba(88, 28, 7, 0.3);
       border: 1px solid rgba(251, 191, 36, 0.3);
       border-radius: 0.75rem;
-      transition: transform 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s;
       box-shadow: 0 10px 25px -5px rgba(251, 191, 36, 0.3), 0 0 10px rgba(251, 191, 36, 0.2);
     }
     
     .action-button:hover {
       transform: scale(1.1);
+      box-shadow: 0 15px 30px -5px rgba(251, 191, 36, 0.4), 0 0 15px rgba(251, 191, 36, 0.3);
     }
     
     .action-button.settings {
       background-color: rgba(30, 64, 175, 0.6);
       border: 1px solid rgba(59, 130, 246, 0.6);
       box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.3), 0 0 10px rgba(59, 130, 246, 0.3);
+    }
+    
+    .action-button.settings:hover {
+      box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.4), 0 0 15px rgba(59, 130, 246, 0.4);
     }
     
     .action-button .emoji {
@@ -115,6 +121,7 @@
       overflow: hidden;
       display: flex;
       align-items: center;
+      margin-bottom: 1rem;
     }
     
     .scrolling-text {
@@ -133,13 +140,16 @@
       100% { transform: translateX(-100%); }
     }
     
-    /* Book grid */
+    /* Book grid - scrollable container */
     .book-container {
       flex-grow: 1;
-      padding: 0 1.5rem;
       position: relative;
       z-index: 1;
-      overflow: hidden;
+      overflow-y: auto; /* Allow scrolling for book content */
+      overflow-x: hidden;
+      height: calc(100vh - 200px); /* Fixed height calculation */
+      padding: 0 1.5rem;
+      margin-bottom: 2rem; /* Space for QR code */
     }
     
     .book-grid {
@@ -157,6 +167,38 @@
       }
     }
     
+    /* QR code section */
+    .qr-section {
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: auto;
+      background-color: rgba(26, 26, 46, 0.8);
+      border-top: 1px solid rgba(75, 85, 99, 0.5);
+    }
+    
+    .qr-section h2 {
+      font-size: 1.5rem;
+      color: #ffc107;
+      margin-bottom: 0.5rem;
+    }
+    
+    .qr-section p {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .qr-code {
+      display: inline-block;
+      background-color: white;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    
+    .qr-code img {
+      max-width: 200px;
+      height: auto;
+    }
+    
     /* Book card */
     .book-card {
       border-radius: 0.75rem;
@@ -164,14 +206,23 @@
       border: 1px solid #4b5563;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
       background-color: rgba(26, 26, 46, 0.6);
       transition: all 0.3s;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
     
     .book-card:hover {
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
       transform: translateY(-0.5rem);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 0 20px 5px rgba(123, 97, 255, 0.3);
+    }
+    
+    /* Add different glow colors based on book type */
+    .book-card[data-book-id="needle-and-yarn"]:hover {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 0 20px 5px rgba(123, 97, 255, 0.3);
+    }
+    
+    .book-card[data-book-id="crochet-mastery"]:hover {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 0 20px 5px rgba(245, 81, 95, 0.3);
     }
     
     .book-card-header {
@@ -223,7 +274,7 @@
     .book-cover img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; /* Changed from 'cover' to 'contain' to show full cover */
       object-position: center;
       transition: transform 0.3s;
     }
@@ -312,6 +363,12 @@
       gap: 1rem;
     }
     
+    .reader-header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
     .close-button {
       background-color: #dc2626;
       color: white;
@@ -336,6 +393,29 @@
       .reader-title {
         font-size: 1.875rem;
       }
+    }
+    
+    .reader-settings-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background-color: rgba(30, 64, 175, 0.6);
+      border: 1px solid rgba(59, 130, 246, 0.6);
+      border-radius: 0.5rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 5px 15px -5px rgba(37, 99, 235, 0.3);
+    }
+    
+    .reader-settings-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px -5px rgba(37, 99, 235, 0.4);
+    }
+    
+    .reader-settings-button .emoji {
+      font-size: 1.5rem;
     }
     
     .narration-button {
@@ -898,6 +978,15 @@
     </div>
   </div>
   
+  <!-- QR code section -->
+  <div class="qr-section">
+    <h2>Visit Leola's Library on Mobile</h2>
+    <p>Scan the QR code below to visit this page on your mobile device:</p>
+    <div class="qr-code">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://4citeB4U.github.io/leolasliabrary/&size=200x200" alt="QR Code for Leola's Library">
+    </div>
+  </div>
+  
   <!-- Book reader modal -->
   <div class="modal" id="reader-modal">
     <div class="reader-container" id="reader-container">
@@ -909,7 +998,11 @@
           </button>
           <h2 class="reader-title" id="reader-title"></h2>
         </div>
-        <div>
+        <div class="reader-header-right">
+          <!-- Added settings button to reader -->
+          <button class="reader-settings-button" id="reader-settings-button" aria-label="Reader settings">
+            <span class="emoji">⚙️</span>
+          </button>
           <button class="narration-button" id="narration-button">
             <span>▶</span>
             Start Reading
@@ -1283,6 +1376,7 @@
       closeReader: document.getElementById('close-reader'),
       settingsModal: document.getElementById('settings-modal'),
       settingsButton: document.getElementById('settings-button'),
+      readerSettingsButton: document.getElementById('reader-settings-button'),
       closeSettings: document.getElementById('close-settings'),
       cancelSettings: document.getElementById('cancel-settings'),
       saveSettings: document.getElementById('save-settings'),
@@ -1325,6 +1419,7 @@
       books.forEach(book => {
         const bookCard = document.createElement('div');
         bookCard.className = 'book-card';
+        bookCard.setAttribute('data-book-id', book.id);
         bookCard.style.boxShadow = `0 10px 25px -5px ${book.bubbleColor}40`;
         
         bookCard.innerHTML = `
@@ -1901,6 +1996,13 @@
         toggleSettingsModal(true);
         showToast("⚙️ Settings panel opened");
       });
+      
+      // Reader settings button
+      elements.readerSettingsButton.addEventListener('click', () => {
+        toggleSettingsModal(true);
+        showToast("⚙️ Settings panel opened");
+      });
+      
       elements.closeSettings.addEventListener('click', () => toggleSettingsModal(false));
       elements.cancelSettings.addEventListener('click', () => toggleSettingsModal(false));
       elements.saveSettings.addEventListener('click', saveSettings);
