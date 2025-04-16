@@ -37,6 +37,10 @@
       text-align: center;
       position: relative;
       z-index: 10;
+      min-height: 250px; /* Ensure minimum height for header */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .header h1 {
@@ -59,11 +63,13 @@
 
     /* Action buttons */
     .action-buttons {
-      position: absolute;
-      top: 1.5rem;
-      left: 1.5rem;
+      position: relative;
       display: flex;
       gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
     }
 
     .action-button {
@@ -142,6 +148,7 @@
       position: relative;
       width: 100%;
       height: 5rem;
+      min-height: 80px;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -165,7 +172,7 @@
     .quote {
       position: absolute;
       white-space: nowrap;
-      font-size: 2rem;
+      font-size: 1.75rem;
       background: linear-gradient(90deg, #7e22ce, #fbbf24);
       -webkit-background-clip: text;
       background-clip: text;
@@ -183,6 +190,12 @@
         0 4px 0 #b45309,
         0 5px 10px rgba(0, 0, 0, 0.6);
       filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.5));
+    }
+
+    @media (min-width: 640px) {
+      .quote {
+        font-size: 2rem;
+      }
     }
 
     @keyframes fadeInOut {
@@ -1300,6 +1313,62 @@
       background-color: #ff0000;
       transform: scale(1.05);
     }
+
+    /* Site Narrator Button */
+    .site-narrator-container {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+
+    .site-narrator-button {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #7e22ce 0%, #a855f7 100%);
+      color: white;
+      border-radius: 0.75rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+      box-shadow: 0 10px 25px -5px rgba(126, 34, 206, 0.4), 0 0 15px rgba(126, 34, 206, 0.3);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      position: relative;
+      overflow: hidden;
+      animation: pulse-narrator 2s infinite;
+    }
+
+    .site-narrator-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: all 0.5s;
+    }
+
+    .site-narrator-button:hover::before {
+      left: 100%;
+    }
+
+    .site-narrator-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px -5px rgba(126, 34, 206, 0.5), 0 0 20px rgba(126, 34, 206, 0.4);
+      background: linear-gradient(135deg, #9333ea 0%, #c084fc 100%);
+    }
+
+    .site-narrator-button .emoji {
+      font-size: 1.5rem;
+    }
+
+    @keyframes pulse-narrator {
+      0% { box-shadow: 0 0 0 0 rgba(126, 34, 206, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(126, 34, 206, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(126, 34, 206, 0); }
+    }
   </style>
 </head>
 <body>
@@ -1310,6 +1379,13 @@
   <div class="header">
     <h1>Leola's Digital Library</h1>
     <p>A collection of heartwarming stories and guides by <span class="author-name">Leola "Sister" Lee</span></p>
+
+    <div class="site-narrator-container">
+      <button class="site-narrator-button" id="site-narrator-button">
+        <span class="emoji">🔊</span>
+        <span class="label">Listen to Website Introduction</span>
+      </button>
+    </div>
 
     <div class="action-buttons">
       <a href="#video-center" class="action-button video-button" aria-label="Go to Video Center">
@@ -2945,7 +3021,63 @@ In summary, 'Needle & Yarn: A Love Stitched in Time' offers a dual experience: i
     document.addEventListener('DOMContentLoaded', () => {
       init();
       initQuoteRotation();
+      initSiteNarrator();
     });
+
+    // Site narrator welcome speech
+    const siteWelcomeSpeech = `Welcome! Step into a space dedicated to the wonderful craft of crochet, guided by the wisdom and warmth of Leola (Sista) Lee. Whether you're holding a hook for the very first time, feeling the pull of a colorful skein of yarn, or looking to elevate your existing skills towards true mastery, you've found a place designed to support and inspire your creative journey.
+
+At the heart of this website are two distinct yet complementary books authored by Leola Lee, each offering a unique pathway into the world of crochet:
+
+First, we have 'Crochet Mastery: A Complete Guide.' Consider this your comprehensive manual. It's a structured, detailed resource that systematically takes you from the absolute essentials – choosing hooks and yarn, making your first slip knot and chain – through mastering basic and advanced stitches, reading patterns and charts, understanding crucial concepts like gauge, exploring colorwork and texture, and even tackling specialized techniques like lacework, amigurumi, and garment construction. It's designed to be your go-to reference for building a solid foundation and achieving technical proficiency.
+
+Second, you'll discover 'Needle & Yarn: A Love Stitched in Time.' This book offers a truly unique approach, weaving crochet instruction directly into a heartwarming narrative. Follow the charming love story of Needle, an experienced hook, and Yarn, a vibrant ball of cotton, as they embark on creative projects together. As their story unfolds, you'll learn essential techniques – from single crochet for a scarf, to half-double crochet for a hat, granny squares for a blanket, and even lace techniques for a delicate doily – all within the engaging context of their journey. It's a delightful way to learn through story and connection.
+
+Together, these books cater to different learning preferences – the structured learner seeking a complete curriculum, and the narrative learner who thrives on context and engagement.
+
+But that's not all. To further support your learning, especially if you benefit from visual guidance, we've curated a selection of video tutorials. These focus on beginner-friendly instructions, demonstrating stitches slowly and clearly, and also offer inspiration for specific projects, including popular macrame-inspired crochet designs. These videos serve as excellent companions to the books, allowing you to see techniques in action.
+
+This website brings these resources together to provide a holistic learning experience. Use 'Crochet Mastery' as your technical guide, find joy and contextual learning in 'Needle & Yarn,' and supplement your understanding with the practical demonstrations in the video tutorials.
+
+Crochet is more than just loops and stitches; it's a source of creativity, comfort, and connection. We invite you to explore these resources, find the approach that resonates with you, pick up your hook with confidence, and begin weaving your own beautiful stories in yarn. Your journey to crochet mastery starts here. Enjoy exploring!`;
+
+    // Function to initialize site narrator
+    function initSiteNarrator() {
+      const narratorButton = document.getElementById('site-narrator-button');
+      let isNarrating = false;
+      let utterance = null;
+
+      narratorButton.addEventListener('click', () => {
+        if (isNarrating) {
+          // Stop narration
+          window.speechSynthesis.cancel();
+          narratorButton.innerHTML = `<span class="emoji">🔊</span><span class="label">Listen to Website Introduction</span>`;
+          isNarrating = false;
+        } else {
+          // Start narration
+          utterance = new SpeechSynthesisUtterance(siteWelcomeSpeech);
+          utterance.rate = appState.settings.voiceSpeed;
+
+          // Select voice
+          const voices = window.speechSynthesis.getVoices();
+          selectVoiceFromList(utterance, voices);
+
+          // Add event listeners
+          utterance.onstart = () => {
+            narratorButton.innerHTML = `<span class="emoji">⏹️</span><span class="label">Stop Narration</span>`;
+            isNarrating = true;
+          };
+
+          utterance.onend = () => {
+            narratorButton.innerHTML = `<span class="emoji">🔊</span><span class="label">Listen to Website Introduction</span>`;
+            isNarrating = false;
+          };
+
+          // Start speaking
+          window.speechSynthesis.speak(utterance);
+        }
+      });
+    }
 
     // Function to handle quote rotation
     function initQuoteRotation() {
