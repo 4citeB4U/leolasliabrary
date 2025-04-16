@@ -20,7 +20,7 @@
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
-      overflow-y: hidden; /* Prevent body scrolling */
+      overflow-y: auto; /* Enable vertical scrolling */
     }
 
     /* Buttons and interactive elements */
@@ -30,7 +30,7 @@
       outline: none;
       font-family: inherit;
     }
-    
+
     /* Header - fixed at top */
     .header {
       padding: 1.5rem;
@@ -38,25 +38,25 @@
       position: relative;
       z-index: 10;
     }
-    
+
     .header h1 {
       font-size: 3rem;
       font-weight: bold;
       color: #ffc107;
       text-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
     }
-    
+
     .header p {
       font-size: 1.25rem;
       margin-top: 1rem;
     }
-    
+
     .author-name {
       color: #a855f7;
       text-shadow: 0 0 8px #a855f7;
       margin-left: 0.5rem;
     }
-    
+
     /* Action buttons */
     .action-buttons {
       position: absolute;
@@ -65,7 +65,7 @@
       display: flex;
       gap: 1rem;
     }
-    
+
     .action-button {
       display: flex;
       flex-direction: column;
@@ -79,40 +79,64 @@
       transition: transform 0.3s, box-shadow 0.3s;
       box-shadow: 0 10px 25px -5px rgba(251, 191, 36, 0.3), 0 0 10px rgba(251, 191, 36, 0.2);
     }
-    
+
+    .video-button {
+      background-color: rgba(220, 38, 38, 0.4);
+      border: 1px solid rgba(248, 113, 113, 0.5);
+      box-shadow: 0 10px 25px -5px rgba(248, 113, 113, 0.4), 0 0 15px rgba(248, 113, 113, 0.3);
+      animation: pulse-video 2s infinite;
+      position: relative;
+      z-index: 20;
+    }
+
+    .video-button .label {
+      color: #fca5a5;
+    }
+
+    .video-button:hover {
+      transform: scale(1.1) translateY(-5px);
+      box-shadow: 0 15px 30px -5px rgba(248, 113, 113, 0.5), 0 0 20px rgba(248, 113, 113, 0.4);
+    }
+
+    @keyframes pulse-video {
+      0% { box-shadow: 0 0 0 0 rgba(248, 113, 113, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(248, 113, 113, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(248, 113, 113, 0); }
+    }
+
     .action-button:hover {
       transform: scale(1.1);
       box-shadow: 0 15px 30px -5px rgba(251, 191, 36, 0.4), 0 0 15px rgba(251, 191, 36, 0.3);
     }
-    
+
     .action-button.settings {
       background-color: rgba(30, 64, 175, 0.6);
       border: 1px solid rgba(59, 130, 246, 0.6);
       box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.3), 0 0 10px rgba(59, 130, 246, 0.3);
     }
-    
+
     .action-button.settings:hover {
       box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.4), 0 0 15px rgba(59, 130, 246, 0.4);
     }
-    
+
     .action-button .emoji {
       font-size: 3rem;
       margin-bottom: 0.25rem;
     }
-    
+
     .action-button .label {
       font-size: 0.875rem;
       font-weight: bold;
     }
-    
+
     .support-button .label {
       color: #fcd34d;
     }
-    
+
     .settings-button .label {
       color: #93c5fd;
     }
-    
+
     /* Scrolling banner */
     .scrolling-banner {
       position: relative;
@@ -123,7 +147,7 @@
       align-items: center;
       margin-bottom: 1rem;
     }
-    
+
     .scrolling-text {
       position: absolute;
       white-space: nowrap;
@@ -134,24 +158,23 @@
       color: transparent;
       animation: marquee 30s linear infinite;
     }
-    
+
     @keyframes marquee {
       0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
     }
-    
+
     /* Book grid - scrollable container */
     .book-container {
-      flex-grow: 1;
+      flex-grow: 0; /* Don't grow to fill available space */
       position: relative;
       z-index: 1;
-      overflow-y: auto; /* Allow scrolling for book content */
+      overflow-y: visible; /* Allow content to flow naturally */
       overflow-x: hidden;
-      height: calc(100vh - 200px); /* Fixed height calculation */
       padding: 0 1.5rem;
       margin-bottom: 2rem; /* Space for QR code */
     }
-    
+
     .book-grid {
       max-width: 72rem;
       margin: 0 auto;
@@ -160,13 +183,13 @@
       gap: 2rem;
       padding: 1rem 0;
     }
-    
+
     @media (min-width: 768px) {
       .book-grid {
         grid-template-columns: 1fr 1fr;
       }
     }
-    
+
     /* QR code section */
     .qr-section {
       text-align: center;
@@ -175,30 +198,30 @@
       background-color: rgba(26, 26, 46, 0.8);
       border-top: 1px solid rgba(75, 85, 99, 0.5);
     }
-    
+
     .qr-section h2 {
       font-size: 1.5rem;
       color: #ffc107;
       margin-bottom: 0.5rem;
     }
-    
+
     .qr-section p {
       font-size: 1rem;
       margin-bottom: 1rem;
     }
-    
+
     .qr-code {
       display: inline-block;
       background-color: white;
       padding: 10px;
       border-radius: 10px;
     }
-    
+
     .qr-code img {
       max-width: 200px;
       height: auto;
     }
-    
+
     /* Book card */
     .book-card {
       border-radius: 0.75rem;
@@ -209,98 +232,135 @@
       background-color: rgba(26, 26, 46, 0.6);
       transition: all 0.3s;
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      max-height: 650px; /* Set maximum height for the card */
     }
-    
+
     .book-card:hover {
       transform: translateY(-0.5rem);
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 0 20px 5px rgba(123, 97, 255, 0.3);
     }
-    
+
     /* Add different glow colors based on book type */
     .book-card[data-book-id="needle-and-yarn"]:hover {
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 0 20px 5px rgba(123, 97, 255, 0.3);
     }
-    
+
     .book-card[data-book-id="crochet-mastery"]:hover {
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 0 20px 5px rgba(245, 81, 95, 0.3);
     }
-    
+
     .book-card-header {
       padding: 1rem;
     }
-    
+
     .book-title {
       font-size: 1.875rem;
       font-weight: bold;
       margin-bottom: 0.5rem;
     }
-    
+
     .book-subtitle {
       font-size: 1.25rem;
       font-style: italic;
       margin-bottom: 0.5rem;
       opacity: 0.9;
     }
-    
+
     .book-author {
       font-size: 1.125rem;
       color: #e5e7eb;
       display: flex;
       align-items: center;
     }
-    
+
     .author-highlight {
       color: #a855f7;
     }
-    
+
     .read-button {
       margin-left: 0.75rem;
-      padding: 0.5rem;
+      padding: 0.5rem 0.75rem;
       border-radius: 9999px;
       background-color: #2563eb;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 0.25rem;
+      transition: all 0.3s ease;
     }
-    
+
+    .read-button:hover {
+      background-color: #1d4ed8;
+      transform: scale(1.05);
+    }
+
+    .read-button.active {
+      background-color: #dc2626;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+      }
+    }
+
+    .read-button-text {
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
     .book-cover {
       width: 100%;
-      height: 400px;
+      height: 300px; /* Reduced height to fit better in the card */
       position: relative;
       overflow: hidden;
     }
-    
+
     .book-cover img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Changed from 'cover' to 'contain' to show full cover */
+      object-fit: contain; /* Shows full cover */
       object-position: center;
       transition: transform 0.3s;
     }
-    
+
     .book-card:hover .book-cover img {
       transform: scale(1.05);
     }
-    
+
     .book-content {
       padding: 1rem;
       flex-grow: 1;
     }
-    
+
     .book-description {
-      font-size: 1.125rem;
+      font-size: 1rem;
       color: #e5e7eb;
       margin-bottom: 0.75rem;
+      max-height: 80px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
     }
-    
+
     .genre-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
       margin-top: 0.75rem;
     }
-    
+
     .genre-tag {
       display: inline-block;
       border-radius: 9999px;
@@ -308,11 +368,11 @@
       font-size: 0.875rem;
       font-weight: 500;
     }
-    
+
     .book-card-footer {
       padding: 1rem;
     }
-    
+
     .open-book-button {
       width: 100%;
       padding: 0.75rem 0;
@@ -321,7 +381,42 @@
       font-weight: bold;
       font-size: 1.125rem;
     }
-    
+
+    /* Video Center Link */
+    .video-center-link {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .video-center-button {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      background-color: rgba(220, 38, 38, 0.8);
+      color: white;
+      border-radius: 0.75rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+      transition: all 0.3s;
+      box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.4), 0 0 15px rgba(220, 38, 38, 0.3);
+      border: 1px solid rgba(248, 113, 113, 0.5);
+      animation: pulse-video-button 2s infinite;
+    }
+
+    .video-center-button:hover {
+      transform: translateY(-5px);
+      background-color: rgba(220, 38, 38, 1);
+      box-shadow: 0 15px 30px -5px rgba(220, 38, 38, 0.5), 0 0 20px rgba(220, 38, 38, 0.4);
+    }
+
+    @keyframes pulse-video-button {
+      0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    }
+
     /* Book reader modal */
     .modal {
       position: fixed;
@@ -333,11 +428,11 @@
       background-color: rgba(0, 0, 0, 0.9);
       display: none;
     }
-    
+
     .modal.active {
       display: flex;
     }
-    
+
     .reader-container {
       width: 100%;
       height: 100%;
@@ -347,7 +442,7 @@
       overflow: hidden;
       border-radius: 0.5rem;
     }
-    
+
     .reader-header {
       display: flex;
       justify-content: space-between;
@@ -356,19 +451,19 @@
       background-color: #1f2937;
       border-bottom: 1px solid #374151;
     }
-    
+
     .reader-header-left {
       display: flex;
       align-items: center;
       gap: 1rem;
     }
-    
+
     .reader-header-right {
       display: flex;
       align-items: center;
       gap: 1rem;
     }
-    
+
     .close-button {
       background-color: #dc2626;
       color: white;
@@ -378,23 +473,23 @@
       align-items: center;
       gap: 0.5rem;
     }
-    
+
     .close-button:hover {
       background-color: #ef4444;
     }
-    
+
     .reader-title {
       font-size: 1.5rem;
       font-weight: bold;
       color: #ffc107;
     }
-    
+
     @media (min-width: 768px) {
       .reader-title {
         font-size: 1.875rem;
       }
     }
-    
+
     .reader-settings-button {
       display: flex;
       flex-direction: column;
@@ -408,17 +503,17 @@
       transition: transform 0.3s, box-shadow 0.3s;
       box-shadow: 0 5px 15px -5px rgba(37, 99, 235, 0.3);
     }
-    
+
     .reader-settings-button:hover {
       transform: scale(1.1);
       box-shadow: 0 8px 20px -5px rgba(37, 99, 235, 0.4);
     }
-    
+
     .reader-settings-button .emoji {
       font-size: 1.5rem;
     }
-    
-    .narration-button {
+
+    .narration-button, .read-entire-book-button {
       padding: 0.75rem 1rem;
       border-radius: 0.5rem;
       color: white;
@@ -427,31 +522,32 @@
       align-items: center;
       gap: 0.5rem;
       background-color: #16a34a;
+      margin-left: 0.5rem;
     }
-    
-    .narration-button:hover {
+
+    .narration-button:hover, .read-entire-book-button:hover {
       background-color: #22c55e;
     }
-    
-    .narration-button.active {
+
+    .narration-button.active, .read-entire-book-button.active {
       background-color: #dc2626;
     }
-    
-    .narration-button.active:hover {
+
+    .narration-button.active:hover, .read-entire-book-button.active:hover {
       background-color: #ef4444;
     }
-    
+
     .reader-content {
       display: flex;
       flex-grow: 1;
       overflow: hidden;
     }
-    
+
     .page-nav {
       display: flex;
       align-items: center;
     }
-    
+
     .page-nav-button {
       height: 100%;
       padding: 0 1rem;
@@ -461,72 +557,72 @@
       align-items: center;
       justify-content: center;
     }
-    
+
     .page-nav-button:hover {
       background-color: #374151;
     }
-    
+
     .page-nav-button:disabled {
       opacity: 0.3;
       cursor: not-allowed;
     }
-    
+
     @media (min-width: 768px) {
       .page-nav-button {
         padding: 0 1.5rem;
       }
     }
-    
+
     .reader-page {
       flex-grow: 1;
       overflow: auto;
       padding: 1rem;
     }
-    
+
     @media (min-width: 768px) {
       .reader-page {
         padding: 2rem;
       }
     }
-    
+
     .page-content {
       font-size: 1.5rem;
       line-height: 1.6;
       max-width: 64rem;
       margin: 0 auto;
     }
-    
+
     .page-title {
       font-size: 2.25rem;
       font-weight: bold;
       margin-bottom: 1.5rem;
       color: #ffc107;
     }
-    
+
     @media (min-width: 768px) {
       .page-title {
         font-size: 2.5rem;
       }
     }
-    
+
     .page-paragraph {
       margin-bottom: 1.5rem;
     }
-    
+
     .page-help {
       display: flex;
       justify-content: center;
       margin-top: 2rem;
       margin-bottom: 3rem;
     }
-    
+
     .help-text {
       padding: 0.5rem 1rem;
       border-radius: 0.5rem;
       background-color: rgba(55, 65, 81, 0.4);
       font-size: 1rem;
     }
-    
+
     .reader-footer {
       display: flex;
       justify-content: space-between;
@@ -535,41 +631,41 @@
       background-color: #1f2937;
       border-top: 1px solid #374151;
     }
-    
+
     .page-button {
       padding: 0.5rem 1rem;
       border-radius: 0.5rem;
       color: white;
     }
-    
+
     .page-button.prev {
       background-color: #2563eb;
     }
-    
+
     .page-button.prev:hover {
       background-color: #3b82f6;
     }
-    
+
     .page-button.prev:disabled {
       background-color: #4b5563;
       opacity: 0.5;
       cursor: not-allowed;
     }
-    
+
     .page-button.next {
       background-color: #2563eb;
     }
-    
+
     .page-button.next:hover {
       background-color: #3b82f6;
     }
-    
+
     .page-button.next:disabled {
       background-color: #4b5563;
       opacity: 0.5;
       cursor: not-allowed;
     }
-    
+
     .page-counter {
       color: #ffc107;
     }
@@ -585,11 +681,11 @@
       background-color: rgba(0, 0, 0, 0.7);
       padding: 1rem;
     }
-    
+
     .settings-modal.active, .support-modal.active {
       display: flex;
     }
-    
+
     .settings-container {
       background-color: #1f2937;
       border-radius: 0.75rem;
@@ -601,94 +697,94 @@
       border: 1px solid rgba(59, 130, 246, 0.3);
       padding: 1.5rem;
     }
-    
+
     .settings-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1.5rem;
     }
-    
+
     .settings-title {
       font-size: 1.875rem;
       font-weight: bold;
       color: #93c5fd;
     }
-    
+
     .close-settings-button {
       color: #9ca3af;
       background: none;
       padding: 0.5rem;
     }
-    
+
     .close-settings-button:hover {
       color: white;
     }
-    
+
     .settings-content {
       display: flex;
       flex-direction: column;
       gap: 2rem;
     }
-    
+
     .settings-section h3 {
       font-size: 1.25rem;
       color: #93c5fd;
       margin-bottom: 1rem;
     }
-    
+
     .theme-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
     }
-    
+
     @media (min-width: 640px) {
       .theme-grid {
         grid-template-columns: repeat(5, 1fr);
       }
     }
-    
+
     .theme-option {
       padding: 1rem;
       border-radius: 0.5rem;
       transition: all 0.3s;
     }
-    
+
     .theme-option.active {
       outline: 2px solid #3b82f6;
       outline-offset: 2px;
     }
-    
+
     .theme-inner {
       height: 2rem;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    
+
     .theme-name {
       font-weight: 500;
     }
-    
+
     .reading-settings {
       display: grid;
       grid-template-columns: 1fr;
       gap: 1.5rem;
     }
-    
+
     @media (min-width: 768px) {
       .reading-settings {
         grid-template-columns: repeat(2, 1fr);
       }
     }
-    
+
     .setting-label {
       display: block;
       color: #d1d5db;
       margin-bottom: 0.5rem;
     }
-    
+
     .setting-select {
       width: 100%;
       padding: 0.5rem 0.75rem;
@@ -697,46 +793,46 @@
       border-radius: 0.5rem;
       border: none;
     }
-    
+
     .speed-control {
       display: flex;
       align-items: center;
     }
-    
+
     .speed-slider {
       width: 100%;
       margin-right: 0.75rem;
     }
-    
+
     .settings-actions {
       margin-top: 2rem;
       display: flex;
       justify-content: flex-end;
       gap: 1rem;
     }
-    
+
     .settings-button {
       padding: 0.75rem 1.5rem;
       border-radius: 0.5rem;
       color: white;
     }
-    
+
     .cancel-button {
       background-color: #4b5563;
     }
-    
+
     .cancel-button:hover {
       background-color: #6b7280;
     }
-    
+
     .save-button {
       background-color: #2563eb;
     }
-    
+
     .save-button:hover {
       background-color: #3b82f6;
     }
-    
+
     /* Support modal */
     .support-container {
       position: relative;
@@ -745,10 +841,12 @@
       padding: 2rem;
       max-width: 32rem;
       width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
       box-shadow: 0 20px 60px -10px rgba(255, 193, 7, 0.3), 0 0 30px rgba(255, 193, 7, 0.2);
       transform: perspective(1000px) rotateX(5deg);
     }
-    
+
     .close-support-button {
       position: absolute;
       top: 1rem;
@@ -757,33 +855,33 @@
       background: none;
       transition: color 0.3s;
     }
-    
+
     .close-support-button:hover {
       color: white;
     }
-    
+
     .support-content {
       text-align: center;
     }
-    
+
     .support-icon {
       display: flex;
       justify-content: center;
       margin-bottom: 1.5rem;
     }
-    
+
     .support-icon .heart {
       color: #f87171;
       font-size: 2.5rem;
     }
-    
+
     .support-title {
       font-size: 1.875rem;
       font-weight: bold;
       color: #fef3c7;
       margin-bottom: 1.5rem;
     }
-    
+
     .support-message {
       background-color: rgba(120, 53, 15, 0.3);
       padding: 1.5rem;
@@ -791,71 +889,113 @@
       border: 1px solid rgba(251, 191, 36, 0.2);
       margin-bottom: 2rem;
     }
-    
+
     .support-message p {
       font-size: 1.25rem;
       color: #fef3c7;
       line-height: 1.6;
       font-style: italic;
     }
-    
+
     .donation-options {
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      margin-bottom: 1.5rem;
     }
-    
+
     .donation-option {
       background-color: rgba(120, 53, 15, 0.4);
-      padding: 1rem;
+      padding: 1.25rem;
       border-radius: 0.75rem;
       border: 1px solid rgba(251, 191, 36, 0.3);
       transition: all 0.3s;
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
     }
-    
+
     .donation-option:hover {
       background-color: rgba(120, 53, 15, 0.5);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(251, 191, 36, 0.2);
     }
-    
+
+    .donation-option::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(251, 191, 36, 0.2) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .donation-option:hover::before {
+      opacity: 1;
+    }
+
     .donation-option.selected {
-      outline: 4px solid #fcd34d;
       transform: scale(1.05);
+      background-color: rgba(120, 53, 15, 0.7);
+      box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+      position: relative;
+      z-index: 1;
     }
-    
+
+    .donation-option.selected::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 3px solid #fcd34d;
+      border-radius: 0.75rem;
+      box-shadow: 0 0 10px #fcd34d;
+      animation: glowBorder 1.5s infinite alternate;
+      z-index: -1;
+    }
+
+    @keyframes glowBorder {
+      from { box-shadow: 0 0 5px #fcd34d; }
+      to { box-shadow: 0 0 15px #fcd34d; }
+    }
+
     .donation-option-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    
+
     .donation-info {
       text-align: left;
     }
-    
+
     .donation-name {
       font-weight: bold;
       color: #fef3c7;
       font-size: 1.25rem;
     }
-    
+
     .donation-description {
       color: rgba(254, 243, 199, 0.8);
     }
-    
+
     .donation-amount {
       font-size: 1.5rem;
       font-weight: bold;
       color: #fef3c7;
     }
-    
+
     .support-actions {
       margin-top: 2rem;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
+      margin-bottom: 1rem;
     }
-    
+
     .support-button {
       padding: 0.75rem 1.5rem;
       border-radius: 0.5rem;
@@ -863,16 +1003,16 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
       font-weight: 500;
     }
-    
+
     .later-button {
       background-color: #4b5563;
       color: white;
     }
-    
+
     .later-button:hover {
       background-color: #6b7280;
     }
-    
+
     .checkout-button {
       display: flex;
       align-items: center;
@@ -881,15 +1021,39 @@
       background-color: #16a34a;
       color: white;
       font-weight: bold;
+      font-size: 1.25rem;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 10px 15px -3px rgba(22, 163, 74, 0.4), 0 4px 6px -4px rgba(22, 163, 74, 0.4);
+      animation: pulse 2s infinite;
+      border-radius: 0.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
     }
-    
+
+    .checkout-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: all 0.5s;
+    }
+
+    .checkout-button:hover::before {
+      left: 100%;
+    }
+
     .checkout-button:hover {
       background-color: #22c55e;
     }
-    
+
     .checkout-button:disabled {
       background-color: #6b7280;
       cursor: not-allowed;
+      opacity: 0.7;
     }
 
     /* Toast notifications */
@@ -899,27 +1063,38 @@
       right: 1rem;
       z-index: 100;
     }
-    
+
     .toast {
       background-color: #16a34a;
       color: white;
-      padding: 0.5rem 1rem;
+      padding: 0.75rem 1.25rem;
       border-radius: 0.5rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 0 10px rgba(22, 163, 74, 0.3);
       margin-top: 0.5rem;
       display: none;
+      font-weight: 500;
+      max-width: 350px;
+      text-align: center;
+      line-height: 1.4;
+      font-size: 1rem;
     }
-    
+
     .toast.active {
       display: block;
-      animation: fadeInOut 2s forwards;
+      animation: fadeInOut 4s forwards;
     }
-    
+
     @keyframes fadeInOut {
       0% { opacity: 0; transform: translateY(20px); }
       10% { opacity: 1; transform: translateY(0); }
-      90% { opacity: 1; transform: translateY(0); }
+      80% { opacity: 1; transform: translateY(0); }
       100% { opacity: 0; transform: translateY(-20px); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+      50% { transform: scale(1.05); box-shadow: 0 10px 15px -3px rgba(22, 163, 74, 0.4), 0 4px 6px -4px rgba(22, 163, 74, 0.4); }
+      100% { transform: scale(1); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
     }
 
     /* Particles */
@@ -930,7 +1105,7 @@
       overflow: hidden;
       z-index: 0;
     }
-    
+
     .particle {
       position: absolute;
       transform: translate(-50%, -50%);
@@ -944,6 +1119,147 @@
       border-radius: 4px;
       transition: background-color 0.3s;
     }
+
+    /* Resource and Video Center */
+    .resource-center {
+      padding: 2rem 1rem;
+      background-color: rgba(26, 26, 46, 0.8);
+      border-radius: 1rem;
+      margin: 3rem auto;
+      max-width: 1200px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 193, 7, 0.2);
+      border: 1px solid rgba(255, 193, 7, 0.3);
+      position: relative;
+      z-index: 10;
+      scroll-margin-top: 2rem;
+      overflow: visible;
+    }
+
+    .resource-center h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #ffc107;
+      text-align: center;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+    }
+
+    .resource-center p {
+      font-size: 1.25rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tutorial-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .tutorial-section h3 {
+      font-size: 1.75rem;
+      font-weight: bold;
+      color: #a855f7;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .tutorial-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1.5rem;
+      overflow: visible;
+    }
+
+    @media (min-width: 640px) {
+      .tutorial-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .tutorial-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .tutorial-card {
+      background-color: rgba(31, 41, 55, 0.7);
+      border-radius: 0.75rem;
+      overflow: visible;
+      border: 1px solid #4b5563;
+      transition: all 0.3s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2rem;
+    }
+
+    .tutorial-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3);
+      border-color: #6b7280;
+    }
+
+    .tutorial-card h4 {
+      font-size: 1.25rem;
+      font-weight: bold;
+      padding: 1rem 1rem 0.5rem;
+      color: #ffc107;
+    }
+
+    .tutorial-card p {
+      font-size: 1rem;
+      padding: 0 1rem 1rem;
+      color: #e0e0e0;
+      margin-bottom: 0.5rem;
+      text-align: left;
+    }
+
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: visible;
+      margin-top: auto;
+      margin-bottom: 1rem;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .channel-link {
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      margin-top: auto;
+    }
+
+    .channel-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background-color: #e62117;
+      color: white;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .channel-button:hover {
+      background-color: #ff0000;
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
@@ -954,30 +1270,49 @@
   <div class="header">
     <h1>Leola's Digital Library</h1>
     <p>A collection of heartwarming stories and guides by <span class="author-name">Leola "Sister" Lee</span></p>
-    
+
     <div class="action-buttons">
+      <a href="#video-center" class="action-button video-button" aria-label="Go to Video Center">
+        <span class="emoji">📺</span>
+        <span class="label">Videos</span>
+      </a>
+
       <button class="action-button support-button" id="support-button" aria-label="Support Leola">
         <span class="emoji">🎁</span>
         <span class="label">Support</span>
       </button>
-      
+
       <button class="action-button settings-button" id="settings-button" aria-label="Open settings">
         <span class="emoji">⚙️</span>
         <span class="label">Settings</span>
       </button>
     </div>
-    
+
     <div class="scrolling-banner">
       <div class="scrolling-text">Find joy in each stitch as your hands create what your heart imagines</div>
     </div>
   </div>
-  
+
   <div class="book-container">
     <div class="book-grid" id="book-grid">
       <!-- Books will be inserted here -->
     </div>
+
+    <!-- Video Center Link -->
+    <div class="video-center-link">
+      <a href="#video-center" class="video-center-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+          <polyline points="17 2 12 7 7 2"></polyline>
+        </svg>
+        <span>Explore Crochet Video Tutorials</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+    </div>
   </div>
-  
+
   <!-- QR code section -->
   <div class="qr-section">
     <h2>Visit Leola's Library on Mobile</h2>
@@ -986,7 +1321,104 @@
       <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://4citeB4U.github.io/leolasliabrary/&size=200x200" alt="QR Code for Leola's Library">
     </div>
   </div>
-  
+
+  <!-- Resource and Video Center -->
+  <div class="resource-center" id="video-center">
+    <h2>Resource &amp; Video Center</h2>
+    <p>Explore these beginner-friendly crochet and macrame-inspired tutorials to enhance your crafting skills.</p>
+
+    <div class="tutorial-sections">
+      <!-- Crochet Tutorials Section -->
+      <div class="tutorial-section">
+        <h3>🧶 Crochet Tutorials for Beginners</h3>
+        <div class="tutorial-grid">
+          <div class="tutorial-card">
+            <h4>How to Crochet for Absolute Beginners: Part 1</h4>
+            <p>A comprehensive guide covering the basics of crochet.</p>
+            <div class="video-container">
+              <iframe width="100%" height="215" src="https://www.youtube.com/embed/aAxGTnVNJiE"
+                title="How to Crochet for Absolute Beginners: Part 1" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="tutorial-card">
+            <h4>How To Crochet | VERY SLOW DEMONSTRATION</h4>
+            <p>A slow-paced tutorial ideal for beginners.</p>
+            <div class="video-container">
+              <iframe width="100%" height="215" src="https://www.youtube.com/embed/jUIfV-Qcq2c"
+                title="How To Crochet | VERY SLOW DEMONSTRATION" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="tutorial-card">
+            <h4>Easy Crochet Clutch - Faux Macrame!</h4>
+            <p>Learn to create a stylish clutch with a macrame-inspired design.</p>
+            <div class="video-container">
+              <iframe width="100%" height="215" src="https://www.youtube.com/embed/KatJfGNXcd4"
+                title="Easy Crochet Clutch - Faux Macrame!" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="tutorial-card">
+            <h4>HappyBerry Crochet Channel</h4>
+            <p>Offers a variety of tutorials without unnecessary introductions.</p>
+            <div class="channel-link">
+              <a href="https://www.youtube.com/user/HappyBerryCrochet" target="_blank" class="channel-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                </svg>
+                Visit Channel
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Macrame-Inspired Crochet Projects Section -->
+      <div class="tutorial-section">
+        <h3>🪢 Macrame-Inspired Crochet Projects</h3>
+        <div class="tutorial-grid">
+          <div class="tutorial-card">
+            <h4>DIY Crocheted Trivets using Macramé Cord</h4>
+            <p>Create durable trivets using macrame cord.</p>
+            <div class="video-container">
+              <iframe width="100%" height="215" src="https://www.youtube.com/embed/Li5OnLkxMC4"
+                title="DIY Crocheted Trivets using Macramé Cord" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="tutorial-card">
+            <h4>Crochet Basket with Macrame Cord</h4>
+            <p>Craft a functional basket blending crochet and macrame techniques.</p>
+            <div class="video-container">
+              <iframe width="100%" height="215" src="https://www.youtube.com/embed/MuGymcu8uBU"
+                title="Crochet Basket with Macrame Cord" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="tutorial-card">
+            <h4>Macrame Inspired Wall Hanging with Tassels</h4>
+            <p>Design a decorative wall hanging incorporating macrame elements.</p>
+            <div class="video-container">
+              <iframe width="100%" height="215" src="https://www.youtube.com/embed/HlHWEjFP1ZE"
+                title="Macrame Inspired Wall Hanging with Tassels" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="tutorial-card">
+            <h4>Macrame Inspired Crochet Plant Hanger</h4>
+            <p>Learn to make a plant hanger combining crochet and macrame styles.</p>
+            <div class="video-container">
+              <iframe width="100%" height="215" src="https://www.youtube.com/embed/qcBBOgfcalU"
+                title="Macrame Inspired Crochet Plant Hanger" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Book reader modal -->
   <div class="modal" id="reader-modal">
     <div class="reader-container" id="reader-container">
@@ -1003,33 +1435,40 @@
           <button class="reader-settings-button" id="reader-settings-button" aria-label="Reader settings">
             <span class="emoji">⚙️</span>
           </button>
+          <button class="read-entire-book-button" id="read-entire-book-button" aria-label="Read entire book">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+            Read Entire Book
+          </button>
           <button class="narration-button" id="narration-button">
             <span>▶</span>
             Start Reading
           </button>
         </div>
       </div>
-      
+
       <div class="reader-content">
         <div class="page-nav">
           <button class="page-nav-button" id="prev-page-side" disabled>
             <span>◀</span>
           </button>
         </div>
-        
+
         <div class="reader-page" id="reader-page">
           <div class="page-content" id="page-content">
             <!-- Page content will be inserted here -->
           </div>
         </div>
-        
+
         <div class="page-nav">
           <button class="page-nav-button" id="next-page-side">
             <span>▶</span>
           </button>
         </div>
       </div>
-      
+
       <div class="reader-footer">
         <button class="page-button prev" id="prev-page" disabled>← Previous Page</button>
         <div class="page-counter" id="page-counter">Page 1 of 6</div>
@@ -1037,7 +1476,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Settings modal -->
   <div class="settings-modal" id="settings-modal">
     <div class="settings-container">
@@ -1045,7 +1484,7 @@
         <h2 class="settings-title">Library Settings</h2>
         <button class="close-settings-button" id="close-settings">✖</button>
       </div>
-      
+
       <div class="settings-content">
         <!-- Color Theme -->
         <div class="settings-section">
@@ -1056,25 +1495,25 @@
                 <span class="theme-name" style="color: white;">Standard</span>
               </div>
             </button>
-            
+
             <button class="theme-option" data-theme="warm" style="background: linear-gradient(135deg, #3a0000 0%, #260339 100%);">
               <div class="theme-inner">
                 <span class="theme-name" style="color: white;">Warm</span>
               </div>
             </button>
-            
+
             <button class="theme-option" data-theme="cool" style="background: linear-gradient(135deg, #001a33 0%, #002b4d 100%);">
               <div class="theme-inner">
                 <span class="theme-name" style="color: white;">Cool</span>
               </div>
             </button>
-            
+
             <button class="theme-option" data-theme="dark" style="background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);">
               <div class="theme-inner">
                 <span class="theme-name" style="color: white;">Dark</span>
               </div>
             </button>
-            
+
             <button class="theme-option" data-theme="sepia" style="background: linear-gradient(135deg, #f5eedd 0%, #e8ddbd 100%);">
               <div class="theme-inner">
                 <span class="theme-name" style="color: #333333;">Sepia</span>
@@ -1082,7 +1521,7 @@
             </button>
           </div>
         </div>
-        
+
         <!-- Reading Settings -->
         <div class="settings-section">
           <h3>Reading Settings</h3>
@@ -1096,17 +1535,17 @@
                 <option value="xlarge">Extra Large</option>
               </select>
             </div>
-            
+
             <div>
               <label class="setting-label" for="reading-speed">Reading Speed</label>
               <div class="speed-control">
-                <input 
-                  id="reading-speed" 
-                  type="range" 
-                  min="0.5" 
-                  max="2" 
-                  step="0.1" 
-                  value="0.9" 
+                <input
+                  id="reading-speed"
+                  type="range"
+                  min="0.5"
+                  max="2"
+                  step="0.1"
+                  value="0.9"
                   class="speed-slider"
                 >
                 <span id="speed-value" style="color: white;">0.9x</span>
@@ -1114,7 +1553,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="settings-section">
           <h3>Narration Voice</h3>
           <select id="voice-select" class="setting-select">
@@ -1125,52 +1564,59 @@
             <option value="male-1">Daniel (Male)</option>
           </select>
           <div style="margin-top: 1rem; padding: 1rem; background-color: rgba(30, 64, 175, 0.3); border-radius: 0.5rem; border: 1px solid rgba(59, 130, 246, 0.3);">
-            <span style="color: #93c5fd;">💡 Tip:</span> 
+            <span style="color: #93c5fd;">💡 Tip:</span>
             <span style="color: #d1d5db;"> The app will automatically prioritize female voices by default.</span>
           </div>
         </div>
       </div>
-      
+
       <div class="settings-actions">
         <button class="settings-button cancel-button" id="cancel-settings">Cancel</button>
         <button class="settings-button save-button" id="save-settings">Save Settings</button>
       </div>
     </div>
   </div>
-  
+
   <!-- Support modal -->
   <div class="support-modal" id="support-modal">
     <div class="support-container">
       <button class="close-support-button" id="close-support">✖</button>
-      
+
       <div class="support-content">
         <div class="support-icon">
           <span class="heart">❤️</span>
         </div>
         <h2 class="support-title">Support Leola's Crafting</h2>
         <div class="support-message">
-          <p>Your support means the world to me! Every contribution helps me continue creating stories and patterns to share with our crafting community.</p>
+          <p>Your support means the world to me! Every contribution helps me continue creating stories and patterns to share with our crafting community. Select an amount below, then click "Donate Now" to proceed to the secure payment page.</p>
         </div>
-        
+
         <div class="donation-options" id="donation-options">
           <!-- Donation options will be inserted here -->
         </div>
-        
+
+        <div style="margin-top: 1rem; padding: 1rem; background-color: rgba(251, 191, 36, 0.2); border-radius: 0.75rem; border: 1px solid rgba(251, 191, 36, 0.3);">
+          <p style="color: #fef3c7; text-align: left;">👆 <strong>Please select a donation option above</strong> to enable the donation button.</p>
+        </div>
+
         <div class="support-actions">
           <button class="support-button later-button" id="maybe-later">Maybe Later</button>
           <button class="support-button checkout-button" id="checkout-button" disabled>
             <span>💳</span>
-            Checkout with Stripe
+            Donate Now
           </button>
         </div>
       </div>
     </div>
   </div>
-  
+
   <!-- Toast notifications -->
   <div class="toast-container" id="toast-container">
     <div class="toast" id="toast"></div>
   </div>
+
+  <!-- Stripe JS -->
+  <script src="https://js.stripe.com/v3/"></script>
 
   <script>
     // App data and state
@@ -1219,7 +1665,7 @@
         }
       }
     };
-    
+
     // Book data
     const books = [
       {
@@ -1278,12 +1724,60 @@
               "At first, her stitches were uneven, her color changes messy. Frustrated, she cried, \"I can't do it!\" Needle's voice was gentle. \"Even the best creations have knots and flaws. It's not about perfection, it's about love.\"",
               "Square by square, the blanket grew. When it was finally complete, it was a masterpiece of color and warmth, a testament to patience, creativity, and love. As Yarn draped it over Leola's chair, she whispered to Needle, \"We did it.\" Needle smiled. \"Yes, we did. Together.\""
             ]
+          },
+          {
+            title: "Chapter 6: Colors of the Heart",
+            paragraphs: [
+              "With the blanket complete, Yarn felt a new sense of purpose. Her fibers tingled with creative energy, eager to explore new colors and textures. \"Needle,\" she said one evening, \"I want to try something different. I want to... change.\"",
+              "Needle looked at her curiously. \"Change? In what way?\" Yarn hesitated, then spoke her truth. \"I want to try dyeing my fibers. I want to become more vibrant, more... me.\" The idea was daring—changing one's very essence was no small thing in the crafting world.",
+              "Color Dye, a set of bottles rarely used but always respected, perked up from the corner shelf. \"I can help with that,\" she offered. \"But it's a commitment—once changed, you can't go back to exactly what you were.\" Yarn considered this, then nodded firmly. \"I'm ready.\""
+            ]
+          },
+          {
+            title: "Chapter 7: A Promise Woven",
+            paragraphs: [
+              "With Yarn's spirit renewed, she and Needle felt a surge of creative energy. Having mastered the basics and overcome challenges, they were ready for something extraordinary—a project reflecting the depth of their love and the intricacy of their bond.",
+              "\"Needle,\" Yarn said confidently, \"I want to make something... exquisite. Something that captures the beauty and delicacy of our love.\" Needle, filled with affection, replied, \"A lace doily, my dear Yarn—a symbol of our enduring love, a testament to our connection.\"",
+              "As they worked on the intricate pattern, their movements synchronized perfectly—Needle guiding, Yarn flowing. The other tools watched in awe as a delicate, snowflake-like creation emerged. When complete, it sparkled in the light, each stitch a testament to their perfect harmony."
+            ]
+          },
+          {
+            title: "Chapter 8: The Tapestry of Love",
+            paragraphs: [
+              "The news of Needle and Yarn's engagement spread like wildfire through the sewing basket. Excitement filled the air as the tools—each with their own talents—rushed to help create a grand bridal shawl.",
+              "\"This shawl,\" declared Needle, \"will be a tapestry of our love—a testament to our journey and our future together.\" Yarn, with her heart overflowing, envisioned a shawl both beautiful and meaningful, incorporating elements from all their past projects.",
+              "Day after day, they worked together, weaving in memories: single crochet from their first scarf, half double crochet from the hat, granny squares reminiscent of their blanket, and delicate lacework inspired by their doily. The shawl grew, a physical manifestation of their journey together."
+            ]
+          },
+          {
+            title: "Chapter 9: Stitching Tales of the Past",
+            paragraphs: [
+              "As the wedding day approached, Yarn found herself reflecting on their journey. \"Needle,\" she said softly one evening, \"do you ever wonder about those who came before us? The other tools and yarns that Leola has worked with?\"",
+              "Needle nodded thoughtfully. \"I do. There are stories woven into every creation in this home.\" Thimble, overhearing, approached. \"I can tell you tales,\" she offered. \"I've been with Leola the longest.\" And so, as the evening deepened, Thimble shared stories of projects past—of baby blankets made for each of Leola's children, of scarves crafted during difficult winters, of doilies that adorned tables during celebrations.",
+              "Yarn listened, mesmerized. \"We're part of something bigger,\" she realized. \"A tradition, a legacy of love and creativity.\" Needle squeezed her gently. \"And we'll add our own chapter to that legacy.\""
+            ]
+          },
+          {
+            title: "Chapter 10: Leola's Legacy",
+            paragraphs: [
+              "As the evening drew to a close, the tools settled back into their places in the sewing basket, their hearts filled with gratitude. They were more than mere tools—they were family, united by shared experiences, love for Leola, and a passion for creation.",
+              "Leola's home was a testament to handmade art: afghans, doilies, amigurumi, and macramé all spoke of her artistry. In every corner, a story was woven in stitches. For a final project, Needle and Yarn, with the help of Scissors, Thimble, Measuring Tape, and Color Dye, created a grand tapestry to honor Leola.",
+              "This masterpiece, proudly hung in her living room, symbolized the love and creativity that filled her home—a legacy that would inspire for years to come. And as Needle and Yarn rested side by side in the basket, they knew their story was just one thread in the beautiful tapestry of Leola's crafting legacy."
+            ]
+          },
+          {
+            title: "Epilogue: Stitches of Legacy",
+            paragraphs: [
+              "Years passed, and Leola's sewing basket remained a hub of creativity and love. Needle and Yarn, now seasoned partners, had created countless projects together—each one a chapter in their ongoing love story. They had weathered challenges: Needle's tip had been replaced twice more, and Yarn had faded slightly with age, but their bond had only strengthened.",
+              "New tools had joined the basket—younger hooks, vibrant yarns—and Needle and Yarn had become mentors, sharing their wisdom and experience. \"Remember,\" Needle would tell the newcomers, \"it's not about perfection. It's about love, patience, and finding your rhythm.\"",
+              "And on quiet evenings, when Leola would sit by the window, her hands moving with practiced grace, Needle and Yarn would dance together once more, creating beauty from simple elements, weaving love into every stitch. Their legacy lived on in every piece they created, in every lesson they shared, in the very fabric of Leola's home—a testament to the enduring power of creativity, connection, and love."
+            ]
           }
         ]
       },
       {
         id: 'crochet-mastery',
-        title: "Crochet Masterier",
+        title: "Crochet Mastery",
         subtitle: "A Complete Guide",
         author: "Leola Sista Lee",
         description: "A comprehensive guide to mastering the art of crochet. From basic stitches to complex techniques, this guide has everything you need to become a crochet master.",
@@ -1292,75 +1786,119 @@
         coverImage: "CrochetMaster.png",
         content: [
           {
-            title: "Acknowledgment",
+            title: "Prologue: The Magic of the Loop",
             paragraphs: [
-              "This guide is dedicated to the crafters, dreamers, and makers who find joy in the art of crochet. To my children—Freddie, Micky, Timothy, Leonard, Jermaine, and Laron—your love and inspiration have woven strength into my life, just like every carefully placed stitch.",
-              "And to the community of Milwaukee, whose resilience and warmth mirror the essence of handmade creations, thank you for shaping my journey. May this guide serve as a roadmap to creativity, patience, and the joy of crafting with love."
+              "Crochet, at its heart, is a simple act: creating fabric from a single strand of yarn using a hooked needle. Yet, within this simplicity lies a world of endless possibilities, a universe of creativity waiting to be explored. It's a craft that connects us to generations of makers, a tradition passed down through families and communities, a skill that transforms humble materials into objects of beauty, comfort, and joy. This book, 'Crochet Mastery: A Complete Guide,' is your invitation to embark on that journey, to discover the magic of the loop, and to unlock your own creative potential. Whether you're a complete beginner or a seasoned crocheter, you'll find within these pages the knowledge, inspiration, and guidance you need to master the art of crochet, from the very first slip knot to the most intricate lace design. So, gather your yarn, choose your hook, and let's begin..."
             ]
           },
           {
-            title: "Chapter 1: The Essentials of Crochet",
+            title: "Part 1: Getting Started",
             paragraphs: [
-              "Before diving into projects, it's important to understand the basic tools and techniques that make up the foundation of crochet. Here's what you need to get started:",
-              "Tools & Materials:\n- Crochet Hook (Needle): Choose an aluminum, plastic, or wooden hook based on personal preference. Hook sizes vary, but a 5mm (H-8) hook is a great beginner size.\n- Yarn: Cotton, acrylic, or wool, depending on the project. Worsted weight is a versatile choice.\n- Scissors: For cutting yarn cleanly.\n- Measuring Tape: Ensures your projects are the correct size.\n- Stitch Markers: Helps track stitches in complex patterns.\n- Thimble (Optional): Useful for hand-sewing and weaving in ends.",
-              "Basic Techniques:\n1. Slip Knot: The foundation of every crochet project. Wrap yarn around two fingers, pull through a loop, and tighten around your hook.\n2. Chain Stitch (ch): Creates the starting base of most projects.\n3. Single Crochet (sc): Insert hook into stitch, yarn over, pull through, yarn over again, pull through both loops.\n4. Half Double Crochet (hdc): Yarn over, insert hook into stitch, yarn over, pull through, yarn over again, pull through all three loops.\n5. Double Crochet (dc): Yarn over, insert hook, yarn over, pull through, yarn over, pull through two loops, yarn over, pull through the last two loops."
+              "The journey of a thousand stitches begins with a single loop, and before you can create that loop, you'll need your tools: a crochet hook and yarn. Crochet hooks come in a variety of materials – aluminum, steel, plastic, bamboo, and even wood – each with its own feel and characteristics. Aluminum hooks are a popular choice for beginners, as they're smooth, lightweight, and relatively inexpensive. Steel hooks are typically used for finer yarns and intricate lacework. Bamboo and wooden hooks offer a warm, natural feel and are often preferred by those with arthritis or hand pain. The size of the hook is indicated by a letter or number, and the appropriate size will depend on the yarn you're using. The yarn label will usually recommend a hook size, but it's always a good idea to make a gauge swatch (more on that later!) to ensure you're achieving the correct tension.",
+              "Now, let's talk about yarn! The world of yarn is vast and varied, a kaleidoscope of colors, textures, and fibers. Yarn is categorized by weight, which refers to the thickness of the strand. Common yarn weights include lace, fingering, sport, DK, worsted, bulky, and super bulky. Each weight is suitable for different types of projects. Lace weight yarn is very fine and delicate, ideal for shawls and lacework. Fingering weight yarn is slightly thicker and is often used for socks and baby items. Worsted weight yarn is a versatile, medium-weight yarn that's suitable for a wide range of projects, from sweaters to blankets. Bulky and super bulky yarns are thick and warm, perfect for quick projects like scarves and hats. Beyond weight, yarn is also categorized by fiber content. Common fibers include cotton, wool, acrylic, silk, and blends. Cotton is absorbent, breathable, and easy to care for, making it a good choice for dishcloths, washcloths, and summer garments. Wool is warm, elastic, and has excellent stitch definition, making it ideal for sweaters, hats, and scarves. Acrylic is a synthetic fiber that's durable, affordable, and easy to care for, making it a popular choice for blankets, toys, and everyday items. Silk is a luxurious fiber known for its softness, drape, and sheen, often used for special occasion garments and accessories. Blends combine the properties of different fibers, offering the best of both worlds (for example, a wool-acrylic blend combines the warmth of wool with the durability of acrylic).",
+              "Once you've chosen your hook and yarn, it's time to learn how to hold them. There are two main grips for holding the crochet hook: the pencil grip and the knife grip. The pencil grip is similar to how you hold a pencil, with the hook resting between your thumb and index finger. The knife grip (also called the overhand grip) involves holding the hook like you would hold a knife, with your hand over the hook. Experiment with both grips to find the one that feels most comfortable and natural for you. Holding the yarn is equally important. The yarn should flow freely through your fingers, but with enough tension to create even stitches. A common method is to wrap the yarn around your pinky finger, under your ring and middle fingers, and over your index finger. This allows you to control the tension with your index finger, guiding the yarn onto the hook.",
+              "Now, for the essential first steps: the slip knot and the chain stitch. The slip knot is the foundation of almost every crochet project. To make a slip knot, wrap the yarn around your index and middle fingers, forming a loop. Insert your hook into the loop, catch the working yarn (the strand coming from the ball) with your hook, and pull it through the loop. Tighten gently, but not too much. You should be able to slide the knot up and down the hook. The chain stitch is the building block of crochet. To make a chain stitch, yarn over (wrap the yarn around the hook from back to front) and draw the yarn through the loop already on your hook. That's one chain stitch! Continue making chain stitches – yarn over, pull through – until you have a chain as long as you need. Try to keep your chains consistent in size, not too tight and not too loose. (Troubleshooting Tips: If your slip knot is too tight, loosen it by gently pulling on the yarn tail. If it's unraveling, tighten it by pulling on the working yarn. If your chains are uneven, focus on maintaining consistent tension. If your chain is twisted, make sure your hook goes under the yarn when you yarn over. If you lose count, use stitch markers every 10 or 20 chains.)"
             ]
           },
           {
-            title: "Chapter 2: Creating a Cozy Scarf",
+            title: "Part 2: Basic Stitches",
             paragraphs: [
-              "A scarf is a perfect beginner project that introduces fundamental crochet skills.",
-              "Materials Needed:\n- Worsted weight yarn (2-3 skeins, any color)\n- 5mm (H-8) crochet hook\n- Scissors\n- Tapestry needle for weaving in ends",
-              "Instructions:\n1. Create a Foundation Chain: Chain 30 (or more for a wider scarf).\n2. First Row: Work a single crochet (sc) into the second chain from the hook. Continue across.\n3. Next Rows: Chain 1 at the end of each row, turn, and single crochet across until the scarf reaches your desired length.\n4. Finishing Touches: Fasten off and weave in any loose ends."
+              "With your foundation chain created, you're ready to learn the basic crochet stitches. The single crochet (sc) is the most fundamental stitch, creating a dense, sturdy fabric. To work a single crochet, insert your hook into the next stitch (or chain, if you're working the first row), yarn over, draw the yarn through the stitch (you'll have two loops on your hook), yarn over again, and draw the yarn through both loops on your hook. That's one single crochet! Continue working single crochet stitches across the row. At the end of the row, chain 1 (this is your turning chain and doesn't count as a stitch) and turn your work. This chain 1 gives you the height you need for the next row. Work your first single crochet of the new row into the first stitch of the previous row (under both loops of the 'v' shape).",
+              "The half double crochet (hdc) is slightly taller than the single crochet, creating a fabric that's a bit warmer and more textured. To work a half double crochet, yarn over, insert your hook into the next stitch, yarn over again, draw the yarn through the stitch (you'll have three loops on your hook), yarn over one final time, and draw the yarn through all three loops on your hook.",
+              "The double crochet (dc) is a taller stitch than the half double crochet, creating a more open and drapey fabric. To work a double crochet, yarn over, insert your hook into the next stitch, yarn over, draw the yarn through the stitch (you'll have three loops on your hook), yarn over, draw the yarn through the first two loops on your hook (you'll have two loops left), yarn over again, and draw the yarn through the remaining two loops on your hook.",
+              "The treble crochet (tr) is even taller than the double crochet, creating a very open and airy fabric. To work a treble crochet, yarn over twice, insert your hook into the next stitch, yarn over, draw the yarn through the stitch (you'll have four loops on your hook), yarn over, draw the yarn through the first two loops on your hook (you'll have three loops left), yarn over, draw the yarn through the next two loops on your hook (you'll have two loops left), yarn over again, and draw the yarn through the remaining two loops on your hook.",
+              "The slip stitch (sl st) is a very short stitch, primarily used for joining rounds, creating edges, or moving the yarn across a row without adding height. To work a slip stitch, insert your hook into the next stitch, yarn over, and draw the yarn through both the stitch and the loop on your hook.",
+              "You can work crochet stitches in rows (back and forth) or in rounds (in a continuous spiral or joined circles). When working in rows, you'll typically chain 1 (for single crochet), 2 (for half double crochet), or 3 (for double crochet) at the beginning of each row to create the necessary height. This is called the turning chain. When working in rounds, you can either work in a continuous spiral (common for amigurumi) or join each round with a slip stitch.",
+              "To make your crochet fabric wider, you'll need to increase stitches. This is typically done by working two or more stitches into the same stitch. For example, to increase in single crochet, you would work two single crochet stitches into the same stitch. To make your fabric narrower, you'll need to decrease stitches. This is typically done by working two or more stitches together. For example, to decrease in single crochet, you would insert your hook into the next stitch, yarn over, and pull through a loop (two loops on hook), then insert your hook into the next stitch, yarn over, and pull through a loop (three loops on hook), then yarn over and pull through all three loops on your hook."
             ]
           },
           {
-            title: "Chapter 3: Crafting a Warm Hat",
+            title: "Part 3: Beyond the Basics",
             paragraphs: [
-              "A hat is slightly more advanced, introducing circular crochet and increases.",
-              "Materials Needed:\n- Worsted weight yarn (1-2 skeins)\n- 5mm (H-8) crochet hook\n- Stitch marker\n- Scissors\n- Tapestry needle",
-              "Instructions:\n1. Magic Ring: Create a loop with yarn, insert hook, and pull up a loop.\n2. Round 1: Chain 2 (counts as first hdc), work 9 half double crochets (hdc) into the ring. Slip stitch to join.\n3. Round 2: Chain 2, 2 hdc in each stitch around (18 stitches total).\n4. Increasing Rounds: Continue increasing in this pattern, adding one more hdc between each increase in each round, until the hat fits your head diameter.\n5. Work Even: Once the crown is the right size, work even hdc rounds until the hat reaches your desired length.\n6. Finishing: Fasten off, weave in ends, and add a decorative edge if desired."
+              "Once you've mastered the basic stitches, you're ready to explore the wider world of crochet. This includes learning to read crochet patterns, both written patterns and charts. Written patterns use abbreviations to indicate the stitches and techniques used. Common abbreviations include: ch (chain), sc (single crochet), hdc (half double crochet), dc (double crochet), tr (treble crochet), sl st (slip stitch), st (stitch), sts (stitches), inc (increase), dec (decrease). A pattern might read: 'Row 1: Ch 20, sc in 2nd ch from hook and in each ch across (19 sts).' This means you would chain 20, then work a single crochet in the second chain from the hook and in each chain across, resulting in 19 single crochet stitches. Crochet charts use symbols to represent different stitches. A key or legend will explain the symbols used in a particular chart. Charts are often used for more complex patterns, such as lacework or colorwork.",
+              "Understanding gauge and tension is crucial for ensuring your projects turn out the correct size. Gauge refers to the number of stitches and rows per inch (or centimeter) that you achieve with a specific yarn, hook, and stitch pattern. A pattern will usually specify the gauge, for example: 'Gauge: 16 sc and 18 rows = 4 inches.' This means that if you crochet a square using the specified yarn, hook, and stitch pattern, 16 single crochet stitches and 18 rows should measure 4 inches. Your tension is how tightly or loosely you crochet. If your tension is too tight, your stitches will be small and your fabric will be stiff. If your tension is too loose, your stitches will be large and your fabric will be floppy. To check your gauge, crochet a small square (a gauge swatch) using the yarn, hook, and stitch pattern specified in the pattern. Measure the number of stitches and rows within a 4-inch square. If your gauge matches the pattern's gauge, you're good to go! If not, you may need to adjust your hook size (use a larger hook if your gauge is too small, or a smaller hook if your gauge is too large) or your tension.",
+              "Working with color opens up a whole new dimension of creativity in crochet. There are several techniques for incorporating multiple colors into your projects. The simplest method is to change colors at the end of a row or round. To do this, work the last stitch of the old color until you have two loops on your hook, then yarn over with the new color and pull through both loops. You can then continue crocheting with the new color. To create stripes, you would simply change colors at the end of each row or round, or every few rows or rounds. For more complex colorwork, you can use techniques like intarsia and Fair Isle. Intarsia involves using separate balls of yarn for each color block, twisting the yarns together at the color changes to prevent holes. Fair Isle (also called stranded colorwork) involves carrying the unused colors along the back of the work, creating a pattern of floats.",
+              "Textured stitches add another layer of interest and dimension to your crochet projects. Common textured stitches include bobbles, popcorns, clusters, and post stitches. Bobbles are created by working a series of incomplete double crochet stitches into the same stitch, then yarning over and pulling through all the loops on the hook. Popcorns are similar to bobbles, but the stitches are joined together at the top to create a more pronounced, rounded shape. Clusters involve working a group of stitches together into the same stitch or space. Post stitches are worked around the post of a stitch from the previous row, rather than into the top loops. This creates a raised, textured effect.",
+              "Joining techniques are used to connect separate pieces of crochet together, such as granny squares or garment pieces. Common joining methods include sewing (using a yarn needle and whip stitch or mattress stitch), slip stitch join, and single crochet join.",
+              "Finishing techniques are the final steps that give your crochet projects a polished, professional look. Weaving in ends is essential for securing loose yarn tails and preventing your work from unraveling. Use a yarn needle to weave the ends through the stitches on the wrong side of the fabric, following the path of the yarn as closely as possible. Blocking is a process of wetting or steaming a finished piece of crochet to shape it, even out the stitches, and enhance the drape. Blocking is particularly important for lace projects and garments."
             ]
           },
           {
-            title: "Chapter 4: Making a Beautiful Blanket",
+            title: "Part 4: Expanding Your Skills",
             paragraphs: [
-              "A granny square blanket is a versatile and customizable project that lets you combine different colors and stitch patterns.",
-              "Materials Needed:\n- Various colors of worsted weight yarn\n- 5mm (H-8) crochet hook\n- Scissors\n- Tapestry needle",
-              "Instructions:\n1. Create a Magic Ring: Chain 3 (counts as first double crochet), work 2 double crochets (dc) into the ring.\n2. Chain 2: This forms a corner. Work 3 dc, chain 2, repeat two more times.\n3. Close the Round: Slip stitch to join.\n4. Increase the Square: Continue working 3 dc in each space along the sides and 3 dc, chain 2, 3 dc in each corner. Change colors as desired.\n5. Join Squares: Use slip stitch, single crochet, or whip stitch to join squares together.\n6. Finishing: Weave in ends and add a border if desired."
+              "With a solid foundation in the basics, you can now explore more advanced crochet techniques and projects.",
+              "Lace Crochet: Lace crochet involves creating intricate, openwork fabrics using a combination of chains, slip stitches, and taller stitches. Common lace stitches include picots (small loops), shells (groups of double crochet stitches), and filet crochet (a grid-like pattern created with double crochet stitches and chain spaces).",
+              "Tunisian Crochet: Tunisian crochet (also called Afghan crochet) uses a special hook that's longer than a regular crochet hook, with a stopper at the end. It creates a dense, woven fabric that looks similar to knitting. Basic Tunisian stitches include the Tunisian simple stitch (Tss) and the Tunisian knit stitch (Tks).",
+              "Amigurumi: Amigurumi is the Japanese art of crocheting small, stuffed creatures and toys. It typically involves working in the round, using single crochet stitches, and shaping the fabric through increases and decreases. Amigurumi projects often require careful attention to detail, including stuffing, assembling, and adding facial features.",
+              "Granny Squares and Motifs: Granny squares are classic crochet motifs that can be joined together to create blankets, pillows, garments, and more. There are countless variations of granny squares, from simple solid squares to intricate floral designs. Other crochet motifs, such as hexagons, circles, and stars, can also be used to create a variety of projects.",
+              "Garment Construction: Crochet can be used to create a wide range of garments, from simple scarves and hats to complex sweaters and dresses. Garment construction often involves shaping the fabric through increases and decreases, creating seams, and adding details like collars, cuffs, and buttonholes. Understanding garment construction principles, such as ease, fit, and shaping, is essential for creating well-fitting and flattering crocheted garments."
+            ]
+          },
+          {
+            title: "Part 5: Troubleshooting and Tips",
+            paragraphs: [
+              "Even experienced crocheters encounter challenges from time to time. Here are some common problems and how to fix them:",
+              "- Dropped Stitch: If you accidentally drop a stitch, carefully pick it up with your hook and work it as usual.\n- Uneven Edges: This is often caused by inconsistent tension or by working into the wrong stitch at the beginning or end of a row. Count your stitches carefully and make sure you're working into the correct stitch.\n- Holes in Your Fabric: This can be caused by skipping stitches, working into the wrong stitch, or using a hook that's too large for your yarn.\n- Curling Fabric: This is often due to tension being too tight. Try using a larger hook or loosening your grip. Blocking can also help to flatten curling fabric.\n- Yarn Tangling: Keep your yarn organized to prevent tangles. Use a yarn bowl or bag to keep your ball of yarn from rolling around.\n- Running Out of Yarn: If you run out of yarn before finishing your project, join a new ball of yarn as seamlessly as possible. Weave in the ends securely.",
+              "Choosing the right project for your skill level is important for avoiding frustration and ensuring success. Start with simple projects and gradually work your way up to more complex ones. Don't be afraid to experiment and try new things, but be realistic about your abilities.",
+              "Finding inspiration is key to keeping your crochet journey exciting and fulfilling. Explore different patterns, browse online crochet communities, visit your local yarn store, and look for inspiration in the world around you. Don't be afraid to develop your own style, to experiment with different colors, textures, and techniques.",
+              "Caring for your crochet creations is important for ensuring their longevity. Always check the yarn label for care instructions. Most crochet items can be machine washed on a gentle cycle, but some delicate yarns may require hand washing. Lay flat to dry to prevent stretching or distortion."
+            ]
+          },
+          {
+            title: "Epilogue: A Lifelong Journey",
+            paragraphs: [
+              "Crochet is more than just a craft; it's a journey, a lifelong exploration of creativity, a source of comfort, connection, and joy. As you continue on your crochet path, remember to embrace the imperfections, celebrate the challenges, and cherish the moments of quiet creativity. Share your creations with others, teach someone new to crochet, and become a part of the vibrant, global community of makers. The magic of the loop is endless, and the possibilities are as boundless as your imagination. So, keep hooking, keep creating, and keep sharing the love of crochet with the world."
+            ]
+          },
+          {
+            title: "Appendix: Glossary of Crochet Terms",
+            paragraphs: [
+              "Chain (ch): A series of loops that forms the foundation of most crochet projects.\nSingle Crochet (sc): A basic stitch that creates a dense fabric.\nHalf Double Crochet (hdc): A stitch that is taller than a single crochet but shorter than a double crochet.\nDouble Crochet (dc): A common stitch that creates a more open fabric than single crochet.\nTreble Crochet (tr): A tall stitch that creates a very open and airy fabric.\nSlip Stitch (sl st): A stitch used for joining rounds, creating edges, or moving the yarn across a row without adding height.\nYarn Over (yo): Wrapping the yarn around the hook.\nMagic Ring: An adjustable loop used to start crocheting in the round.\nIncrease (inc): Adding stitches to make a piece of fabric wider.\nDecrease (dec): Combining stitches to make a piece of fabric narrower.\nGauge: The number of stitches and rows per inch, which determines the size of your finished project.\nBlocking: Wetting or steaming a finished piece of crochet to shape it and enhance the stitch definition.\nPicot: A small loop used as a decorative element, often in lacework.\nCluster: A group of stitches worked together into the same stitch or space.\nShell: A group of stitches (usually double crochet) worked into the same stitch or space, creating a fan-like shape.\nGranny Square: A classic crochet motif.\nFrog/Frogging: Unraveling your crochet work.\nStash: A crocheter's personal collection of yarn.\nWIP: Work in Progress.\nFO: Finished Object.",
+              "Abbreviations Chart:\nch - chain\nsc - single crochet\nhdc - half double crochet\ndc - double crochet\ntr - treble crochet\nsl st - slip stitch\nst(s) - stitch(es)\ninc - increase\ndec - decrease\nyo - yarn over\nBLO - back loop only\nFLO - front loop only\nrnd(s) - round(s)\nrep - repeat\nrem - remaining\ntog - together",
+              "Yarn Weight Conversion Chart:\n0 - Lace (Symbol 0): US: Lace, UK: Cobweb/1-2 ply, AUS: 1-2 ply\n1 - Super Fine (Symbol 1): US: Super Fine/Fingering, UK: 3-4 ply, AUS: 3-4 ply\n2 - Fine (Symbol 2): US: Fine/Sport, UK: 5 ply, AUS: 5 ply\n3 - Light (Symbol 3): US: Light/DK, UK: 8 ply, AUS: 8 ply\n4 - Medium (Symbol 4): US: Medium/Worsted, UK: Aran, AUS: 10 ply\n5 - Bulky (Symbol 5): US: Bulky/Chunky, UK: Chunky, AUS: 12 ply\n6 - Super Bulky (Symbol 6): US: Super Bulky, UK: Super Chunky, AUS: 14-16 ply\n7 - Jumbo (Symbol 7): US: Jumbo, UK: Jumbo, AUS: Jumbo"
             ]
           }
         ]
       }
     ];
-    
+
+    // Stripe configuration
+    const stripePublicKey = 'pk_test_TYooMQauvdEDq54NiTphI7jx'; // Replace with your actual Stripe public key
+    const stripe = Stripe(stripePublicKey);
+
     // Donation options
     const donationOptions = [
       {
-        id: 'yarn',
-        name: 'Yarn Bundle',
+        id: 'small',
+        name: 'Small Donation',
         amount: 5,
-        description: 'Buy Leola a bundle of premium yarn for her next creation'
+        description: 'Every little bit helps support Leola\'s creative work',
+        emoji: '☕️',
+        color: '#f59e0b'
       },
       {
-        id: 'needles',
-        name: 'Crochet Needles',
+        id: 'medium',
+        name: 'Medium Donation',
         amount: 10,
-        description: 'Help Leola get a new set of high-quality crochet needles'
+        description: 'Support Leola\'s ongoing crochet projects and stories',
+        emoji: '🧶',
+        color: '#8b5cf6'
       },
       {
-        id: 'patron',
-        name: 'Become a Patron',
+        id: 'large',
+        name: 'Large Donation',
         amount: 25,
-        description: 'Support Leola monthly and get exclusive patterns'
+        description: 'Make a significant impact on Leola\'s creative journey',
+        emoji: '💖',
+        color: '#ec4899'
       }
     ];
-    
+
     // Moving particles setup
     const particleEmojis = ['🧶', '🪡', '🧵', '✂️', '💕', '❤️'];
     const particles = [];
     const particleCount = 15;
-    
+
     // DOM elements
     const elements = {
       bookGrid: document.getElementById('book-grid'),
@@ -1396,12 +1934,28 @@
       particlesContainer: document.getElementById('particles-container'),
       narrationButton: document.getElementById('narration-button')
     };
-    
+
     // Speech synthesis
     let speechSynthesis = window.speechSynthesis;
     let currentUtterance = null;
     let isCancelled = false;
-    
+
+    // Check for donation status in URL
+    function checkDonationStatus() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const donationStatus = urlParams.get('donation');
+
+      if (donationStatus === 'success') {
+        showToast('✅ Thank you for your donation! Your support means the world to Leola.');
+        // Remove the query parameter from the URL without refreshing the page
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } else if (donationStatus === 'canceled') {
+        showToast('❌ Donation canceled. Maybe next time!');
+        // Remove the query parameter from the URL without refreshing the page
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+
     // Initialize page
     function init() {
       renderBooks();
@@ -1410,51 +1964,54 @@
       renderDonationOptions();
       applyTheme();
       animateParticles();
+      checkDonationStatus();
     }
-    
+
     // Render books in the grid
     function renderBooks() {
       elements.bookGrid.innerHTML = '';
-      
+
       books.forEach(book => {
         const bookCard = document.createElement('div');
         bookCard.className = 'book-card';
         bookCard.setAttribute('data-book-id', book.id);
         bookCard.style.boxShadow = `0 10px 25px -5px ${book.bubbleColor}40`;
-        
+
         bookCard.innerHTML = `
           <div class="book-card-header">
             <h2 class="book-title" style="color: ${book.bubbleColor}">${book.title}</h2>
             <h3 class="book-subtitle" style="color: ${book.bubbleColor}cc">${book.subtitle}</h3>
             <p class="book-author">
               by <span class="author-highlight">${book.author}</span>
-              <button class="read-button" aria-label="Read description">
+              <button class="read-button" aria-label="Listen to book description">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <circle cx="12" cy="12" r="3"></circle>
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
                 </svg>
+                <span class="read-button-text">Listen</span>
               </button>
             </p>
           </div>
-          
+
           <div class="book-cover">
             <img src="${book.coverImage}" alt="${book.title} Cover" />
           </div>
-          
+
           <div class="book-content">
             <p class="book-description">${book.description}</p>
-            
+
             <div class="genre-tags">
               ${book.genres.map((genre, index) => {
                 const colors = ['#FF6B6B', '#48BEFF', '#9775FA', '#4CAF50'];
                 const color = colors[index % colors.length];
-                
+
                 return `
-                  <span 
-                    class="genre-tag" 
+                  <span
+                    class="genre-tag"
                     style="
-                      background-color: ${color}20; 
-                      color: ${color}; 
+                      background-color: ${color}20;
+                      color: ${color};
                       border: 1px solid ${color}40
                     ">
                     ${genre}
@@ -1463,38 +2020,56 @@
               }).join('')}
             </div>
           </div>
-          
+
           <div class="book-card-footer">
-            <button 
-              class="open-book-button" 
+            <button
+              class="open-book-button"
               style="background-color: ${book.bubbleColor}"
               data-book-id="${book.id}">
               Open Book
             </button>
           </div>
         `;
-        
+
         const readButton = bookCard.querySelector('.read-button');
         readButton.addEventListener('click', (e) => {
           e.stopPropagation();
-          speakText(book.description);
-          showToast(`🔊 Reading description for "${book.title}"`);
+
+          if (appState.isNarrating) {
+            // If already narrating, stop it
+            stopNarration();
+            showToast(`🔇 Stopped reading description for "${book.title}"`);
+          } else {
+            // Start narration
+            speakText(book.description, null, book.id);
+            showToast(`🔊 Reading description for "${book.title}"`);
+
+            // Update button to show stop state
+            readButton.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+              <span class="read-button-text">Stop</span>
+            `;
+            readButton.classList.add('active');
+          }
         });
-        
+
         const openButton = bookCard.querySelector('.open-book-button');
         openButton.addEventListener('click', () => {
           openBook(book.id);
           showToast(`📖 Opening "${book.title}"`);
         });
-        
+
         elements.bookGrid.appendChild(bookCard);
       });
     }
-    
+
     // Initialize particles
     function initParticles() {
       elements.particlesContainer.innerHTML = '';
-      
+
       for (let i = 0; i < particleCount; i++) {
         const particle = {
           id: i,
@@ -1506,36 +2081,36 @@
           size: 1.5 + Math.random() * 1.5,
           element: document.createElement('div')
         };
-        
+
         particle.element.className = 'particle';
         particle.element.textContent = particle.emoji;
         particle.element.style.left = `${particle.x}px`;
         particle.element.style.top = `${particle.y}px`;
         particle.element.style.fontSize = `${particle.size}rem`;
-        
+
         elements.particlesContainer.appendChild(particle.element);
         particles.push(particle);
       }
     }
-    
+
     // Animate particles
     function animateParticles() {
       particles.forEach(particle => {
         // Update position
         particle.x += particle.speedX;
         particle.y += particle.speedY;
-        
+
         // Boundary checking with wrap-around
         if (particle.x < -50) particle.x = window.innerWidth + 50;
         if (particle.x > window.innerWidth + 50) particle.x = -50;
         if (particle.y < -50) particle.y = window.innerHeight + 50;
         if (particle.y > window.innerHeight + 50) particle.y = -50;
-        
+
         // Random direction changes
         if (Math.random() < 0.01) {
           particle.speedX += (Math.random() - 0.5) * 0.3;
           particle.speedY += (Math.random() - 0.5) * 0.3;
-          
+
           // Limit max speed
           const maxSpeed = 2;
           const currentSpeed = Math.sqrt(particle.speedX * particle.speedX + particle.speedY * particle.speedY);
@@ -1544,47 +2119,50 @@
             particle.speedY = (particle.speedY / currentSpeed) * maxSpeed;
           }
         }
-        
+
         // Update element position
         particle.element.style.left = `${particle.x}px`;
         particle.element.style.top = `${particle.y}px`;
       });
-      
+
       requestAnimationFrame(animateParticles);
     }
-    
+
     // Render donation options
     function renderDonationOptions() {
       elements.donationOptions.innerHTML = '';
-      
+
       donationOptions.forEach(option => {
         const donationOption = document.createElement('div');
         donationOption.className = `donation-option ${appState.selectedDonation === option.id ? 'selected' : ''}`;
         donationOption.setAttribute('data-donation-id', option.id);
-        
+
         donationOption.innerHTML = `
           <div class="donation-option-content">
             <div class="donation-info">
-              <h3 class="donation-name">${option.name}</h3>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                <span style="font-size: 1.5rem;">${option.emoji}</span>
+                <h3 class="donation-name" style="color: ${option.color};">${option.name}</h3>
+              </div>
               <p class="donation-description">${option.description}</p>
             </div>
-            <div class="donation-amount">$${option.amount}</div>
+            <div class="donation-amount" style="color: ${option.color}; font-size: 1.75rem; text-shadow: 0 0 5px ${option.color}40;">$${option.amount}</div>
           </div>
         `;
-        
+
         donationOption.addEventListener('click', () => {
           selectDonation(option.id);
           showToast(`Selected: ${option.name} - $${option.amount}`);
         });
-        
+
         elements.donationOptions.appendChild(donationOption);
       });
     }
-    
+
     // Select a donation option
     function selectDonation(donationId) {
       appState.selectedDonation = donationId;
-      
+
       document.querySelectorAll('.donation-option').forEach(option => {
         if (option.getAttribute('data-donation-id') === donationId) {
           option.classList.add('selected');
@@ -1592,38 +2170,45 @@
           option.classList.remove('selected');
         }
       });
-      
-      elements.checkoutButton.disabled = !donationId;
+
+      // Enable the checkout button
+      elements.checkoutButton.disabled = false;
+
+      // Add a visual indicator that the button is now active
+      elements.checkoutButton.style.animation = 'pulse 1s';
+      setTimeout(() => {
+        elements.checkoutButton.style.animation = '';
+      }, 1000);
     }
-    
+
     // Find a book by ID
     function findBook(bookId) {
       return books.find(book => book.id === bookId);
     }
-    
+
     // Open a book in the reader
     function openBook(bookId) {
       const book = findBook(bookId);
       if (!book) return;
-      
+
       appState.selectedBook = book;
       appState.currentPage = 0;
-      
+
       elements.readerTitle.textContent = book.title;
       updatePageContent();
       updatePageCounter();
       toggleReaderModal(true);
     }
-    
+
     // Update the page content in the reader
     function updatePageContent() {
       if (!appState.selectedBook) return;
-      
+
       const page = appState.selectedBook.content[appState.currentPage];
       if (!page) return;
-      
+
       const textSizeClass = getTextSizeClass();
-      
+
       elements.pageContent.innerHTML = `
         <h3 class="page-title">${page.title}</h3>
         ${page.paragraphs.map(paragraph => {
@@ -1631,7 +2216,7 @@
             const lines = paragraph.split('\n');
             return `
               <div class="page-paragraph ${textSizeClass}">
-                ${lines.map((line, index) => 
+                ${lines.map((line, index) =>
                   `<p class="${index > 0 ? 'ml-6' : ''}">${line}</p>`
                 ).join('')}
               </div>
@@ -1640,20 +2225,22 @@
             return `<p class="page-paragraph ${textSizeClass}">${paragraph}</p>`;
           }
         }).join('')}
-        
+
         <div class="page-help">
           <span class="help-text" style="color: ${appState.themeStyles[appState.settings.colorTheme].headerText}">
-            ${appState.isNarrating 
-              ? "🔊 Reading in progress... Click on any paragraph to start reading from there." 
+            ${appState.isNarrating
+              ? "🔊 Reading in progress... Click on any paragraph to start reading from there."
               : "Click 'Start Reading' or click on any paragraph to read aloud"}
           </span>
         </div>
       `;
-      
+
       // Add click event to paragraphs for narration
       const paragraphs = elements.pageContent.querySelectorAll('.page-paragraph');
       paragraphs.forEach((paragraph, index) => {
         paragraph.style.cursor = 'pointer';
+
+        // Single click to toggle narration of this paragraph
         paragraph.addEventListener('click', () => {
           if (appState.isNarrating) {
             stopNarration();
@@ -1662,33 +2249,55 @@
             startNarration(text, paragraph);
           }
         });
+
+        // Double click to start reading from this paragraph to the end
+        paragraph.addEventListener('dblclick', () => {
+          // Stop any current narration
+          stopNarration();
+
+          // Start reading from this paragraph
+          appState.isNarrating = true;
+          appState.readingEntireBook = true;
+
+          // Read the current paragraph
+          const text = paragraph.innerText;
+          speakText(text, paragraph);
+
+          // Highlight that we're reading from this point
+          showToast(`🔊 Reading from selected paragraph to the end of the book`);
+
+          // Update UI to show we're reading the entire book
+          if (elements.readEntireBookButton) {
+            elements.readEntireBookButton.classList.add('active');
+          }
+        });
       });
-      
+
       // Update buttons state
       updateNavigationButtons();
     }
-    
+
     // Update the page counter
     function updatePageCounter() {
       if (!appState.selectedBook) return;
-      
+
       const totalPages = appState.selectedBook.content.length;
       elements.pageCounter.textContent = `Page ${appState.currentPage + 1} of ${totalPages}`;
     }
-    
+
     // Update navigation buttons state
     function updateNavigationButtons() {
       if (!appState.selectedBook) return;
-      
+
       const totalPages = appState.selectedBook.content.length;
       const isFirstPage = appState.currentPage === 0;
       const isLastPage = appState.currentPage >= totalPages - 1;
-      
+
       elements.prevPage.disabled = isFirstPage;
       elements.prevPageSide.disabled = isFirstPage;
       elements.nextPage.disabled = isLastPage;
       elements.nextPageSide.disabled = isLastPage;
-      
+
       if (isFirstPage) {
         elements.prevPage.classList.add('cursor-not-allowed', 'opacity-50');
         elements.prevPageSide.classList.add('cursor-not-allowed', 'opacity-50');
@@ -1696,7 +2305,7 @@
         elements.prevPage.classList.remove('cursor-not-allowed', 'opacity-50');
         elements.prevPageSide.classList.remove('cursor-not-allowed', 'opacity-50');
       }
-      
+
       if (isLastPage) {
         elements.nextPage.classList.add('cursor-not-allowed', 'opacity-50');
         elements.nextPageSide.classList.add('cursor-not-allowed', 'opacity-50');
@@ -1705,7 +2314,7 @@
         elements.nextPageSide.classList.remove('cursor-not-allowed', 'opacity-50');
       }
     }
-    
+
     // Navigate to the previous page
     function goToPreviousPage() {
       if (appState.currentPage > 0) {
@@ -1715,7 +2324,7 @@
         updatePageCounter();
       }
     }
-    
+
     // Navigate to the next page
     function goToNextPage() {
       if (appState.selectedBook && appState.currentPage < appState.selectedBook.content.length - 1) {
@@ -1725,7 +2334,7 @@
         updatePageCounter();
       }
     }
-    
+
     // Toggle the reader modal
     function toggleReaderModal(show) {
       if (show) {
@@ -1737,7 +2346,7 @@
         stopNarration();
       }
     }
-    
+
     // Toggle the settings modal
     function toggleSettingsModal(show) {
       if (show) {
@@ -1745,13 +2354,13 @@
         document.body.style.overflow = 'hidden';
       } else {
         elements.settingsModal.classList.remove('active');
-        if (!elements.readerModal.classList.contains('active') && 
+        if (!elements.readerModal.classList.contains('active') &&
             !elements.supportModal.classList.contains('active')) {
           document.body.style.overflow = '';
         }
       }
     }
-    
+
     // Toggle the support modal
     function toggleSupportModal(show) {
       if (show) {
@@ -1759,13 +2368,13 @@
         document.body.style.overflow = 'hidden';
       } else {
         elements.supportModal.classList.remove('active');
-        if (!elements.readerModal.classList.contains('active') && 
+        if (!elements.readerModal.classList.contains('active') &&
             !elements.settingsModal.classList.contains('active')) {
           document.body.style.overflow = '';
         }
       }
     }
-    
+
     // Save settings
     function saveSettings() {
       const newSettings = {
@@ -1774,34 +2383,34 @@
         voiceSpeed: parseFloat(elements.readingSpeed.value),
         voice: elements.voiceSelect.value
       };
-      
+
       appState.settings = newSettings;
       applyTheme();
       updatePageContent();  // Re-render with new text size
-      
+
       showToast("✅ Settings saved successfully!");
       setTimeout(() => toggleSettingsModal(false), 1000);
     }
-    
+
     // Apply theme based on settings
     function applyTheme() {
       const theme = appState.themeStyles[appState.settings.colorTheme];
-      
+
       document.body.style.background = theme.background;
       document.body.style.color = theme.text;
-      
+
       if (appState.selectedBook) {
         elements.readerContainer.style.background = theme.readerBg;
         elements.readerTitle.style.color = theme.headerText;
         elements.pageCounter.style.color = theme.headerText;
-        
+
         const helpText = document.querySelector('.help-text');
         if (helpText) {
           helpText.style.color = theme.headerText;
         }
       }
     }
-    
+
     // Get text size class based on settings
     function getTextSizeClass() {
       switch (appState.settings.textSize) {
@@ -1812,25 +2421,63 @@
         default: return 'text-xl';
       }
     }
-    
+
+    // Custom book descriptions for narration
+    const bookDescriptions = {
+      'crochet-mastery': `Greetings. I am here today to provide a detailed overview of the digital text titled 'Crochet Mastery: A Complete Guide' by Leola (Sista) Lee. This comprehensive manual serves as an extensive resource for individuals seeking to learn, refine, or master the art of crochet.
+
+The structure of this guide is meticulously designed to facilitate a progressive learning journey. It begins, appropriately, with the 'Prologue: The Magic of the Loop,' setting an inspirational tone by highlighting the creative potential and historical connection inherent in crochet.
+
+Part 1: Getting Started lays the essential groundwork. It systematically introduces the fundamental tools – crochet hooks, detailing various materials like aluminum, steel, and bamboo, and explaining the sizing system. It then delves into the diverse world of yarn, categorizing it by weight (from lace to super bulky) and fiber content (cotton, wool, acrylic, silk, blends), explaining the properties and common uses of each.
+
+Part 2: Basic Stitches builds upon this foundation. It provides clear, step-by-step instructions for the core crochet stitches: single crochet, half double crochet, double crochet, and treble crochet, explaining the resulting fabric characteristics of each.
+
+Moving beyond the fundamentals, Part 3: Beyond the Basics equips the user with skills for more complex projects. It explains how to read both written crochet patterns, including common abbreviations, and symbol-based crochet charts.
+
+Part 4: Expanding Your Skills ventures into specialized areas. It offers insights into Lace Crochet, Tunisian Crochet, Amigurumi, Granny Squares and other motifs, alongside the principles of Garment Construction.
+
+Finally, Part 5: Troubleshooting and Tips provides practical advice for overcoming common crochet challenges like dropped stitches, uneven edges, holes, curling fabric, and yarn tangles.
+
+In essence, 'Crochet Mastery' is designed as a complete, structured curriculum, guiding the user from the initial selection of tools and yarn through basic and advanced techniques, project execution, finishing, and troubleshooting, aiming to foster genuine skill and confidence in the craft.`,
+
+      'needle-and-yarn': `Hello. Today, I will introduce you to a unique digital book titled 'Needle & Yarn: A Love Stitched in Time,' authored by Leola (Sista) Lee. This work presents a charming and unconventional approach to the world of crafting, blending a heartwarming narrative with practical crochet instruction.
+
+At its core, 'Needle & Yarn' is a fictional love story. The protagonists are not human, but anthropomorphized crafting tools residing in the cozy, creative environment of Leola Lee's sewing basket. We meet Needle, a wise, experienced aluminum crochet hook with a rich past, and Yarn, a vibrant, initially tangled ball of sunset orange cotton full of potential. The narrative follows their journey from their first meeting – a 'Tangled Beginning' where Needle helps Yarn unravel – through the blossoming of their relationship.
+
+The story unfolds through a series of collaborative projects, each serving as a chapter in their lives and, uniquely, as a vehicle for teaching crochet techniques. For instance, their 'First Dance' involves creating a scarf, simultaneously introducing the reader to the single crochet stitch and basic scarf construction.
+
+Integral to this structure are the 'Instructional Interludes.' These sections pause the narrative to provide explicit, step-by-step crochet instructions, often framed as dialogue or guidance between Needle, Yarn, or 'Sista Lee' herself, reinforcing the techniques relevant to the story's current project.
+
+The narrative is not without challenges, mirroring real-life obstacles. Needle suffers a chipped tip and requires repair, causing separation and anxiety. Yarn experiences a creative block and fading vibrancy, requiring intervention from a character named Color Dye.
+
+In summary, 'Needle & Yarn: A Love Stitched in Time' offers a dual experience: it is a sweet, imaginative story about love and community among crafting tools, and simultaneously a creative, engaging tutorial for learning fundamental and intermediate crochet skills. It aims to teach not just the 'how' but also the 'heart' of crafting, as envisioned by Leola (Sista) Lee.`
+    };
+
     // Speak text using speech synthesis
-    function speakText(text, element = null) {
+    function speakText(text, element = null, bookId = null, continueReading = false) {
       if (!window.speechSynthesis) {
         showToast("⚠️ Speech synthesis not supported in your browser");
         return;
       }
-      
-      // Cancel any ongoing speech
-      stopNarration();
-      
+
+      // Cancel any ongoing speech unless continuing
+      if (!continueReading) {
+        stopNarration();
+      }
+
+      // Use custom book description if available and no specific text is provided
+      if (bookId && !element && bookDescriptions[bookId]) {
+        text = bookDescriptions[bookId];
+      }
+
       // Begin new narration
       appState.isNarrating = true;
       isCancelled = false;
-      
+
       if (element) {
         highlightElement(element);
       }
-      
+
       if (elements.narrationButton) {
         elements.narrationButton.classList.add('active');
         elements.narrationButton.innerHTML = `
@@ -1841,29 +2488,51 @@
           Stop Reading
         `;
       }
-      
+
       currentUtterance = new SpeechSynthesisUtterance(text);
       currentUtterance.rate = appState.settings.voiceSpeed;
       currentUtterance.volume = 1.0;
-      
+
       // Set up event handlers
       currentUtterance.onend = () => {
         if (!isCancelled) {
+          // If reading the entire book, move to the next page
+          if (appState.readingEntireBook && appState.selectedBook) {
+            const totalPages = appState.selectedBook.content.length;
+            if (appState.currentPage < totalPages - 1) {
+              // Move to next page and continue reading
+              appState.currentPage++;
+              updatePageContent();
+              updatePageCounter();
+
+              // Read the next page
+              const nextPage = appState.selectedBook.content[appState.currentPage];
+              if (nextPage) {
+                const fullText = nextPage.paragraphs.join(' ');
+                speakText(fullText, null, null, true);
+                return; // Don't stop narration
+              }
+            } else {
+              // Reached the end of the book
+              showToast("📖 Finished reading the entire book");
+              appState.readingEntireBook = false;
+            }
+          }
           stopNarration();
         }
       };
-      
+
       // Select voice based on settings
       selectVoice(currentUtterance);
-      
+
       speechSynthesis.speak(currentUtterance);
     }
-    
+
     // Select voice based on settings
     function selectVoice(utterance) {
       try {
         const voices = speechSynthesis.getVoices();
-        
+
         if (voices.length === 0) {
           setTimeout(() => {
             const newVoices = speechSynthesis.getVoices();
@@ -1878,7 +2547,7 @@
         console.error("Error setting voice:", error);
       }
     }
-    
+
     // Select voice from available voices list
     function selectVoiceFromList(utterance, voices) {
       if (appState.settings.voice !== 'default') {
@@ -1888,45 +2557,47 @@
           'female-3': ['Allison', 'Google US English Female', 'Microsoft Zira'],
           'male-1': ['Daniel', 'Google US English Male', 'Microsoft David']
         };
-        
+
         const voiceOptions = voiceMap[appState.settings.voice];
-        
+
         // Try to find any of the voice options
         let selectedVoice = null;
         for (const voiceName of voiceOptions) {
           selectedVoice = voices.find(v => v.name.includes(voiceName));
           if (selectedVoice) break;
         }
-        
+
         if (selectedVoice) {
           utterance.voice = selectedVoice;
         }
       } else {
         // Find any available female voice as default
-        const femaleVoice = voices.find(v => 
-          v.name.includes('female') || 
-          v.name.includes('Female') || 
-          v.name.includes('Samantha') || 
+        const femaleVoice = voices.find(v =>
+          v.name.includes('female') ||
+          v.name.includes('Female') ||
+          v.name.includes('Samantha') ||
           v.name.includes('Victoria') ||
           v.name.includes('Zira')
         );
-        
+
         if (femaleVoice) {
           utterance.voice = femaleVoice;
         }
       }
     }
-    
+
     // Stop narration
     function stopNarration() {
       if (speechSynthesis) {
         isCancelled = true;
         speechSynthesis.cancel();
-        
+
         // Reset UI
         appState.isNarrating = false;
+        appState.readingEntireBook = false;
         removeAllHighlights();
-        
+
+        // Reset main narration button in reader
         if (elements.narrationButton) {
           elements.narrationButton.classList.remove('active');
           elements.narrationButton.innerHTML = `
@@ -1936,19 +2607,37 @@
             Start Reading
           `;
         }
+
+        // Reset read entire book button if it exists
+        if (elements.readEntireBookButton) {
+          elements.readEntireBookButton.classList.remove('active');
+        }
+
+        // Reset all book card read buttons
+        document.querySelectorAll('.read-button').forEach(button => {
+          button.classList.remove('active');
+          button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+            <span class="read-button-text">Listen</span>
+          `;
+        });
       }
     }
-    
+
     // Start narration of the current page
     function startNarration(text = null, element = null) {
       if (!appState.selectedBook) return;
-      
+
       const page = appState.selectedBook.content[appState.currentPage];
       if (!page) return;
-      
+
       stopNarration();
       appState.isNarrating = true;
-      
+
       if (text && element) {
         // Read specific paragraph
         speakText(text, element);
@@ -1958,30 +2647,54 @@
         speakText(fullText);
       }
     }
-    
+
+    // Start reading the entire book from the current page
+    function startReadingEntireBook() {
+      if (!appState.selectedBook) return;
+
+      stopNarration();
+      appState.isNarrating = true;
+      appState.readingEntireBook = true;
+
+      // Start with current page
+      const page = appState.selectedBook.content[appState.currentPage];
+      if (!page) return;
+
+      showToast("📖 Reading entire book from current page");
+
+      // Read the current page, and the onend handler will take care of moving to the next page
+      const fullText = page.paragraphs.join(' ');
+      speakText(fullText);
+
+      // Update UI to show we're reading the entire book
+      if (elements.readEntireBookButton) {
+        elements.readEntireBookButton.classList.add('active');
+      }
+    }
+
     // Highlight an element during narration
     function highlightElement(element) {
       removeAllHighlights();
       element.classList.add('reading-highlight');
     }
-    
+
     // Remove all highlights
     function removeAllHighlights() {
       document.querySelectorAll('.reading-highlight').forEach(el => {
         el.classList.remove('reading-highlight');
       });
     }
-    
+
     // Show toast notification
     function showToast(message) {
       elements.toast.textContent = message;
       elements.toast.classList.add('active');
-      
+
       setTimeout(() => {
         elements.toast.classList.remove('active');
-      }, 2000);
+      }, 4000);
     }
-    
+
     // Set up event listeners
     function setupEventListeners() {
       // Reader navigation
@@ -1990,23 +2703,23 @@
       elements.prevPageSide.addEventListener('click', goToPreviousPage);
       elements.nextPageSide.addEventListener('click', goToNextPage);
       elements.closeReader.addEventListener('click', () => toggleReaderModal(false));
-      
+
       // Settings
       elements.settingsButton.addEventListener('click', () => {
         toggleSettingsModal(true);
         showToast("⚙️ Settings panel opened");
       });
-      
+
       // Reader settings button
       elements.readerSettingsButton.addEventListener('click', () => {
         toggleSettingsModal(true);
         showToast("⚙️ Settings panel opened");
       });
-      
+
       elements.closeSettings.addEventListener('click', () => toggleSettingsModal(false));
       elements.cancelSettings.addEventListener('click', () => toggleSettingsModal(false));
       elements.saveSettings.addEventListener('click', saveSettings);
-      
+
       // Theme options
       elements.themeOptions.forEach(option => {
         option.addEventListener('click', () => {
@@ -2014,27 +2727,27 @@
           if (theme) {
             // Remove active class from all options
             elements.themeOptions.forEach(opt => opt.classList.remove('active'));
-            
+
             // Add active class to selected option
             option.classList.add('active');
-            
+
             // Update settings
             appState.settings.colorTheme = theme;
-            
+
             // Apply theme immediately
             applyTheme();
-            
+
             showToast(`🎨 Theme changed to ${theme}`);
           }
         });
       });
-      
+
       // Reading speed slider
       elements.readingSpeed.addEventListener('input', () => {
         const value = elements.readingSpeed.value;
         elements.speedValue.textContent = `${value}x`;
       });
-      
+
       // Support modal
       elements.supportButton.addEventListener('click', () => {
         toggleSupportModal(true);
@@ -2045,25 +2758,106 @@
         showToast("👋 Maybe next time!");
         toggleSupportModal(false);
       });
-      
+
+      // Function to handle Stripe checkout using direct payment link
+      function handleStripeCheckout(amount) {
+        // Show a modal with instructions before redirecting
+        const instructionsModal = document.createElement('div');
+        instructionsModal.style.position = 'fixed';
+        instructionsModal.style.top = '0';
+        instructionsModal.style.left = '0';
+        instructionsModal.style.width = '100%';
+        instructionsModal.style.height = '100%';
+        instructionsModal.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+        instructionsModal.style.display = 'flex';
+        instructionsModal.style.alignItems = 'center';
+        instructionsModal.style.justifyContent = 'center';
+        instructionsModal.style.zIndex = '1000';
+        instructionsModal.style.backdropFilter = 'blur(5px)';
+
+        const modalContent = document.createElement('div');
+        modalContent.style.backgroundColor = '#1f2937';
+        modalContent.style.padding = '2rem';
+        modalContent.style.borderRadius = '0.75rem';
+        modalContent.style.maxWidth = '500px';
+        modalContent.style.width = '90%';
+        modalContent.style.textAlign = 'center';
+        modalContent.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 15px rgba(251, 191, 36, 0.2)';
+        modalContent.style.border = '1px solid rgba(251, 191, 36, 0.2)';
+        modalContent.style.animation = 'fadeIn 0.3s ease-out';
+
+        // Add a style tag for the animation if it doesn't exist
+        if (!document.getElementById('modal-animations')) {
+          const styleTag = document.createElement('style');
+          styleTag.id = 'modal-animations';
+          styleTag.textContent = `
+            @keyframes fadeIn {
+              from { opacity: 0; transform: scale(0.95); }
+              to { opacity: 1; transform: scale(1); }
+            }
+          `;
+          document.head.appendChild(styleTag);
+        }
+
+        modalContent.innerHTML = `
+          <h2 style="color: #fef3c7; font-size: 1.5rem; margin-bottom: 1rem;">Complete Your Donation</h2>
+          <p style="color: #e5e7eb; margin-bottom: 1rem;">You'll be redirected to Stripe's secure payment page to complete your donation to Leola's Library.</p>
+          <p style="color: #e5e7eb; margin-bottom: 1rem;">The payment page will open in a new tab. After completing your donation, you can return to this page.</p>
+
+          <div style="background-color: rgba(251, 191, 36, 0.2); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(251, 191, 36, 0.3);">
+            <p style="color: #fef3c7; text-align: left; margin-bottom: 0.5rem;"><strong>⚠️ Important Payment Instructions:</strong></p>
+            <p style="color: #e5e7eb; text-align: left; font-size: 0.95rem; margin-bottom: 0.75rem;">If you see a verification screen that says "Confirm it's you", please click the <strong style="color: #fef3c7;">"Pay without link"</strong> option at the bottom of the page to enter your payment information directly.</p>
+            <div style="display: flex; justify-content: center; margin-top: 0.5rem;">
+              <div style="background-color: #1f2937; border: 1px solid #374151; border-radius: 0.25rem; padding: 0.5rem; max-width: 300px; text-align: center;">
+                <p style="color: #9ca3af; font-size: 0.8rem; margin-bottom: 0.25rem;">Look for this option at the bottom:</p>
+                <p style="color: #3b82f6; font-size: 0.9rem; text-decoration: underline;">Pay without link →</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between;">
+            <button id="cancel-redirect" style="background-color: #4b5563; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; font-weight: bold;">Cancel</button>
+            <button id="continue-redirect" style="background-color: #16a34a; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(22, 163, 74, 0.3);">Continue to Payment</button>
+          </div>
+        `;
+
+        instructionsModal.appendChild(modalContent);
+        document.body.appendChild(instructionsModal);
+
+        // Add event listeners to buttons
+        document.getElementById('cancel-redirect').addEventListener('click', () => {
+          document.body.removeChild(instructionsModal);
+        });
+
+        document.getElementById('continue-redirect').addEventListener('click', () => {
+          document.body.removeChild(instructionsModal);
+          showToast(`💳 Redirecting to Stripe payment page... Remember to use "Pay without link" if prompted`);
+
+          // Show a second toast after a delay to remind about "Pay without link"
+          setTimeout(() => {
+            showToast(`⚠️ If you see "Confirm it's you", click "Pay without link"`);
+          }, 3000);
+
+          // Direct link to Stripe payment page - using the exact link provided
+          const stripePaymentLink = "https://buy.stripe.com/7sI0282DR9075u87sw";
+
+          // Open the Stripe payment page in a new tab/window
+          window.open(stripePaymentLink, '_blank');
+        });
+      }
+
       // Checkout button
       elements.checkoutButton.addEventListener('click', () => {
         if (appState.selectedDonation) {
           const option = donationOptions.find(opt => opt.id === appState.selectedDonation);
           if (option) {
-            showToast(`💳 Processing $${option.amount} donation`);
-            setTimeout(() => {
-              showToast(`✅ Thank you for your $${option.amount} donation!`);
-              appState.selectedDonation = null;
-              renderDonationOptions();
-              setTimeout(() => toggleSupportModal(false), 1500);
-            }, 1500);
+            handleStripeCheckout(option.amount);
           }
         } else {
           showToast("Please select a donation option");
         }
       });
-      
+
       // Narration button
       elements.narrationButton.addEventListener('click', () => {
         if (appState.isNarrating) {
@@ -2072,7 +2866,19 @@
           startNarration();
         }
       });
-      
+
+      // Read Entire Book button
+      elements.readEntireBookButton = document.getElementById('read-entire-book-button');
+      if (elements.readEntireBookButton) {
+        elements.readEntireBookButton.addEventListener('click', () => {
+          if (appState.isNarrating) {
+            stopNarration();
+          } else {
+            startReadingEntireBook();
+          }
+        });
+      }
+
       // Resize handler for particles
       window.addEventListener('resize', () => {
         // Reposition particles within new window dimensions
@@ -2086,7 +2892,7 @@
         });
       });
     }
-    
+
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', init);
   </script>
