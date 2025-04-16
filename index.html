@@ -141,27 +141,67 @@
     .scrolling-banner {
       position: relative;
       width: 100%;
-      height: 4rem;
+      height: 5rem;
       overflow: hidden;
       display: flex;
       align-items: center;
       margin-bottom: 1rem;
+      background-color: rgba(26, 26, 46, 0.8);
+      border-radius: 0.5rem;
+      border: 1px solid rgba(126, 34, 206, 0.3);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      perspective: 500px;
     }
 
-    .scrolling-text {
+    .quote-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .quote {
       position: absolute;
       white-space: nowrap;
-      font-size: 1.875rem;
+      font-size: 2rem;
       background: linear-gradient(90deg, #7e22ce, #fbbf24);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      animation: marquee 30s linear infinite;
+      font-weight: 700;
+      padding: 0.5rem;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      transform: translateZ(0px) rotateX(10deg);
+      transform-style: preserve-3d;
+      text-shadow:
+        0 1px 0 #fbbf24,
+        0 2px 0 #f59e0b,
+        0 3px 0 #d97706,
+        0 4px 0 #b45309,
+        0 5px 10px rgba(0, 0, 0, 0.6);
+      filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.5));
     }
 
-    @keyframes marquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+        transform: translateX(100%) translateZ(0px) rotateX(20deg);
+      }
+      10% {
+        opacity: 1;
+        transform: translateX(0%) translateZ(30px) rotateX(0deg);
+      }
+      90% {
+        opacity: 1;
+        transform: translateX(0%) translateZ(30px) rotateX(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-100%) translateZ(0px) rotateX(-20deg);
+      }
     }
 
     /* Book grid - scrollable container */
@@ -1289,7 +1329,15 @@
     </div>
 
     <div class="scrolling-banner">
-      <div class="scrolling-text">Find joy in each stitch as your hands create what your heart imagines</div>
+      <div id="quote-container" class="quote-container">
+        <div class="quote">Find joy in each stitch as your hands create what your heart imagines</div>
+        <div class="quote">Within every loop lies a universe of possibility. Pick up your hook and explore</div>
+        <div class="quote">Mastery isn't made in a day, but stitch by patient stitch. Embrace the journey</div>
+        <div class="quote">Like a well-crafted stitch, love and creativity can hold the world together</div>
+        <div class="quote">Transform humble threads into objects of beauty, comfort, and joy. That's the magic in your hands</div>
+        <div class="quote">Don't fear the tangle or the dropped stitch; they are just part of the story you're weaving</div>
+        <div class="quote">Let your heart guide your hook, and weave the story only you can tell</div>
+      </div>
     </div>
   </div>
 
@@ -2894,7 +2942,44 @@ In summary, 'Needle & Yarn: A Love Stitched in Time' offers a dual experience: i
     }
 
     // Initialize on page load
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', () => {
+      init();
+      initQuoteRotation();
+    });
+
+    // Function to handle quote rotation
+    function initQuoteRotation() {
+      const quotes = document.querySelectorAll('.quote');
+      let currentQuoteIndex = -1;
+
+      // Hide all quotes initially
+      quotes.forEach(quote => {
+        quote.style.animation = 'none';
+        quote.style.opacity = '0';
+      });
+
+      // Function to show the next quote
+      function showNextQuote() {
+        // Hide the current quote if there is one
+        if (currentQuoteIndex >= 0 && quotes[currentQuoteIndex]) {
+          quotes[currentQuoteIndex].style.animation = 'none';
+          quotes[currentQuoteIndex].style.opacity = '0';
+        }
+
+        // Move to the next quote
+        currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+
+        // Show the new current quote
+        const currentQuote = quotes[currentQuoteIndex];
+        currentQuote.style.animation = 'fadeInOut 8s forwards';
+
+        // Schedule the next quote after the current one finishes
+        setTimeout(showNextQuote, 8000);
+      }
+
+      // Start the rotation
+      showNextQuote();
+    }
   </script>
 </body>
 </html>
