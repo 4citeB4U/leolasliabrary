@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crochet Mastery: A Complete Guide</title>
+    <link rel="stylesheet" href="css/agent-lee.css">
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DAA06D;
+            --yarn-color: #FF7F50;
+            --bg-color: #FAF3E0;
+            --card-bg: #FFF8E8;
+            --text-color: #333;
+            --shadow-color: rgba(139, 69, 19, 0.2);
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--card-bg);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            text-align: center;
+        }
+        
+        .book-title {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .book-subtitle {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+        
+        .book-cover {
+            display: block;
+            max-width: 350px;
+            margin: 30px auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .book-cover:hover {
+            transform: scale(1.02);
+        }
+        
+        .book-description {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            text-align: center;
+        }
+        
+        .book-description h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .book-description p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .read-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .read-button:hover {
+            background-color: var(--yarn-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .table-of-contents {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .table-of-contents h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .toc-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .toc-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--secondary-color);
+        }
+        
+        .toc-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .toc-list a {
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .toc-list a:hover {
+            color: var(--yarn-color);
+        }
+        
+        .toc-list .chapter-number {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        
+        .toc-list .chapter-title {
+            flex: 1;
+        }
+        
+        .toc-list .page-number {
+            color: var(--secondary-color);
+        }
+        
+        .author-section {
+            display: flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .author-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-right: 30px;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .author-bio h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .quote {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-left: 4px solid var(--yarn-color);
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .quote p {
+            margin-bottom: 10px;
+        }
+        
+        .quote-author {
+            text-align: right;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .chapter-preview {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .chapter-preview h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .chapter-preview h3 {
+            color: var(--yarn-color);
+            margin: 15px 0;
+        }
+        
+        .stitch-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stitch-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .stitch-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .stitch-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .stitch-card-content {
+            padding: 15px;
+        }
+        
+        .stitch-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .stitch-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .home-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .home-button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--yarn-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .author-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .author-image {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .book-title {
+                font-size: 2rem;
+            }
+            
+            .stitch-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="book-title">Crochet Mastery: A Complete Guide</h1>
+            <p class="book-subtitle">From beginner to expert with Sister Lee</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <a href="index.html" class="home-button">← Back to Home</a>
+        
+        <img src="jva31043ou.png" alt="Crochet Mastery Book Cover" class="book-cover">
+        
+        <div class="book-description">
+            <h2>About the Book</h2>
+            <p>Master the art of crochet with this comprehensive guide that takes you from the very basics to advanced techniques. Written by renowned crocheter Leola "Sister" Lee, this book combines clear instructions with inspiring projects to help you build your skills.</p>
+            <p>Whether you're picking up a crochet hook for the first time or looking to expand your existing knowledge, this guide offers something for everyone with its step-by-step approach and helpful illustrations.</p>
+            <a href="0lbzci75tc.html" class="read-button">Read the Book</a>
+        </div>
+        
+        <div class="table-of-contents">
+            <h2>Table of Contents</h2>
+            <ul class="toc-list">
+                <li>
+                    <a href="0lbzci75tc.html">
+                        <span class="chapter-number">Chapter 1:</span>
+                        <span class="chapter-title">Getting Started: Tools & Materials</span>
+                        <span class="page-number">1</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="0lbzci75tc.html">
+                        <span class="chapter-number">Chapter 2:</span>
+                        <span class="chapter-title">Basic Stitches & Techniques</span>
+                        <span class="page-number">15</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="0lbzci75tc.html">
+                        <span class="chapter-number">Chapter 3:</span>
+                        <span class="chapter-title">Reading Patterns & Charts</span>
+                        <span class="page-number">42</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="0lbzci75tc.html">
+                        <span class="chapter-number">Chapter 4:</span>
+                        <span class="chapter-title">Intermediate Techniques</span>
+                        <span class="page-number">67</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="0lbzci75tc.html">
+                        <span class="chapter-number">Chapter 5:</span>
+                        <span class="chapter-title">Advanced Stitches & Textures</span>
+                        <span class="page-number">89</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="0lbzci75tc.html">
+                        <span class="chapter-number">Chapter 6:</span>
+                        <span class="chapter-title">Finishing Techniques</span>
+                        <span class="page-number">115</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="0lbzci75tc.html">
+                        <span class="chapter-number">Chapter 7:</span>
+                        <span class="chapter-title">Troubleshooting Common Issues</span>
+                        <span class="page-number">132</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="0lbzci75tc.html">
+                        <span class="chapter-number">Chapter 8:</span>
+                        <span class="chapter-title">Project Gallery & Patterns</span>
+                        <span class="page-number">148</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="quote">
+            <p>"To crochet is to understand patience, to recognize that sometimes we must undo our work to create something stronger. It teaches us that mistakes are not failures but opportunities for growth."</p>
+            <p class="quote-author">— Leola "Sister" Lee</p>
+        </div>
+        
+        <div class="chapter-preview">
+            <h2>Chapter Preview</h2>
+            <h3>Chapter 1: Getting Started: Tools & Materials</h3>
+            <p>Welcome to the wonderful world of crochet! Before we dive into the stitches and techniques, let's get familiar with the essential tools and materials you'll need to begin your crochet journey.</p>
+            <h4>Crochet Hooks</h4>
+            <p>The most important tool in your crochet arsenal is the hook. Crochet hooks come in various sizes and materials, each with its own advantages:</p>
+            <ul>
+                <li><strong>Aluminum hooks</strong> are lightweight, smooth, and ideal for beginners.</li>
+                <li><strong>Wooden or bamboo hooks</strong> are warm to the touch and provide more grip for slippery yarns.</li>
+                <li><strong>Ergonomic hooks</strong> have specially designed handles to reduce hand strain.</li>
+            </ul>
+            <p>Hook sizes are standardized using letters (US) or numbers (mm). For beginners, I recommend starting with a size H-8 (5mm) hook, which is versatile for most medium-weight yarns.</p>
+            <a href="0lbzci75tc.html" class="read-button">Continue Reading</a>
+        </div>
+        
+        <div class="stitch-cards">
+            <div class="stitch-card">
+                <img src="https://images.unsplash.com/photo-1618904894819-ccdcb3bdf887?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Chain Stitch">
+                <div class="stitch-card-content">
+                    <h3>Chain Stitch (ch)</h3>
+                    <p>The foundation of most crochet projects. Creates a chain of loops that form the starting row.</p>
+                </div>
+            </div>
+            <div class="stitch-card">
+                <img src="https://images.unsplash.com/photo-1572726729207-a78d6feb18d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Single Crochet">
+                <div class="stitch-card-content">
+                    <h3>Single Crochet (sc)</h3>
+                    <p>A short, dense stitch that creates a tight, firm fabric. Great for amigurumi and dishcloths.</p>
+                </div>
+            </div>
+            <div class="stitch-card">
+                <img src="https://images.unsplash.com/photo-1527274954003-3ff5db9eb7a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Double Crochet">
+                <div class="stitch-card-content">
+                    <h3>Double Crochet (dc)</h3>
+                    <p>A taller stitch that works up quickly. Creates a more open, flexible fabric for garments.</p>
+                </div>
+            </div>
+            <div class="stitch-card">
+                <img src="https://images.unsplash.com/photo-1604516046790-0aa9d8def758?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Treble Crochet">
+                <div class="stitch-card-content">
+                    <h3>Treble Crochet (tr)</h3>
+                    <p>An even taller stitch that creates an open, lacy fabric. Perfect for shawls and decorative edges.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="author-section">
+            <img src="n5j7pqx39a.png" alt="Leola (Sister) Lee" class="author-image">
+            <div class="author-bio">
+                <h3>About the Author</h3>
+                <p>Leola (Sister) Lee has been crocheting for over 50 years and teaching the craft for more than 30. Her patient, methodical approach to instruction has helped hundreds of students master the art of crochet.</p>
+                <p>A community pillar in Milwaukee, Sister Lee combines her love of storytelling with her passion for fiber arts, creating learning experiences that engage both hands and heart.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Ready to Learn Crochet?</h2>
+            <p>Start your journey with Sister Lee's comprehensive guide</p>
+            <a href="0lbzci75tc.html" class="cta-button">Read the Book</a>
+            <a href="games/crochet-simulator.html" class="cta-button">Try the Interactive Game</a>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Leola's Crochet World. All rights reserved.</p>
+            <div>
+                <a href="index.html">Home</a>
+                <a href="index.html#books">Books</a>
+                <a href="wredcgkz8w.html">Support Us</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/agent-lee-final.js"></script>
+</body>
+</html>

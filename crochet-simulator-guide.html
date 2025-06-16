@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use Crochet Simulator - Youware</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #0066cc;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #0066cc;
+            margin-top: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .step {
+            margin-bottom: 25px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .step h3 {
+            margin-top: 0;
+            color: #0066cc;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .example {
+            border-left: 4px solid #0066cc;
+            padding-left: 15px;
+            margin: 15px 0;
+        }
+        .tip {
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #0055aa;
+            text-decoration: none;
+        }
+        /* Modal close button style */
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #8B4513;
+            cursor: pointer;
+            text-decoration: none;
+            background: none;
+            border: none;
+            padding: 0;
+            z-index: 1000;
+        }
+        .close-button:hover {
+            color: #FF7F50;
+        }
+    </style>
+</head>
+<body>
+    <!-- Close button for the popup/modal -->
+    <a href="javascript:window.close()" class="close-button" id="closeButton">×</a>
+    
+    <h1>How to Use Crochet Simulator</h1>
+    
+    <p>Welcome to this guide on using the Crochet Simulator! This online tool helps you visualize what shape you might get when following a crochet pattern. Let's learn how to use it step by step.</p>
+    
+    <h2>Getting Started</h2>
+    
+    <div class="step">
+        <h3>Step 1: Access the Simulator</h3>
+        <p>Visit the Crochet Simulator website at: <a href="https://timhutton.github.io/crochet-simulator/" target="_blank">https://timhutton.github.io/crochet-simulator/</a></p>
+    </div>
+    
+    <div class="step">
+        <h3>Step 2: Understanding the Interface</h3>
+        <p>The interface has several parts:</p>
+        <ul>
+            <li>A 3D view area where your crochet pattern will be displayed</li>
+            <li>An "Add stitches" input box for adding stitches one by one</li>
+            <li>An "Edit pattern" area for editing the entire pattern at once</li>
+            <li>A "Specify the row lengths" section for simplified pattern creation</li>
+        </ul>
+    </div>
+    
+    <h2>Basic Usage</h2>
+    
+    <div class="step">
+        <h3>Step 3: Adding Your First Stitches</h3>
+        <p>To start creating a pattern:</p>
+        <ol>
+            <li>Type <code>c</code> (for chain stitch) in the "Add stitches" box</li>
+            <li>Click the "Add" button</li>
+            <li>You'll see a chain stitch appear in the 3D view</li>
+            <li>Repeat or type multiple characters like <code>cccc</code> to add several stitches at once</li>
+        </ol>
+        
+        <div class="tip">
+            <p><strong>Tip:</strong> You can also use the "Edit pattern" box to write or paste a complete pattern and click "Update" to see it all at once.</p>
+        </div>
+    </div>
+    
+    <div class="step">
+        <h3>Step 4: Understanding the Pattern Syntax</h3>
+        <p>The simulator uses a specific syntax:</p>
+        <ul>
+            <li><code>c</code> - chain stitch</li>
+            <li><code>sc-n</code> - single crochet joined to the stitch from n stitches ago</li>
+            <li><code>sc-n-m</code> - single crochet joined to two stitches (useful for invisible decrease)</li>
+            <li><code>(seq)n</code> - repeat the sequence "seq" n times</li>
+        </ul>
+        
+        <div class="example">
+            <p><strong>Examples:</strong></p>
+            <ul>
+                <li><code>(c)20</code> - chain 20 stitches</li>
+                <li><code>(c)20,sc-19</code> - make a loop of 20 chained stitches joined with a single crochet</li>
+                <li><code>c,c,c,c,sc-2,sc-4</code> - make two rows of 3 stitches</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>Advanced Features</h2>
+    
+    <div class="step">
+        <h3>Step 5: Crocheting in the Round</h3>
+        <p>If you're crocheting in the round, you can use the "Specify the row lengths" section:</p>
+        <ol>
+            <li>Enter comma-separated numbers representing the number of stitches in each row</li>
+            <li>For example: <code>6,12,18,24,30</code></li>
+            <li>Click the "Go" button</li>
+            <li>The simulator will compute the necessary stitches and display the result</li>
+        </ol>
+    </div>
+    
+    <div class="step">
+        <h3>Step 6: Controlling the View</h3>
+        <p>You can interact with the 3D view:</p>
+        <ul>
+            <li>Mouse up and down - moves the viewpoint up and down</li>
+            <li>Mouse click - starts or stops the spinning</li>
+            <li>Use the "Turn inflation on" button to see a more inflated version of your pattern</li>
+            <li>Use the "Hide target mesh" button if you're working with a target mesh</li>
+        </ul>
+    </div>
+    
+    <div class="step">
+        <h3>Step 7: Sharing Your Pattern</h3>
+        <p>You can share your pattern with others:</p>
+        <ol>
+            <li>Create your pattern in the simulator</li>
+            <li>Look for the "Share this pattern" link at the top</li>
+            <li>Click on the link to get a URL that contains your pattern</li>
+            <li>Share this URL with others so they can see exactly what you've created</li>
+        </ol>
+    </div>
+    
+    <h2>Example Patterns</h2>
+    
+    <div class="step">
+        <h3>Granny Square</h3>
+        <p>Try this pattern for a granny square:</p>
+        <code>(c)12(c,sc-2,sc-4,sc-6,sc-8,sc-10,sc-12,sc-14,sc-16,sc-18,sc-20,sc-22)11</code>
+        <p>Copy this into the "Edit pattern" box and click "Update" to see it.</p>
+    </div>
+    
+    <div class="step">
+        <h3>Finding More Patterns</h3>
+        <p>For more pattern examples, visit the project wiki:</p>
+        <a href="https://github.com/timhutton/crochet-simulator/wiki" target="_blank">https://github.com/timhutton/crochet-simulator/wiki</a>
+    </div>
+    
+    <h2>Experimental Features</h2>
+    
+    <div class="step">
+        <h3>Load a Target Mesh</h3>
+        <p>The simulator can help you create patterns for specific 3D shapes:</p>
+        <ol>
+            <li>Scroll down to the "Load a target mesh" section</li>
+            <li>Paste in the contents of a Wavefront OBJ format mesh</li>
+            <li>Click "Go"</li>
+            <li>The simulator will try to create a pattern that matches that shape</li>
+        </ol>
+        <div class="tip">
+            <p><strong>Note:</strong> This feature requires that your mesh is triangular, manifold, and has approximately equal sized faces.</p>
+        </div>
+    </div>
+    
+    <h2>Tips for Success</h2>
+    
+    <div class="tip">
+        <ul>
+            <li>Start with simple patterns to get familiar with the syntax</li>
+            <li>Use the examples provided to understand how different stitches work together</li>
+            <li>Remember that commas between stitches are optional</li>
+            <li>If your pattern doesn't look right, check your syntax for errors</li>
+            <li>For complex patterns, build them gradually to understand how each section affects the final shape</li>
+        </ul>
+    </div>
+    
+    <p>Now you're ready to use the Crochet Simulator! Experiment with different patterns and have fun seeing your creations come to life in 3D.</p>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="https://timhutton.github.io/crochet-simulator/" class="btn" target="_blank">Try Crochet Simulator Now</a>
+    </div>
+    
+    <script>
+        // Add event listener for the close button
+        document.getElementById('closeButton').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Try different methods to close the modal/popup
+            if (window.parent && window.parent !== window) {
+                // If in an iframe
+                window.parent.postMessage('closeModal', '*');
+            } else if (window.opener) {
+                // If opened as a popup
+                window.close();
+            } else {
+                // Fallback - hide this element
+                document.body.style.display = 'none';
+            }
+        });
+        
+        // Listen for escape key to close
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('closeButton').click();
+            }
+        });
+    </script>
+</body>
+</html>

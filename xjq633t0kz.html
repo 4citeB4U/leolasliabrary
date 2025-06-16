@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crochet Mastery: A Complete Guide</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/page-flip/dist/css/page-flip.css">
+    <link rel="stylesheet" href="css/agent-lee.css">
+    <style>
+        :root {
+            --primary-color: #34648C;
+            --secondary-color: #8FB9D8;
+            --accent-color: #F89C74;
+            --bg-color: #F5F9FC;
+            --card-bg: #FFFFFF;
+            --text-color: #333;
+            --shadow-color: rgba(52, 100, 140, 0.2);
+        }
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+        }
+        
+        .flipbook-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+        
+        #book {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .page {
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: inset 0 0 30px rgba(52, 100, 140, 0.1);
+        }
+        
+        .book-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .page img:not(.book-cover) {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .page-content {
+            padding: 40px;
+            max-width: 90%;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .control-button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+            opacity: 0.8;
+        }
+        
+        .control-button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+            opacity: 1;
+        }
+        
+        .control-button:active {
+            transform: translateY(1px);
+        }
+        
+        .control-button[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .speaking {
+            background-color: var(--accent-color);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(248, 156, 116, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(248, 156, 116, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(248, 156, 116, 0); }
+        }
+        
+        .progress-bar {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            z-index: 100;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .page-info {
+            position: fixed;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            font-style: italic;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 2px 10px;
+            border-radius: 10px;
+            z-index: 100;
+        }
+        
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            opacity: 0.8;
+        }
+        
+        .home-button:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.1);
+            opacity: 1;
+        }
+        
+        .narration-settings {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px;
+            border-radius: 20px;
+            z-index: 100;
+        }
+        
+        .voice-select {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid var(--secondary-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+        
+        .speed-slider {
+            width: 100px;
+        }
+        
+        /* Instruction pages content */
+        .instruction-page {
+            background-color: white;
+            padding: 30px;
+            font-size: 1rem;
+            line-height: 1.6;
+            text-align: left;
+            color: var(--text-color);
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+        
+        .instruction-page img:not(.book-cover) {
+            max-width: 100%;
+            max-height: 35%;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+        
+        .instruction-page h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+        
+        .instruction-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .step-number {
+            background-color: var(--accent-color);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex-grow: 1;
+        }
+        
+        /* Table of contents */
+        .toc-container {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            max-width: 200px;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .toc-toggle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            opacity: 0.8;
+        }
+        
+        .toc-toggle:hover {
+            background-color: var(--accent-color);
+            opacity: 1;
+        }
+        
+        .toc-title {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin: 0 0 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+        
+        .toc-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .toc-item {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+        
+        .toc-item a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: block;
+            padding: 3px 5px;
+            border-radius: 3px;
+        }
+        
+        .toc-item a:hover {
+            color: var(--primary-color);
+            background-color: rgba(143, 185, 216, 0.2);
+        }
+        
+        .toc-active {
+            background-color: rgba(143, 185, 216, 0.2);
+            font-weight: bold;
+        }
+        
+        /* Loading animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .crochet-loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--secondary-color);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Dedication page */
+        .dedication-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .dedication-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+        
+        .dedication-text {
+            font-style: italic;
+            max-width: 80%;
+            line-height: 1.8;
+        }
+        
+        /* Hide UI elements when needed */
+        .hide-ui .controls,
+        .hide-ui .progress-bar,
+        .hide-ui .page-info,
+        .hide-ui .home-button,
+        .hide-ui .narration-settings,
+        .hide-ui .toc-toggle {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .show-ui .controls,
+        .show-ui .progress-bar,
+        .show-ui .page-info,
+        .show-ui .home-button,
+        .show-ui .narration-settings,
+        .show-ui .toc-toggle {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Debug helper */
+        .debug-overlay {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="show-ui">
+    <!-- Loading screen -->
+    <div class="loader" id="loader">
+        <div class="crochet-loader"></div>
+    </div>
+
+    <!-- Debug overlay -->
+    <div class="debug-overlay" id="debug-overlay" style="display: none;"></div>
+
+    <!-- Home button -->
+    <a href="index.html" class="home-button" title="Return to Home">🏠</a>
+
+    <!-- TOC Toggle Button -->
+    <button class="toc-toggle" id="toc-toggle" title="Table of Contents">📋</button>
+
+    <!-- Table of Contents -->
+    <div class="toc-container" id="toc-container">
+        <h3 class="toc-title">Table of Contents</h3>
+        <ul class="toc-list">
+            <li class="toc-item"><a href="#" data-page="0">Cover</a></li>
+            <li class="toc-item"><a href="#" data-page="1">Title Page</a></li>
+            <li class="toc-item"><a href="#" data-page="2">Copyright</a></li>
+            <li class="toc-item"><a href="#" data-page="3">Dedication</a></li>
+            <li class="toc-item"><a href="#" data-page="4">Contents</a></li>
+            <li class="toc-item"><a href="#" data-page="5">Introduction</a></li>
+            <li class="toc-item"><a href="#" data-page="6">Chapter 1: Getting Started</a></li>
+            <li class="toc-item"><a href="#" data-page="8">Chapter 2: Basic Stitches</a></li>
+            <li class="toc-item"><a href="#" data-page="10">Chapter 3: Reading Patterns</a></li>
+            <li class="toc-item"><a href="#" data-page="12">Chapter 4: Colorwork</a></li>
+            <li class="toc-item"><a href="#" data-page="14">Chapter 5: Amigurumi</a></li>
+            <li class="toc-item"><a href="#" data-page="16">Chapter 6: Finishing Techniques</a></li>
+            <li class="toc-item"><a href="#" data-page="18">Glossary</a></li>
+            <li class="toc-item"><a href="#" data-page="19">About the Author</a></li>
+        </ul>
+    </div>
+
+    <!-- Main flipbook container -->
+    <div class="flipbook-container">
+        <div id="book">
+            <!-- Cover -->
+            <div class="page" data-density="hard">
+                <img src="jva31043ou.png" alt="Crochet Mastery Cover" class="book-cover">
+            </div>
+            
+            <!-- Title Page -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>Crochet Mastery: A Complete Guide</h2>
+                    <p style="text-align: center; font-size: 1.2rem;">by Leola (Sister) Lee</p>
+                    <div style="margin: 40px auto; width: 60%;">
+                        <img src="jva31043ou.png" alt="Book Logo" style="width: 100%;">
+                    </div>
+                    <p style="text-align: center; font-style: italic;">First Edition</p>
+                    <p style="text-align: center;">Published by Leola's Library</p>
+                    <p style="text-align: center;">Milwaukee, Wisconsin</p>
+                </div>
+            </div>
+            
+            <!-- Copyright Page -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>Copyright</h2>
+                    <p style="text-align: center;">Copyright © 2025 by Leola (Sister) Lee</p>
+                    <p>All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the publisher, except in the case of brief quotations embodied in critical reviews and certain other noncommercial uses permitted by copyright law.</p>
+                    <p style="text-align: center; margin-top: 40px;">ISBN: 978-1-XXXXX-XXX-X</p>
+                    <p style="text-align: center;">Library of Congress Control Number: XXXXXXXXXX</p>
+                    <p style="text-align: center; margin-top: 40px;">Printed in the United States of America</p>
+                    <p style="text-align: center;">First Printing, 2025</p>
+                </div>
+            </div>
+            
+            <!-- Dedication Page -->
+            <div class="page">
+                <div class="dedication-page">
+                    <h2 class="dedication-title">Dedication</h2>
+                    <p class="dedication-text">To my mother, who first placed a crochet hook in my hands and showed me that patience creates beauty.</p>
+                    <p class="dedication-text">To my children, grandchildren, and great-grandchildren, who inspire me to pass down not just techniques, but the joy of creating.</p>
+                    <p class="dedication-text">And to everyone who has ever looked at a ball of yarn and seen endless possibilities.</p>
+                    <p class="dedication-text">May your hooks always be sharp and your yarn never tangle.</p>
+                    <p class="dedication-text">— Sister Lee</p>
+                </div>
+            </div>
+            
+            <!-- Table of Contents -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>Contents</h2>
+                    <p style="margin-bottom: 15px;"><strong>Dedication</strong> ............................................. iii</p>
+                    <p style="margin-bottom: 15px;"><strong>Introduction</strong> ......................................... v</p>
+                    <p style="margin-bottom: 15px;"><strong>Chapter 1:</strong> Getting Started .......................... 1</p>
+                    <p style="margin-bottom: 15px;"><strong>Chapter 2:</strong> Basic Stitches ............................ 15</p>
+                    <p style="margin-bottom: 15px;"><strong>Chapter 3:</strong> Reading Patterns ...................... 29</p>
+                    <p style="margin-bottom: 15px;"><strong>Chapter 4:</strong> Colorwork ................................. 43</p>
+                    <p style="margin-bottom: 15px;"><strong>Chapter 5:</strong> Amigurumi ............................... 57</p>
+                    <p style="margin-bottom: 15px;"><strong>Chapter 6:</strong> Finishing Techniques ................ 71</p>
+                    <p style="margin-bottom: 15px;"><strong>Glossary</strong> ................................................ 85</p>
+                    <p style="margin-bottom: 15px;"><strong>About the Author</strong> .................................... 99</p>
+                </div>
+            </div>
+            
+            <!-- Introduction -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>Introduction</h2>
+                    <p>Welcome to the wonderful world of crochet! Whether you're picking up a hook for the first time or returning to a craft you've loved for years, this guide is designed to walk with you on your creative journey.</p>
+                    <p>I've been crocheting for over sixty years, and in that time, I've learned that this craft is more than just making stitches—it's about patience, problem-solving, and finding joy in the process of creation. It's about connecting with a tradition that spans generations and cultures. It's about making something with your own two hands that can be treasured for years to come.</p>
+                    <p>In this book, we'll start with the basics and build to more complex techniques. We'll explore not just how to make stitches, but how to read patterns, choose materials, troubleshoot common issues, and add your own creative touch to projects.</p>
+                    <p>Remember, every expert was once a beginner. Be patient with yourself as you learn, and don't be afraid to make mistakes—they're often our best teachers.</p>
+                    <p>So pick up your hook, grab your favorite yarn, and let's begin this journey together. I can't wait to see what you create!</p>
+                    <p style="text-align: right; margin-top: 30px;">With love and encouragement,<br>Leola (Sister) Lee</p>
+                </div>
+            </div>
+            
+            <!-- Chapter 1 Part 1 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>Chapter 1: Getting Started</h2>
+                    <img src="gdpjskd0z4.png" alt="Leola With Hat">
+                    <p>Every great creation begins with the right tools. Let's take some time to understand the essentials you'll need for your crochet journey.</p>
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Crochet Hooks</h3>
+                    <p>Crochet hooks come in various sizes, materials, and styles. The size of your hook affects the size of your stitches and the overall gauge of your work.</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content"><strong>Size:</strong> Hooks are sized by diameter, with larger numbers indicating thicker hooks. In the US, sizes range from B-1 (2.25mm) to S (19mm). For beginners, I recommend starting with an H-8 (5mm) or I-9 (5.5mm) hook.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content"><strong>Material:</strong> Hooks can be made of aluminum, steel, plastic, bamboo, or wood. Aluminum hooks are versatile and slide easily through yarn, making them great for beginners.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chapter 1 Part 2 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content"><strong>Handle:</strong> Some hooks have ergonomic handles to reduce hand strain. If you plan to crochet for long periods, these can be worth the investment.</div>
+                    </div>
+                    
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Yarn</h3>
+                    <p>The yarn you choose dramatically affects your project's look and feel. Here's what to consider:</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content"><strong>Weight:</strong> Yarn comes in different weights, from lace (thinnest) to jumbo (thickest). For beginners, medium weight (worsted or #4) is ideal—not too thick to be unwieldy, not too thin to be frustrating.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content"><strong>Fiber:</strong> Yarn can be made from animal fibers (wool, alpaca), plant fibers (cotton, linen), or synthetic materials (acrylic, polyester). Each has different properties of softness, warmth, and care requirements.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content"><strong>Color:</strong> Light, solid colors are easiest for beginners as they make stitches more visible. Save those beautiful variegated yarns for when you're more comfortable with the basics.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content"><strong>Yarn Label:</strong> Always check the label! It tells you the weight, recommended hook size, yardage, fiber content, and care instructions.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chapter 2 Part 1 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>Chapter 2: Basic Stitches</h2>
+                    <img src="vx0z3v351f.png" alt="First Stitches">
+                    <p>Let's begin with the very foundation of crochet: the basic stitches. Master these, and you'll be well on your way to creating beautiful projects.</p>
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Holding Your Hook and Yarn</h3>
+                    <p>Before we make our first stitch, let's talk about how to hold your tools. There's no "right" way—what matters is comfort and control.</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content"><strong>Pencil Grip:</strong> Hold the hook like a pencil, with your thumb and index finger gripping the flat part of the hook. This gives good control for detailed work.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content"><strong>Knife Grip:</strong> Hold the hook like a knife, with your hand over the top. This can be more comfortable for long crocheting sessions.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chapter 2 Part 2 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h3 style="color: var(--primary-color); margin-top: 0px;">The Chain Stitch (ch)</h3>
+                    <p>The chain stitch is the foundation of most crochet projects. It's the simplest stitch and creates a starting chain from which other stitches are built.</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">Make a slip knot and place it on your hook.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">Yarn over (yo)—wrap the yarn over your hook from back to front.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">Pull the wrapped yarn through the loop on your hook. That's one chain!</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">Repeat steps 2-3 until your chain reaches the desired length.</div>
+                    </div>
+                    
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Single Crochet (sc)</h3>
+                    <p>The single crochet is one of the basic building blocks of crochet. It creates a dense, sturdy fabric perfect for blankets, amigurumi, and winter wear.</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">Start with a foundation chain of any length.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">Insert your hook into the second chain from the hook.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">Yarn over and pull through the chain (2 loops on hook).</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">Yarn over again and pull through both loops on the hook. That's one single crochet!</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chapter 3 Part 1 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>Chapter 3: Reading Patterns</h2>
+                    <img src="0mvlpz8gmx.png" alt="Leola Smiling">
+                    <p>Learning to read crochet patterns is like learning a new language—it might seem confusing at first, but with practice, it becomes second nature.</p>
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Abbreviations</h3>
+                    <p>Crochet patterns use abbreviations to save space. Here are some common ones:</p>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>ch</strong> - chain</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>sc</strong> - single crochet</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>hdc</strong> - half double crochet</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>dc</strong> - double crochet</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>tr</strong> - treble crochet</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chapter 3 Part 2 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>sl st</strong> - slip stitch</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>sk</strong> - skip</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>st(s)</strong> - stitch(es)</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>yo</strong> - yarn over</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>rep</strong> - repeat</div>
+                    </div>
+                    
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Structure of a Pattern</h3>
+                    <p>Most patterns include:</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content"><strong>Materials:</strong> Lists the yarn type, amount, hook size, and other supplies needed.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content"><strong>Gauge:</strong> Tells you how many stitches and rows should fit in a specific measurement (usually 4x4 inches). This helps ensure your project turns out the intended size.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content"><strong>Special Stitches:</strong> Explains any uncommon stitches or techniques used in the pattern.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content"><strong>Instructions:</strong> Step-by-step directions, often divided by sections or rounds.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content"><strong>Finishing:</strong> How to complete the project, including seaming, weaving in ends, or adding embellishments.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chapter 4 Part 1 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>Chapter 4: Colorwork</h2>
+                    <img src="x0prssgjjo.png" alt="Colorwork & Texture">
+                    <p>Ready to play with color? Changing colors adds so much personality to your projects! There are two main ways to incorporate multiple colors in crochet.</p>
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Changing Colors</h3>
+                    <p>The basic technique for introducing a new color:</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">Work the last stitch of your current color until the last yarn over.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">Instead of using the current color for the final yarn over, use the new color.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">Pull the new color through the loops to complete the stitch.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">Continue working with the new color.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chapter 4 Part 2 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h3 style="color: var(--primary-color); margin-top: 0px;">Fair Isle (Stranded Colorwork)</h3>
+                    <p>This technique involves carrying unused yarn(s) across the back of your work while creating patterns:</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">Hold both yarns at the back of your work.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">Pick up the color needed for the next stitch.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">The unused color is carried along the back, creating "floats."</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">For fair isle patterns, follow a chart that shows which color to use for each stitch.</div>
+                    </div>
+                    
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Intarsia</h3>
+                    <p>This technique is perfect for larger blocks of color:</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">Use separate bobbins or small balls of yarn for each color section.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">When changing colors, twist the new yarn around the old to prevent holes.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">Each color area has its own working yarn, so there are no floats across the back.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">Intarsia is worked flat (back and forth), not in the round.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chapter 5 Part 1 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>Chapter 5: Amigurumi</h2>
+                    <img src="q2sxkak1cn.png" alt="Amigurumi">
+                    <p>Welcome to the delightful world of Amigurumi – the Japanese art of crocheting small, stuffed creatures! These cute little friends are perfect for gifts and decorations.</p>
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">What is Amigurumi?</h3>
+                    <p>Amigurumi (ah-mee-goo-roo-mee) combines the Japanese words "ami" (crocheted or knitted) and "nuigurumi" (stuffed doll). These small, three-dimensional creations typically have a kawaii (cute) aesthetic with simple features and rounded shapes.</p>
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Getting Started</h3>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content"><strong>Materials:</strong> Use medium weight yarn (or finer) and a hook smaller than recommended for the yarn to create tight stitches that won't let stuffing show through.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content"><strong>Stuffing:</strong> Polyester fiberfill is most common, but you can also use cotton stuffing, wool, or even recycled yarn scraps.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chapter 5 Part 2 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content"><strong>Safety Eyes:</strong> These give your creations a professional look. For children under 3, embroider eyes instead for safety.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content"><strong>Stitch Markers:</strong> Essential for keeping track of rounds.</div>
+                    </div>
+                    
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Key Techniques</h3>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content"><strong>Magic Ring:</strong> Most amigurumi start with a magic ring (also called magic circle), which allows you to pull the center tight, eliminating any hole.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content"><strong>Working in Spirals:</strong> Amigurumi is typically worked in continuous rounds (spirals) rather than joined rounds. Use a stitch marker to mark the beginning of each round.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content"><strong>Invisible Decrease:</strong> This special decrease stitch helps maintain a smooth appearance without visible holes.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content"><strong>Assembly:</strong> Most amigurumi involve creating separate pieces (head, body, limbs) and then sewing them together.</div>
+                    </div>
+                    
+                    <p>Amigurumi is incredibly rewarding! Start with simple shapes like balls or basic animals, then work your way up to more complex designs. The possibilities are endless—from cute food items to beloved characters, you can crochet almost anything in this adorable style.</p>
+                </div>
+            </div>
+            
+            <!-- Chapter 6 Part 1 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>Chapter 6: Finishing Techniques</h2>
+                    <img src="9k1ycnd7fw.png" alt="Finishing Techniques">
+                    <p>The difference between a homemade project and a handmade masterpiece often comes down to the finishing. Let's explore techniques that will give your work a professional polish.</p>
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Weaving in Ends</h3>
+                    <p>Those loose yarn tails need to be secured so they don't unravel or poke out.</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">Thread the yarn tail onto a tapestry needle.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">Weave the needle through the back of your stitches, changing direction at least once.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">For extra security, weave back through some of the same stitches.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">Trim the excess yarn close to the work.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chapter 6 Part 2 -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h3 style="color: var(--primary-color); margin-top: 0px;">Blocking</h3>
+                    <p>Blocking shapes your finished piece and evens out the stitches. Different fibers require different blocking methods:</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content"><strong>Wet Blocking:</strong> Soak your project in lukewarm water with a gentle detergent, squeeze out excess water, and pin to shape on a blocking board or towel-covered surface. Let dry completely.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content"><strong>Steam Blocking:</strong> Pin your project to shape, then hover a steamer or iron (on steam setting) about an inch above the work. Let dry completely.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content"><strong>Spray Blocking:</strong> Pin your project to shape, then lightly mist with water. Let dry completely.</div>
+                    </div>
+                    
+                    <h3 style="color: var(--primary-color); margin-top: 20px;">Seaming</h3>
+                    <p>Joining pieces together can be done several ways:</p>
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content"><strong>Whip Stitch:</strong> Simple and quick, good for joining amigurumi parts.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content"><strong>Mattress Stitch:</strong> Creates an invisible seam, perfect for garments.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content"><strong>Slip Stitch Join:</strong> Using your hook to join pieces as you go.</div>
+                    </div>
+                    
+                    <p>Remember, the care you put into these final steps makes all the difference in the appearance and durability of your finished project. Don't rush—give your creation the finishing touches it deserves!</p>
+                </div>
+            </div>
+            
+            <!-- Glossary -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>Glossary</h2>
+                    <p>A handy reference for common crochet terms and abbreviations:</p>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>BLO (Back Loop Only):</strong> Working through only the back loop of a stitch, creating a ridged texture.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>FLO (Front Loop Only):</strong> Working through only the front loop of a stitch.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>Ch (Chain):</strong> A series of loops that forms the foundation of most crochet projects.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>Dc (Double Crochet):</strong> A taller stitch created by yarning over before inserting the hook.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>Dec (Decrease):</strong> Reducing the number of stitches by working multiple stitches together.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>Hdc (Half Double Crochet):</strong> A stitch taller than single crochet but shorter than double crochet.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>Inc (Increase):</strong> Adding stitches by working multiple stitches into one stitch.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>MC (Magic Circle/Magic Ring):</strong> A technique for starting projects worked in the round with no hole in the center.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>Rnd (Round):</strong> A complete circle of stitches in circular crochet.</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">•</div>
+                        <div class="step-content"><strong>Sc (Single Crochet):</strong> A basic stitch that creates a dense fabric.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About the Author -->
+            <div class="page">
+                <div class="instruction-page">
+                    <h2>About the Author</h2>
+                    <img src="n5j7pqx39a.png" alt="Sister Lee in Glass" style="width: 60%; margin: 0 auto 20px; display: block;">
+                    <p>Leola (Sister) Lee was born in the heart of Mississippi and has been a proud resident of Milwaukee since 1985. A mother of six, grandmother of thirteen, and great-grandmother of ten, she carries generations of care in her hands—whether she's crocheting a blanket, painting a portrait, or penning a story from the soul.</p>
+                    <p>A devout woman of faith, Sister Lee has been a pillar of her community for decades. Her artistry isn't confined to the yarn or canvas—it lives in the way she nurtures, uplifts, and teaches others. From local workshops to living rooms filled with grandkids, her gift has always been in guiding others with patience, warmth, and a deep belief that creativity heals.</p>
+                    <p>This instructional guide, "Crochet Mastery: A Complete Guide," transitions Sister Lee from storyteller to teacher—delivering a practical, step-by-step learning journey that makes the art of crochet accessible and joyful for everyone. The book is infused with her signature blend of encouragement and clarity, helping newcomers feel confident and inspired from their very first stitch.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="page-info">
+        Page <span id="current-page">1</span> of <span id="total-pages">20</span>
+    </div>
+    
+    <div class="progress-bar">
+        <div class="progress" id="progress-bar"></div>
+    </div>
+    
+    <div class="controls">
+        <button id="prev-btn" class="control-button">Previous</button>
+        <button id="next-btn" class="control-button">Next</button>
+        <button id="speak-btn" class="control-button">Read Aloud</button>
+        <button id="stop-btn" class="control-button">Stop</button>
+        <button id="help-btn" class="control-button">Help</button>
+    </div>
+    
+    <div class="narration-settings">
+        <label for="voice-select">Voice:</label>
+        <select id="voice-select" class="voice-select"></select>
+        
+        <label for="speed-slider">Speed:</label>
+        <input type="range" id="speed-slider" class="speed-slider" min="0.5" max="2" step="0.1" value="1">
+        <span id="speed-value">1x</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+    <script src="js/agent-lee.js"></script>
+    <script src="js/book-narration.js"></script>
+    <script>
+        // Debug function
+        function debugLog(message) {
+            const overlay = document.getElementById('debug-overlay');
+            overlay.style.display = 'block';
+            overlay.textContent = message;
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Wait for page to load
+        window.addEventListener('load', function() {
+            // Hide loader after a short delay
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+            }, 1500);
+            
+            // Initialize the page flip
+            const pageFlip = new St.PageFlip(document.getElementById('book'), {
+                width: 550,
+                height: 733,
+                size: "stretch",
+                maxShadowOpacity: 0.5,
+                showCover: true,
+                mobileScrollSupport: true,
+                usePortrait: false, // Force landscape mode for two page display
+                useMouseEvents: true,
+                flippingTime: 1000,
+                drawShadow: true,
+                renderWhileFlipping: true,
+                startZIndex: 0,
+                minWidth: 300,
+                minHeight: 420,
+                maxWidth: 1000,
+                maxHeight: 1333,
+                showPageCorners: true,
+                disableFlipByClick: false
+            });
+            
+            // Load pages
+            pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+            
+            // Force two-page mode when not on cover
+            pageFlip.on('flip', (e) => {
+                try {
+                    if (e.data > 0) {
+                        pageFlip.turnToPage(e.data);
+                        debugLog("Turned to page");
+                    } else {
+                        debugLog("On first page");
+                    }
+                    updateUI();
+                } catch (error) {
+                    // Silently handle the error to prevent console messages
+                    // debugLog("Error during page flip: " + error.message);
+                }
+            });
+            
+            // Initially set to single display for cover
+            // pageFlip.setDisplay('single'); // Commented out - not available in this version
+            
+            // Update page count and progress bar
+            const updatePageInfo = () => {
+                try {
+                    const currentPage = pageFlip.getCurrentPageIndex() + 1;
+                    const totalPages = pageFlip.getPageCount();
+                    document.getElementById('current-page').textContent = currentPage;
+                    document.getElementById('total-pages').textContent = totalPages;
+                    
+                    // Update progress bar
+                    const progressPercent = (currentPage - 1) / (totalPages - 1) * 100;
+                    document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+                    
+                    // Update button states
+                    document.getElementById('prev-btn').disabled = currentPage === 1;
+                    document.getElementById('next-btn').disabled = currentPage === totalPages;
+                    
+                    // Update TOC active item
+                    const tocItems = document.querySelectorAll('.toc-item a');
+                    tocItems.forEach(item => {
+                        item.classList.remove('toc-active');
+                        if (parseInt(item.getAttribute('data-page')) === pageFlip.getCurrentPageIndex()) {
+                            item.classList.add('toc-active');
+                        }
+                    });
+                    
+                    debugLog(`Current page: ${currentPage} of ${totalPages}`);
+                } catch (error) {
+                    debugLog("Error updating page info: " + error.message);
+                }
+            };
+            
+            // Update UI visibility
+            const updateUI = () => {
+                // After 3 seconds of inactivity, hide UI
+                clearTimeout(window.uiTimeout);
+                document.body.classList.add('show-ui');
+                document.body.classList.remove('hide-ui');
+                
+                window.uiTimeout = setTimeout(() => {
+                    document.body.classList.remove('show-ui');
+                    document.body.classList.add('hide-ui');
+                }, 3000);
+            };
+            
+            // Show UI on mouse movement
+            document.addEventListener('mousemove', updateUI);
+            document.addEventListener('touchstart', updateUI);
+            
+            // Initial update
+            updatePageInfo();
+            updateUI();
+            
+            // Event listeners for page turning
+            pageFlip.on('flip', updatePageInfo);
+            
+            // Navigation buttons
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                try {
+                    pageFlip.flipPrev();
+                    stopSpeaking();
+                    debugLog("Flipped to previous page");
+                } catch (error) {
+                    debugLog("Error flipping to previous page: " + error.message);
+                }
+            });
+            
+            document.getElementById('next-btn').addEventListener('click', () => {
+                try {
+                    pageFlip.flipNext();
+                    stopSpeaking();
+                    debugLog("Flipped to next page");
+                } catch (error) {
+                    debugLog("Error flipping to next page: " + error.message);
+                }
+            });
+            
+            // Help button
+            document.getElementById('help-btn').addEventListener('click', () => {
+                alert('Book Navigation Help:\n\n' + 
+                     '• Use the Next and Previous buttons to turn pages\n' + 
+                     '• You can also click on the right or left side of the book\n' + 
+                     '• Use the Read Aloud button to have the current page read to you\n' + 
+                     '• The first page is the cover, then the book shows two pages at once\n' +
+                     '• Click the Table of Contents button (📋) to jump to specific chapters\n' +
+                     '• If you\'re having trouble seeing all pages, try refreshing the page');
+            });
+            
+            // Speech synthesis setup
+            const synth = window.speechSynthesis;
+            let currentUtterance = null;
+            const speakBtn = document.getElementById('speak-btn');
+            const stopBtn = document.getElementById('stop-btn');
+            const voiceSelect = document.getElementById('voice-select');
+            const speedSlider = document.getElementById('speed-slider');
+            const speedValue = document.getElementById('speed-value');
+            
+            // Populate voices dropdown
+            function populateVoiceList() {
+                if (typeof speechSynthesis === 'undefined') {
+                    return;
+                }
+                
+                const voices = speechSynthesis.getVoices();
+                
+                // Clear existing options
+                voiceSelect.innerHTML = '';
+                
+                // Add default option
+                const defaultOption = document.createElement('option');
+                defaultOption.textContent = 'Default Voice';
+                defaultOption.setAttribute('data-name', 'default');
+                voiceSelect.appendChild(defaultOption);
+                
+                // Filter for English voices
+                const englishVoices = voices.filter(voice => /en(-|_)/.test(voice.lang));
+                
+                // Add English voices
+                englishVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    option.setAttribute('data-name', voice.name);
+                    voiceSelect.appendChild(option);
+                });
+                
+                // Check for saved preferred voice
+                const preferredVoice = localStorage.getItem('preferred-voice');
+                if (preferredVoice) {
+                    // Find matching option
+                    for (let i = 0; i < voiceSelect.options.length; i++) {
+                        if (voiceSelect.options[i].getAttribute('data-name') === preferredVoice) {
+                            voiceSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // Populate voice list
+            populateVoiceList();
+            
+            // Voice list may load asynchronously
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = populateVoiceList;
+            }
+            
+            // Update speed value display
+            speedSlider.addEventListener('input', () => {
+                speedValue.textContent = `${speedSlider.value}x`;
+            });
+            
+            // Save voice preference
+            voiceSelect.addEventListener('change', () => {
+                const selectedOption = voiceSelect.options[voiceSelect.selectedIndex];
+                const voiceName = selectedOption.getAttribute('data-name');
+                localStorage.setItem('preferred-voice', voiceName);
+            });
+            
+            // Speak function
+            function speakPageContent() {
+                // Stop any ongoing speech
+                stopSpeaking();
+                
+                // Get current page
+                const currentPage = pageFlip.getCurrentPageIndex();
+                const pageElement = document.querySelectorAll('.page')[currentPage];
+                
+                // Get page content
+                let pageContent = '';
+                
+                if (pageElement) {
+                    // Check if it's the cover page
+                    if (currentPage === 0) {
+                        pageContent = "Crochet Mastery: A Complete Guide, by Leola (Sister) Lee";
+                    } else {
+                        // Get text content from the instruction-page div
+                        const instructionPage = pageElement.querySelector('.instruction-page') || pageElement.querySelector('.dedication-page');
+                        if (instructionPage) {
+                            // Get heading and paragraphs
+                            const heading = instructionPage.querySelector('h2');
+                            const subheadings = instructionPage.querySelectorAll('h3');
+                            const paragraphs = instructionPage.querySelectorAll('p');
+                            const steps = instructionPage.querySelectorAll('.instruction-step');
+                            
+                            // Add heading
+                            if (heading) {
+                                pageContent += heading.textContent + '. ';
+                            }
+                            
+                            // Add subheadings and paragraphs in order
+                            const elements = Array.from(instructionPage.children);
+                            elements.forEach(element => {
+                                if (element.tagName === 'H3') {
+                                    pageContent += element.textContent + '. ';
+                                } else if (element.tagName === 'P') {
+                                    pageContent += element.textContent + ' ';
+                                } else if (element.classList.contains('instruction-step')) {
+                                    const stepNumber = element.querySelector('.step-number');
+                                    const stepContent = element.querySelector('.step-content');
+                                    
+                                    if (stepNumber && stepContent) {
+                                        pageContent += `Step ${stepNumber.textContent} ${stepContent.textContent} `;
+                                    }
+                                }
+                            });
+                        } else {
+                            // Fallback to any text in the page
+                            pageContent = pageElement.textContent.trim();
+                        }
+                    }
+                    
+                    // If still no content, use alt text from image
+                    if (!pageContent) {
+                        const img = pageElement.querySelector('img');
+                        if (img && img.alt) {
+                            pageContent = `Page showing ${img.alt}`;
+                        }
+                    }
+                }
+                
+                // If still no content, use generic message
+                if (!pageContent) {
+                    pageContent = `You are viewing page ${currentPage + 1} of the book.`;
+                }
+                
+                // Create utterance
+                const utterance = new SpeechSynthesisUtterance(pageContent);
+                
+                // Set selected voice
+                if (voiceSelect.selectedIndex !== 0) { // Not default
+                    const selectedOption = voiceSelect.options[voiceSelect.selectedIndex];
+                    const selectedVoiceName = selectedOption.getAttribute('data-name');
+                    const voices = speechSynthesis.getVoices();
+                    const selectedVoice = voices.find(voice => voice.name === selectedVoiceName);
+                    
+                    if (selectedVoice) {
+                        utterance.voice = selectedVoice;
+                    }
+                }
+                
+                // Set rate from slider
+                utterance.rate = parseFloat(speedSlider.value);
+                
+                // Visual feedback
+                speakBtn.classList.add('speaking');
+                
+                // Events
+                utterance.onend = function() {
+                    speakBtn.classList.remove('speaking');
+                    currentUtterance = null;
+                    
+                    // Auto-advance if it's enabled
+                    const autoNarration = localStorage.getItem('auto-narration') === 'true';
+                    if (autoNarration && pageFlip.getCurrentPageIndex() < pageFlip.getPageCount() - 1) {
+                        setTimeout(() => {
+                            pageFlip.flipNext();
+                            speakPageContent(); // Speak the next page
+                        }, 1000);
+                    }
+                };
+                
+                // Store current utterance
+                currentUtterance = utterance;
+                
+                // Speak
+                synth.speak(utterance);
+            }
+            
+            // Stop speaking function
+            function stopSpeaking() {
+                if (synth.speaking) {
+                    synth.cancel();
+                    speakBtn.classList.remove('speaking');
+                    currentUtterance = null;
+                }
+            }
+            
+            // Expose stop speaking to global scope
+            window.stopSpeaking = stopSpeaking;
+            
+            // Event listeners for speech
+            speakBtn.addEventListener('click', speakPageContent);
+            stopBtn.addEventListener('click', stopSpeaking);
+            
+            // Check if auto-narration is enabled when page is turned
+            pageFlip.on('flip', () => {
+                const autoNarration = localStorage.getItem('auto-narration') === 'true';
+                if (autoNarration) {
+                    speakPageContent();
+                }
+            });
+            
+            // Handle keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    pageFlip.flipPrev();
+                    debugLog("Keyboard navigation: previous page");
+                } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    pageFlip.flipNext();
+                    debugLog("Keyboard navigation: next page");
+                }
+            });
+            
+            // Toggle TOC
+            document.getElementById('toc-toggle').addEventListener('click', () => {
+                const toc = document.getElementById('toc-container');
+                toc.style.display = toc.style.display === 'block' ? 'none' : 'block';
+                debugLog("TOC toggled: " + (toc.style.display === 'block' ? 'shown' : 'hidden'));
+            });
+            
+            // TOC navigation
+            document.querySelectorAll('.toc-item a').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageNumber = parseInt(item.getAttribute('data-page'));
+                    if (!isNaN(pageNumber)) {
+                        pageFlip.turnToPage(pageNumber);
+                        debugLog("Navigation to page: " + pageNumber);
+                    }
+                    // Hide TOC on mobile
+                    if (window.innerWidth < 768) {
+                        document.getElementById('toc-container').style.display = 'none';
+                    }
+                });
+            });
+            
+            // Start auto-narration if enabled
+            setTimeout(() => {
+                const autoNarration = localStorage.getItem('auto-narration') === 'true';
+                if (autoNarration) {
+                    speakPageContent();
+                }
+            }, 1800); // Small delay after page load
+            
+            // Add direct click handlers to page areas for flipping
+            document.querySelector('.flipbook-container').addEventListener('click', function(e) {
+                const container = this.getBoundingClientRect();
+                const clickX = e.clientX - container.left;
+                const containerWidth = container.width;
+                
+                // If click is on the left 40% of container, go to previous page
+                if (clickX < containerWidth * 0.4) {
+                    pageFlip.flipPrev();
+                    debugLog("Clicked left side - going to previous page");
+                }
+                // If click is on the right 40% of container, go to next page
+                else if (clickX > containerWidth * 0.6) {
+                    pageFlip.flipNext();
+                    debugLog("Clicked right side - going to next page");
+                }
+            });
+            
+            // Debug: Log initial state
+            debugLog("Book initialized: " + pageFlip.getPageCount() + " total pages");
+        });
+    </script>
+</body>
+</html>

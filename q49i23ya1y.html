@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Needle & Yarn: A Love Stitched in Time</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/page-flip/dist/css/page-flip.css">
+    <link rel="stylesheet" href="css/agent-lee.css">
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DAA06D;
+            --yarn-color: #FF7F50;
+            --bg-color: #FAF3E0;
+            --card-bg: #FFF8E8;
+            --text-color: #333;
+            --shadow-color: rgba(139, 69, 19, 0.2);
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            font-family: 'Georgia', serif;
+            color: var(--text-color);
+        }
+        
+        /* Fix for mobile view to ensure entire book is visible */
+        @media (max-width: 768px) {
+            .flipbook-container {
+                width: 100%;
+                height: 70vh;
+                transform: scale(0.95);
+                transform-origin: center center;
+            }
+            
+            #book {
+                width: 100%;
+                height: 100%;
+            }
+            
+            /* Ensure controls are visible and don't overlap */
+            .controls {
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: 10px;
+            }
+            
+            .control-button {
+                margin: 5px;
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .flipbook-container {
+            width: 90vw;
+            height: 80vh;
+            max-width: 1200px;
+            margin: 20px auto;
+            position: relative;
+        }
+        
+        #book {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .page {
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.1);
+        }
+        
+        .page img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .page-content {
+            padding: 40px;
+            max-width: 90%;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .control-button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+        
+        .control-button:hover {
+            background-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+        
+        .control-button[disabled] {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .speaking {
+            background-color: var(--yarn-color);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 127, 80, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 127, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 127, 80, 0); }
+        }
+        
+        .progress-bar {
+            width: 80%;
+            height: 8px;
+            background-color: #ddd;
+            border-radius: 4px;
+            margin: 5px auto;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--yarn-color);
+            transition: width 0.3s ease;
+        }
+        
+        .page-info {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            margin: 10px;
+            font-style: italic;
+        }
+        
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .home-button:hover {
+            background-color: var(--yarn-color);
+            transform: scale(1.1);
+        }
+        
+        .narration-settings {
+            display: flex;
+            gap: 10px;
+            margin: 10px;
+            align-items: center;
+        }
+        
+        .voice-select {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid var(--secondary-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+        
+        .speed-slider {
+            width: 100px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .flipbook-container {
+                width: 95vw;
+                height: 70vh;
+            }
+            
+            .controls {
+                flex-wrap: wrap;
+            }
+            
+            .narration-settings {
+                flex-direction: column;
+            }
+        }
+        
+        /* Story pages content */
+        .story-page {
+            background-color: var(--card-bg);
+            padding: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: left;
+            color: var(--text-color);
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+        
+        .story-page h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+        
+        .story-page img {
+            max-width: 100%;
+            max-height: 40%;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+        
+        /* Loading animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .yarn-loader {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(var(--yarn-color), transparent);
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div class="loader" id="loader">
+        <div class="yarn-loader"></div>
+    </div>
+
+    <!-- Home button -->
+    <a href="index.html" class="home-button" title="Return to Home">
+        <img src="bmmq6xrkp3.png" alt="Leola's Library" style="width: 30px; height: 30px; object-fit: contain;">
+    </a>
+
+    <!-- Main flipbook container -->
+    <h1>Needle & Yarn: A Love Stitched in Time</h1>
+    
+    <div class="flipbook-container">
+        <div id="book">
+            <!-- Cover -->
+            <div class="page" data-density="hard">
+                <div class="story-page">
+                    <img src="ruu3udr62d.png" alt="Cover">
+                    <h2>Needle & Yarn: A Love Stitched in Time</h2>
+                    <p>by Leola (Sister) Lee</p>
+                </div>
+            </div>
+            
+            <!-- Pages with images and story content -->
+            <div class="page">
+                <div class="story-page">
+                    <img src="9ckfdwxdq0.png" alt="Leola with Coffee">
+                    <h2>Chapter 1: The Magic Begins</h2>
+                    <p>In this cozy corner, filled with the scent of warm memories and brewing tea, sat Leola. Her fingers, wise with years of craft, moved like memory itself, creating warmth and wonder. And inside her basket, nestled amongst soft threads and shining tools, magic waited quietly.</p>
+                </div>
+            </div>
+            
+            <div class="page">
+                <div class="story-page">
+                    <img src="u8eqt4ylp2.png" alt="The First Hello">
+                    <h2>Chapter 2: The First Hello</h2>
+                    <p>"Oh, my stars! I seem to have gotten myself into a bit of a... well, a right proper mess!" The voice was bright, a splash of sunshine.</p>
+                    <p>Needle, startled from his musings, looked up. It was Yarn, a glorious, tangled explosion of sunset orange cotton.</p>
+                    <p>"Well, aren't you a breath of fresh air?" Needle chuckled, a warmth spreading through his metal core.</p>
+                </div>
+            </div>
+            
+            <div class="page">
+                <div class="story-page">
+                    <img src="itj0aomnfz.png" alt="Working Together">
+                    <h2>Chapter 3: Working Together</h2>
+                    <p>Needle, ever so patient, began to show Yarn the rhythm of the stitches.</p>
+                    <p>"It's like a dance," he explained, "a partnership."</p>
+                    <p>Together, they started to create, loop by loop, their first shared creation taking shape.</p>
+                </div>
+            </div>
+            
+            <div class="page">
+                <div class="story-page">
+                    <img src="9k1ycnd7fw.png" alt="The Break">
+                    <h2>Chapter 4: The Break</h2>
+                    <p>But alas, even in the most carefully woven stories, a thread can snag. As they worked on a cozy hat, disaster struck!</p>
+                    <p>Needle caught on a stubborn knot, and with a sharp, painful snap... his tip chipped.</p>
+                    <p>Yarn gasped, her bright color dimming with worry. "Needle! Are you alright?"</p>
+                    <p>Needle winced, "I've... I've had better days, my dear."</p>
+                </div>
+            </div>
+            
+            <div class="page">
+                <div class="story-page">
+                    <img src="rr18389x35.png" alt="The Return">
+                    <h2>Chapter 5: The Return</h2>
+                    <p>Days felt like weeks for Yarn. The basket was quiet, her stitches uneven.</p>
+                    <p>But then, Leola returned, a gentle smile on her face. And in her hand... was Needle! Mended, polished, and shining brighter than ever.</p>
+                    <p>"Needle! You came back!" Yarn's voice was full of relief.</p>
+                    <p>"I told you I would, my dearest Yarn," Needle replied warmly. "Some stitches take time to mend... but every loop, eventually, finds its way home."</p>
+                </div>
+            </div>
+            
+            <div class="page">
+                <div class="story-page">
+                    <img src="v1t33f8eyx.png" alt="You're Part of the Pattern">
+                    <h2>Chapter 6: You're Part of the Pattern</h2>
+                    <p>And just like that, with Needle mended and their bond stronger than ever, they finished their project.</p>
+                    <p>A beautiful creation, stitched not just with yarn, but with patience, resilience, and a love that had weathered its first storm.</p>
+                    <p>It became more than just an item; it became a gift, a symbol that even after a break, things can be mended, often becoming even more precious.</p>
+                </div>
+            </div>
+
+            <div class="page">
+                <div class="story-page">
+                    <h2>Chapter 7: The Lesson of the Stitches</h2>
+                    <p>As their projects grew, so did Needle and Yarn's understanding of each other. Yarn learned that Needle's occasional firmness wasn't unkindness – it was guidance, helping her maintain just the right tension.</p>
+                    <p>And Needle came to appreciate Yarn's occasional wildness – those moments when she'd loop with unexpected flair, creating texture and interest where he might have maintained rigid precision.</p>
+                    <p>"You know," Yarn said one evening as they rested between rows, "I used to think being useful meant being perfect. No knots, no tangles."</p>
+                    <p>"And I," confessed Needle, "thought being strong meant never bending. But my mending taught me otherwise."</p>
+                    <p>They looked at the half-finished blanket they were creating – intentionally imperfect in places, with loops of varying tensions that somehow made the whole more beautiful, more human.</p>
+                </div>
+            </div>
+
+            <div class="page">
+                <div class="story-page">
+                    <h2>Chapter 8: Seasons Change</h2>
+                    <p>The seasons changed outside Leola's window. Summer warmth gave way to autumn crispness, then winter's chill. Each season brought new projects – summer's light cotton shawls became autumn's warm scarves, then winter's thick, cozy blankets.</p>
+                    <p>Through it all, Needle and Yarn worked together, learning new stitches, trying new patterns.</p>
+                    <p>"I never thought I could create so many different things," Yarn mused as they finished a pair of mittens.</p>
+                    <p>"That's the beauty of us," Needle replied. "Together, we're more than we ever could be apart."</p>
+                    <p>As spring approached, they noticed Leola working more quickly, with purpose and excitement in her movements.</p>
+                    <p>"What do you think she's preparing for?" Yarn whispered.</p>
+                    <p>"I'm not certain," Needle answered, "but whatever it is, we'll face it together."</p>
+                </div>
+            </div>
+
+            <div class="page">
+                <div class="story-page">
+                    <h2>Chapter 9: A Gift of Love</h2>
+                    <p>It was a sunny spring morning when they discovered the answer. Leola carefully wrapped their latest creation – a delicate baby blanket with intricate, loving stitches – in tissue paper.</p>
+                    <p>"It's for my first great-grandchild," she told them, though of course she thought they couldn't hear. "Due next month."</p>
+                    <p>Needle and Yarn exchanged glances of pure joy. Their creation would wrap a new life in warmth and love.</p>
+                    <p>"Our stitches will be someone's first experience of comfort," Yarn whispered, her fibers almost vibrating with emotion.</p>
+                    <p>"Our work together goes beyond us now," Needle added softly. "It becomes part of someone else's story."</p>
+                    <p>And as Leola placed their blanket in a gift box tied with ribbon, they felt a profound sense of purpose. They had become more than just tools and materials – they were creators of heritage, weavers of love that would pass from one generation to the next.</p>
+                </div>
+            </div>
+
+            <div class="page">
+                <div class="story-page">
+                    <h2>Chapter 10: The Pattern Continues</h2>
+                    <p>Years passed in Leola's basket. Needle's once-shining surface now carried the patina of countless projects, and Yarn had seen many of her kind come and go – balls of every color and texture passing through their shared work.</p>
+                    <p>But their bond remained unbroken.</p>
+                    <p>One day, as they rested between projects, they noticed young hands lifting them from the basket – hands smaller than Leola's, but with the same gentle touch.</p>
+                    <p>"Grandma Lee taught me the basics," said a young voice. "She said you were her favorite needle and that I should always start with a good quality yarn."</p>
+                    <p>Needle felt himself being held with curious, learning fingers. Yarn felt herself being wound with care.</p>
+                    <p>"The pattern continues," Needle whispered to Yarn.</p>
+                    <p>"Just like Leola said it would," Yarn replied. "Love stitched in time..."</p>
+                    <p>And as the young hands began to move them together in the familiar dance of creation, they knew their story was far from over. It was, in fact, beginning anew – thread by thread, stitch by stitch, generation by generation.</p>
+                </div>
+            </div>
+            
+            <!-- Final Back Cover Page -->
+            <div class="page" data-density="hard">
+                <div class="story-page">
+                    <img src="kpf2hplfro.png" alt="Needle & Yarn Back Cover" style="max-width: 100%; height: auto;">
+                    <h2>The End</h2>
+                    <p>Thank you for reading Needle & Yarn: A Love Stitched in Time. We hope you enjoyed this heartwarming tale about friendship, resilience, and the magic of creating together.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="page-info">
+        Page <span id="current-page">1</span> of <span id="total-pages">11</span>
+    </div>
+    
+    <div class="progress-bar">
+        <div class="progress" id="progress-bar"></div>
+    </div>
+    
+    <div class="controls">
+        <button id="prev-btn" class="control-button">Previous</button>
+        <button id="next-btn" class="control-button">Next</button>
+        <button id="speak-btn" class="control-button">Speak</button>
+        <button id="stop-btn" class="control-button">Stop Narration</button>
+    </div>
+    
+    <div class="narration-settings">
+        <label for="voice-select">Voice:</label>
+        <select id="voice-select" class="voice-select"></select>
+        
+        <label for="speed-slider">Speed:</label>
+        <input type="range" id="speed-slider" class="speed-slider" min="0.5" max="2" step="0.1" value="1">
+        <span id="speed-value">1x</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+    <script src="js/agent-lee.js"></script>
+    <script src="js/book-narration.js"></script>
+    
+    <!-- Add speech recognition capabilities -->
+    <script>
+        // Make the page flip object globally available for voice control
+        window.addEventListener('load', function() {
+            if (window.pageFlip) {
+                window.pageFlip = pageFlip;
+            }
+        });
+    </script>
+    <script>
+        // Wait for page to load
+        window.addEventListener('load', function() {
+            // Hide loader after a short delay
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+            }, 1500);
+            
+            // Initialize the page flip
+            const pageFlip = new St.PageFlip(document.getElementById('book'), {
+                width: 550,
+                height: 733,
+                size: "stretch",
+                maxShadowOpacity: 0.5,
+                showCover: true,
+                mobileScrollSupport: true
+            });
+            
+            // Load pages
+            pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+            
+            // Update page count and progress bar
+            const updatePageInfo = () => {
+                const currentPage = pageFlip.getCurrentPageIndex() + 1;
+                const totalPages = pageFlip.getPageCount();
+                document.getElementById('current-page').textContent = currentPage;
+                document.getElementById('total-pages').textContent = totalPages;
+                
+                // Update progress bar
+                const progressPercent = (currentPage - 1) / (totalPages - 1) * 100;
+                document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+                
+                // Update button states
+                document.getElementById('prev-btn').disabled = currentPage === 1;
+                document.getElementById('next-btn').disabled = currentPage === totalPages;
+            };
+            
+            // Initial update
+            updatePageInfo();
+            
+            // Event listeners for page turning
+            pageFlip.on('flip', updatePageInfo);
+            
+            // Navigation buttons
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                pageFlip.flipPrev();
+                stopSpeaking();
+            });
+            
+            document.getElementById('next-btn').addEventListener('click', () => {
+                pageFlip.flipNext();
+                stopSpeaking();
+            });
+            
+            // Speech synthesis setup
+            const synth = window.speechSynthesis;
+            let currentUtterance = null;
+            const speakBtn = document.getElementById('speak-btn');
+            const stopBtn = document.getElementById('stop-btn');
+            const voiceSelect = document.getElementById('voice-select');
+            const speedSlider = document.getElementById('speed-slider');
+            const speedValue = document.getElementById('speed-value');
+            
+            // Populate voices dropdown
+            function populateVoiceList() {
+                if (typeof speechSynthesis === 'undefined') {
+                    return;
+                }
+                
+                const voices = speechSynthesis.getVoices();
+                
+                // Clear existing options
+                voiceSelect.innerHTML = '';
+                
+                // Add default option
+                const defaultOption = document.createElement('option');
+                defaultOption.textContent = 'Default Voice';
+                defaultOption.setAttribute('data-name', 'default');
+                voiceSelect.appendChild(defaultOption);
+                
+                // Filter for English voices
+                const englishVoices = voices.filter(voice => /en(-|_)/.test(voice.lang));
+                
+                // Add English voices
+                englishVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    option.setAttribute('data-name', voice.name);
+                    voiceSelect.appendChild(option);
+                });
+                
+                // Check for saved preferred voice
+                const preferredVoice = localStorage.getItem('preferred-voice');
+                if (preferredVoice) {
+                    // Find matching option
+                    for (let i = 0; i < voiceSelect.options.length; i++) {
+                        if (voiceSelect.options[i].getAttribute('data-name') === preferredVoice) {
+                            voiceSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // Populate voice list
+            populateVoiceList();
+            
+            // Voice list may load asynchronously
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = populateVoiceList;
+            }
+            
+            // Update speed value display
+            speedSlider.addEventListener('input', () => {
+                speedValue.textContent = `${speedSlider.value}x`;
+            });
+            
+            // Save voice preference
+            voiceSelect.addEventListener('change', () => {
+                const selectedOption = voiceSelect.options[voiceSelect.selectedIndex];
+                const voiceName = selectedOption.getAttribute('data-name');
+                localStorage.setItem('preferred-voice', voiceName);
+            });
+            
+            // Speak function
+            function speakPageContent() {
+                // Stop any ongoing speech
+                stopSpeaking();
+                
+                // Get current page
+                const currentPage = pageFlip.getCurrentPageIndex();
+                const pageElement = document.querySelectorAll('.page')[currentPage];
+                
+                // Get page content
+                let pageContent = '';
+                
+                if (pageElement) {
+                    // Get text content from the story-page div
+                    const storyPage = pageElement.querySelector('.story-page');
+                    if (storyPage) {
+                        // Get heading and paragraphs
+                        const heading = storyPage.querySelector('h2');
+                        const paragraphs = storyPage.querySelectorAll('p');
+                        
+                        // Add heading
+                        if (heading) {
+                            pageContent += heading.textContent + '. ';
+                        }
+                        
+                        // Add paragraphs
+                        paragraphs.forEach(p => {
+                            pageContent += p.textContent + ' ';
+                        });
+                    } else {
+                        // Fallback to any text in the page
+                        pageContent = pageElement.textContent.trim();
+                    }
+                    
+                    // If still no content, use alt text from image
+                    if (!pageContent) {
+                        const img = pageElement.querySelector('img');
+                        if (img && img.alt) {
+                            pageContent = `Page showing ${img.alt}`;
+                        }
+                    }
+                }
+                
+                // If still no content, use generic message
+                if (!pageContent) {
+                    pageContent = `You are viewing page ${currentPage + 1} of the book.`;
+                }
+                
+                // Create utterance
+                const utterance = new SpeechSynthesisUtterance(pageContent);
+                
+                // Set selected voice
+                if (voiceSelect.selectedIndex !== 0) { // Not default
+                    const selectedOption = voiceSelect.options[voiceSelect.selectedIndex];
+                    const selectedVoiceName = selectedOption.getAttribute('data-name');
+                    const voices = speechSynthesis.getVoices();
+                    const selectedVoice = voices.find(voice => voice.name === selectedVoiceName);
+                    
+                    if (selectedVoice) {
+                        utterance.voice = selectedVoice;
+                    }
+                }
+                
+                // Set rate from slider
+                utterance.rate = parseFloat(speedSlider.value);
+                
+                // Visual feedback
+                speakBtn.classList.add('speaking');
+                
+                // Events
+                utterance.onend = function() {
+                    speakBtn.classList.remove('speaking');
+                    currentUtterance = null;
+                    
+                    // Auto-advance if it's enabled
+                    const autoNarration = localStorage.getItem('auto-narration') === 'true';
+                    if (autoNarration && pageFlip.getCurrentPageIndex() < pageFlip.getPageCount() - 1) {
+                        setTimeout(() => {
+                            pageFlip.flipNext();
+                            speakPageContent(); // Speak the next page
+                        }, 1000);
+                    }
+                };
+                
+                // Store current utterance
+                currentUtterance = utterance;
+                
+                // Speak
+                synth.speak(utterance);
+            }
+            
+            // Stop speaking function
+            function stopSpeaking() {
+                if (synth.speaking) {
+                    synth.cancel();
+                    speakBtn.classList.remove('speaking');
+                    currentUtterance = null;
+                }
+            }
+            
+            // Event listeners for speech
+            speakBtn.addEventListener('click', speakPageContent);
+            stopBtn.addEventListener('click', stopSpeaking);
+            
+            // Check if auto-narration is enabled when page is turned
+            pageFlip.on('flip', () => {
+                const autoNarration = localStorage.getItem('auto-narration') === 'true';
+                if (autoNarration) {
+                    speakPageContent();
+                }
+            });
+            
+            // Handle keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    pageFlip.flipPrev();
+                } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    pageFlip.flipNext();
+                }
+            });
+            
+            // Start auto-narration if enabled
+            setTimeout(() => {
+                const autoNarration = localStorage.getItem('auto-narration') === 'true';
+                if (autoNarration) {
+                    speakPageContent();
+                }
+            }, 1800); // Small delay after page load
+        });
+    </script>
+</body>
+</html>

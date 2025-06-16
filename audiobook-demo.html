@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Audiobook Features Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #f5f9fc;
+        }
+        
+        .demo-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .feature-list {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #34648C;
+        }
+        
+        .feature-list h3 {
+            color: #34648C;
+            margin-top: 0;
+        }
+        
+        .feature-list ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight-demo {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .reading-highlight {
+            background-color: #FFD700;
+            color: #000;
+            padding: 2px 4px;
+            border-radius: 3px;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .demo-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            cursor: pointer;
+            user-select: text;
+        }
+        
+        .demo-text:hover {
+            background: #f8f9fa;
+        }
+        
+        .button {
+            background: #34648C;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .button:hover {
+            background: #2c5a7a;
+            transform: translateY(-2px);
+        }
+        
+        .button.stop {
+            background: #dc3545;
+        }
+        
+        .button.stop:hover {
+            background: #c82333;
+        }
+        
+        .instructions {
+            background: #d1ecf1;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #bee5eb;
+            margin: 15px 0;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .status.reading {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.stopped {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🎙️ Enhanced Audiobook Features</h1>
+        <p>This demo shows the new audiobook functionality implemented in both "Needle & Yarn" and "Crochet Mastery" books.</p>
+        
+        <div class="feature-list">
+            <h3>✨ New Features</h3>
+            <ul>
+                <li><strong>Word-by-Word Highlighting:</strong> Each word is highlighted as it's being read</li>
+                <li><strong>"Read From Here":</strong> Double-click any word to start reading from that point</li>
+                <li><strong>Current Page Reading:</strong> Always starts from the page you're currently viewing</li>
+                <li><strong>Automatic Page Turning:</strong> Continues to next page when current page is finished</li>
+                <li><strong>No Repetition:</strong> Reads each word once without duplicating content</li>
+                <li><strong>Visual Feedback:</strong> Golden highlighting shows exactly what's being read</li>
+            </ul>
+        </div>
+        
+        <div class="instructions">
+            <h4>📖 How to Use:</h4>
+            <ol>
+                <li><strong>Auto-Read Button:</strong> Click to start/stop reading from current page</li>
+                <li><strong>Double-Click Words:</strong> Double-click any word to start reading from there</li>
+                <li><strong>Stop Reading:</strong> Click stop button or click auto-read again</li>
+                <li><strong>Page Navigation:</strong> Reading continues automatically across pages</li>
+            </ol>
+        </div>
+        
+        <h3>🧪 Try It Out</h3>
+        <p>Double-click any word in the text below to see the highlighting in action:</p>
+        
+        <div class="demo-text" id="demo-text">
+            In this cozy corner, filled with the scent of warm memories and brewing tea, sat Leola. Her fingers, wise with years of craft, moved like memory itself, creating warmth and wonder. And inside her basket, nestled amongst soft threads and shining tools, magic waited quietly. The basket was old—older than some of the children who often gathered around it, eyes wide with wonder.
+        </div>
+        
+        <div style="margin: 20px 0;">
+            <button class="button" onclick="startDemo()">▶️ Start Demo Reading</button>
+            <button class="button stop" onclick="stopDemo()">⏹️ Stop Demo</button>
+        </div>
+        
+        <div id="status" class="status stopped">Status: Ready to read</div>
+        
+        <div class="highlight-demo">
+            <h4>💡 Example Highlighting:</h4>
+            <p>When reading, words will be highlighted like this: <span class="reading-highlight">example</span></p>
+        </div>
+        
+        <div class="feature-list">
+            <h3>🔧 Technical Improvements</h3>
+            <ul>
+                <li><strong>Fixed Page Skipping:</strong> No more jumping from chapter 1 to 3, 6, 7, 8</li>
+                <li><strong>Eliminated Repetition:</strong> No more "chapter one, chapter one" announcements</li>
+                <li><strong>Proper Sequential Reading:</strong> Reads pages 1, 2, 3, 4, 5 in order</li>
+                <li><strong>Smart Content Detection:</strong> Reads full content, not just headings</li>
+                <li><strong>Enhanced Error Handling:</strong> Graceful recovery from speech errors</li>
+            </ul>
+        </div>
+        
+        <div class="instructions">
+            <h4>🎯 Ready to Use</h4>
+            <p>These features are now active in:</p>
+            <ul>
+                <li><strong><a href="d6jq33mv39.html">Needle & Yarn: A Love Stitched in Time</a></strong></li>
+                <li><strong><a href="0lbzci75tc.html">Crochet Mastery: A Complete Guide</a></strong></li>
+            </ul>
+            <p>Open either book and try the new audiobook experience!</p>
+        </div>
+    </div>
+    
+    <script>
+        let demoReading = false;
+        let demoWords = [];
+        let currentDemoIndex = 0;
+        
+        function prepareDemoText() {
+            const textElement = document.getElementById('demo-text');
+            const text = textElement.textContent;
+            demoWords = text.split(/\s+/);
+            
+            // Clear any existing highlights
+            textElement.innerHTML = text;
+        }
+        
+        function highlightDemoWord(index) {
+            if (index >= demoWords.length) return;
+            
+            const textElement = document.getElementById('demo-text');
+            let highlightedHTML = '';
+            
+            demoWords.forEach((word, i) => {
+                if (i === index) {
+                    highlightedHTML += `<span class="reading-highlight">${word}</span> `;
+                } else {
+                    highlightedHTML += word + ' ';
+                }
+            });
+            
+            textElement.innerHTML = highlightedHTML.trim();
+        }
+        
+        function readDemoWord(index) {
+            if (!demoReading || index >= demoWords.length) {
+                stopDemo();
+                return;
+            }
+            
+            highlightDemoWord(index);
+            
+            const utterance = new SpeechSynthesisUtterance(demoWords[index]);
+            utterance.rate = 0.8;
+            utterance.pitch = 1.0;
+            
+            utterance.onend = function() {
+                if (demoReading) {
+                    setTimeout(() => readDemoWord(index + 1), 100);
+                }
+            };
+            
+            speechSynthesis.speak(utterance);
+        }
+        
+        function startDemo() {
+            if (demoReading) {
+                stopDemo();
+                return;
+            }
+            
+            demoReading = true;
+            prepareDemoText();
+            currentDemoIndex = 0;
+            
+            document.getElementById('status').className = 'status reading';
+            document.getElementById('status').textContent = 'Status: Reading with word highlighting...';
+            
+            readDemoWord(0);
+        }
+        
+        function stopDemo() {
+            demoReading = false;
+            speechSynthesis.cancel();
+            
+            const textElement = document.getElementById('demo-text');
+            textElement.innerHTML = textElement.textContent;
+            
+            document.getElementById('status').className = 'status stopped';
+            document.getElementById('status').textContent = 'Status: Ready to read';
+        }
+        
+        // Add double-click functionality to demo text
+        document.getElementById('demo-text').addEventListener('dblclick', function(e) {
+            const selection = window.getSelection();
+            const selectedText = selection.toString();
+            
+            if (selectedText) {
+                prepareDemoText();
+                
+                // Find the word index
+                const clickedWord = selectedText.split(/\s+/)[0];
+                const wordIndex = demoWords.findIndex(word => word.includes(clickedWord));
+                
+                if (wordIndex !== -1) {
+                    currentDemoIndex = wordIndex;
+                    demoReading = true;
+                    
+                    document.getElementById('status').className = 'status reading';
+                    document.getElementById('status').textContent = `Status: Reading from "${clickedWord}"...`;
+                    
+                    readDemoWord(wordIndex);
+                }
+            }
+        });
+        
+        // Initialize
+        prepareDemoText();
+    </script>
+</body>
+</html>

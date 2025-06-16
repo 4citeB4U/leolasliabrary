@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Crochet Mastery Game</title>
+    <link rel="stylesheet" href="../css/agent-lee.css">
+    <script src="../js/badge-manager.js"></script>
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DAA06D;
+            --yarn-color: #FF7F50;
+            --bg-color: #FAF3E0;
+            --card-bg: #FFF8E8;
+            --text-color: #333;
+            --shadow-color: rgba(139, 69, 19, 0.2);
+            --footer-bg: #704214;
+            --footer-text: #F4ECD8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .game-header {
+            background-color: rgba(255, 248, 232, 0.92);
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.25);
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .game-title {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .game-subtitle {
+            color: var(--yarn-color);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .game-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .game-board {
+            width: 100%;
+            max-width: 900px;
+            background-color: rgba(255, 248, 232, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.25);
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            min-height: 500px;
+        }
+        
+        .game-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 20px;
+        }
+        
+        .game-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .game-btn:hover {
+            background-color: var(--yarn-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .game-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .game-info {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+        
+        .game-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .game-step {
+            display: none;
+        }
+        
+        .game-step.active {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .step-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .step-content {
+            display: flex;
+            flex: 1;
+            gap: 20px;
+        }
+        
+        .step-instructions {
+            flex: 1;
+        }
+        
+        .step-visual {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .step-visual img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .option-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.2);
+        }
+        
+        .option-card.selected {
+            border: 2px solid var(--yarn-color);
+            background-color: rgba(255, 127, 80, 0.1);
+        }
+        
+        .option-card img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .option-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .option-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--yarn-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .badges-section {
+            width: 100%;
+            max-width: 900px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .badges-title {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+        }
+        
+        .badge {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .badge-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .badge-name {
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        
+        .no-badges {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            grid-column: 1 / -1;
+            padding: 10px;
+        }
+        
+        .result-message {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .success {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #2e7d32;
+        }
+        
+        .error {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #c62828;
+        }
+        
+        .back-button {
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--yarn-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .step-content {
+                flex-direction: column;
+            }
+            
+            .game-title {
+                font-size: 1.5rem;
+            }
+            
+            .game-controls {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .game-btn {
+                flex: 1;
+                min-width: 120px;
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="game-header">
+        <h1 class="game-title">Interactive Crochet Mastery Game</h1>
+        <p class="game-subtitle">Build your crochet skills through interactive choices and challenges</p>
+    </header>
+    
+    <div class="game-container">
+        <div class="game-info">
+            <h3>Welcome to the Crochet Mastery Game!</h3>
+            <p>In this interactive 2D/3D game, you'll choose patterns, select yarns, and create beautiful crochet projects step by step. Each choice affects your final creation. Earn badges as you master different techniques!</p>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress-bar"></div>
+        </div>
+        
+        <div class="game-board">
+            <!-- Step 1: Choose Project -->
+            <div class="game-step active" id="step-1">
+                <h2 class="step-title">Step 1: Choose Your Project</h2>
+                <div class="step-content">
+                    <div class="step-instructions">
+                        <p>Let's start your crochet journey! Choose the project you'd like to make. Each project has different difficulty levels and will teach you different techniques.</p>
+                        <p>Select one of the options below to begin:</p>
+                        
+                        <div class="option-grid">
+                            <div class="option-card" data-option="scarf">
+                                <img src="../pqodhiogec.png" alt="Scarf Project">
+                                <h4>Cozy Scarf</h4>
+                                <p>Difficulty: Beginner</p>
+                                <p>Learn: Basic stitches</p>
+                            </div>
+                            
+                            <div class="option-card" data-option="hat">
+                                <img src="../k35or53wlz.png" alt="Hat Project">
+                                <h4>Beanie Hat</h4>
+                                <p>Difficulty: Intermediate</p>
+                                <p>Learn: Working in rounds</p>
+                            </div>
+                            
+                            <div class="option-card" data-option="amigurumi">
+                                <img src="../bhxud9qhuc.png" alt="Amigurumi Project">
+                                <h4>Cute Amigurumi</h4>
+                                <p>Difficulty: Advanced</p>
+                                <p>Learn: 3D shaping</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2: Choose Yarn -->
+            <div class="game-step" id="step-2">
+                <h2 class="step-title">Step 2: Choose Your Yarn</h2>
+                <div class="step-content">
+                    <div class="step-instructions">
+                        <p>Great choice! Now let's select the perfect yarn for your project. The type of yarn affects both the appearance and feel of your finished piece.</p>
+                        <p>Select one of these yarns:</p>
+                        
+                        <div class="option-grid">
+                            <div class="option-card" data-option="acrylic">
+                                <img src="../xhabe2hpi5.png" alt="Acrylic Yarn">
+                                <h4>Acrylic Yarn</h4>
+                                <p>Pros: Affordable, washable</p>
+                                <p>Cons: Less breathable</p>
+                            </div>
+                            
+                            <div class="option-card" data-option="cotton">
+                                <img src="../zbn28rec7s.png" alt="Cotton Yarn">
+                                <h4>Cotton Yarn</h4>
+                                <p>Pros: Soft, breathable</p>
+                                <p>Cons: Heavier, less stretchy</p>
+                            </div>
+                            
+                            <div class="option-card" data-option="wool">
+                                <img src="../9k1ycnd7fw.png" alt="Wool Yarn">
+                                <h4>Wool Yarn</h4>
+                                <p>Pros: Warm, elastic</p>
+                                <p>Cons: Requires special care</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3: Choose Hook -->
+            <div class="game-step" id="step-3">
+                <h2 class="step-title">Step 3: Choose Your Hook</h2>
+                <div class="step-content">
+                    <div class="step-instructions">
+                        <p>Now let's select the right hook size for your project. The hook size affects the tightness and appearance of your stitches.</p>
+                        <p>Based on your yarn choice, select one of these hooks:</p>
+                        
+                        <div class="option-grid">
+                            <div class="option-card" data-option="small">
+                                <img src="../itj0aomnfz.png" alt="Small Hook">
+                                <h4>Small Hook (3-4mm)</h4>
+                                <p>Creates tight, dense fabric</p>
+                                <p>Good for: Amigurumi, bags</p>
+                            </div>
+                            
+                            <div class="option-card" data-option="medium">
+                                <img src="../y6b6449u4a.png" alt="Medium Hook">
+                                <h4>Medium Hook (5-6mm)</h4>
+                                <p>Creates balanced fabric</p>
+                                <p>Good for: Scarves, hats</p>
+                            </div>
+                            
+                            <div class="option-card" data-option="large">
+                                <img src="../w5ei502pyt.png" alt="Large Hook">
+                                <h4>Large Hook (7-9mm)</h4>
+                                <p>Creates loose, drapey fabric</p>
+                                <p>Good for: Quick blankets</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 4: Choose Stitch -->
+            <div class="game-step" id="step-4">
+                <h2 class="step-title">Step 4: Choose Your Stitch Pattern</h2>
+                <div class="step-content">
+                    <div class="step-instructions">
+                        <p>Now for the fun part - choosing the stitch pattern that will create the texture and look of your project.</p>
+                        <p>Select one of these stitch patterns:</p>
+                        
+                        <div class="option-grid">
+                            <div class="option-card" data-option="single">
+                                <img src="../v1t33f8eyx.png" alt="Single Crochet">
+                                <h4>Single Crochet</h4>
+                                <p>Difficulty: Easy</p>
+                                <p>Creates: Dense, firm fabric</p>
+                            </div>
+                            
+                            <div class="option-card" data-option="double">
+                                <img src="../hz9ad6xkoz.png" alt="Double Crochet">
+                                <h4>Double Crochet</h4>
+                                <p>Difficulty: Easy</p>
+                                <p>Creates: Tall, airy fabric</p>
+                            </div>
+                            
+                            <div class="option-card" data-option="shell">
+                                <img src="../e3sehnjdo9.png" alt="Shell Stitch">
+                                <h4>Shell Stitch</h4>
+                                <p>Difficulty: Intermediate</p>
+                                <p>Creates: Decorative fabric</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 5: Working on Project -->
+            <div class="game-step" id="step-5">
+                <h2 class="step-title">Step 5: Working on Your Project</h2>
+                <div class="step-content">
+                    <div class="step-instructions">
+                        <p>Now let's put everything together and work on your project! Follow the instructions below.</p>
+                        <p id="project-instructions">Your custom instructions will appear here based on your choices.</p>
+                        
+                        <div class="option-grid">
+                            <div class="option-card" data-option="slow">
+                                <h4>Work Slowly & Carefully</h4>
+                                <p>Take your time to ensure each stitch is perfect</p>
+                                <p>Result: Neat, consistent project</p>
+                            </div>
+                            
+                            <div class="option-card" data-option="medium">
+                                <h4>Work at a Moderate Pace</h4>
+                                <p>Balance speed and precision</p>
+                                <p>Result: Good overall project</p>
+                            </div>
+                            
+                            <div class="option-card" data-option="fast">
+                                <h4>Work Quickly</h4>
+                                <p>Focus on getting it done fast</p>
+                                <p>Result: Finished faster but may have irregularities</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-visual">
+                        <img id="project-preview" src="../rr18389x35.png" alt="Project in progress">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 6: Final Result -->
+            <div class="game-step" id="step-6">
+                <h2 class="step-title">Step 6: Your Finished Project!</h2>
+                <div class="step-content">
+                    <div class="step-instructions">
+                        <p>Congratulations! You've completed your crochet project. Here's the result based on all your choices.</p>
+                        <div id="result-description">
+                            <p>Your project description will appear here.</p>
+                        </div>
+                        
+                        <div class="result-message" id="result-message"></div>
+                        
+                        <button class="game-btn" id="play-again-btn">Play Again</button>
+                        <a href="../index.html#games" class="back-button">Back to Games</a>
+                    </div>
+                    
+                    <div class="step-visual">
+                        <img id="final-project" src="../86wcv5gq2g.png" alt="Finished Project">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-controls">
+            <button class="game-btn" id="prev-btn" disabled>Previous Step</button>
+            <button class="game-btn" id="next-btn" disabled>Next Step</button>
+        </div>
+        
+        <div class="badges-section">
+            <h3 class="badges-title">Your Earned Badges</h3>
+            <div class="badges-grid" id="badges-grid">
+                <p class="no-badges" id="no-badges-message">You haven't earned any badges yet. Complete the game to collect badges!</p>
+                <!-- Badges will be populated here -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Game state
+        const gameState = {
+            currentStep: 1,
+            totalSteps: 6,
+            choices: {
+                project: null,
+                yarn: null,
+                hook: null,
+                stitch: null,
+                workStyle: null
+            },
+            selectedOptions: {}
+        };
+        
+        // DOM Elements
+        const progressBar = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const playAgainBtn = document.getElementById('play-again-btn');
+        const optionCards = document.querySelectorAll('.option-card');
+        const projectInstructions = document.getElementById('project-instructions');
+        const projectPreview = document.getElementById('project-preview');
+        const finalProject = document.getElementById('final-project');
+        const resultDescription = document.getElementById('result-description');
+        const resultMessage = document.getElementById('result-message');
+        const badgesGrid = document.getElementById('badges-grid');
+        const noBadgesMessage = document.getElementById('no-badges-message');
+        
+        // Badges data
+        const BADGES = {
+            project_scarf: {
+                id: 'project_scarf',
+                name: 'Scarf Crafter',
+                icon: '🧣',
+                description: 'Created a beautiful scarf'
+            },
+            project_hat: {
+                id: 'project_hat',
+                name: 'Hat Maker',
+                icon: '🧢',
+                description: 'Created a stylish hat'
+            },
+            project_amigurumi: {
+                id: 'project_amigurumi',
+                name: 'Amigurumi Artist',
+                icon: '🧸',
+                description: 'Created a cute amigurumi'
+            },
+            yarn_master: {
+                id: 'yarn_master',
+                name: 'Yarn Master',
+                icon: '🧶',
+                description: 'Expertly selected the perfect yarn'
+            },
+            hook_expert: {
+                id: 'hook_expert',
+                name: 'Hook Expert',
+                icon: '🪝',
+                description: 'Chose the ideal hook size'
+            },
+            stitch_wizard: {
+                id: 'stitch_wizard',
+                name: 'Stitch Wizard',
+                icon: '✨',
+                description: 'Mastered a beautiful stitch pattern'
+            },
+            master_crocheter: {
+                id: 'master_crocheter',
+                name: 'Master Crocheter',
+                icon: '🏆',
+                description: 'Completed a perfect project'
+            },
+            crochet_enthusiast: {
+                id: 'crochet_enthusiast',
+                name: 'Crochet Enthusiast',
+                icon: '🎮',
+                description: 'Played the Crochet Mastery Game'
+            }
+        };
+        
+        // Project instructions based on choices
+        const INSTRUCTIONS = {
+            scarf: {
+                single: "Start with a chain that's as long as you want your scarf, then work rows of single crochet stitches back and forth.",
+                double: "Start with a chain that's as long as you want your scarf, then work rows of double crochet stitches back and forth.",
+                shell: "Start with a chain that's as long as you want your scarf, then work shell stitches to create a beautiful scalloped pattern."
+            },
+            hat: {
+                single: "Start with a magic circle, then work single crochet in spiral rounds, increasing strategically to create the hat shape.",
+                double: "Start with a magic circle, then work double crochet in spiral rounds, increasing strategically to create the hat shape.",
+                shell: "Start with a magic circle for the crown, work increases, then switch to shell stitch pattern for the body of the hat."
+            },
+            amigurumi: {
+                single: "Start with a magic circle and work tight single crochet stitches in spiral rounds, following the shaping instructions.",
+                double: "Start with a magic circle and work double crochet stitches in spiral rounds, creating a looser, fluffier amigurumi.",
+                shell: "Start with a magic circle for the base, then create a unique amigurumi with decorative shell stitch accents."
+            }
+        };
+        
+        // Project results based on choices
+        const RESULTS = {
+            scarf: {
+                acrylic: {
+                    small: "Your acrylic scarf with a small hook created a very dense, warm fabric that's perfect for winter.",
+                    medium: "Your acrylic scarf with a medium hook created a balanced, versatile fabric that's great for any season.",
+                    large: "Your acrylic scarf with a large hook created a loose, drapey fabric with lots of movement."
+                },
+                cotton: {
+                    small: "Your cotton scarf with a small hook created a firm, structured fabric that holds its shape beautifully.",
+                    medium: "Your cotton scarf with a medium hook created a nice balance of structure and drape, perfect for spring or fall.",
+                    large: "Your cotton scarf with a large hook created an airy, lightweight fabric that's wonderful for warmer days."
+                },
+                wool: {
+                    small: "Your wool scarf with a small hook created an incredibly warm, dense fabric with excellent insulation.",
+                    medium: "Your wool scarf with a medium hook created a traditional, cozy fabric with the perfect amount of warmth.",
+                    large: "Your wool scarf with a large hook created a lofty, cloud-like fabric that's still remarkably warm."
+                }
+            },
+            hat: {
+                acrylic: {
+                    small: "Your acrylic hat with a small hook created a firm, wind-resistant beanie that holds its shape well.",
+                    medium: "Your acrylic hat with a medium hook created a classic beanie with good structure and comfort.",
+                    large: "Your acrylic hat with a large hook created a slouchy, relaxed beanie with a trendy oversized look."
+                },
+                cotton: {
+                    small: "Your cotton hat with a small hook created a sturdy, breathable beanie that's perfect for spring or fall.",
+                    medium: "Your cotton hat with a medium hook created a comfortable, all-season beanie with a great fit.",
+                    large: "Your cotton hat with a large hook created a loose, breezy beanie that's ideal for keeping the sun off."
+                },
+                wool: {
+                    small: "Your wool hat with a small hook created an extremely warm, structured beanie for the coldest weather.",
+                    medium: "Your wool hat with a medium hook created a perfect winter beanie with the ideal balance of warmth and comfort.",
+                    large: "Your wool hat with a large hook created a fashionable, textured beanie with excellent insulation."
+                }
+            },
+            amigurumi: {
+                acrylic: {
+                    small: "Your acrylic amigurumi with a small hook created a firm, sturdy character with no visible gaps.",
+                    medium: "Your acrylic amigurumi with a medium hook created a softer character with slightly visible stitches.",
+                    large: "Your acrylic amigurumi with a large hook created a unique, artistic character with visible gaps and texture."
+                },
+                cotton: {
+                    small: "Your cotton amigurumi with a small hook created a professional-looking character with excellent stitch definition.",
+                    medium: "Your cotton amigurumi with a medium hook created a huggable character with a nice balance of structure and softness.",
+                    large: "Your cotton amigurumi with a large hook created an avant-garde character with unusual texture and openwork."
+                },
+                wool: {
+                    small: "Your wool amigurumi with a small hook created a dense, fuzzy character with a warm, handmade feel.",
+                    medium: "Your wool amigurumi with a medium hook created a classic character with slight fuzziness and great texture.",
+                    large: "Your wool amigurumi with a large hook created a shaggy, art piece character with creative use of texture."
+                }
+            }
+        };
+        
+        // Work style messages
+        const WORK_STYLE_MESSAGES = {
+            slow: "Your careful attention to detail has resulted in a flawless finished project with perfectly even stitches.",
+            medium: "Your balanced approach has created a lovely project with good overall consistency.",
+            fast: "Your speedy work has resulted in a completed project quickly, though there are some variations in stitch tension."
+        };
+        
+        // Initialize the game
+        function initGame() {
+            updateProgressBar();
+            updateNextButtonState();
+            
+            // Set up event listeners
+            prevBtn.addEventListener('click', goToPreviousStep);
+            nextBtn.addEventListener('click', goToNextStep);
+            playAgainBtn.addEventListener('click', resetGame);
+            
+            optionCards.forEach(card => {
+                card.addEventListener('click', selectOption);
+            });
+            
+            // Award the enthusiast badge just for playing
+            awardBadge('crochet_enthusiast');
+            
+            // Update badges display
+            updateBadgesDisplay();
+        }
+        
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = (gameState.currentStep / gameState.totalSteps) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // Handle option selection
+        function selectOption(event) {
+            const card = event.currentTarget;
+            const option = card.getAttribute('data-option');
+            const currentStepElement = document.getElementById(`step-${gameState.currentStep}`);
+            
+            // Deselect all options in this step
+            const optionsInStep = currentStepElement.querySelectorAll('.option-card');
+            optionsInStep.forEach(opt => opt.classList.remove('selected'));
+            
+            // Select this option
+            card.classList.add('selected');
+            
+            // Store the selection
+            switch(gameState.currentStep) {
+                case 1:
+                    gameState.choices.project = option;
+                    break;
+                case 2:
+                    gameState.choices.yarn = option;
+                    break;
+                case 3:
+                    gameState.choices.hook = option;
+                    break;
+                case 4:
+                    gameState.choices.stitch = option;
+                    break;
+                case 5:
+                    gameState.choices.workStyle = option;
+                    break;
+            }
+            
+            // Enable next button when an option is selected
+            updateNextButtonState();
+        }
+        
+        // Update next button state
+        function updateNextButtonState() {
+            let hasSelection = false;
+            
+            switch(gameState.currentStep) {
+                case 1:
+                    hasSelection = gameState.choices.project !== null;
+                    break;
+                case 2:
+                    hasSelection = gameState.choices.yarn !== null;
+                    break;
+                case 3:
+                    hasSelection = gameState.choices.hook !== null;
+                    break;
+                case 4:
+                    hasSelection = gameState.choices.stitch !== null;
+                    break;
+                case 5:
+                    hasSelection = gameState.choices.workStyle !== null;
+                    break;
+                case 6:
+                    // Final step, no selection needed
+                    hasSelection = true;
+                    break;
+            }
+            
+            nextBtn.disabled = !hasSelection;
+        }
+        
+        // Go to next step
+        function goToNextStep() {
+            if (gameState.currentStep < gameState.totalSteps) {
+                // Hide current step
+                const currentStep = document.getElementById(`step-${gameState.currentStep}`);
+                currentStep.classList.remove('active');
+                
+                // Increment step counter
+                gameState.currentStep++;
+                
+                // Show next step
+                const nextStep = document.getElementById(`step-${gameState.currentStep}`);
+                nextStep.classList.add('active');
+                
+                // Enable prev button
+                prevBtn.disabled = false;
+                
+                // Update next button state
+                updateNextButtonState();
+                
+                // Update progress bar
+                updateProgressBar();
+                
+                // Handle special step logic
+                if (gameState.currentStep === 5) {
+                    updateProjectInstructions();
+                } else if (gameState.currentStep === 6) {
+                    showFinalResult();
+                    nextBtn.disabled = true; // Disable next button on final step
+                }
+                
+                // Award step-specific badges
+                awardStepBadges();
+            }
+        }
+        
+        // Go to previous step
+        function goToPreviousStep() {
+            if (gameState.currentStep > 1) {
+                // Hide current step
+                const currentStep = document.getElementById(`step-${gameState.currentStep}`);
+                currentStep.classList.remove('active');
+                
+                // Decrement step counter
+                gameState.currentStep--;
+                
+                // Show previous step
+                const prevStep = document.getElementById(`step-${gameState.currentStep}`);
+                prevStep.classList.add('active');
+                
+                // Disable prev button if we're at step 1
+                prevBtn.disabled = gameState.currentStep === 1;
+                
+                // Update next button state
+                updateNextButtonState();
+                
+                // Update progress bar
+                updateProgressBar();
+            }
+        }
+        
+        // Update project instructions based on choices
+        function updateProjectInstructions() {
+            if (gameState.choices.project && gameState.choices.stitch) {
+                const instructions = INSTRUCTIONS[gameState.choices.project][gameState.choices.stitch];
+                projectInstructions.textContent = instructions;
+                
+                // Update project preview image based on project type
+                switch(gameState.choices.project) {
+                    case 'scarf':
+                        projectPreview.src = "../rr18389x35.png";
+                        break;
+                    case 'hat':
+                        projectPreview.src = "../x0prssgjjo.png";
+                        break;
+                    case 'amigurumi':
+                        projectPreview.src = "../bhxud9qhuc.png";
+                        break;
+                }
+            }
+        }
+        
+        // Show final result
+        function showFinalResult() {
+            if (gameState.choices.project && gameState.choices.yarn && gameState.choices.hook) {
+                // Get the result description
+                const resultText = RESULTS[gameState.choices.project][gameState.choices.yarn][gameState.choices.hook];
+                const workStyleText = WORK_STYLE_MESSAGES[gameState.choices.workStyle];
+                
+                // Update result description
+                resultDescription.innerHTML = `
+                    <p><strong>Project Type:</strong> ${capitalizeFirstLetter(gameState.choices.project)}</p>
+                    <p><strong>Yarn Type:</strong> ${capitalizeFirstLetter(gameState.choices.yarn)}</p>
+                    <p><strong>Hook Size:</strong> ${capitalizeFirstLetter(gameState.choices.hook)}</p>
+                    <p><strong>Stitch Pattern:</strong> ${capitalizeFirstLetter(gameState.choices.stitch)}</p>
+                    <p><strong>Work Style:</strong> ${capitalizeFirstLetter(gameState.choices.workStyle)}</p>
+                    <p>${resultText}</p>
+                    <p>${workStyleText}</p>
+                `;
+                
+                // Update final project image
+                switch(gameState.choices.project) {
+                    case 'scarf':
+                        finalProject.src = "../86wcv5gq2g.png";
+                        break;
+                    case 'hat':
+                        finalProject.src = "../q2sxkak1cn.png";
+                        break;
+                    case 'amigurumi':
+                        finalProject.src = "../kpf2hplfro.png";
+                        break;
+                }
+                
+                // Show success message
+                resultMessage.textContent = "Congratulations on completing your project!";
+                resultMessage.className = "result-message success";
+                
+                // Award master badge if all choices are optimal
+                checkForMasterBadge();
+            }
+        }
+        
+        // Check if player deserves the master badge
+        function checkForMasterBadge() {
+            // Define optimal combinations for different projects
+            const optimalChoices = {
+                scarf: {
+                    yarn: 'acrylic',
+                    hook: 'medium',
+                    stitch: 'double',
+                    workStyle: 'slow'
+                },
+                hat: {
+                    yarn: 'wool',
+                    hook: 'medium',
+                    stitch: 'single',
+                    workStyle: 'slow'
+                },
+                amigurumi: {
+                    yarn: 'cotton',
+                    hook: 'small',
+                    stitch: 'single',
+                    workStyle: 'slow'
+                }
+            };
+            
+            // Check if current choices match optimal choices for the project
+            const optimal = optimalChoices[gameState.choices.project];
+            if (gameState.choices.yarn === optimal.yarn &&
+                gameState.choices.hook === optimal.hook &&
+                gameState.choices.stitch === optimal.stitch &&
+                gameState.choices.workStyle === optimal.workStyle) {
+                
+                awardBadge('master_crocheter');
+                resultMessage.textContent = "Perfect choices! You've created a masterpiece!";
+            }
+        }
+        
+        // Award badges for completing steps
+        function awardStepBadges() {
+            switch(gameState.currentStep) {
+                case 2: // After selecting project
+                    if (gameState.choices.project) {
+                        awardBadge(`project_${gameState.choices.project}`);
+                    }
+                    break;
+                case 3: // After selecting yarn
+                    awardBadge('yarn_master');
+                    break;
+                case 4: // After selecting hook
+                    awardBadge('hook_expert');
+                    break;
+                case 5: // After selecting stitch
+                    awardBadge('stitch_wizard');
+                    break;
+            }
+        }
+        
+        // Award a badge
+        function awardBadge(badgeId) {
+            // Check if badge already exists in localStorage
+            const earnedBadges = getEarnedBadges();
+            
+            if (!earnedBadges.includes(badgeId) && BADGES[badgeId]) {
+                // Add badge to earned badges
+                earnedBadges.push(badgeId);
+                
+                // Save to localStorage
+                localStorage.setItem('crochetMasteryGame_badges', JSON.stringify(earnedBadges));
+                
+                // Update badges display
+                updateBadgesDisplay();
+                
+                // Try to award badge via BadgeManager if available
+                if (window.BadgeManager && typeof window.BadgeManager.awardBadge === 'function') {
+                    window.BadgeManager.awardBadge(badgeId);
+                }
+                
+                // Show badge earned notification
+                showBadgeNotification(BADGES[badgeId]);
+            }
+        }
+        
+        // Get earned badges from localStorage
+        function getEarnedBadges() {
+            const savedBadges = localStorage.getItem('crochetMasteryGame_badges');
+            return savedBadges ? JSON.parse(savedBadges) : [];
+        }
+        
+        // Update badges display
+        function updateBadgesDisplay() {
+            const earnedBadges = getEarnedBadges();
+            
+            // Clear existing badges (except the no-badges message)
+            const badgeElements = badgesGrid.querySelectorAll('.badge');
+            badgeElements.forEach(el => el.remove());
+            
+            if (earnedBadges.length > 0) {
+                // Hide no badges message
+                noBadgesMessage.style.display = 'none';
+                
+                // Create badge elements
+                earnedBadges.forEach(badgeId => {
+                    if (BADGES[badgeId]) {
+                        const badge = BADGES[badgeId];
+                        const badgeElement = document.createElement('div');
+                        badgeElement.className = 'badge';
+                        badgeElement.innerHTML = `
+                            <div class="badge-icon">${badge.icon}</div>
+                            <div class="badge-name">${badge.name}</div>
+                        `;
+                        badgesGrid.appendChild(badgeElement);
+                    }
+                });
+            } else {
+                // Show no badges message
+                noBadgesMessage.style.display = 'block';
+            }
+            
+            // Share badges with parent window if opened from main site
+            shareBadgesWithParent(earnedBadges);
+        }
+        
+        // Share badges with parent window
+        function shareBadgesWithParent(earnedBadges) {
+            try {
+                // Share badges with parent window (main site) via localStorage
+                if (earnedBadges.length > 0) {
+                    // Get existing shared badges
+                    let homepageBadges = localStorage.getItem('homepageBadges');
+                    let badgesArray = homepageBadges ? JSON.parse(homepageBadges) : [];
+                    
+                    // Add new badges
+                    earnedBadges.forEach(badgeId => {
+                        if (BADGES[badgeId]) {
+                            // Check if badge already exists in array
+                            const exists = badgesArray.some(b => b.id === badgeId);
+                            if (!exists) {
+                                badgesArray.push(BADGES[badgeId]);
+                            }
+                        }
+                    });
+                    
+                    // Save back to localStorage
+                    localStorage.setItem('homepageBadges', JSON.stringify(badgesArray));
+                    
+                    // Try to notify parent window directly
+                    if (window.parent && window.parent !== window) {
+                        try {
+                            const event = new CustomEvent('badgeEarned', { detail: { badges: earnedBadges } });
+                            window.parent.document.dispatchEvent(event);
+                        } catch (e) {
+                            console.error("Error notifying parent window:", e);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error sharing badges with parent:', error);
+            }
+        }
+        
+        // Show badge notification
+        function showBadgeNotification(badge) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = 'rgba(255, 248, 232, 0.95)';
+            notification.style.borderRadius = '10px';
+            notification.style.padding = '15px';
+            notification.style.boxShadow = '0 5px 15px rgba(139, 69, 19, 0.3)';
+            notification.style.zIndex = '1000';
+            notification.style.transition = 'all 0.5s ease';
+            notification.style.transform = 'translateY(100%)';
+            notification.style.opacity = '0';
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="font-size: 2rem;">${badge.icon}</div>
+                    <div>
+                        <div style="font-weight: bold; color: var(--primary-color);">Badge Earned!</div>
+                        <div>${badge.name}</div>
+                        <div style="font-size: 0.9rem; color: #666;">${badge.description}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Add to document
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateY(0)';
+                notification.style.opacity = '1';
+            }, 100);
+            
+            // Remove after delay
+            setTimeout(() => {
+                notification.style.transform = 'translateY(100%)';
+                notification.style.opacity = '0';
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 4000);
+        }
+        
+        // Reset game
+        function resetGame() {
+            // Reset game state
+            gameState.currentStep = 1;
+            gameState.choices = {
+                project: null,
+                yarn: null,
+                hook: null,
+                stitch: null,
+                workStyle: null
+            };
+            
+            // Reset UI
+            document.querySelectorAll('.game-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            document.getElementById('step-1').classList.add('active');
+            
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Reset buttons
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+            
+            // Reset progress bar
+            updateProgressBar();
+        }
+        
+        // Helper function to capitalize first letter
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        
+        // Initialize the game
+        document.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>

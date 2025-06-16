@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stitch Match Game</title>
+    <link rel="stylesheet" href="../css/agent-lee.css">
+    <script src="../js/badge-manager.js"></script>
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DAA06D;
+            --yarn-color: #FF7F50;
+            --bg-color: #FAF3E0;
+            --card-bg: #FFF8E8;
+            --text-color: #333;
+            --shadow-color: rgba(139, 69, 19, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background-color: rgba(255, 248, 232, 0.92);
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.25);
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .title {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+        
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .game-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            margin-bottom: 20px;
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .score-container {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .score-box {
+            background-color: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .difficulty-selector {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .difficulty-btn {
+            padding: 8px 15px;
+            background-color: var(--card-bg);
+            border: 2px solid var(--secondary-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .difficulty-btn:hover, .difficulty-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            aspect-ratio: 1 / 1;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .card-front {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .card-back {
+            background-color: white;
+            color: var(--primary-color);
+            transform: rotateY(180deg);
+            border: 2px solid var(--secondary-color);
+            font-size: 0.9rem;
+            padding: 5px;
+            flex-direction: column;
+        }
+        
+        .card-image {
+            width: 80%;
+            height: 70%;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+        
+        .card-name {
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .control-btn {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--yarn-color);
+            transform: translateY(-3px);
+        }
+        
+        .control-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .instructions {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-style: italic;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+        
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+        
+        .result-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .result-score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--yarn-color);
+            margin: 20px 0;
+        }
+        
+        .result-message {
+            margin-bottom: 20px;
+        }
+        
+        .badge-display {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            border: 2px dashed var(--secondary-color);
+        }
+        
+        .badge-img {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 10px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #play-again {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        #go-home {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Game description */
+        .game-description {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .game-description h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        /* Back Button */
+        .back-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            width: fit-content;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--yarn-color);
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* For smaller screens */
+        @media (max-width: 768px) {
+            .game-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .game-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .game-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .control-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">Stitch Match</h1>
+        <p class="subtitle">Test your crochet knowledge with this matching game!</p>
+    </header>
+    
+    <main class="main-container">
+        <div class="game-description">
+            <h2>Match Crochet Stitches to Win!</h2>
+            <p>Flip cards to find matching crochet stitches. Learn stitch names and patterns while having fun! Choose your difficulty level and try to complete the game with as few moves as possible.</p>
+        </div>
+        
+        <div class="game-container">
+            <div class="game-header">
+                <div class="score-container">
+                    <div class="score-box">Moves: <span id="moves">0</span></div>
+                    <div class="score-box">Matches: <span id="matches">0</span></div>
+                </div>
+                
+                <div class="difficulty-selector">
+                    <button class="difficulty-btn active" data-difficulty="easy">Beginner</button>
+                    <button class="difficulty-btn" data-difficulty="medium">Intermediate</button>
+                    <button class="difficulty-btn" data-difficulty="hard">Advanced</button>
+                </div>
+            </div>
+            
+            <div class="instructions" id="game-instructions">
+                Click on cards to match crochet stitches!
+            </div>
+            
+            <div class="game-grid" id="game-grid">
+                <!-- Cards will be generated here by JavaScript -->
+            </div>
+            
+            <div class="controls">
+                <button id="start-game" class="control-btn">Start New Game</button>
+                <button id="hint-btn" class="control-btn" disabled>Show Hint</button>
+            </div>
+        </div>
+        
+        <a href="../index.html#games" class="back-button">Back to Games</a>
+    </main>
+    
+    <!-- Result Modal -->
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="result-title">Congratulations!</h2>
+            <p class="result-message">You've completed the game!</p>
+            <div class="result-score">Moves: <span id="final-moves">0</span></div>
+            
+            <div id="badge-container" class="badge-display">
+                <h3>Badge Earned!</h3>
+                <div class="badge-img">
+                    <!-- Badge image will be inserted here -->
+                </div>
+                <p id="badge-name">Stitch Master</p>
+            </div>
+            
+            <div class="modal-buttons">
+                <button id="play-again" class="modal-btn">Play Again</button>
+                <button id="go-home" class="modal-btn">Return to Home</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Game elements
+            const gameGrid = document.getElementById('game-grid');
+            const movesDisplay = document.getElementById('moves');
+            const matchesDisplay = document.getElementById('matches');
+            const startGameBtn = document.getElementById('start-game');
+            const hintBtn = document.getElementById('hint-btn');
+            const difficultyBtns = document.querySelectorAll('.difficulty-btn');
+            const resultModal = document.getElementById('result-modal');
+            const closeModalBtn = document.querySelector('.close');
+            const finalMovesDisplay = document.getElementById('final-moves');
+            const playAgainBtn = document.getElementById('play-again');
+            const goHomeBtn = document.getElementById('go-home');
+            const gameInstructions = document.getElementById('game-instructions');
+            const badgeContainer = document.getElementById('badge-container');
+            const badgeName = document.getElementById('badge-name');
+            
+            // Game state
+            let cards = [];
+            let flippedCards = [];
+            let moves = 0;
+            let matches = 0;
+            let maxMatches = 0;
+            let gameStarted = false;
+            let canFlip = true;
+            let currentDifficulty = 'easy';
+            let hintsUsed = 0;
+            let maxHints = 3;
+            
+            // Stitch data
+            const stitches = {
+                'single_crochet': {
+                    name: 'Single Crochet (sc)',
+                    image: '../images/stitches/single_crochet.png'
+                },
+                'double_crochet': {
+                    name: 'Double Crochet (dc)',
+                    image: '../images/stitches/double_crochet.png'
+                },
+                'half_double_crochet': {
+                    name: 'Half Double Crochet (hdc)',
+                    image: '../images/stitches/half_double_crochet.png'
+                },
+                'treble_crochet': {
+                    name: 'Treble Crochet (tr)',
+                    image: '../images/stitches/treble_crochet.png'
+                },
+                'slip_stitch': {
+                    name: 'Slip Stitch (sl st)',
+                    image: '../images/stitches/slip_stitch.png'
+                },
+                'chain_stitch': {
+                    name: 'Chain Stitch (ch)',
+                    image: '../images/stitches/chain_stitch.png'
+                },
+                'shell_stitch': {
+                    name: 'Shell Stitch',
+                    image: '../images/stitches/shell_stitch.png'
+                },
+                'puff_stitch': {
+                    name: 'Puff Stitch',
+                    image: '../images/stitches/puff_stitch.png'
+                },
+                'bobble_stitch': {
+                    name: 'Bobble Stitch',
+                    image: '../images/stitches/bobble_stitch.png'
+                },
+                'cluster_stitch': {
+                    name: 'Cluster Stitch',
+                    image: '../images/stitches/cluster_stitch.png'
+                },
+                'popcorn_stitch': {
+                    name: 'Popcorn Stitch',
+                    image: '../images/stitches/popcorn_stitch.png'
+                },
+                'v_stitch': {
+                    name: 'V-Stitch',
+                    image: '../images/stitches/v_stitch.png'
+                }
+            };
+            
+            // Fallback images for when actual images don't load
+            const fallbackImages = {
+                'single_crochet': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='%238B4513' stroke-width='4' fill='none' /%3E%3Cpath d='M30 50 L70 50' stroke='%238B4513' stroke-width='4' /%3E%3Cpath d='M50 30 L50 70' stroke='%238B4513' stroke-width='4' /%3E%3C/svg%3E",
+                'double_crochet': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='%238B4513' stroke-width='4' fill='none' /%3E%3Cpath d='M40 30 L40 70' stroke='%238B4513' stroke-width='4' /%3E%3Cpath d='M60 30 L60 70' stroke='%238B4513' stroke-width='4' /%3E%3C/svg%3E",
+                'half_double_crochet': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='%238B4513' stroke-width='4' fill='none' /%3E%3Cpath d='M35 30 L35 70' stroke='%238B4513' stroke-width='4' /%3E%3Cpath d='M65 30 L65 70' stroke='%238B4513' stroke-width='4' /%3E%3Cpath d='M35 50 L65 50' stroke='%238B4513' stroke-width='4' /%3E%3C/svg%3E",
+                'treble_crochet': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='%238B4513' stroke-width='4' fill='none' /%3E%3Cpath d='M35 25 L35 75' stroke='%238B4513' stroke-width='4' /%3E%3Cpath d='M50 25 L50 75' stroke='%238B4513' stroke-width='4' /%3E%3Cpath d='M65 25 L65 75' stroke='%238B4513' stroke-width='4' /%3E%3C/svg%3E",
+                'slip_stitch': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='%238B4513' stroke-width='4' fill='none' /%3E%3Cpath d='M25 50 L75 50' stroke='%238B4513' stroke-width='4' /%3E%3C/svg%3E",
+                'chain_stitch': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='%238B4513' stroke-width='4' fill='none' /%3E%3Ccircle cx='50' cy='50' r='25' stroke='%238B4513' stroke-width='4' fill='none' /%3E%3C/svg%3E",
+                'shell_stitch': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M10 70 Q50 10 90 70' stroke='%238B4513' stroke-width='4' fill='none' /%3E%3C/svg%3E",
+                'puff_stitch': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='35' stroke='%238B4513' stroke-width='4' fill='%23DAA06D' fill-opacity='0.3' /%3E%3C/svg%3E",
+                'bobble_stitch': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='30' stroke='%238B4513' stroke-width='4' fill='%23DAA06D' fill-opacity='0.5' /%3E%3C/svg%3E",
+                'cluster_stitch': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='30' cy='50' r='15' stroke='%238B4513' stroke-width='3' fill='%23DAA06D' fill-opacity='0.3' /%3E%3Ccircle cx='50' cy='35' r='15' stroke='%238B4513' stroke-width='3' fill='%23DAA06D' fill-opacity='0.3' /%3E%3Ccircle cx='70' cy='50' r='15' stroke='%238B4513' stroke-width='3' fill='%23DAA06D' fill-opacity='0.3' /%3E%3Ccircle cx='50' cy='65' r='15' stroke='%238B4513' stroke-width='3' fill='%23DAA06D' fill-opacity='0.3' /%3E%3C/svg%3E",
+                'popcorn_stitch': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='35' cy='35' r='15' stroke='%238B4513' stroke-width='3' fill='%23DAA06D' fill-opacity='0.3' /%3E%3Ccircle cx='65' cy='35' r='15' stroke='%238B4513' stroke-width='3' fill='%23DAA06D' fill-opacity='0.3' /%3E%3Ccircle cx='35' cy='65' r='15' stroke='%238B4513' stroke-width='3' fill='%23DAA06D' fill-opacity='0.3' /%3E%3Ccircle cx='65' cy='65' r='15' stroke='%238B4513' stroke-width='3' fill='%23DAA06D' fill-opacity='0.3' /%3E%3C/svg%3E",
+                'v_stitch': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M30 30 L50 70 L70 30' stroke='%238B4513' stroke-width='4' fill='none' /%3E%3C/svg%3E"
+            };
+            
+            // Difficulty settings
+            const difficultySetting = {
+                'easy': {
+                    pairs: 6,
+                    maxHints: 3
+                },
+                'medium': {
+                    pairs: 8,
+                    maxHints: 2
+                },
+                'hard': {
+                    pairs: 10,
+                    maxHints: 1
+                }
+            };
+            
+            // Badges
+            const badges = {
+                'easy': {
+                    name: 'Stitch Matcher',
+                    image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23DAA06D' /%3E%3Ctext x='50' y='40' font-family='Arial' font-size='14' text-anchor='middle' fill='%238B4513'%3EStitch%3C/text%3E%3Ctext x='50' y='60' font-family='Arial' font-size='14' text-anchor='middle' fill='%238B4513'%3EMatcher%3C/text%3E%3Cpath d='M30 70 L45 55 L55 65 L75 45' stroke='%238B4513' stroke-width='3' fill='none' /%3E%3C/svg%3E"
+                },
+                'medium': {
+                    name: 'Stitch Expert',
+                    image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23FF7F50' /%3E%3Ctext x='50' y='40' font-family='Arial' font-size='14' text-anchor='middle' fill='white'%3EStitch%3C/text%3E%3Ctext x='50' y='60' font-family='Arial' font-size='14' text-anchor='middle' fill='white'%3EExpert%3C/text%3E%3Cpath d='M30 70 L45 55 L55 65 L75 45' stroke='white' stroke-width='3' fill='none' /%3E%3Ccircle cx='45' cy='55' r='3' fill='white' /%3E%3Ccircle cx='55' cy='65' r='3' fill='white' /%3E%3C/svg%3E"
+                },
+                'hard': {
+                    name: 'Stitch Master',
+                    image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%238B4513' /%3E%3Ctext x='50' y='40' font-family='Arial' font-size='14' text-anchor='middle' fill='gold'%3EStitch%3C/text%3E%3Ctext x='50' y='60' font-family='Arial' font-size='14' text-anchor='middle' fill='gold'%3EMaster%3C/text%3E%3Cpath d='M30 70 L45 55 L55 65 L75 45' stroke='gold' stroke-width='3' fill='none' /%3E%3Ccircle cx='45' cy='55' r='3' fill='gold' /%3E%3Ccircle cx='55' cy='65' r='3' fill='gold' /%3E%3Ccircle cx='75' cy='45' r='3' fill='gold' /%3E%3Cpath d='M20 50 L80 50' stroke='gold' stroke-width='1' stroke-dasharray='2,2' /%3E%3Cpath d='M50 20 L50 80' stroke='gold' stroke-width='1' stroke-dasharray='2,2' /%3E%3C/svg%3E"
+                }
+            };
+            
+            // Initialize game
+            function initGame() {
+                // Reset game state
+                gameGrid.innerHTML = '';
+                flippedCards = [];
+                moves = 0;
+                matches = 0;
+                hintsUsed = 0;
+                gameStarted = true;
+                canFlip = true;
+                
+                // Update display
+                movesDisplay.textContent = moves;
+                matchesDisplay.textContent = matches;
+                
+                // Enable hint button
+                hintBtn.disabled = false;
+                
+                // Get difficulty settings
+                const difficulty = difficultySetting[currentDifficulty];
+                maxMatches = difficulty.pairs;
+                maxHints = difficulty.maxHints;
+                
+                // Update instructions
+                gameInstructions.textContent = `Match all ${maxMatches} pairs of stitches! You have ${maxHints} hints available.`;
+                
+                // Get stitch keys for current difficulty
+                const stitchKeys = Object.keys(stitches);
+                stitchKeys.sort(() => Math.random() - 0.5); // Shuffle the stitches
+                const selectedStitches = stitchKeys.slice(0, maxMatches);
+                
+                // Create card pairs
+                cards = [];
+                selectedStitches.forEach(stitchKey => {
+                    // Add two cards for each stitch (pair)
+                    cards.push({
+                        id: `${stitchKey}_1`,
+                        stitchKey: stitchKey,
+                        name: stitches[stitchKey].name,
+                        image: stitches[stitchKey].image,
+                        matched: false
+                    });
+                    
+                    cards.push({
+                        id: `${stitchKey}_2`,
+                        stitchKey: stitchKey,
+                        name: stitches[stitchKey].name,
+                        image: stitches[stitchKey].image,
+                        matched: false
+                    });
+                });
+                
+                // Shuffle cards
+                cards.sort(() => Math.random() - 0.5);
+                
+                // Create card elements
+                cards.forEach(card => {
+                    const cardElement = document.createElement('div');
+                    cardElement.className = 'card';
+                    cardElement.dataset.id = card.id;
+                    
+                    cardElement.innerHTML = `
+                        <div class="card-inner">
+                            <div class="card-front">?</div>
+                            <div class="card-back">
+                                <img src="${card.image}" alt="${card.name}" class="card-image" onerror="this.src='${fallbackImages[card.stitchKey]}'">
+                                <div class="card-name">${card.name}</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    cardElement.addEventListener('click', () => flipCard(cardElement, card));
+                    gameGrid.appendChild(cardElement);
+                });
+            }
+            
+            // Flip card
+            function flipCard(cardElement, card) {
+                // Check if card can be flipped
+                if (!canFlip || cardElement.classList.contains('flipped') || card.matched || flippedCards.length >= 2) {
+                    return;
+                }
+                
+                // Flip the card
+                cardElement.classList.add('flipped');
+                flippedCards.push({ element: cardElement, card: card });
+                
+                // Check if two cards are flipped
+                if (flippedCards.length === 2) {
+                    // Update moves
+                    moves++;
+                    movesDisplay.textContent = moves;
+                    
+                    // Check for match
+                    checkForMatch();
+                }
+            }
+            
+            // Check for match
+            function checkForMatch() {
+                canFlip = false;
+                const card1 = flippedCards[0];
+                const card2 = flippedCards[1];
+                
+                if (card1.card.stitchKey === card2.card.stitchKey) {
+                    // Match found
+                    card1.card.matched = true;
+                    card2.card.matched = true;
+                    matches++;
+                    matchesDisplay.textContent = matches;
+                    
+                    // Reset flipped cards
+                    flippedCards = [];
+                    canFlip = true;
+                    
+                    // Check if game is complete
+                    if (matches === maxMatches) {
+                        setTimeout(gameComplete, 500);
+                    }
+                } else {
+                    // No match, flip back
+                    setTimeout(() => {
+                        card1.element.classList.remove('flipped');
+                        card2.element.classList.remove('flipped');
+                        flippedCards = [];
+                        canFlip = true;
+                    }, 1000);
+                }
+            }
+            
+            // Show hint
+            function showHint() {
+                if (hintsUsed >= maxHints || matches === maxMatches) {
+                    return;
+                }
+                
+                // Find unmatched pairs
+                const unmatchedPairs = {};
+                cards.forEach(card => {
+                    if (!card.matched) {
+                        if (unmatchedPairs[card.stitchKey]) {
+                            unmatchedPairs[card.stitchKey].push(card.id);
+                        } else {
+                            unmatchedPairs[card.stitchKey] = [card.id];
+                        }
+                    }
+                });
+                
+                // Select a random unmatched pair
+                const unmatchedKeys = Object.keys(unmatchedPairs);
+                if (unmatchedKeys.length === 0) return;
+                
+                const randomKey = unmatchedKeys[Math.floor(Math.random() * unmatchedKeys.length)];
+                const pairIds = unmatchedPairs[randomKey];
+                
+                // Flash the hint
+                const cardElements = pairIds.map(id => document.querySelector(`.card[data-id="${id}"]`));
+                
+                cardElements.forEach(element => {
+                    element.classList.add('hint');
+                    setTimeout(() => {
+                        element.classList.remove('hint');
+                    }, 1000);
+                });
+                
+                // Update hint count
+                hintsUsed++;
+                
+                // Update instructions
+                gameInstructions.textContent = `Hints used: ${hintsUsed}/${maxHints}`;
+                
+                // Disable hint button if all used
+                if (hintsUsed >= maxHints) {
+                    hintBtn.disabled = true;
+                }
+            }
+            
+            // Game complete
+            function gameComplete() {
+                // Show result modal
+                resultModal.style.display = 'flex';
+                finalMovesDisplay.textContent = moves;
+                
+                // Award badge based on difficulty
+                const badge = badges[currentDifficulty];
+                badgeName.textContent = badge.name;
+                
+                // Add badge image
+                const badgeImage = document.createElement('img');
+                badgeImage.src = badge.image;
+                badgeImage.alt = badge.name;
+                
+                const badgeImgContainer = document.querySelector('.badge-img');
+                badgeImgContainer.innerHTML = '';
+                badgeImgContainer.appendChild(badgeImage);
+                
+                // Award badge using badge-manager.js if available
+                if (window.badgeSystem && typeof window.badgeSystem.awardBadge === 'function') {
+                    window.badgeSystem.awardBadge(`stitch_match_${currentDifficulty}`);
+                }
+            }
+            
+            // Event listeners
+            startGameBtn.addEventListener('click', initGame);
+            
+            hintBtn.addEventListener('click', showHint);
+            
+            difficultyBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active button
+                    difficultyBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update difficulty
+                    currentDifficulty = this.dataset.difficulty;
+                    
+                    // Reset and init game
+                    if (gameStarted) {
+                        initGame();
+                    }
+                });
+            });
+            
+            closeModalBtn.addEventListener('click', function() {
+                resultModal.style.display = 'none';
+            });
+            
+            playAgainBtn.addEventListener('click', function() {
+                resultModal.style.display = 'none';
+                initGame();
+            });
+            
+            goHomeBtn.addEventListener('click', function() {
+                window.location.href = '../index.html#games';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === resultModal) {
+                    resultModal.style.display = 'none';
+                }
+            });
+            
+            // Initialize with first game
+            initGame();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Needle & Yarn: A Love Stitched in Time</title>
+    <link rel="stylesheet" href="css/agent-lee.css">
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DAA06D;
+            --yarn-color: #FF7F50;
+            --bg-color: #FAF3E0;
+            --card-bg: #FFF8E8;
+            --text-color: #333;
+            --shadow-color: rgba(139, 69, 19, 0.2);
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--card-bg);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            text-align: center;
+        }
+        
+        .book-title {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .book-subtitle {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+        
+        .book-cover {
+            display: block;
+            max-width: 350px;
+            margin: 30px auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .book-cover:hover {
+            transform: scale(1.02);
+        }
+        
+        .book-description {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            text-align: center;
+        }
+        
+        .book-description h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .book-description p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .read-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .read-button:hover {
+            background-color: var(--yarn-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .author-section {
+            display: flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .author-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-right: 30px;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .author-bio h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .quote {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-left: 4px solid var(--yarn-color);
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .quote p {
+            margin-bottom: 10px;
+        }
+        
+        .quote-author {
+            text-align: right;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .home-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .home-button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .chapter-preview {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .chapter-preview h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .chapter-preview h3 {
+            color: var(--yarn-color);
+            margin: 15px 0;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .author-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .author-image {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .book-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="book-title">Needle & Yarn: A Love Stitched in Time</h1>
+            <p class="book-subtitle">A heartwarming tale by Leola "Sister" Lee</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <a href="index.html" class="home-button">← Back to Home</a>
+        
+        <img src="ruu3udr62d.png" alt="Needle & Yarn Book Cover" class="book-cover">
+        
+        <div class="book-description">
+            <h2>About the Book</h2>
+            <p>In this charming tale, beloved author Leola "Sister" Lee brings to life the unlikely friendship between Needle and Yarn—two crafting companions who discover that creating together is about more than just making beautiful things.</p>
+            <p>Through their journey of collaboration, separation, and reunion, readers of all ages will discover gentle lessons about the beauty of partnership, resilience through difficult times, and how we all contribute to life's greater pattern.</p>
+            <a href="d6jq33mv39.html" class="read-button" id="read-button" target="_self">Read the Book</a>
+        </div>
+        
+        <div class="quote">
+            <p>"When the house grew quiet and the last light dimmed, something stirred among the yarns and notions..."</p>
+            <p class="quote-author">— Opening line from "Needle & Yarn"</p>
+        </div>
+        
+        <div class="chapter-preview">
+            <h2>Chapter Preview</h2>
+            <h3>Chapter 1: The Magic Begins</h3>
+            <p>In this cozy corner, filled with the scent of warm memories and brewing tea, sat Leola. Her fingers, wise with years of craft, moved like memory itself, creating warmth and wonder. And inside her basket, nestled amongst soft threads and shining tools, magic waited quietly.</p>
+            <p>The basket was old—older than some of the children who often gathered around it, eyes wide with wonder. Its woven sides had weathered decades, holding the tools of creation: scissors that had trimmed countless tails, stitch markers that had held places in time, and hooks that had pulled dreams into reality.</p>
+            <p>But the true magic lay in how Leola's hands transformed simple strands into blankets that wrapped around shoulders like hugs, into hats that crowned heads with care, and into stuffed creatures that became beloved friends to little ones.</p>
+            <a href="d6jq33mv39.html" class="read-button" id="continue-button" target="_self">Continue Reading</a>
+        </div>
+        
+        <div class="author-section">
+            <img src="n5j7pqx39a.png" alt="Leola (Sister) Lee" class="author-image">
+            <div class="author-bio">
+                <h3>About the Author</h3>
+                <p>Leola (Sister) Lee was born in the heart of Mississippi and has been a proud resident of Milwaukee since 1985. A mother of six, grandmother of thirteen, and great-grandmother of ten, she carries generations of care in her hands—whether she's crocheting a blanket, painting a portrait, or penning a story from the soul.</p>
+                <p>A devout woman of faith, Sister Lee has been a pillar of her community for decades. Her artistry isn't confined to the yarn or canvas—it lives in the way she nurtures, uplifts, and teaches others.</p>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Leola's Crochet World. All rights reserved.</p>
+            <div>
+                <a href="index.html">Home</a>
+                <a href="index.html#books">Books</a>
+                <a href="wredcgkz8w.html">Support Us</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/agent-lee-final.js"></script>
+    <script>
+        // Make sure clicking on Read the Book buttons redirects properly
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click events to all read buttons
+            document.querySelectorAll('.read-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = 'd6jq33mv39.html';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

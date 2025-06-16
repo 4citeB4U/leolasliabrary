@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crochet Mastery: Interactive Learning Experience</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DAA06D;
+            --yarn-color: #FF7F50;
+            --bg-color: #FAF3E0;
+            --card-bg: #FFF8E8;
+            --text-color: #333;
+            --shadow-color: rgba(139, 69, 19, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background-color: rgba(255, 248, 232, 0.92);
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.25);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        main {
+            flex: 1;
+            padding: 20px 0;
+        }
+        
+        footer {
+            background-color: #8B4513;
+            color: #FAF3E0;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+        
+        .game-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.2);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .img-responsive {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .game-container h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .instructions {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .instructions h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .instruction-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-text {
+            flex: 1;
+        }
+        
+        .difficulty-selector {
+            margin: 25px 0;
+        }
+        
+        .difficulty-selector h3 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .difficulty-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .difficulty-btn {
+            background-color: var(--card-bg);
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+        
+        .difficulty-btn:hover, .difficulty-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn-icon {
+            font-size: 1.5rem;
+        }
+        
+        .btn-text {
+            text-align: left;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .btn:hover {
+            background-color: var(--yarn-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .btn.accent {
+            background-color: var(--yarn-color);
+        }
+        
+        .btn.primary {
+            background-color: var(--primary-color);
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 127, 80, 0.7);
+            }
+            
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(255, 127, 80, 0);
+            }
+            
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 127, 80, 0);
+            }
+        }
+        
+        .stitches-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+        
+        .stitch-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+            transition: all 0.3s ease;
+        }
+        
+        .stitch-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .stitch-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .stitch-card h3 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        .stitch-card p {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        /* Simulator Section */
+        #simulator-section {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .score-box {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .score-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+        
+        .score-box p {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--yarn-color);
+        }
+        
+        .view-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .view-btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--secondary-color);
+            border-radius: 30px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn:hover, .view-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .current-step-box {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--yarn-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .current-step-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .step-progress {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .crochet-container {
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .crochet-board {
+            width: 100%;
+            height: 400px;
+            background-color: white;
+            border-radius: 10px;
+            border: 2px solid var(--secondary-color);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .game-status {
+            background-color: rgba(255, 127, 80, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            min-width: 250px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .controls-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .pattern-instructions-container {
+            margin-top: 20px;
+        }
+        
+        .pattern-title {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        /* Help Overlay */
+        .help-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .help-overlay.visible {
+            display: flex;
+        }
+        
+        .help-content {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .close-help {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+        
+        .help-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .help-number {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .difficulty-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .difficulty-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .stitches-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stitch-card {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Crochet Mastery: Interactive Learning Experience</h1>
+            <p>Learn, create, and master crochet stitches through a hands-on 2.5D simulation!</p>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <!-- Intro Section -->
+            <section id="intro-section">
+                <div class="game-container">
+                    <h2>Welcome to Crochet Mastery!</h2>
+                    <img src="https://public.youware.com/users-website-assets/prod/655e34bf-b4d0-41d0-8aec-0b830b42677b/g45f315aa60ef021c68b11a05944067ecc768bc63681512e31f94d79c4ac5380c6341257df14a01bfde063f3149da340a95669b6646303bb36c9014dffbfb78fd_1280.jpg" alt="Crochet" class="img-responsive">
+                    
+                    <div class="instructions">
+                        <h3>📋 Step-by-Step Game Instructions:</h3>
+                        <div class="instruction-step">
+                            <span class="step-number">1</span>
+                            <div class="step-text">
+                                <strong>Choose Your Difficulty:</strong> Start with "Easy" if you're new to crochet
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="step-number">2</span>
+                            <div class="step-text">
+                                <strong>Click "Start Crochet Simulator"</strong> to begin your crochet adventure
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="step-number">3</span>
+                            <div class="step-text">
+                                <strong>Select Your Yarn:</strong> Click on any colored yarn ball at the bottom
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="step-number">4</span>
+                            <div class="step-text">
+                                <strong>Activate Your Hook:</strong> Click on the crochet hook on the right side
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="step-number">5</span>
+                            <div class="step-text">
+                                <strong>Follow the Pattern:</strong> Click on the glowing squares to make stitches
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="difficulty-selector">
+                        <h3>🎯 Select Your Level:</h3>
+                        <button class="difficulty-btn active" data-difficulty="easy">
+                            <span class="btn-icon">🟢</span>
+                            <span class="btn-text">Easy<br><small>Simple coaster - 2 minutes</small></span>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="medium">
+                            <span class="btn-icon">🟡</span>
+                            <span class="btn-text">Medium<br><small>Granny square - 3 minutes</small></span>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="hard">
+                            <span class="btn-icon">🔴</span>
+                            <span class="btn-text">Hard<br><small>Textured dishcloth - 4 minutes</small></span>
+                        </button>
+                    </div>
+                    
+                    <button id="start-simulator" class="btn accent pulse">
+                        🎮 Start Crochet Simulator
+                    </button>
+                </div>
+                
+                <div class="game-container">
+                    <h2>Learn About Crochet Stitches</h2>
+                    <p>Before you start, familiarize yourself with these basic crochet stitches!</p>
+                    
+                    <div class="stitches-container">
+                        <div class="stitch-card">
+                            <img src="https://public.youware.com/users-website-assets/prod/655e34bf-b4d0-41d0-8aec-0b830b42677b/gec555ecd2142763e7cd46a42cbb795ce23d4a26aff4876f838283d7c0ea2eb17605c497d11345911e1fdcab3be01c00e503217c475048a5f9df6e254a926ff64_1280.jpg" alt="Chain Stitch">
+                            <h3>Chain Stitch</h3>
+                            <p>The foundation of most crochet projects</p>
+                        </div>
+                        <div class="stitch-card">
+                            <img src="https://public.youware.com/users-website-assets/prod/655e34bf-b4d0-41d0-8aec-0b830b42677b/g5005af8cee5afaae741edb491a26e03f53ea1e705645cb68366e5e37ec8a38623101ac105e298489c1d3ab168e816261211bd4c305747eb779e99a59a9274065_1280.jpg" alt="Single Crochet">
+                            <h3>Single Crochet</h3>
+                            <p>Creates a dense, sturdy fabric</p>
+                        </div>
+                        <div class="stitch-card">
+                            <img src="https://public.youware.com/users-website-assets/prod/655e34bf-b4d0-41d0-8aec-0b830b42677b/ge9671e289fbe82fa7948783bf9ef7bef44b65efb305501329807274a4aa41cb8305d871dd91c9c75bd261bcc01825fd3cb3b098154475fdb9cc12ef0e9a8cfc0_1280.jpg" alt="Double Crochet">
+                            <h3>Double Crochet</h3>
+                            <p>A taller stitch that works up quickly</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Simulator Section -->
+            <section id="simulator-section" class="hidden">
+                <div class="game-container">
+                    <h2>🧶 Crochet Pattern Simulator</h2>
+                    
+                    <!-- Current Step Instructions -->
+                    <div id="current-step-instructions" class="current-step-box">
+                        <h3>📍 Current Step:</h3>
+                        <p id="step-instruction">Select a yarn color to begin!</p>
+                        <div id="step-progress" class="step-progress">
+                            Step <span id="current-step-number">1</span> of <span id="total-steps">4</span>
+                        </div>
+                    </div>
+                    
+                    <div class="score-container">
+                        <div class="score-box">
+                            <h3>🏆 Score</h3>
+                            <p id="score">0</p>
+                        </div>
+                        <div class="score-box">
+                            <h3>📊 Progress</h3>
+                            <p id="progress">0%</p>
+                        </div>
+                        <div class="score-box">
+                            <h3>⏱️ Time</h3>
+                            <p id="time">00:00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="view-controls">
+                        <button class="view-btn active" data-view="normal">📱 Normal View</button>
+                        <button class="view-btn" data-view="3d">🎯 2.5D View</button>
+                    </div>
+                    
+                    <div class="crochet-container">
+                        <div id="crochet-board" class="crochet-board"></div>
+                        
+                        <!-- Game Status Messages -->
+                        <div id="game-status" class="game-status hidden">
+                            <p id="status-message">Click on a yarn ball to select your color!</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pattern Instructions (Now Below the Game Board) -->
+                    <div class="pattern-instructions-container">
+                        <h3 class="pattern-title">Pattern Instructions:</h3>
+                        <div id="pattern-steps"></div>
+                    </div>
+                    
+                    <div class="controls-container">
+                        <button id="back-to-menu" class="btn">🏠 Back to Menu</button>
+                        <button id="help-btn" class="btn primary">❓ Need Help?</button>
+                        <button id="reset-btn" class="btn">🔄 Start Over</button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Help Overlay -->
+            <div id="help-overlay" class="help-overlay">
+                <div class="help-content">
+                    <button id="close-help" class="close-help">&times;</button>
+                    <h3>🎮 How to Play</h3>
+                    <div class="help-step">
+                        <span class="help-number">1️⃣</span>
+                        <p><strong>Select Yarn:</strong> Click on any colored ball at the bottom</p>
+                    </div>
+                    <div class="help-step">
+                        <span class="help-number">2️⃣</span>
+                        <p><strong>Activate Hook:</strong> Click the crochet hook on the right</p>
+                    </div>
+                    <div class="help-step">
+                        <span class="help-number">3️⃣</span>
+                        <p><strong>Make Stitches:</strong> Click the glowing squares in order</p>
+                    </div>
+                    <div class="help-step">
+                        <span class="help-number">4️⃣</span>
+                        <p><strong>Follow Pattern:</strong> Complete each step shown below</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Result Modal -->
+            <div id="result-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3 id="result-title">🎉 Pattern Complete!</h3>
+                    <p id="result-message">You completed the pattern!</p>
+                    <p>Your score: <span id="result-score">0</span></p>
+                    <button id="play-again" class="btn accent">🎮 Try Again</button>
+                    <button id="try-harder" class="btn primary">⬆️ Try Harder Level</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>Created with ❤️ by Leola "Sister" Lee | © 2025 Crochet Mastery</p>
+        </div>
+    </footer>
+
+    <script src="js/crochet-simulator-fixed.js"></script>
+</body>
+</html>

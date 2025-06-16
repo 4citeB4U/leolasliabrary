@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Needle & Yarn: A Love Stitched in Time</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/page-flip/dist/css/page-flip.css">
+    <link rel="stylesheet" href="css/agent-lee.css">
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DAA06D;
+            --yarn-color: #FF7F50;
+            --bg-color: #FAF3E0;
+            --card-bg: #FFF8E8;
+            --text-color: #333;
+            --shadow-color: rgba(139, 69, 19, 0.2);
+        }
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            min-height: 100vh;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: 'Georgia', serif;
+            color: var(--text-color);
+        }
+        
+        .flipbook-container {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        #book {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .page {
+            background-color: var(--card-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: inset 0 0 30px rgba(139, 69, 19, 0.1);
+            width: 100%;
+            height: 100%;
+        }
+        
+        .page img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Story pages content */
+        .story-page {
+            background-color: var(--card-bg);
+            padding: 40px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: left;
+            color: var(--text-color);
+            height: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+        
+        .story-page h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 15px;
+        }
+        
+        .story-page img {
+            max-width: 100%;
+            max-height: 50%;
+            object-fit: contain;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        
+        .story-page p {
+            margin-bottom: 15px;
+            text-indent: 20px;
+        }
+        
+        /* Cover page styling */
+        .cover-page {
+            background-color: var(--card-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px;
+            height: 100%;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .cover-page img {
+            max-width: 80%;
+            max-height: 70%;
+            object-fit: contain;
+            margin-bottom: 30px;
+        }
+        
+        .cover-page h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .cover-page p {
+            font-size: 1.5rem;
+            color: var(--yarn-color);
+            font-style: italic;
+        }
+        
+        /* Loading animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .yarn-loader {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(var(--yarn-color), transparent);
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div class="loader" id="loader">
+        <div class="yarn-loader"></div>
+    </div>
+
+    <!-- Main flipbook container -->
+    <div class="flipbook-container">
+        <div id="book">
+            <!-- Cover -->
+            <div class="page" data-density="hard">
+                <div class="cover-page">
+                    <img src="ruu3udr62d.png" alt="Cover">
+                    <h2>Needle & Yarn: A Love Stitched in Time</h2>
+                    <p>by Leola (Sister) Lee</p>
+                </div>
+            </div>
+            
+            <!-- Pages with images and story content -->
+            <div class="page">
+                <div class="story-page">
+                    <img src="9ckfdwxdq0.png" alt="Leola with Coffee">
+                    <h2>Chapter 1: The Magic Begins</h2>
+                    <p>In this cozy corner, filled with the scent of warm memories and brewing tea, sat Leola. Her fingers, wise with years of craft, moved like memory itself, creating warmth and wonder. And inside her basket, nestled amongst soft threads and shining tools, magic waited quietly.</p>
+                </div>
+            </div>
+            
+            <div class="page">
+                <div class="story-page">
+                    <img src="u8eqt4ylp2.png" alt="The First Hello">
+                    <h2>Chapter 2: The First Hello</h2>
+                    <p>"Oh, my stars! I seem to have gotten myself into a bit of a... well, a right proper mess!" The voice was bright, a splash of sunshine.</p>
+                    <p>Needle, startled from his musings, looked up. It was Yarn, a glorious, tangled explosion of sunset orange cotton.</p>
+                    <p>"Well, aren't you a breath of fresh air?" Needle chuckled, a warmth spreading through his metal core.</p>
+                </div>
+            </div>
+            
+            <div class="page">
+                <div class="story-page">
+                    <img src="itj0aomnfz.png" alt="Working Together">
+                    <h2>Chapter 3: Working Together</h2>
+                    <p>Needle, ever so patient, began to show Yarn the rhythm of the stitches.</p>
+                    <p>"It's like a dance," he explained, "a partnership."</p>
+                    <p>Together, they started to create, loop by loop, their first shared creation taking shape.</p>
+                </div>
+            </div>
+            
+            <div class="page">
+                <div class="story-page">
+                    <img src="9k1ycnd7fw.png" alt="The Break">
+                    <h2>Chapter 4: The Break</h2>
+                    <p>But alas, even in the most carefully woven stories, a thread can snag. As they worked on a cozy hat, disaster struck!</p>
+                    <p>Needle caught on a stubborn knot, and with a sharp, painful snap... his tip chipped.</p>
+                    <p>Yarn gasped, her bright color dimming with worry. "Needle! Are you alright?"</p>
+                    <p>Needle winced, "I've... I've had better days, my dear."</p>
+                </div>
+            </div>
+            
+            <div class="page">
+                <div class="story-page">
+                    <img src="rr18389x35.png" alt="The Return">
+                    <h2>Chapter 5: The Return</h2>
+                    <p>Days felt like weeks for Yarn. The basket was quiet, her stitches uneven.</p>
+                    <p>But then, Leola returned, a gentle smile on her face. And in her hand... was Needle! Mended, polished, and shining brighter than ever.</p>
+                    <p>"Needle! You came back!" Yarn's voice was full of relief.</p>
+                    <p>"I told you I would, my dearest Yarn," Needle replied warmly. "Some stitches take time to mend... but every loop, eventually, finds its way home."</p>
+                </div>
+            </div>
+            
+            <div class="page">
+                <div class="story-page">
+                    <img src="v1t33f8eyx.png" alt="You're Part of the Pattern">
+                    <h2>Chapter 6: You're Part of the Pattern</h2>
+                    <p>And just like that, with Needle mended and their bond stronger than ever, they finished their project.</p>
+                    <p>A beautiful creation, stitched not just with yarn, but with patience, resilience, and a love that had weathered its first storm.</p>
+                    <p>It became more than just an item; it became a gift, a symbol that even after a break, things can be mended, often becoming even more precious.</p>
+                </div>
+            </div>
+
+            <div class="page">
+                <div class="story-page">
+                    <h2>Chapter 7: The Lesson of the Stitches</h2>
+                    <p>As their projects grew, so did Needle and Yarn's understanding of each other. Yarn learned that Needle's occasional firmness wasn't unkindness – it was guidance, helping her maintain just the right tension.</p>
+                    <p>And Needle came to appreciate Yarn's occasional wildness – those moments when she'd loop with unexpected flair, creating texture and interest where he might have maintained rigid precision.</p>
+                    <p>"You know," Yarn said one evening as they rested between rows, "I used to think being useful meant being perfect. No knots, no tangles."</p>
+                    <p>"And I," confessed Needle, "thought being strong meant never bending. But my mending taught me otherwise."</p>
+                    <p>They looked at the half-finished blanket they were creating – intentionally imperfect in places, with loops of varying tensions that somehow made the whole more beautiful, more human.</p>
+                </div>
+            </div>
+
+            <div class="page">
+                <div class="story-page">
+                    <h2>Chapter 8: Seasons Change</h2>
+                    <p>The seasons changed outside Leola's window. Summer warmth gave way to autumn crispness, then winter's chill. Each season brought new projects – summer's light cotton shawls became autumn's warm scarves, then winter's thick, cozy blankets.</p>
+                    <p>Through it all, Needle and Yarn worked together, learning new stitches, trying new patterns.</p>
+                    <p>"I never thought I could create so many different things," Yarn mused as they finished a pair of mittens.</p>
+                    <p>"That's the beauty of us," Needle replied. "Together, we're more than we ever could be apart."</p>
+                    <p>As spring approached, they noticed Leola working more quickly, with purpose and excitement in her movements.</p>
+                    <p>"What do you think she's preparing for?" Yarn whispered.</p>
+                    <p>"I'm not certain," Needle answered, "but whatever it is, we'll face it together."</p>
+                </div>
+            </div>
+
+            <div class="page">
+                <div class="story-page">
+                    <h2>Chapter 9: A Gift of Love</h2>
+                    <p>It was a sunny spring morning when they discovered the answer. Leola carefully wrapped their latest creation – a delicate baby blanket with intricate, loving stitches – in tissue paper.</p>
+                    <p>"It's for my first great-grandchild," she told them, though of course she thought they couldn't hear. "Due next month."</p>
+                    <p>Needle and Yarn exchanged glances of pure joy. Their creation would wrap a new life in warmth and love.</p>
+                    <p>"Our stitches will be someone's first experience of comfort," Yarn whispered, her fibers almost vibrating with emotion.</p>
+                    <p>"Our work together goes beyond us now," Needle added softly. "It becomes part of someone else's story."</p>
+                    <p>And as Leola placed their blanket in a gift box tied with ribbon, they felt a profound sense of purpose. They had become more than just tools and materials – they were creators of heritage, weavers of love that would pass from one generation to the next.</p>
+                </div>
+            </div>
+
+            <div class="page">
+                <div class="story-page">
+                    <h2>Chapter 10: The Pattern Continues</h2>
+                    <p>Years passed in Leola's basket. Needle's once-shining surface now carried the patina of countless projects, and Yarn had seen many of her kind come and go – balls of every color and texture passing through their shared work.</p>
+                    <p>But their bond remained unbroken.</p>
+                    <p>One day, as they rested between projects, they noticed young hands lifting them from the basket – hands smaller than Leola's, but with the same gentle touch.</p>
+                    <p>"Grandma Lee taught me the basics," said a young voice. "She said you were her favorite needle and that I should always start with a good quality yarn."</p>
+                    <p>Needle felt himself being held with curious, learning fingers. Yarn felt herself being wound with care.</p>
+                    <p>"The pattern continues," Needle whispered to Yarn.</p>
+                    <p>"Just like Leola said it would," Yarn replied. "Love stitched in time..."</p>
+                    <p>And as the young hands began to move them together in the familiar dance of creation, they knew their story was far from over. It was, in fact, beginning anew – thread by thread, stitch by stitch, generation by generation.</p>
+                </div>
+            </div>
+            
+            <!-- Final Back Cover Page -->
+            <div class="page" data-density="hard">
+                <div class="cover-page">
+                    <img src="0gayqtb5pc.png" alt="Needle & Yarn Back Cover">
+                    <h2>The End</h2>
+                    <p>Thank you for reading Needle & Yarn: A Love Stitched in Time.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+    <script src="js/agent-lee-final.js"></script>
+    <!-- Make sure Agent Lee is loaded properly -->
+    <script>
+        // Ensure Agent Lee is created and works properly
+        window.addEventListener('DOMContentLoaded', function() {
+            // Force creation of Agent Lee if it's missing
+            setTimeout(function() {
+                if (!document.getElementById('agent-lee-card')) {
+                    console.log('Agent Lee not found, creating it manually');
+                    
+                    // Create Agent Lee manually if it doesn't exist
+                    if (typeof setupAgentLee !== 'function') {
+                        // Load the agent-lee.js file again if functions are missing
+                        const script = document.createElement('script');
+                        script.src = 'js/agent-lee-final.js';
+                        script.onload = function() {
+                            console.log('Agent Lee script reloaded');
+                            // Try to initialize again
+                            if (typeof setupAgentLee === 'function') {
+                                // Create Agent Lee card and append to body
+                                const agentLeeCard = document.createElement('div');
+                                agentLeeCard.id = 'agent-lee-card';
+                                agentLeeCard.innerHTML = `
+                                    <button class="minimize-toggle" id="minimize-toggle">−</button>
+                                    <!-- Card Header -->
+                                    <div class="card-header" id="drag-handle">
+                                        <div class="avatar">
+                                            <img src="xhabe2hpi5.png" alt="Agent Lee">
+                                        </div>
+                                        <div class="agent-details">
+                                            <h3>Agent Lee</h3>
+                                            <p>Your Helpful Librarian</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Navigation Grid -->
+                                    <div class="navigation-grid">
+                                        <button id="home-nav-btn" class="nav-button" data-section="home-section" data-href="index.html">
+                                            <span>🏠</span>
+                                            Home
+                                        </button>
+                                        <button id="books-nav-btn" class="nav-button" data-section="books-section" data-href="index.html#books">
+                                            <span>📚</span>
+                                            Books
+                                        </button>
+                                        <button id="about-nav-btn" class="nav-button" data-section="about-section" data-href="index.html#about">
+                                            <span>👩‍🏫</span>
+                                            About
+                                        </button>
+                                        <button id="resources-nav-btn" class="nav-button" data-section="resources-section" data-href="index.html#resources">
+                                            <span>📋</span>
+                                            Resources
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Book Controls -->
+                                    <div class="book-control-panel" style="display: block;">
+                                        <div class="book-nav-buttons">
+                                            <button class="book-control-button" id="book-prev-btn">← Previous Page</button>
+                                            <button class="book-control-button" id="book-next-btn">Next Page →</button>
+                                        </div>
+                                        
+                                        <div class="book-read-buttons">
+                                            <button class="book-control-button" id="book-read-page-btn">Read This Page</button>
+                                            <button class="book-control-button" id="book-read-all-btn">Auto-Read Book</button>
+                                            <button class="book-control-button" id="book-stop-btn">Stop Reading</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Chat Messages -->
+                                    <div class="chat-area">
+                                        <div class="chat-messages" id="chat-messages">
+                                            <div class="empty-message" id="empty-message">
+                                                Ask me a question...
+                                            </div>
+                                        </div>
+                                        
+                                        <textarea 
+                                            class="message-input" 
+                                            id="message-input" 
+                                            rows="1" 
+                                            placeholder="Type your message..."></textarea>
+                                        
+                                        <div class="control-row">
+                                            <button class="control-button send-btn" id="send-button">Send</button>
+                                            <button class="control-button stop-btn" id="stop-speaking">Stop</button>
+                                            <button class="control-button minimize-btn" id="minimize-btn">Minimize</button>
+                                        </div>
+                                    </div>
+                                `;
+                                
+                                document.body.appendChild(agentLeeCard);
+                                window.agentLeeInstance = agentLeeCard;
+                                
+                                // Setup basic behavior
+                                setupAgentLee(agentLeeCard);
+                                
+                                // Set up navigation buttons
+                                if (typeof setupAgentLeeNavigation === 'function') {
+                                    setupAgentLeeNavigation(agentLeeCard);
+                                }
+                            }
+                        };
+                        document.head.appendChild(script);
+                    }
+                }
+                
+                // Make sure Agent Lee's buttons work
+                setTimeout(function() {
+                    if (window.pageFlip) {
+                        const prevButton = document.getElementById('book-prev-btn');
+                        if (prevButton) {
+                            prevButton.onclick = function() {
+                                window.pageFlip.flipPrev();
+                            };
+                        }
+                        
+                        const nextButton = document.getElementById('book-next-btn');
+                        if (nextButton) {
+                            nextButton.onclick = function() {
+                                window.pageFlip.flipNext();
+                            };
+                        }
+                        
+                        const readPageButton = document.getElementById('book-read-page-btn');
+                        if (readPageButton) {
+                            readPageButton.onclick = function() {
+                                if (window.speakPageContent && typeof window.speakPageContent === 'function') {
+                                    window.speakPageContent();
+                                }
+                            };
+                        }
+                        
+                        const readAllButton = document.getElementById('book-read-all-btn');
+                        if (readAllButton) {
+                            readAllButton.onclick = function() {
+                                if (window.readEntireBook && typeof window.readEntireBook === 'function') {
+                                    window.readEntireBook();
+                                }
+                            };
+                        }
+                    }
+                }, 1500);
+            }, 1000);
+        });
+    </script>
+    
+    <script>
+        // Wait for page to load
+        window.addEventListener('load', function() {
+            // Hide loader after a short delay
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+            }, 1500);
+            
+            // Initialize the page flip
+            const pageFlip = new St.PageFlip(document.getElementById('book'), {
+                width: window.innerWidth,
+                height: window.innerHeight,
+                size: "fixed",
+                maxShadowOpacity: 0.5,
+                showCover: true,
+                mobileScrollSupport: false,
+                autoSize: false,
+                maxWidth: window.innerWidth,
+                maxHeight: window.innerHeight,
+                minWidth: window.innerWidth,
+                minHeight: window.innerHeight
+            });
+            
+            // Load pages
+            pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+            
+            // Click to turn pages - improved navigation
+            document.getElementById('book').addEventListener('click', function(e) {
+                // Prevent clicks during auto-reading
+                if (window.isAutoReading) {
+                    return;
+                }
+
+                const rect = this.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const containerWidth = rect.width;
+
+                // Left side - previous page
+                if (clickX < containerWidth * 0.3) {
+                    pageFlip.flipPrev();
+                    console.log('Flipping to previous page');
+                }
+                // Right side - next page
+                else if (clickX > containerWidth * 0.7) {
+                    pageFlip.flipNext();
+                    console.log('Flipping to next page');
+                }
+                // Middle area - do nothing to avoid accidental page turns
+            });
+            
+            // Store pageFlip globally for Agent Lee
+            window.pageFlip = pageFlip;
+            
+            // Simple auto-read function that works
+            window.readEntireBook = function() {
+                if (!window.speakText) {
+                    console.error("speakText function not available");
+                    return;
+                }
+
+                // Start from current page, not page 0
+                let currentPageIndex = pageFlip.getCurrentPageIndex();
+                const totalPages = pageFlip.getPageCount();
+                window.isAutoReading = true;
+
+                console.log(`Starting to read from page ${currentPageIndex + 1} of ${totalPages}`);
+
+                function readCurrentPage() {
+                    if (!window.isAutoReading) {
+                        console.log("Auto-reading stopped");
+                        return;
+                    }
+
+                    if (currentPageIndex >= totalPages) {
+                        window.speakText("I have finished reading the entire story.");
+                        window.isAutoReading = false;
+                        return;
+                    }
+
+                    // Get content from current page
+                    const pages = document.querySelectorAll('.page');
+                    const currentPage = pages[currentPageIndex];
+                    let content = '';
+
+                    if (currentPage) {
+                        const storyPage = currentPage.querySelector('.story-page, .cover-page');
+                        if (storyPage) {
+                            const heading = storyPage.querySelector('h2');
+                            if (heading && heading.textContent.trim()) {
+                                content += heading.textContent + '. ';
+                            }
+
+                            const paragraphs = storyPage.querySelectorAll('p');
+                            paragraphs.forEach(p => {
+                                if (p.textContent.trim()) {
+                                    content += p.textContent + ' ';
+                                }
+                            });
+                        }
+                    }
+
+                    content = content.trim();
+
+                    if (content && content.length > 0) {
+                        console.log(`Reading page ${currentPageIndex + 1}: ${content.substring(0, 50)}...`);
+
+                        // Read the content, then move to next page
+                        window.speakText(content, function() {
+                            if (!window.isAutoReading) return;
+
+                            // Move to next page
+                            currentPageIndex++;
+                            if (currentPageIndex < totalPages) {
+                                pageFlip.flip(currentPageIndex);
+                                setTimeout(readCurrentPage, 2000); // Wait 2 seconds before reading next page
+                            } else {
+                                window.speakText("I have finished reading the entire story.");
+                                window.isAutoReading = false;
+                            }
+                        });
+                    } else {
+                        // No content, skip to next page
+                        console.log(`Skipping page ${currentPageIndex + 1} - no content`);
+                        currentPageIndex++;
+                        if (currentPageIndex < totalPages) {
+                            pageFlip.flip(currentPageIndex);
+                            setTimeout(readCurrentPage, 1000);
+                        } else {
+                            window.isAutoReading = false;
+                        }
+                    }
+                }
+
+                // Start reading current page
+                readCurrentPage();
+            };
+
+            // Function to stop auto-reading
+            window.stopAutoReading = function() {
+                window.isAutoReading = false;
+                if (window.speechSynthesis) {
+                    window.speechSynthesis.cancel();
+                }
+                console.log("Auto-reading stopped by user");
+            };
+            
+            // Function for Agent Lee to read current page only
+            window.speakPageContent = function() {
+                if (!window.speakText) return;
+                
+                const currentPageIndex = pageFlip.getCurrentPageIndex();
+                const pages = document.querySelectorAll('.page');
+                const currentPage = pages[currentPageIndex];
+                
+                let content = '';
+                
+                if (currentPage) {
+                    const storyPage = currentPage.querySelector('.story-page, .cover-page');
+                    if (storyPage) {
+                        // Get heading
+                        const heading = storyPage.querySelector('h2');
+                        if (heading) {
+                            content += heading.textContent + '. ';
+                        }
+                        
+                        // Get paragraphs
+                        const paragraphs = storyPage.querySelectorAll('p');
+                        paragraphs.forEach(p => {
+                            content += p.textContent + ' ';
+                        });
+                    }
+                }
+                
+                if (content) {
+                    window.speakText(content);
+                } else {
+                    window.speakText("This page contains an image or no readable text.");
+                }
+            };
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    pageFlip.flipPrev();
+                } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    pageFlip.flipNext();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

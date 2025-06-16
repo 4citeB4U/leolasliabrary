@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crochet Adventures with Agent Lee</title>
+<link rel="stylesheet" href="../css/agent-lee.css">
+<script src="../js/badge-manager.js"></script>
+<style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #DAA06D;
+            --yarn-color: #FF7F50;
+            --bg-color: #FAF3E0;
+            --card-bg: #FFF8E8;
+            --text-color: #333;
+            --shadow-color: rgba(139, 69, 19, 0.2);
+            --footer-bg: #704214;
+            --footer-text: #F4ECD8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', Times, serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-y: auto; /* Allow scrolling */
+            height: 100vh;
+            width: 100vw;
+        }
+        
+        /* Library Page Styles */
+        .library-page {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .library-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .library-title {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .agent-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        /* Badges Section */
+        .badges-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .badges-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        
+        .badge {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .badge-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .badge-name {
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .badge-desc {
+            font-size: 0.85rem;
+            color: #666;
+            text-align: center;
+        }
+        
+        .no-badges {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            grid-column: 1 / -1;
+            padding: 20px;
+        }
+        
+        /* Books Section */
+        .books-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .book-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .book-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .book-cover {
+            width: 50%;
+            max-width: 250px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+        
+        .book-cover:hover {
+            transform: scale(1.05);
+        }
+        
+        .book-desc {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .start-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .start-button:hover {
+            background-color: var(--yarn-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .back-button {
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            display: block;
+            width: fit-content;
+            margin: 0 auto;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--yarn-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Book Page Styles */
+        .book-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-color);
+            z-index: 5;
+            overflow: auto;
+        }
+        
+        .book-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .book-cover-fullscreen {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+        
+        .page-navigation {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .page-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .page-button:hover {
+            background-color: var(--yarn-color);
+        }
+        
+        .close-book {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .close-book:hover {
+            background-color: var(--yarn-color);
+            transform: rotate(90deg);
+        }
+        
+        .book-content {
+            display: none;
+            background-color: white;
+            width: 90%;
+            max-width: 800px;
+            height: 90%;
+            max-height: 600px;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .chapter-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .chapter-content {
+            line-height: 1.8;
+        }
+        
+        .chapter-content h2 {
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            margin: 25px 0 15px;
+        }
+        
+        .chapter-content h3 {
+            color: var(--yarn-color);
+            font-size: 1.3rem;
+            margin: 20px 0 10px;
+        }
+        
+        .chapter-content p {
+            margin-bottom: 15px;
+        }
+        
+        .chapter-content img {
+            max-width: 100%;
+            margin: 20px auto;
+            display: block;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .page-turn-effect {
+            animation: pageTurn 0.5s ease-in-out;
+        }
+        
+        @keyframes pageTurn {
+            0% {
+                transform: perspective(1200px) rotateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: perspective(1200px) rotateY(90deg);
+                opacity: 0.5;
+            }
+        }
+        
+        .page-turn-reverse {
+            animation: pageTurnReverse 0.5s ease-in-out;
+        }
+        
+        @keyframes pageTurnReverse {
+            0% {
+                transform: perspective(1200px) rotateY(-90deg);
+                opacity: 0.5;
+            }
+            100% {
+                transform: perspective(1200px) rotateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .books-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .library-title {
+                font-size: 2rem;
+            }
+            
+            .book-content {
+                width: 95%;
+                height: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Library Page -->
+    <div class="library-page" id="library-page">
+        <header class="library-header">
+            <h1 class="library-title">Crochet Adventures with Agent Lee</h1>
+            <img src="../n5j7pqx39a.png" alt="Agent Lee" class="agent-image" onerror="this.src='https://via.placeholder.com/150'">
+            <p class="intro-text">Welcome to Crochet Adventures! Join Agent Lee in the library and learn crochet through interactive adventures. Earn badges as you progress through the stories and complete challenges. This interactive experience combines storytelling with crochet learning, making it fun and engaging for all skill levels.</p>
+        </header><!-- Badges Section --><section class="badges-section"><h2 class="badges-title">Your Earned Badges</h2>
+            <div class="badges-grid" id="badges-grid">
+                <p class="no-badges" id="no-badges-message">You haven't earned any badges yet. Start your adventure to collect badges!</p>
+                <!-- Badges will be populated here -->
+            </div>
+        </section><!-- Books Section --><section class="books-section"><div class="book-card">
+                <h2 class="book-title">Needle &amp; Yarn Adventure</h2>
+                <img src="../ruu3udr62d.png" alt="Needle &amp; Yarn Cover" class="book-cover" id="needle-yarn-cover" onerror="this.src='https://via.placeholder.com/250x350'"><p class="book-desc">Join Needle and Yarn on a heartwarming journey and learn crochet basics along the way!</p>
+                <button class="start-button" id="start-needle-yarn">Start Adventure</button>
+            </div>
+            
+            <div class="book-card">
+                <h2 class="book-title">Crochet Mastery</h2>
+                <img src="../jva31043ou.png" alt="Crochet Mastery Cover" class="book-cover" id="mastery-cover" onerror="this.src='https://via.placeholder.com/250x350'"><p class="book-desc">Master the art of crochet with Agent Lee's comprehensive guide and interactive lessons.</p>
+                <button class="start-button" id="start-mastery">Start Learning</button>
+            </div>
+            
+            <div class="book-card">
+                <h2 class="book-title">Interactive Crochet Mastery Game</h2>
+                <img src="../bhxud9qhuc.png" alt="Crochet Mastery Game" class="book-cover" id="game-cover" onerror="this.src='https://via.placeholder.com/250x350'">
+                <p class="book-desc">Build your crochet skills in this interactive 2D/3D game! Choose patterns, select yarns, and create beautiful projects step by step.</p>
+                <a href="../games/crochet-mastery-game.html" class="start-button">Play Game</a>
+            </div>
+        </section><a href="../index.html" class="back-button">Back to Main Site</a>
+    </div>
+    
+    <!-- Needle & Yarn Book Page -->
+    <div class="book-page" id="needle-yarn-page">
+        <div class="book-container">
+            <img src="../ruu3udr62d.png" alt="Needle &amp; Yarn Cover" class="book-cover-fullscreen" id="needle-yarn-fullcover"><div class="book-content" id="needle-yarn-content">
+                <h2 class="chapter-title" id="needle-yarn-chapter-title">Prologue: A Stitch in Time</h2>
+                <div class="chapter-content" id="needle-yarn-chapter-content">
+                    <!-- Chapter content will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="page-navigation">
+                <button class="page-button prev-button" id="needle-yarn-prev">Previous Page</button>
+                <button class="page-button" id="needle-yarn-open">Open Book</button>
+                <button class="page-button next-button" id="needle-yarn-next">Next Page</button>
+            </div>
+            
+            <button class="close-book" id="needle-yarn-close">×</button>
+        </div>
+    </div>
+    
+    <!-- Crochet Mastery Book Page -->
+    <div class="book-page" id="mastery-page">
+        <div class="book-container">
+            <img src="../jva31043ou.png" alt="Crochet Mastery Cover" class="book-cover-fullscreen" id="mastery-fullcover"><div class="book-content" id="mastery-content">
+                <h2 class="chapter-title" id="mastery-chapter-title">Introduction: Tools &amp; Materials</h2>
+                <div class="chapter-content" id="mastery-chapter-content">
+                    <!-- Chapter content will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="page-navigation">
+                <button class="page-button prev-button" id="mastery-prev">Previous Page</button>
+                <button class="page-button" id="mastery-open">Open Book</button>
+                <button class="page-button next-button" id="mastery-next">Next Page</button>
+            </div>
+            
+            <button class="close-book" id="mastery-close">×</button>
+        </div>
+    </div>
+    
+    <script src="../js/agent-lee.js"></script><script>
+        // Book data
+        const BOOKS = {
+            needleYarn: {
+                id: 'needleYarn',
+                title: 'Needle & Yarn: A Love Stitched in Time',
+                chapters: [
+                    {
+                        id: 'prologue',
+                        title: 'Prologue: A Stitch in Time',
+                        badge: {
+                            id: 'story_listener',
+                            name: 'Story Listener',
+                            description: 'Read the Prologue of Needle & Yarn',
+                            icon: '📖'
+                        },
+                        content: `
+                            <h2>🌟 Prologue: A Stitch in Time</h2>
+                            <p>"Gather 'round, my dears, and let Sister Lee spin you a tale not of kings and queens, but of humble thread and gleaming hook, and of a love stitched into the very fabric of time." The fire crackled, casting dancing shadows on the faces of the children, their eyes wide with anticipation. Sister Lee, her hands never still, a crochet hook dancing deftly through yarn, began her story...</p>
+                            <img src="../n5j7pqx39a.png" alt="Sister Lee" onerror="this.src='https://via.placeholder.com/300x200'">
+                            <p>Our story begins in a small, sun-dappled cottage nestled beside a whispering willow tree, where a young woman named Elara found solace in the rhythmic dance of her crochet hook...</p>
+                        `
+                    },
+                    {
+                        id: 'chapter1',
+                        title: 'Chapter 1: The Whispering Hook',
+                        badge: {
+                            id: 'hook_whisperer',
+                            name: 'Hook Whisperer',
+                            description: 'Completed Chapter 1 of Needle & Yarn',
+                            icon: '🧚'
+                        },
+                        content: `
+                            <h2>Chapter 1: The Whispering Hook</h2>
+                            <p>Elara held the cool, smooth crochet hook her grandmother had gifted her. It wasn't just any hook; it seemed to hum with a life of its own...</p>
+                            <h3>Instructional Interlude: The Slip Knot</h3>
+                            <p>Make a loop with your yarn, crossing the tail end over the working yarn.</p>
+                            <p>Insert your hook through the loop from front to back.</p>
+                            <p>Yarn over (wrap the yarn around your hook).</p>
+                            <p>Draw the yarn through the loop on your hook. You've made a slip knot!</p>
+                            <p>💡 Tip: Keep your tension even but not too tight. The knot should slide easily on the hook.</p>
+                        `
+                    }
+                ]
+            },
+            mastery: {
+                id: 'mastery',
+                title: 'Crochet Mastery: A Complete Guide',
+                chapters: [
+                    {
+                        id: 'introduction',
+                        title: 'Introduction: Tools & Materials',
+                        badge: {
+                            id: 'tool_explorer',
+                            name: 'Tool Explorer',
+                            description: 'Learned about Crochet Tools & Materials',
+                            icon: '🛠️'
+                        },
+                        content: `
+                            <h2>Welcome to Crochet Mastery!</h2>
+                            <p>This guide will walk you through everything you need to know to become a confident crocheter. Let's start with the absolute basics: your tools and materials.</p>
+                            <h3>Crochet Hooks</h3>
+                            <p>Hooks come in various sizes and materials (aluminum, bamboo, plastic, steel). Aluminum hooks are great for beginners as they are smooth and affordable.</p>
+                            <img src="../gdpjskd0z4.png" alt="Sister Lee with crochet hooks" onerror="this.src='https://via.placeholder.com/300x200'">
+                            <h3>Yarn</h3>
+                            <p>Yarn is classified by weight (thickness), from lace weight (thinnest) to jumbo (thickest). Worsted weight (medium) is a popular choice for beginners.</p>
+                        `
+                    },
+                    {
+                        id: 'basicStitches',
+                        title: 'Chapter 1: Basic Stitches - Chain & Single Crochet',
+                        badge: {
+                            id: 'stitch_starter',
+                            name: 'Stitch Starter',
+                            description: 'Learned Basic Stitches in Crochet Mastery',
+                            icon: '🧶'
+                        },
+                        content: `
+                            <h2>Chapter 1: Basic Stitches</h2>
+                            <h3>The Chain Stitch (ch)</h3>
+                            <p>The chain stitch is the foundation of most crochet projects.</p>
+                            <p>1. Start with a slip knot on your hook.</p>
+                            <p>2. Yarn over.</p>
+                            <p>3. Draw the yarn through the loop on your hook. That's one chain stitch!</p>
+                            <p>💡 Tip: Practice making a chain of even stitches. Count them as you go!</p>
+                            <h3>The Single Crochet Stitch (sc)</h3>
+                            <p>The single crochet is a short, dense stitch.</p>
+                            <p>1. Insert hook into the indicated stitch (often the second chain from hook for a foundation row).</p>
+                            <p>2. Yarn over and pull up a loop (2 loops on hook).</p>
+                            <p>3. Yarn over and draw through both loops on hook. That's one single crochet!</p>
+                        `
+                    }
+                ]
+            }
+        };
+        
+        // Additional badges
+        const EXTRA_BADGES = [
+            {
+                id: 'welcome_crocheter',
+                name: 'Welcome Crocheter!',
+                description: 'Started your crochet adventure',
+                icon: '🎉'
+            },
+            {
+                id: 'needle_yarn_master',
+                name: 'Story Weaver',
+                description: 'Completed all Needle & Yarn chapters',
+                icon: '📜'
+            },
+            {
+                id: 'mastery_guru',
+                name: 'Crochet Guru',
+                description: 'Completed all Crochet Mastery chapters',
+                icon: '🎓'
+            }
+        ];
+        
+        // State variables
+        let earnedBadges = [];
+        let completedChapters = [];
+        let currentBook = null;
+        let currentChapter = 0;
+        
+        // DOM Elements
+        const libraryPage = document.getElementById('library-page');
+        const badgesGrid = document.getElementById('badges-grid');
+        const noBadgesMessage = document.getElementById('no-badges-message');
+        
+        // Needle & Yarn elements
+        const needleYarnPage = document.getElementById('needle-yarn-page');
+        const needleYarnCover = document.getElementById('needle-yarn-cover');
+        const needleYarnFullCover = document.getElementById('needle-yarn-fullcover');
+        const needleYarnContent = document.getElementById('needle-yarn-content');
+        const needleYarnChapterTitle = document.getElementById('needle-yarn-chapter-title');
+        const needleYarnChapterContent = document.getElementById('needle-yarn-chapter-content');
+        const needleYarnPrev = document.getElementById('needle-yarn-prev');
+        const needleYarnOpen = document.getElementById('needle-yarn-open');
+        const needleYarnNext = document.getElementById('needle-yarn-next');
+        const needleYarnClose = document.getElementById('needle-yarn-close');
+        
+        // Mastery elements
+        const masteryPage = document.getElementById('mastery-page');
+        const masteryCover = document.getElementById('mastery-cover');
+        const masteryFullCover = document.getElementById('mastery-fullcover');
+        const masteryContent = document.getElementById('mastery-content');
+        const masteryChapterTitle = document.getElementById('mastery-chapter-title');
+        const masteryChapterContent = document.getElementById('mastery-chapter-content');
+        const masteryPrev = document.getElementById('mastery-prev');
+        const masteryOpen = document.getElementById('mastery-open');
+        const masteryNext = document.getElementById('mastery-next');
+        const masteryClose = document.getElementById('mastery-close');
+        
+        // Initialize the app
+        function init() {
+            console.log('Initializing Crochet Adventures app...');
+            
+            // Load saved progress
+            loadProgress();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Update badges display
+            updateBadgesDisplay();
+            
+            // Award welcome badge if not already earned
+            awardBadge('welcome_crocheter');
+            
+            // Add book-page class to body
+            document.body.classList.add('book-page');
+            
+            // Share badges with homepage for display
+            shareBadgesWithHomepage();
+            
+            console.log('Initialization complete!');
+        }
+        
+        // Share earned badges with homepage
+        function shareBadgesWithHomepage() {
+            try {
+                // Share badges with homepage via localStorage for display
+                if (earnedBadges.length > 0) {
+                    // Get existing shared badges
+                    let homepageBadges = localStorage.getItem('homepageBadges');
+                    let badgesArray = homepageBadges ? JSON.parse(homepageBadges) : [];
+                    
+                    // Add new badges
+                    earnedBadges.forEach(badgeId => {
+                        // Find badge info
+                        let badgeInfo = null;
+                        
+                        // Check in EXTRA_BADGES
+                        EXTRA_BADGES.forEach(badge => {
+                            if (badge.id === badgeId) badgeInfo = badge;
+                        });
+                        
+                        // Check in book chapters
+                        Object.values(BOOKS).forEach(book => {
+                            book.chapters.forEach(chapter => {
+                                if (chapter.badge && chapter.badge.id === badgeId) {
+                                    badgeInfo = chapter.badge;
+                                }
+                            });
+                        });
+                        
+                        if (badgeInfo) {
+                            // Check if badge already exists in array
+                            const exists = badgesArray.some(b => b.id === badgeId);
+                            if (!exists) {
+                                badgesArray.push(badgeInfo);
+                            }
+                        }
+                    });
+                    
+                    // Save back to localStorage
+                    localStorage.setItem('homepageBadges', JSON.stringify(badgesArray));
+                    console.log('Badges shared with homepage:', badgesArray);
+                }
+            } catch (error) {
+                console.error('Error sharing badges with homepage:', error);
+            }
+        }
+        
+        // Load progress from localStorage
+        function loadProgress() {
+            try {
+                console.log('Loading saved progress...');
+                const savedBadges = localStorage.getItem('crochetAdventures_badges');
+                const savedChapters = localStorage.getItem('crochetAdventures_chapters');
+                
+                if (savedBadges) {
+                    earnedBadges = JSON.parse(savedBadges);
+                    console.log('Loaded badges:', earnedBadges);
+                }
+                
+                if (savedChapters) {
+                    completedChapters = JSON.parse(savedChapters);
+                    console.log('Loaded completed chapters:', completedChapters);
+                }
+            } catch (error) {
+                console.error('Error loading progress:', error);
+                // Reset progress if there's an error
+                earnedBadges = [];
+                completedChapters = [];
+                
+                // Clear localStorage
+                localStorage.removeItem('crochetAdventures_badges');
+                localStorage.removeItem('crochetAdventures_chapters');
+            }
+        }
+        
+        // Save progress to localStorage
+        function saveProgress() {
+            try {
+                console.log('Saving progress...');
+                localStorage.setItem('crochetAdventures_badges', JSON.stringify(earnedBadges));
+                localStorage.setItem('crochetAdventures_chapters', JSON.stringify(completedChapters));
+                console.log('Progress saved successfully!');
+            } catch (error) {
+                console.error('Error saving progress:', error);
+                alert('There was an error saving your progress. Please try again.');
+            }
+        }
+        
+        // Update badges display
+        function updateBadgesDisplay() {
+            console.log('Updating badges display...');
+            
+            // Clear existing badges (except the no-badges message)
+            const badgeElements = badgesGrid.querySelectorAll('.badge');
+            badgeElements.forEach(el => el.remove());
+            
+            // Get all available badges
+            let allBadges = [...EXTRA_BADGES];
+            
+            // Add badges from books
+            Object.values(BOOKS).forEach(book => {
+                book.chapters.forEach(chapter => {
+                    if (chapter.badge) {
+                        allBadges.push(chapter.badge);
+                    }
+                });
+            });
+            
+            // Filter earned badges
+            const earnedBadgeItems = allBadges.filter(badge => 
+                earnedBadges.includes(badge.id)
+            );
+            
+            console.log('Earned badges to display:', earnedBadgeItems);
+            
+            if (earnedBadgeItems.length > 0) {
+                // Hide no badges message
+                noBadgesMessage.style.display = 'none';
+                
+                // Create badge elements
+                earnedBadgeItems.forEach(badge => {
+                    const badgeElement = document.createElement('div');
+                    badgeElement.className = 'badge';
+                    badgeElement.innerHTML = `
+                        <div class="badge-icon">${badge.icon}</div>
+                        <div class="badge-name">${badge.name}</div>
+                        <div class="badge-desc">${badge.description}</div>
+                    `;
+                    badgesGrid.appendChild(badgeElement);
+                });
+            } else {
+                // Show no badges message
+                noBadgesMessage.style.display = 'block';
+            }
+        }
+        
+        // Award a badge
+        function awardBadge(badgeId) {
+            console.log(`Attempting to award badge: ${badgeId}`);
+            
+            // Check if badge is already earned
+            if (earnedBadges.includes(badgeId)) {
+                console.log('Badge already earned');
+                return;
+            }
+            
+            // Add badge to earned badges
+            earnedBadges.push(badgeId);
+            
+            // Save progress
+            saveProgress();
+            
+            // Update badges display
+            updateBadgesDisplay();
+            
+            // Find badge info for notification
+            let badgeInfo = EXTRA_BADGES.find(b => b.id === badgeId);
+            
+            if (!badgeInfo) {
+                // Search in book chapters
+                Object.values(BOOKS).forEach(book => {
+                    book.chapters.forEach(chapter => {
+                        if (chapter.badge && chapter.badge.id === badgeId) {
+                            badgeInfo = chapter.badge;
+                        }
+                    });
+                });
+            }
+            
+            // Share badges with homepage
+            shareBadgesWithHomepage();
+            
+            // Try to award badge in parent window first (if opened from main site)
+            if (window.opener && window.opener.BadgeManager && typeof window.opener.BadgeManager.awardBadge === 'function') {
+                console.log("Using parent window BadgeManager to award badge");
+                window.opener.BadgeManager.awardBadge(badgeId);
+                
+                // Try to notify parent window directly
+                try {
+                    if (window.opener && window.opener.document) {
+                        const event = new CustomEvent('badgeEarned', { detail: { id: badgeId } });
+                        window.opener.document.dispatchEvent(event);
+                        console.log("Notified parent window about badge");
+                    }
+                } catch (e) {
+                    console.error("Error notifying parent window:", e);
+                }
+            }
+            // Then use local BadgeManager 
+            else if (window.BadgeManager && typeof window.BadgeManager.showBadgePopup === 'function' && badgeInfo) {
+                console.log("Using local BadgeManager for popup");
+                window.BadgeManager.showBadgePopup(badgeInfo);
+            } else if (badgeInfo) {
+                // Fallback to alert if BadgeManager isn't available
+                alert(`🎉 Congratulations! You earned the "${badgeInfo.name}" badge!`);
+            }
+            
+            console.log(`Badge ${badgeId} awarded successfully!`);
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            console.log('Setting up event listeners...');
+            
+            // Needle & Yarn book
+            document.getElementById('start-needle-yarn').addEventListener('click', () => openBook('needleYarn'));
+            needleYarnCover.addEventListener('click', () => openBook('needleYarn'));
+            needleYarnClose.addEventListener('click', closeBook);
+            needleYarnOpen.addEventListener('click', () => openBookContent('needleYarn'));
+            needleYarnPrev.addEventListener('click', () => navigateChapter('needleYarn', -1));
+            needleYarnNext.addEventListener('click', () => navigateChapter('needleYarn', 1));
+            
+            // Mastery book
+            document.getElementById('start-mastery').addEventListener('click', () => openBook('mastery'));
+            masteryCover.addEventListener('click', () => openBook('mastery'));
+            masteryClose.addEventListener('click', closeBook);
+            masteryOpen.addEventListener('click', () => openBookContent('mastery'));
+            masteryPrev.addEventListener('click', () => navigateChapter('mastery', -1));
+            masteryNext.addEventListener('click', () => navigateChapter('mastery', 1));
+        }
+        
+        // Open a book
+        function openBook(bookId) {
+            console.log(`Opening book: ${bookId}`);
+            
+            // Set current book
+            currentBook = bookId;
+            currentChapter = 0;
+            
+            // Hide library page
+            libraryPage.style.display = 'none';
+            
+            // Show appropriate book page
+            if (bookId === 'needleYarn') {
+                needleYarnPage.style.display = 'block';
+                // Apply page turn animation
+                needleYarnFullCover.classList.add('page-turn-reverse');
+                setTimeout(() => {
+                    needleYarnFullCover.classList.remove('page-turn-reverse');
+                }, 500);
+            } else if (bookId === 'mastery') {
+                masteryPage.style.display = 'block';
+                // Apply page turn animation
+                masteryFullCover.classList.add('page-turn-reverse');
+                setTimeout(() => {
+                    masteryFullCover.classList.remove('page-turn-reverse');
+                }, 500);
+            }
+        }
+        
+        // Close the book
+        function closeBook() {
+            console.log('Closing book');
+            
+            // Hide both book pages
+            needleYarnPage.style.display = 'none';
+            masteryPage.style.display = 'none';
+            
+            // Hide book content if open
+            needleYarnContent.style.display = 'none';
+            masteryContent.style.display = 'none';
+            
+            // Show full covers
+            needleYarnFullCover.style.display = 'block';
+            masteryFullCover.style.display = 'block';
+            
+            // Show library page
+            libraryPage.style.display = 'flex';
+        }
+        
+        // Open book content
+        function openBookContent(bookId) {
+            console.log(`Opening content for book: ${bookId}`);
+            
+            if (bookId === 'needleYarn') {
+                // Apply page turn animation
+                needleYarnFullCover.classList.add('page-turn-effect');
+                
+                setTimeout(() => {
+                    // Hide cover, show content
+                    needleYarnFullCover.style.display = 'none';
+                    needleYarnContent.style.display = 'block';
+                    
+                    // Load chapter content
+                    loadChapter('needleYarn', currentChapter);
+                    
+                    // Remove animation class
+                    needleYarnFullCover.classList.remove('page-turn-effect');
+                }, 500);
+                
+            } else if (bookId === 'mastery') {
+                // Apply page turn animation
+                masteryFullCover.classList.add('page-turn-effect');
+                
+                setTimeout(() => {
+                    // Hide cover, show content
+                    masteryFullCover.style.display = 'none';
+                    masteryContent.style.display = 'block';
+                    
+                    // Load chapter content
+                    loadChapter('mastery', currentChapter);
+                    
+                    // Remove animation class
+                    masteryFullCover.classList.remove('page-turn-effect');
+                }, 500);
+            }
+        }
+        
+        // Load chapter content
+        function loadChapter(bookId, chapterIndex) {
+            console.log(`Loading chapter ${chapterIndex} for book ${bookId}`);
+            
+            const book = BOOKS[bookId];
+            
+            if (book && book.chapters && book.chapters[chapterIndex]) {
+                const chapter = book.chapters[chapterIndex];
+                
+                // Update UI elements
+                if (bookId === 'needleYarn') {
+                    needleYarnChapterTitle.textContent = chapter.title;
+                    needleYarnChapterContent.innerHTML = chapter.content;
+                    
+                    // Update navigation buttons
+                    needleYarnPrev.disabled = chapterIndex === 0;
+                    needleYarnNext.disabled = chapterIndex === book.chapters.length - 1;
+                    
+                } else if (bookId === 'mastery') {
+                    masteryChapterTitle.textContent = chapter.title;
+                    masteryChapterContent.innerHTML = chapter.content;
+                    
+                    // Update navigation buttons
+                    masteryPrev.disabled = chapterIndex === 0;
+                    masteryNext.disabled = chapterIndex === book.chapters.length - 1;
+                }
+                
+                // Mark chapter as completed
+                const chapterId = `${bookId}_${chapter.id}`;
+                if (!completedChapters.includes(chapterId)) {
+                    completedChapters.push(chapterId);
+                    
+                    // Award badge if available
+                    if (chapter.badge) {
+                        awardBadge(chapter.badge.id);
+                    }
+                    
+                    // Save progress
+                    saveProgress();
+                }
+            }
+        }
+        
+        // Navigate to a chapter
+        function navigateChapter(bookId, direction) {
+            console.log(`Navigating ${direction > 0 ? 'next' : 'previous'} chapter for book ${bookId}`);
+            
+            const book = BOOKS[bookId];
+            
+            if (book && book.chapters) {
+                // Calculate new chapter index
+                const newIndex = currentChapter + direction;
+                
+                // Check if index is valid
+                if (newIndex >= 0 && newIndex < book.chapters.length) {
+                    // Apply page turn animation
+                    const contentElement = bookId === 'needleYarn' ? needleYarnContent : masteryContent;
+                    contentElement.classList.add(direction > 0 ? 'page-turn-effect' : 'page-turn-reverse');
+                    
+                    setTimeout(() => {
+                        // Update current chapter
+                        currentChapter = newIndex;
+                        
+                        // Load new chapter
+                        loadChapter(bookId, currentChapter);
+                        
+                        // Remove animation class
+                        contentElement.classList.remove('page-turn-effect');
+                        contentElement.classList.remove('page-turn-reverse');
+                    }, 500);
+                }
+            }
+        }
+        
+        // Initialize the app when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

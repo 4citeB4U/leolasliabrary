@@ -1,0 +1,457 @@
+/* Agent Lee Card Styles */
+
+/* Base card styles - FIXED POSITION, NON-DRAGGABLE */
+#agent-lee-card {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 999999 !important;
+  font-family: 'Georgia', serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  width: 320px;
+  max-height: 500px;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-radius: 20px;
+  border: 2px solid #ff7f50;
+  overflow: hidden;
+  transform: none !important;
+  left: auto !important;
+  top: auto !important;
+}
+
+/* Minimized state */
+#agent-lee-card.minimized {
+  width: 70px !important;
+  height: 70px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%) !important;
+  border: 3px solid #ff7f50 !important;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+#agent-lee-card.minimized .agent-lee-body,
+#agent-lee-card.minimized .card-header .agent-details,
+#agent-lee-card.minimized .card-header .agent-controls,
+#agent-lee-card.minimized .navigation-grid,
+#agent-lee-card.minimized .book-control-panel,
+#agent-lee-card.minimized .chat-area {
+  display: none !important;
+}
+
+#agent-lee-card.minimized .card-header {
+  padding: 0 !important;
+  border: none !important;
+  margin: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#agent-lee-card.minimized .avatar {
+  width: 50px !important;
+  height: 50px !important;
+  margin: 0 !important;
+  border-radius: 50% !important;
+  border: none !important;
+}
+
+#agent-lee-card.minimized .avatar img {
+  width: 50px !important;
+  height: 50px !important;
+  object-fit: cover !important;
+}
+
+#agent-lee-card.minimized .minimize-toggle {
+  display: none !important;
+}
+
+/* Header */
+#agent-lee-card .card-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: rgba(255, 127, 80, 0.1);
+  border-bottom: 1px solid rgba(255, 127, 80, 0.3);
+  position: relative;
+  cursor: default;
+}
+
+#agent-lee-card .avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ff7f50;
+  margin-right: 12px;
+  background: #1e293b;
+}
+
+#agent-lee-card .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#agent-lee-card .agent-details {
+  flex-grow: 1;
+  color: white;
+}
+
+#agent-lee-card .agent-details h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ff7f50;
+}
+
+#agent-lee-card .agent-details p {
+  margin: 2px 0 0 0;
+  font-size: 12px;
+  opacity: 0.8;
+  color: #cbd5e1;
+}
+
+/* Minimize toggle */
+#agent-lee-card .minimize-toggle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 127, 80, 0.2);
+  color: #ff7f50;
+  border: 1px solid #ff7f50;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+  z-index: 1000;
+}
+
+#agent-lee-card .minimize-toggle:hover {
+  background: #ff7f50;
+  color: white;
+}
+
+/* Navigation Grid */
+#agent-lee-card .navigation-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 12px;
+  background: rgba(30, 41, 59, 0.3);
+  border-bottom: 1px solid rgba(255, 127, 80, 0.2);
+}
+
+#agent-lee-card .nav-button {
+  background: rgba(51, 65, 85, 0.8);
+  color: white;
+  border: 1px solid rgba(255, 127, 80, 0.3);
+  border-radius: 8px;
+  padding: 8px 5px;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: center;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+#agent-lee-card .nav-button:hover {
+  background: #ff7f50;
+  border-color: #ff7f50;
+  transform: translateY(-2px);
+}
+
+#agent-lee-card .nav-button span {
+  font-size: 16px;
+  display: block;
+}
+
+/* Book Control Panel */
+#agent-lee-card .book-control-panel {
+  padding: 12px;
+  background: rgba(30, 41, 59, 0.4);
+  border-bottom: 1px solid rgba(255, 127, 80, 0.2);
+}
+
+#agent-lee-card .book-nav-buttons,
+#agent-lee-card .book-read-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+#agent-lee-card .book-control-button {
+  flex: 1;
+  background: rgba(51, 65, 85, 0.8);
+  color: white;
+  border: 1px solid rgba(255, 127, 80, 0.3);
+  border-radius: 8px;
+  padding: 8px 5px;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+#agent-lee-card .book-control-button:hover {
+  background: #ff7f50;
+  border-color: #ff7f50;
+}
+
+#agent-lee-card #book-read-page-btn {
+  background: rgba(52, 152, 219, 0.8);
+}
+
+#agent-lee-card #book-read-all-btn {
+  background: rgba(46, 204, 113, 0.8);
+}
+
+#agent-lee-card #book-stop-btn {
+  background: rgba(231, 76, 60, 0.8);
+}
+
+/* Chat Area */
+#agent-lee-card .chat-area {
+  display: flex;
+  flex-direction: column;
+  max-height: 280px;
+}
+
+#agent-lee-card .chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 15px;
+  max-height: 150px;
+  min-height: 80px;
+}
+
+#agent-lee-card .chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#agent-lee-card .chat-messages::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.3);
+  border-radius: 3px;
+}
+
+#agent-lee-card .chat-messages::-webkit-scrollbar-thumb {
+  background: #ff7f50;
+  border-radius: 3px;
+}
+
+#agent-lee-card .empty-message {
+  text-align: center;
+  color: #94a3b8;
+  font-style: italic;
+  padding: 20px 10px;
+  font-size: 14px;
+}
+
+#agent-lee-card .chat-message {
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 15px;
+  max-width: 85%;
+  word-wrap: break-word;
+  line-height: 1.4;
+  font-size: 13px;
+}
+
+#agent-lee-card .user-message {
+  background: linear-gradient(135deg, #ff7f50, #ff6b3d);
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 5px;
+}
+
+#agent-lee-card .agent-message {
+  background: rgba(51, 65, 85, 0.8);
+  color: white;
+  margin-right: auto;
+  border-bottom-left-radius: 5px;
+  border: 1px solid rgba(255, 127, 80, 0.2);
+}
+
+/* Book Controls */
+#agent-lee-card .book-controls {
+  display: flex;
+  gap: 8px;
+  padding: 10px 15px;
+  background: rgba(30, 41, 59, 0.5);
+  border-top: 1px solid rgba(255, 127, 80, 0.2);
+  border-bottom: 1px solid rgba(255, 127, 80, 0.2);
+}
+
+#agent-lee-card .control-btn {
+  flex: 1;
+  background: rgba(51, 65, 85, 0.8);
+  color: white;
+  border: 1px solid rgba(255, 127, 80, 0.3);
+  border-radius: 8px;
+  padding: 8px 5px;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: center;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+#agent-lee-card .control-btn:hover {
+  background: #ff7f50;
+  border-color: #ff7f50;
+  transform: translateY(-1px);
+}
+
+#agent-lee-card .btn-icon {
+  font-size: 14px;
+  display: block;
+}
+
+/* Input Area */
+#agent-lee-card .agent-input {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(30, 41, 59, 0.3);
+}
+
+#agent-lee-card #message-input {
+  flex-grow: 1;
+  background: rgba(51, 65, 85, 0.8);
+  color: white;
+  border: 1px solid rgba(255, 127, 80, 0.3);
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+}
+
+#agent-lee-card #message-input::placeholder {
+  color: #94a3b8;
+}
+
+#agent-lee-card #message-input:focus {
+  border-color: #ff7f50;
+  box-shadow: 0 0 0 2px rgba(255, 127, 80, 0.2);
+}
+
+#agent-lee-card #send-button {
+  background: linear-gradient(135deg, #ff7f50, #ff6b3d);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+#agent-lee-card #send-button:hover {
+  background: linear-gradient(135deg, #ff6b3d, #ff5722);
+  transform: translateY(-1px);
+}
+
+/* Control row */
+#agent-lee-card .control-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(30, 41, 59, 0.3);
+}
+
+#agent-lee-card .control-button {
+  flex: 1;
+  background: rgba(51, 65, 85, 0.8);
+  color: white;
+  border: 1px solid rgba(255, 127, 80, 0.3);
+  border-radius: 8px;
+  padding: 8px 5px;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+#agent-lee-card .control-button:hover {
+  background: #ff7f50;
+  border-color: #ff7f50;
+}
+
+#agent-lee-card .send-btn {
+  background: rgba(46, 204, 113, 0.8);
+}
+
+#agent-lee-card .stop-btn {
+  background: rgba(231, 76, 60, 0.8);
+}
+
+#agent-lee-card .minimize-btn {
+  background: rgba(52, 152, 219, 0.8);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  #agent-lee-card {
+    width: 280px !important;
+    bottom: 15px !important;
+    right: 15px !important;
+  }
+  
+  #agent-lee-card.minimized {
+    width: 60px !important;
+    height: 60px !important;
+  }
+  
+  #agent-lee-card.minimized .avatar {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  #agent-lee-card.minimized .avatar img {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  #agent-lee-card .navigation-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* High contrast for better visibility */
+@media (prefers-contrast: high) {
+  #agent-lee-card {
+    border-width: 3px;
+  }
+  
+  #agent-lee-card .chat-message {
+    border: 2px solid;
+  }
+  
+  #agent-lee-card .user-message {
+    border-color: #ff7f50;
+  }
+  
+  #agent-lee-card .agent-message {
+    border-color: #334155;
+  }
+}

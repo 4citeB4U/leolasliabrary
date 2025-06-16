@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crochet Mastery: Interactive Learning Experience</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Crochet Mastery: Interactive Learning Experience</h1>
+            <p>Learn, create, and master crochet stitches through a hands-on 2.5D simulation!</p>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <!-- Intro Section -->
+            <section id="intro-section">
+                <div class="game-container">
+                    <h2>Welcome to Crochet Mastery!</h2>
+                    <img src="https://public.youware.com/users-website-assets/prod/655e34bf-b4d0-41d0-8aec-0b830b42677b/g45f315aa60ef021c68b11a05944067ecc768bc63681512e31f94d79c4ac5380c6341257df14a01bfde063f3149da340a95669b6646303bb36c9014dffbfb78fd_1280.jpg" alt="Crochet" class="img-responsive">
+                    
+                    <div class="instructions">
+                        <h3>📋 Step-by-Step Game Instructions:</h3>
+                        <div class="instruction-step">
+                            <span class="step-number">1</span>
+                            <div class="step-text">
+                                <strong>Choose Your Difficulty:</strong> Start with "Easy" if you're new to crochet
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="step-number">2</span>
+                            <div class="step-text">
+                                <strong>Click "Start Crochet Simulator"</strong> to begin your crochet adventure
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="step-number">3</span>
+                            <div class="step-text">
+                                <strong>Select Your Yarn:</strong> Click on any colored yarn ball at the bottom
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="step-number">4</span>
+                            <div class="step-text">
+                                <strong>Activate Your Hook:</strong> Click on the crochet hook on the right side
+                            </div>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="step-number">5</span>
+                            <div class="step-text">
+                                <strong>Follow the Pattern:</strong> Click on the glowing squares to make stitches
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="difficulty-selector">
+                        <h3>🎯 Select Your Level:</h3>
+                        <button class="difficulty-btn active" data-difficulty="easy">
+                            <span class="btn-icon">🟢</span>
+                            <span class="btn-text">Easy<br><small>Simple coaster - 2 minutes</small></span>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="medium">
+                            <span class="btn-icon">🟡</span>
+                            <span class="btn-text">Medium<br><small>Granny square - 3 minutes</small></span>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="hard">
+                            <span class="btn-icon">🔴</span>
+                            <span class="btn-text">Hard<br><small>Textured dishcloth - 4 minutes</small></span>
+                        </button>
+                    </div>
+                    
+                    <button id="start-simulator" class="btn accent pulse">
+                        🎮 Start Crochet Simulator
+                    </button>
+                </div>
+                
+                <div class="game-container">
+                    <h2>Learn About Crochet Stitches</h2>
+                    <p>Before you start, familiarize yourself with these basic crochet stitches!</p>
+                    
+                    <div class="stitches-container">
+                        <div class="stitch-card">
+                            <img src="https://public.youware.com/users-website-assets/prod/655e34bf-b4d0-41d0-8aec-0b830b42677b/gec555ecd2142763e7cd46a42cbb795ce23d4a26aff4876f838283d7c0ea2eb17605c497d11345911e1fdcab3be01c00e503217c475048a5f9df6e254a926ff64_1280.jpg" alt="Chain Stitch">
+                            <h3>Chain Stitch</h3>
+                            <p>The foundation of most crochet projects</p>
+                        </div>
+                        <div class="stitch-card">
+                            <img src="https://public.youware.com/users-website-assets/prod/655e34bf-b4d0-41d0-8aec-0b830b42677b/g5005af8cee5afaae741edb491a26e03f53ea1e705645cb68366e5e37ec8a38623101ac105e298489c1d3ab168e816261211bd4c305747eb779e99a59a9274065_1280.jpg" alt="Single Crochet">
+                            <h3>Single Crochet</h3>
+                            <p>Creates a dense, sturdy fabric</p>
+                        </div>
+                        <div class="stitch-card">
+                            <img src="https://public.youware.com/users-website-assets/prod/655e34bf-b4d0-41d0-8aec-0b830b42677b/ge9671e289fbe82fa7948783bf9ef7bef44b65efb305501329807274a4aa41cb8305d871dd91c9c75bd261bcc01825fd3cb3b098154475fdb9cc12ef0e9a8cfc0_1280.jpg" alt="Double Crochet">
+                            <h3>Double Crochet</h3>
+                            <p>A taller stitch that works up quickly</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Simulator Section -->
+            <section id="simulator-section" class="hidden">
+                <div class="game-container">
+                    <h2>🧶 Crochet Pattern Simulator</h2>
+                    
+                    <!-- Current Step Instructions -->
+                    <div id="current-step-instructions" class="current-step-box">
+                        <h3>📍 Current Step:</h3>
+                        <p id="step-instruction">Select a yarn color to begin!</p>
+                        <div id="step-progress" class="step-progress">
+                            <span id="current-step-number">1</span> of <span id="total-steps">4</span>
+                        </div>
+                    </div>
+                    
+                    <div class="score-container">
+                        <div class="score-box">
+                            <h3>🏆 Score</h3>
+                            <p id="score">0</p>
+                        </div>
+                        <div class="score-box">
+                            <h3>📊 Progress</h3>
+                            <p id="progress">0%</p>
+                        </div>
+                        <div class="score-box">
+                            <h3>⏱️ Time</h3>
+                            <p id="time">00:00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="view-controls">
+                        <button class="view-btn active" data-view="normal">📱 Normal View</button>
+                        <button class="view-btn" data-view="3d">🎯 2.5D View</button>
+                    </div>
+                    
+                    <div class="crochet-container">
+                        <div id="crochet-board" class="crochet-board"></div>
+                        
+                        <!-- Game Status Messages -->
+                        <div id="game-status" class="game-status hidden">
+                            <p id="status-message">Click on a yarn ball to select your color!</p>
+                        </div>
+                        
+                        <!-- Help Overlay -->
+                        <div id="help-overlay" class="help-overlay">
+                            <button id="close-help" class="close-help">&times;</button>
+                            <div class="help-content">
+                                <h3>🎮 How to Play</h3>
+                                <div class="help-step">
+                                    <span class="help-number">1️⃣</span>
+                                    <p><strong>Select Yarn:</strong> Click on any colored ball at the bottom</p>
+                                </div>
+                                <div class="help-step">
+                                    <span class="help-number">2️⃣</span>
+                                    <p><strong>Activate Hook:</strong> Click the crochet hook on the right</p>
+                                </div>
+                                <div class="help-step">
+                                    <span class="help-number">3️⃣</span>
+                                    <p><strong>Make Stitches:</strong> Click the glowing squares in order</p>
+                                </div>
+                                <div class="help-step">
+                                    <span class="help-number">4️⃣</span>
+                                    <p><strong>Follow Pattern:</strong> Complete each step shown below</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pattern Instructions (Now Below the Game Board) -->
+                    <div class="pattern-instructions-container">
+                        <h3 class="pattern-title">Pattern Instructions:</h3>
+                        <div id="pattern-steps"></div>
+                    </div>
+                    
+                    <div class="controls-container">
+                        <button id="back-to-menu" class="btn">🏠 Back to Menu</button>
+                        <button id="help-btn" class="btn primary">❓ Need Help?</button>
+                        <button id="reset-btn" class="btn">🔄 Start Over</button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Result Modal -->
+            <div id="result-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3 id="result-title">🎉 Pattern Complete!</h3>
+                    <p id="result-message">You completed the pattern!</p>
+                    <p>Your score: <span id="result-score">0</span></p>
+                    <button id="play-again" class="btn accent">🎮 Try Again</button>
+                    <button id="try-harder" class="btn primary">⬆️ Try Harder Level</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>Created with ❤️ by Leola "Sister" Lee | © 2025 Crochet Mastery</p>
+        </div>
+    </footer>
+    
+    <script src="js/lib/confetti.js"></script>
+    <script src="js/badges.js"></script>
+    <script src="js/crochet-simulator.js"></script>
+</body>
+</html>
