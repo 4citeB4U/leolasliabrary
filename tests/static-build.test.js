@@ -1,0 +1,13 @@
+/* REGION: LEOLA.TEST | TAG: STATIC.OUTPUT
+WHAT: deterministic build, no credentials, no destruction outside owned output.
+WHO: LeeWay; WHERE: isolated fixtures; WHEN: 2026-09-16; LICENSE: MIT. */
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import {createRequire} from 'node:module';
+const {build}=createRequire(import.meta.url)('./static-build.cjs');
+function fixture(){const root=fs.mkdtempSync(path.join(os.tmpdir(),'leola-build-test-'));for(const file of ['index.html','reader.html','d6jq33mv39.html','0lbzci75tc.html'])fs.writeFileSync(path.join(root,file),'<html>'+file+'</html>');return root}
+function run(fn){const root=fixture();try{fn(root)}finally{fs.rmSync(root,{recursive:true,force:true})}}
+test('public directory and required reader assets emitted',()=>run(root=>{const r=build(root);assert.equal(r.status,'BUILT');assert.ok(fs.existsSync(path.join(root,'public/index.html')));assert.ok(fs.existsSync(path.join(root,'public/.nojekyll')))}));
+test('repeated build gives identical content hashes',()=>run(root=>assert.equal(build(root).manifestSHA256,build(root).manifestSHA256)));
+test('credentials, server source, dependencies, tests excluded',()=>run(root=>{for(const name of ['api','tests','backend','node_modules','.private']){fs.mkdirSync(path.join(root,name));fs.writeFileSync(path.join(root,name,'data.json'),'secret')}fs.writeFileSync(path.join(root,'.env'),'secret');fs.writeFileSync(path.join(root,'vercel.json'),'{}');build(root);for(const name of ['api','tests','backend','node_modules','.private','.env','vercel.json'])assert.ok(!fs.existsSync(path.join(root,'public',name)))}));
+test('unknown existing output is never removed',()=>run(root=>{fs.mkdirSync(path.join(root,'public'));fs.writeFileSync(path.join(root,'public/owner.txt'),'keep');assert.throws(()=>build(root),/unowned/);assert.equal(fs.readFileSync(path.join(root,'public/owner.txt'),'utf8'),'keep')}));
+test('missing required book blocks build',()=>run(root=>{fs.unlinkSync(path.join(root,'0lbzci75tc.html'));assert.throws(()=>build(root),/Required/)}));
+test('nested public media is preserved byte for byte',()=>run(root=>{fs.mkdirSync(path.join(root,'assets'));fs.writeFileSync(path.join(root,'assets/avatar.glb'),Buffer.from([1,2,3,4]));build(root);assert.deepEqual(fs.readFileSync(path.join(root,'public/assets/avatar.glb')),Buffer.from([1,2,3,4]))}));
