@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leola's Library · Enter</title>
+<style>
+:root{--cream:#f8efe2;--paper:#fffaf1;--wood:#5b3421;--wood2:#8a5a39;--gold:#c99b4a;--ink:#2f241f;--green:#405d4b;--shadow:rgba(32,19,10,.28)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#17110e;color:var(--ink);font-family:Georgia,serif}.stage{position:relative;width:100%;height:100%;perspective:1200px;overflow:hidden;background:radial-gradient(circle at 50% 18%,#6f5139 0 9%,#2d211a 35%,#120e0c 75%)}
+.ceiling{position:absolute;inset:-18% 0 auto;height:55%;background:linear-gradient(#34251d,#1c1512);transform:rotateX(66deg);transform-origin:top;box-shadow:inset 0 -40px 70px #0008}.floor{position:absolute;left:-20%;right:-20%;bottom:-30%;height:73%;background:repeating-linear-gradient(90deg,#6c4830 0 90px,#583821 90px 94px);transform:rotateX(66deg);transform-origin:bottom;box-shadow:inset 0 20px 80px #0008}
+.wall{position:absolute;top:0;bottom:0;width:22%;background:linear-gradient(90deg,#251a15,#513825);box-shadow:inset 0 0 50px #0008}.wall.left{left:0}.wall.right{right:0;transform:scaleX(-1)}
+.sign{position:absolute;z-index:8;left:50%;top:8%;transform:translateX(-50%);padding:12px 30px;border:3px solid #d9b76c;background:#24170f;color:#f8dd99;letter-spacing:.12em;text-transform:uppercase;font-weight:700;box-shadow:0 8px 30px #0007;text-align:center}.sign small{display:block;font-size:.68rem;letter-spacing:.2em;color:#e9d7b3;margin-top:5px}
+.doors{position:absolute;inset:0;z-index:20;pointer-events:none}.door{position:absolute;top:0;height:100%;width:50%;background:linear-gradient(90deg,#12100fdd,#302821ee 48%,#15110fdd),linear-gradient(#71584855,#221a15aa);border:1px solid #bb956244;box-shadow:inset 0 0 80px #000}.door.left{left:0;transform-origin:left}.door.right{right:0;transform-origin:right}.door::after{content:"";position:absolute;top:0;bottom:0;width:3px;background:#d2b07555}.door.left::after{right:0}.door.right::after{left:0}.stage.open .door.left{animation:openLeft 2.1s cubic-bezier(.7,0,.2,1) forwards}.stage.open .door.right{animation:openRight 2.1s cubic-bezier(.7,0,.2,1) forwards}@keyframes openLeft{to{transform:translateX(-102%)}}@keyframes openRight{to{transform:translateX(102%)}}
+.shelf{position:absolute;top:24%;width:21%;height:54%;background:linear-gradient(90deg,#442817,#7a4b2d 45%,#3a2114);border:8px solid #392114;box-shadow:0 18px 35px #0007,inset 0 0 30px #0006;z-index:5}.shelf.left{left:7%;transform:rotateY(12deg)}.shelf.right{right:7%;transform:rotateY(-12deg)}.shelf::before,.shelf::after{content:"";position:absolute;left:0;right:0;height:8px;background:#2d190f;box-shadow:0 3px 5px #0006}.shelf::before{top:32%}.shelf::after{top:66%}.book{position:absolute;bottom:9%;width:29%;height:26%;border-radius:2px 5px 5px 2px;box-shadow:4px 6px 10px #0006;cursor:pointer;transition:.25s;display:grid;place-items:center;text-align:center;padding:8px;color:#fff;font-weight:700;font-size:.84rem}.book:hover,.book:focus{transform:translateY(-14px) rotateY(-10deg) scale(1.05);outline:2px solid #f1d191}.book.one{left:10%;background:#9b4f3c}.book.two{left:39%;background:#375b53}.book.three{left:68%;background:#76538d}.book.placeholder{opacity:.55}
+.leola{position:absolute;z-index:9;left:50%;bottom:10%;transform:translateX(-50%);width:min(29vw,330px);text-align:center;opacity:0;translate:0 24px;transition:opacity .8s ease 1.5s,translate .8s ease 1.5s}.stage.open .leola{opacity:1;translate:0 0}.portrait{width:min(22vw,250px);aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:5px solid #d7b66e;box-shadow:0 15px 40px #0009;background:#eee}.bubble{margin:-6px auto 0;max-width:430px;background:#fffaf1f5;border:1px solid #d9c5ad;border-radius:18px;padding:16px 18px;box-shadow:0 14px 32px #0006}.bubble h1{margin:0 0 7px;color:var(--wood);font-size:1.4rem}.bubble p{margin:0;line-height:1.45}.choices{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}.choices a,.choices button{border:0;border-radius:999px;padding:10px 14px;text-decoration:none;background:var(--wood);color:#fff;font:700 .85rem system-ui;cursor:pointer}.choices a.alt,.choices button.alt{background:var(--green)}
+.enter{position:absolute;z-index:30;left:50%;bottom:8%;transform:translateX(-50%);border:1px solid #d7b46b;background:#24170f;color:#f9dea1;border-radius:999px;padding:15px 24px;font:700 1rem system-ui;cursor:pointer;box-shadow:0 12px 32px #0008}.stage.open .enter{display:none}.hint{position:absolute;z-index:10;left:50%;bottom:2%;transform:translateX(-50%);color:#e8dac8;font:600 .78rem system-ui;letter-spacing:.05em;opacity:.8}.stage:not(.open) .hint{display:none}
+.panel{position:fixed;z-index:40;inset:7% max(20px,7%);background:#fffaf3f7;border:1px solid #d8c4ad;border-radius:22px;box-shadow:0 30px 90px #000b;padding:28px;overflow:auto;display:none}.panel.show{display:block}.panel header{display:flex;justify-content:space-between;gap:20px;align-items:center}.panel h2{color:var(--wood);font-size:2rem;margin:.2em 0}.close{border:0;background:#5b3421;color:white;border-radius:999px;width:42px;height:42px;cursor:pointer}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.cards article{border:1px solid #ddcbb9;border-radius:16px;padding:18px;background:#fff}.cards a{color:var(--wood);font-weight:700}.tag{display:inline-block;font:700 .72rem system-ui;background:#efe1cf;border-radius:999px;padding:5px 8px;margin-bottom:8px}
+@media(max-width:800px){.shelf{top:22%;height:42%;width:31%}.shelf.left{left:2%}.shelf.right{right:2%}.leola{width:80vw;bottom:5%}.portrait{width:150px}.bubble{font-size:.9rem}.cards{grid-template-columns:1fr}.sign{top:3%;font-size:.78rem}.hint{display:none!important}}
+@media(prefers-reduced-motion:reduce){.stage.open .door.left{animation:none;transform:translateX(-102%)}.stage.open .door.right{animation:none;transform:translateX(102%)}.leola{transition:none}}
+</style>
+</head>
+<body>
+<div class="stage" id="stage" aria-label="Leola's Library entrance">
+  <div class="ceiling"></div><div class="floor"></div><div class="wall left"></div><div class="wall right"></div>
+  <div class="sign">Leola's Library<small>Stories · Crochet · Learning</small></div>
+  <section class="shelf left" aria-label="Book shelf">
+    <button class="book one" data-open="books">Needle & Yarn</button>
+    <button class="book two" data-open="books">Crochet Mastery</button>
+    <button class="book three placeholder" data-open="books">New Book Coming</button>
+  </section>
+  <section class="shelf right" aria-label="Learning shelf">
+    <button class="book one" data-open="learn">Learn</button>
+    <button class="book two" data-open="games">Games</button>
+    <button class="book three" data-open="support">Support</button>
+  </section>
+  <section class="leola" aria-label="Leola, your digital librarian">
+    <img class="portrait" src="images/sister-lee/g444d1542de54243d3e02fe079aab4205c00a05b232cc40066cb39f802281f98c3b9bda3530c79a1a1dc6f1f9b036b879_640.png" alt="Leola">
+    <div class="bubble"><h1>Welcome. I'm Leola.</h1><p>Come in. You can read with me, learn crochet step by step, watch lessons, or practice through games.</p><div class="choices"><button data-open="books">Choose a book</button><button class="alt" data-open="learn">Learn crochet</button><button class="alt" data-open="games">Play & practice</button></div></div>
+  </section>
+  <button class="enter" id="enter">Enter the Library</button>
+  <div class="hint">Select a shelf, a book, or Leola's options.</div>
+  <div class="doors" aria-hidden="true"><div class="door left"></div><div class="door right"></div></div>
+</div>
+
+<section class="panel" id="books" aria-modal="true" role="dialog"><header><div><span class="tag">READING ROOM</span><h2>Books on the shelf</h2></div><button class="close" aria-label="Close">×</button></header><div class="cards"><article><h3>Needle & Yarn: A Love Story</h3><p>Enter Leola's story world and read the current interactive edition while the V2 manuscript is rebuilt.</p><a href="d6jq33mv39.html">Open current edition →</a></article><article><h3>Crochet Mastery</h3><p>Read Leola's instructional guide. V2 will connect every lesson to Leola's video, practice, and game checkpoints.</p><a href="0lbzci75tc.html">Open current guide →</a></article></div></section>
+<section class="panel" id="learn" aria-modal="true" role="dialog"><header><div><span class="tag">LEARN WITH LEOLA</span><h2>Learning room</h2></div><button class="close" aria-label="Close">×</button></header><div class="cards"><article><h3>Step-by-step lessons</h3><p>Hook handling, yarn tension, chain stitch, single crochet, double crochet, patterns, colorwork, amigurumi, finishing and more.</p></article><article><h3>Leola video lessons</h3><p>This room is wired for original Leola-hosted lessons. The avatar/video production connector is the remaining media dependency.</p></article></div></section>
+<section class="panel" id="games" aria-modal="true" role="dialog"><header><div><span class="tag">PRACTICE ROOM</span><h2>Interactive learning games</h2></div><button class="close" aria-label="Close">×</button></header><div class="cards"><article><h3>Crochet Adventures</h3><a href="games/crochet-adventures.html">Play current version →</a></article><article><h3>Crochet Mastery Game</h3><a href="games/crochet-mastery-game.html">Play current version →</a></article><article><h3>Crochet Simulator</h3><a href="games/crochet-simulator.html">Open current simulator →</a></article><article><h3>Stitch Match</h3><a href="games/stitch-match.html">Play current version →</a></article></div></section>
+<section class="panel" id="support" aria-modal="true" role="dialog"><header><div><span class="tag">SUPPORT THE LIBRARY</span><h2>Help Leola keep building</h2></div><button class="close" aria-label="Close">×</button></header><div class="cards"><article><h3>Donate securely</h3><p>The V2 donation page now talks to a server-side checkout endpoint with a legacy Stripe fallback while the Vercel Stripe secret is being connected.</p><a href="donations-v2.html">Open donations →</a></article></div></section>
+<script>
+const stage=document.getElementById('stage');const enter=document.getElementById('enter');
+function openLibrary(){stage.classList.add('open');try{localStorage.setItem('leola_library_entered','1')}catch{}}
+enter.addEventListener('click',openLibrary);setTimeout(()=>{if(location.hash==='#enter')openLibrary()},250);
+document.querySelectorAll('[data-open]').forEach(el=>el.addEventListener('click',()=>{if(!stage.classList.contains('open'))openLibrary();setTimeout(()=>document.getElementById(el.dataset.open)?.classList.add('show'),220)}));
+document.querySelectorAll('.close').forEach(btn=>btn.addEventListener('click',()=>btn.closest('.panel').classList.remove('show')));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.panel.show').forEach(p=>p.classList.remove('show'))});
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leola Q&A Lab</title>
+<style>
+body{margin:0;background:#f3eadf;color:#2d221d;font-family:Georgia,serif}.wrap{max-width:900px;margin:auto;padding:32px}.card{background:#fffaf1;border:1px solid #ddc8b3;border-radius:20px;padding:24px;box-shadow:0 18px 50px #4f331f22}h1{color:#633b25}.row{display:flex;gap:12px}.row input{flex:1;padding:14px;border:1px solid #cdb8a5;border-radius:12px;font:inherit}.row button{border:0;border-radius:12px;background:#633b25;color:#fff;padding:12px 18px;font-weight:700}.row button:disabled{opacity:.5}.answer{margin-top:20px;padding:18px;background:#fff;border-radius:14px;min-height:120px;white-space:pre-wrap;line-height:1.55}.meta{font:14px system-ui;color:#685a50}.chip{display:inline-block;padding:5px 8px;border-radius:999px;background:#eadbc9;margin:3px;font:700 12px system-ui}.warning{padding:12px 14px;border-left:4px solid #c28a37;background:#fff5dc;margin:16px 0}</style>
+</head>
+<body>
+<main class="wrap">
+  <a href="library-v2.html">← Back to Library V2</a>
+  <section class="card">
+    <h1>Ask Leola · Q&A Lab</h1>
+    <p>This experimental assistant runs a small language model in the visitor's browser and grounds answers in Leola's curated crochet knowledge.</p>
+    <div class="warning"><strong>Lab rule:</strong> Leola should answer from the supplied crochet material. If the material does not support an answer, she should say she does not know yet.</div>
+    <p class="meta" id="status">Model not loaded.</p>
+    <div class="row">
+      <button id="load">Load Leola Q&A</button>
+      <span class="meta" id="device"></span>
+    </div>
+    <hr style="border:0;border-top:1px solid #e2d3c4;margin:24px 0">
+    <div class="row">
+      <input id="question" placeholder="Ask a crochet question…" aria-label="Ask Leola a crochet question">
+      <button id="ask" disabled>Ask</button>
+    </div>
+    <div class="answer" id="answer">Leola's answer will appear here.</div>
+    <div id="sources"></div>
+  </section>
+</main>
+<script type="module">
+import { pipeline } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.2.0';
+
+const MODEL='onnx-community/Qwen2.5-0.5B-Instruct';
+const status=document.getElementById('status');
+const device=document.getElementById('device');
+const loadBtn=document.getElementById('load');
+const askBtn=document.getElementById('ask');
+const question=document.getElementById('question');
+const answer=document.getElementById('answer');
+const sources=document.getElementById('sources');
+let generator=null;let knowledge=null;
+
+function tokenize(text){return new Set(text.toLowerCase().replace(/[^a-z0-9\s-]/g,' ').split(/\s+/).filter(w=>w.length>2))}
+function retrieve(query,limit=4){
+  const q=tokenize(query);
+  return knowledge.topics.map(topic=>{
+    const bag=tokenize(`${topic.keywords.join(' ')} ${topic.text}`);
+    let score=0;for(const word of q)if(bag.has(word))score++;
+    return {topic,score};
+  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,limit).map(x=>x.topic);
+}
+
+async function loadModel(){
+  loadBtn.disabled=true;status.textContent='Loading curated knowledge…';
+  try{
+    knowledge=await fetch('content/leola-crochet-knowledge.json',{cache:'no-store'}).then(r=>r.json());
+    const useWebGPU=Boolean(navigator.gpu);
+    device.textContent=useWebGPU?'WebGPU available':'WASM fallback';
+    status.textContent=`Loading ${MODEL} (${useWebGPU?'WebGPU':'WASM'})… First load can be substantial.`;
+    generator=await pipeline('text-generation',MODEL,{device:useWebGPU?'webgpu':'wasm',dtype:'q4'});
+    status.textContent='Leola Q&A is ready.';askBtn.disabled=false;loadBtn.textContent='Loaded';
+  }catch(error){
+    console.error(error);status.textContent='Model load failed. The library can fall back to deterministic lesson search.';loadBtn.disabled=false;loadBtn.textContent='Retry';
+  }
+}
+
+async function askLeola(){
+  const q=question.value.trim();if(!q||!generator)return;
+  const matches=retrieve(q);
+  sources.innerHTML='';
+  if(!matches.length){answer.textContent="I don't know that from my library material yet. Try asking me about hooks, yarn labels, chain stitch, single crochet, double crochet, patterns, colorwork, or finishing.";return}
+  const context=matches.map((m,i)=>`SOURCE ${i+1} [${m.id}]: ${m.text}`).join('\n');
+  const prompt=`You are Leola, a warm crochet teacher inside Leola's Library. Answer ONLY from the provided sources. Do not invent steps, measurements, medical claims, or pattern instructions not present in the sources. If the sources are insufficient, say: "I don't know that from my library material yet." Keep the answer concise and instructional.\n\n${context}\n\nVISITOR QUESTION: ${q}\n\nLEOLA:`;
+  askBtn.disabled=true;answer.textContent='Leola is thinking…';
+  try{
+    const out=await generator(prompt,{max_new_tokens:150,temperature:0.2,do_sample:false,return_full_text:false});
+    answer.textContent=out?.[0]?.generated_text?.trim()||"I don't know that from my library material yet.";
+    sources.innerHTML='<p class="meta">Grounding:</p>'+matches.map(m=>`<span class="chip">${m.id}</span>`).join('');
+  }catch(error){console.error(error);answer.textContent='The local model could not answer. Please try again.'}finally{askBtn.disabled=false}
+}
+
+loadBtn.addEventListener('click',loadModel);askBtn.addEventListener('click',askLeola);question.addEventListener('keydown',e=>{if(e.key==='Enter')askLeola()});
+</script>
+</body>
+</html>
