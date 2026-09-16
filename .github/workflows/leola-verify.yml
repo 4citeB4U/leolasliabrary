@@ -1,0 +1,44 @@
+# REGION: LEOLA.VERIFICATION
+# TAG: BROWSER.RELEASE.GATE
+# WHAT: bounded browser verification and inspectable screenshots; WHO: LeeWay.
+# WHY: source generation is not runtime proof; WHERE: GitHub Actions.
+# WHEN: 2026-09-16; HOW: real Chromium + explicit simulated speech contracts.
+# LICENSE: MIT. This workflow does not deploy, send payments, or use secrets.
+name: Leola browser verification
+on:
+  push:
+    branches: [leeway/library-entry-v4]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: leola-verification-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install isolated verification dependencies
+        run: |
+          mkdir -p .verification
+          npm install --prefix .verification --ignore-scripts --no-audit --no-fund --save-exact playwright@1.55.1
+          .verification/node_modules/.bin/playwright install --with-deps chromium
+      - name: Verify application and render screenshots
+        env:
+          NODE_PATH: ${{ github.workspace }}/.verification/node_modules
+        run: node tests/browser-release.cjs
+      - name: Preserve browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: leola-browser-evidence-${{ github.sha }}
+          path: test-evidence/
+          if-no-files-found: warn
+          retention-days: 14
