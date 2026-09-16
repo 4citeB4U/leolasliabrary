@@ -1,15 +1,14 @@
 {
   "name": "leolas-library",
-  "version": "2.0.0-foundation",
+  "version": "4.0.0-entry-candidate",
   "private": true,
   "type": "module",
-  "engines": {
-    "node": ">=22"
-  },
-  "dependencies": {
-    "stripe": "22.6.2"
-  },
+  "engines": { "node": "22.x" },
+  "dependencies": { "stripe": "22.6.2" },
+  "devDependencies": { "playwright": "1.55.1" },
   "scripts": {
-    "test": "node --test tests/*.test.js"
+    "test": "node --test tests/*.test.js",
+    "test:browser": "node tests/browser-release.cjs",
+    "build": "node tests/static-build.cjs"
   }
 }
