@@ -1,9 +1,9 @@
 # REGION: LEOLA.VERIFICATION
 # TAG: BROWSER.RELEASE.GATE
-# WHAT: bounded browser verification and inspectable screenshots; WHO: LeeWay.
-# WHY: source generation is not runtime proof; WHERE: GitHub Actions.
-# WHEN: 2026-09-16; HOW: real Chromium + explicit simulated speech contracts.
-# LICENSE: MIT. This workflow does not deploy, send payments, or use secrets.
+# WHAT: contract tests, deterministic build, native browser proof and screenshots.
+# WHO: LeeWay; WHY: source generation is not runtime proof; WHERE: GitHub Actions.
+# WHEN: 2026-09-16; HOW: Node + Chromium; speech callbacks are simulated.
+# LICENSE: MIT. No live payment submission, customer recording or deployment here.
 name: Leola browser verification
 on:
   push:
@@ -25,6 +25,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Verify payment and build contracts
+        run: |
+          mkdir -p test-evidence
+          set -o pipefail
+          node --test tests/*.test.js | tee test-evidence/unit-results.txt
+          node tests/static-build.cjs | tee test-evidence/build-results.json
       - name: Install isolated verification dependencies
         run: |
           mkdir -p .verification
