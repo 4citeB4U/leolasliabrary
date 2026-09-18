@@ -1,7 +1,8 @@
+import {sistaBrain} from './sista-brain.js';
 import {hydrateAssets} from './asset-loader.js';
 await hydrateAssets();
 const $=s=>document.querySelector(s);
-const body=document.body,doors=$('#doors'),onboarding=$('#onboarding'),resources=$('#resources'),speechTitle=$('#speech-title'),speechCopy=$('#speech-copy');
+const body=document.body,doors=$('#doors'),onboarding=$('#onboarding'),resources=$('#resources'),speechTitle=$('#speech-title'),speechCopy=$('#speech-copy'),sistaDialog=$('#sista-dialog');
 let voice=false,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,currentMessage={title:'Hi there! I’m Sista Lee.',copy:"I’ll be your librarian, book narrator, crochet teacher, and game coach. I’ll stay with you throughout your visit."};
 const storeKey='leola.cozy.member.v1';
 function safeGet(){try{return JSON.parse(localStorage.getItem(storeKey)||'null')}catch{return null}}
@@ -21,3 +22,8 @@ $('#join-form').addEventListener('submit',e=>{e.preventDefault();const name=$('#
 $('#card-dialog .close').addEventListener('click',()=>$('#card-dialog').close());$('#card-open').addEventListener('click',()=>{const m=safeGet();if(m)presentCard(m)});
 $('#accept-card').addEventListener('click',()=>{$('#card-dialog').close();resources.hidden=false;spark(32);setMessage('Your library is open.',"Choose one of our two books, watch a crochet video lesson, or pick one of the five Game House covers and play. Sista Lee is available throughout the library.");resources.scrollIntoView({behavior:reduced?'auto':'smooth',block:'start'})});
 const returning=safeGet();if(returning){$('#member-name').value=returning.name||'';$('#member-email').value=returning.email||'';$('#card-open').hidden=false}
+
+sistaBrain.addEventListener('status',e=>{const n=$('#brain-status');if(!n)return;const {status,detail}=e.detail;n.textContent=status==='model-ready'?'Sista Brain 360M is ready on this device.':status==='model-loading'?(detail||'Sista Brain is warming…'):'Instant library knowledge ready.';});
+$('#ask-sista').addEventListener('click',()=>{sistaDialog.showModal();$('#sista-question').focus();});
+$('#sista-dialog .close').addEventListener('click',()=>sistaDialog.close());
+$('#sista-form').addEventListener('submit',async e=>{e.preventDefault();const q=$('#sista-question').value.trim();if(!q)return;const out=$('#sista-answer');out.textContent='Sista Lee is checking the library lesson…';const result=await sistaBrain.answer(q);out.textContent=result.text;out.dataset.mode=result.mode;if(voice)talk(result.text);});
