@@ -1,12 +1,12 @@
 /* REGION: LEOLA.READER | TAG: PAGEFLIP.PRESERVATION
-WHAT: canonical book DOM and exact native PageFlip initializer, top-left Leola.
+WHAT: canonical book DOM and exact native PageFlip initializer, top-right Sista Lee.
 WHO: LeeWay; WHY: legacy flip callback recursively called turnToPage and froze the browser.
 WHERE: adapter view only; WHEN: 2026-09-16; HOW: preserve renderer/configuration, replace failed legacy controls.
 LICENSE: MIT. Canonical book bytes unchanged. Narration is exact text, not model-generated. */
 import {leola} from './leola-presence.js';import {loadState,saveBook} from './learning-state.js';
 const books={story:{id:'needle-and-yarn',file:'d6jq33mv39.html',title:'Needle & Yarn'},instruction:{id:'crochet-mastery',file:'0lbzci75tc.html',title:'Crochet Mastery'}};
 const params=new URLSearchParams(location.search),book=books[params.get('book')]||books.instruction;const frame=document.querySelector('#book-frame'),status=document.querySelector('#reader-status');let flip=null,auto=false,readId=0;
-document.title=book.title+' · Read with Leola';leola.show('reader');
+document.title=book.title+' · Read with Sista Lee';leola.show('reader');
 const controls=document.createElement('div');controls.className='leola-reader-controls';controls.innerHTML='<span class="leola-page-label">Preparing book…</span><button data-read="prev">← Previous</button><button data-read="next">Next →</button><button data-read="page">Read this page</button><button data-read="all">Read onward</button><button data-read="stop">Stop reading</button><button data-read="slow">Slower voice</button>';leola.el.append(controls);
 function halt(){auto=false;readId++;leola.stop();}
 function content(index){const p=frame.contentDocument?.querySelectorAll('.page')[index];if(!p)return '';const main=p.querySelector('.story-page,.instruction-page,.cover-page,.dedication-page')||p;return main.textContent.replace(/\s+/g,' ').trim()||p.querySelector('img')?.alt||'';}
