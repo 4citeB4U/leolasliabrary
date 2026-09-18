@@ -1,0 +1,1 @@
+The active candidate files are root index.html, game-house.html, training.html and their assets/scripts. This staging directory is not an application route.

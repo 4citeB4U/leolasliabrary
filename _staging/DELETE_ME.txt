@@ -1,0 +1,1 @@
+Temporary marker; safe to ignore. The active release is rooted at index.html.
