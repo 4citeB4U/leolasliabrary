@@ -1,67 +1,152 @@
 {
   "version": "1.0.0",
-  "authority": "Leola's Library current Crochet Mastery instructional material",
+  "authority": "Leola's Learning Library current Crochet Mastery instructional material",
   "source": "0lbzci75tc.html",
   "topics": [
     {
       "id": "tools-hook",
-      "keywords": ["hook","hooks","needle","size","aluminum","wood","bamboo","plastic"],
+      "keywords": [
+        "hook",
+        "hooks",
+        "needle",
+        "size",
+        "aluminum",
+        "wood",
+        "bamboo",
+        "plastic"
+      ],
       "text": "Crochet hooks come in different sizes and materials. Hook size affects stitch size and gauge. Common materials include aluminum, steel, plastic, bamboo, and wood. Aluminum is a practical beginner option because yarn generally slides easily over it."
     },
     {
       "id": "tools-yarn-label",
-      "keywords": ["yarn","label","weight","fiber","yardage","care","hook size"],
+      "keywords": [
+        "yarn",
+        "label",
+        "weight",
+        "fiber",
+        "yardage",
+        "care",
+        "hook size"
+      ],
       "text": "A yarn label is an important project guide. It typically identifies yarn weight, recommended hook size, yardage, fiber content, and care instructions."
     },
     {
       "id": "hook-grip",
-      "keywords": ["hold","holding","grip","knife grip","hook"],
+      "keywords": [
+        "hold",
+        "holding",
+        "grip",
+        "knife grip",
+        "hook"
+      ],
       "text": "There is not one mandatory way to hold a crochet hook. Comfort and control matter. One common method is the knife grip, where the hand rests over the hook similarly to holding a table knife."
     },
     {
       "id": "chain-stitch",
-      "keywords": ["chain","chain stitch","ch","foundation"],
+      "keywords": [
+        "chain",
+        "chain stitch",
+        "ch",
+        "foundation"
+      ],
       "text": "The chain stitch, abbreviated ch, is a basic foundation stitch used to begin many crochet projects. A chain is formed by repeatedly yarning over and pulling the yarn through the loop already on the hook."
     },
     {
       "id": "single-crochet",
-      "keywords": ["single crochet","sc","basic stitch"],
+      "keywords": [
+        "single crochet",
+        "sc",
+        "basic stitch"
+      ],
       "text": "For a single crochet, insert the hook into the target stitch, yarn over and pull up a loop, then yarn over again and pull through both loops on the hook. The abbreviation is sc."
     },
     {
       "id": "half-double-crochet",
-      "keywords": ["half double crochet","hdc"],
+      "keywords": [
+        "half double crochet",
+        "hdc"
+      ],
       "text": "For a half double crochet, yarn over, insert the hook into the target stitch, yarn over and pull up a loop, then yarn over and pull through all three loops on the hook. The abbreviation is hdc."
     },
     {
       "id": "double-crochet",
-      "keywords": ["double crochet","dc"],
+      "keywords": [
+        "double crochet",
+        "dc"
+      ],
       "text": "For a double crochet, yarn over, insert the hook into the target stitch, yarn over and pull up a loop, yarn over and pull through two loops, then yarn over again and pull through the remaining two loops. The abbreviation is dc."
     },
     {
       "id": "pattern-abbreviations",
-      "keywords": ["pattern","abbreviation","sc","dc","hdc","tr","sl st"],
+      "keywords": [
+        "pattern",
+        "abbreviation",
+        "sc",
+        "dc",
+        "hdc",
+        "tr",
+        "sl st"
+      ],
       "text": "Crochet patterns commonly use abbreviations. Examples include sc for single crochet, hdc for half double crochet, dc for double crochet, tr for treble crochet, and sl st for slip stitch."
     },
     {
       "id": "color-change",
-      "keywords": ["color","colour","change colors","new color","colorwork"],
+      "keywords": [
+        "color",
+        "colour",
+        "change colors",
+        "new color",
+        "colorwork"
+      ],
       "text": "Colorwork introduces additional yarn colors into a project. A clean color change is normally made while completing the final pull-through of the stitch before the new color begins, so the new color is ready for the next stitch."
     },
     {
       "id": "fair-isle",
-      "keywords": ["fair isle","stranded","stranded colorwork","carry yarn"],
+      "keywords": [
+        "fair isle",
+        "stranded",
+        "stranded colorwork",
+        "carry yarn"
+      ],
       "text": "Stranded or Fair Isle-style crochet carries unused yarn along the back of the work while another color is active. Tension matters so the carried yarn does not pull the fabric too tightly."
     },
     {
       "id": "finishing",
-      "keywords": ["finish","finishing","weave ends","seam","seaming","embellishment"],
+      "keywords": [
+        "finish",
+        "finishing",
+        "weave ends",
+        "seam",
+        "seaming",
+        "embellishment"
+      ],
       "text": "Finishing is the final project stage and can include fastening off, weaving in loose ends, seaming pieces together, shaping, and adding embellishments."
     },
     {
       "id": "beginner-scarf",
-      "keywords": ["scarf","beginner project","first project"],
+      "keywords": [
+        "scarf",
+        "beginner project",
+        "first project"
+      ],
       "text": "A simple scarf is a useful beginner project because it allows repeated practice of foundation chains, turning, and consistent rows of a basic stitch while learning tension control."
+    },
+    {
+      "id": "amigurumi-basics",
+      "keywords": [
+        "amigurumi",
+        "magic ring",
+        "magic circle",
+        "spiral",
+        "spirals",
+        "round",
+        "rounds",
+        "stitch marker",
+        "invisible decrease",
+        "stuffing",
+        "assembly"
+      ],
+      "text": "Most amigurumi start with a magic ring (magic circle) so the center can be pulled tight. Amigurumi is typically worked in continuous rounds or spirals, using a stitch marker to mark the beginning of each round. Tight stitches help keep stuffing from showing through; invisible decreases help keep shaping smooth, and separate pieces such as the head, body, and limbs are commonly sewn together during assembly."
     }
   ]
 }
