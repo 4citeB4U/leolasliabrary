@@ -1,0 +1,27 @@
+name: Build Needle and Yarn eBook
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'books/needle-and-yarn/book.md'
+      - 'books/needle-and-yarn/tools/build_exports.py'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install reportlab
+      - run: python books/needle-and-yarn/tools/build_exports.py
+      - name: Commit generated exports
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add books/needle-and-yarn/exports/*.pdf books/needle-and-yarn/exports/*.epub
+          git diff --cached --quiet || git commit -m "Build Needle & Yarn PDF and EPUB"
+          git push
