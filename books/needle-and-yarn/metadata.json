@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "title": "Needle & Yarn: A Love Stitched in Time",
+  "author": "Leola (Sister) Lee",
+  "edition": "Revised six-chapter edition",
+  "language": "en-US",
+  "publisher": "Leola's Library",
+  "location": "Milwaukee, Wisconsin",
+  "formatAuthority": "Markdown manuscript source",
+  "status": "MANUSCRIPT_ASSEMBLY_IN_PROGRESS",
+  "chapters": [
+    "The Magic Begins",
+    "The First Hello",
+    "Working Together",
+    "The Break",
+    "The Return",
+    "The Pattern Continues"
+  ],
+  "originalRepositorySource": "po7p6uedk6.html",
+  "originalSourceCommit": "fd46b1d436274ae0f4f7f1f6404e9faa37b9bf80",
+  "provenance": "documentation/CREATION-PROVENANCE.md"
+}
