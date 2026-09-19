@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "book": "Needle & Yarn: A Love Stitched in Time",
+  "style": "warm magical claymation",
+  "policy": "Preserve approved character identity. Classify historical art before replacement.",
+  "chapters": [
+    {
+      "chapter": 1,
+      "status": "AUDIT_REQUIRED",
+      "assets": []
+    },
+    {
+      "chapter": 2,
+      "status": "AUDIT_REQUIRED",
+      "assets": []
+    },
+    {
+      "chapter": 3,
+      "status": "AUDIT_REQUIRED",
+      "assets": []
+    },
+    {
+      "chapter": 4,
+      "status": "AUDIT_REQUIRED",
+      "assets": []
+    },
+    {
+      "chapter": 5,
+      "status": "AUDIT_REQUIRED",
+      "assets": []
+    },
+    {
+      "chapter": 6,
+      "status": "AUDIT_REQUIRED",
+      "assets": []
+    }
+  ],
+  "characterAuthority": {
+    "Leola": "REUSE_APPROVED_LIBRARY_AUTHORITY",
+    "Needle": "HISTORICAL_ART_AUDIT_REQUIRED",
+    "Yarn": "HISTORICAL_ART_AUDIT_REQUIRED",
+    "basketFamily": "DESIGN_AUTHORITY_REQUIRED"
+  }
+}
