@@ -1,1 +1,191 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#36241a"><title>Leola's Learning Library · Crochet Game House</title><link rel="stylesheet" href="assets/game-house-live.css"><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js"}}</script></head><body><header class="housebar"><a href="index.html">← Library</a><div><strong>Leola's Learning Library · Game House</strong><small>Five games · one crochet learning world</small></div><button id="all-games">All five games</button></header><main><section id="selector" class="selector"><h1>Choose your game.</h1><p>The cover is the door. Pick the same game cover you saw in the library, then play its guided digital crochet challenge here.</p><div id="covers" class="covers"></div></section><section id="play" class="play" hidden><section class="stage"><header class="stage-head"><div><span id="room-kicker">GAME 01 / 05</span><h1 id="room-title">Loop Lab</h1><p id="room-goal"></p></div><div class="cam-buttons"><button data-view="learner">Learner</button><button data-view="overhead">Overhead</button><button data-view="side">Side</button></div></header><div id="scene"><p id="scene-status">Preparing the 3D workbench…</p></div><div class="progress"><span id="progress"></span></div><p id="feedback" role="status"></p><div class="controls"><div class="pad"><button data-move="up">▲</button><button data-move="left">◀</button><button data-move="down">▼</button><button data-move="right">▶</button></div><div class="actions"><button class="action" id="turn">E · Yarn over / turn</button><button class="action" id="pull">↓ · Pull through</button><button class="action" id="place">Space · Place stitch</button></div></div></section><aside class="coach"><img data-asset="leola" alt="Sista Lee"><h2>Sista Lee is coaching</h2><p id="instruction">Choose a game and I’ll give you one crochet action at a time.</p><div class="stats"><b id="count">0 / 0</b><span>progress</span><b id="score">0</b><span>score</span></div><button id="undo">Undo one</button><button id="restart">Restart</button><p><small>This is guided digital practice. It does not certify physical crochet mastery.</small></p></aside></section></main><script type="module" src="js/game-house-live.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>3D Game House - Leola's Library</title>
+  <link rel="stylesheet" href="css/clay-materials.css">
+  <style>
+    body {
+      overflow-y: auto !important;
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 10%, #4a283e, #1a0f18 60%, #0d070c);
+      color: #fff4e0;
+    }
+    .gamehouse-container {
+      max-width: 1080px;
+      margin: 80px auto 40px;
+      padding: 1.5rem;
+    }
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 2rem;
+    }
+    .game-card-clay {
+      background: linear-gradient(145deg, #2d1829, #1a0f19);
+      border: 3px solid #b86ba0;
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .game-card-clay:hover {
+      transform: translateY(-4px);
+      border-color: #ffd767;
+    }
+    .game-title {
+      font-size: 1.5rem;
+      margin: 0 0 8px 0;
+      color: #ffd767;
+    }
+    .game-desc {
+      color: #e8d5b5;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0 0 16px 0;
+    }
+    .control-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .control-tag {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 0.75rem;
+      font-family: monospace;
+      color: #ffd767;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="library-topbar">
+    <div class="brand-title">
+      <span>✦</span>
+      <strong>Leola's 3D Game House</strong>
+      <span class="brand-subtitle">5 Real-Time WebGL Games</span>
+    </div>
+    <div class="topbar-actions">
+      <a href="index.html" class="clay-btn">↩ Back to Library</a>
+    </div>
+  </header>
+
+  <main class="gamehouse-container">
+    <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+      <h1 style="font-size: 2.4rem; margin: 0 0 10px 0; color: #ffd767;">The 3D Crochet Arcade</h1>
+      <p style="font-size: 1.15rem; color: #f0decd; margin: 0;">
+        Interactive 3D Three.js games built with real keyboard and touch controls. Choose a room to begin practicing your crochet skills!
+      </p>
+    </div>
+
+    <div class="game-grid">
+      <!-- Game 1: Yarn Runner 3D -->
+      <article class="game-card-clay" style="border-color: #ff78bd;">
+        <div>
+          <div style="font-size: 0.8rem; letter-spacing: 1px; color: #ff78bd; text-transform: uppercase; font-weight: bold; margin-bottom: 6px;">Room 1 &bull; Runner</div>
+          <h2 class="game-title">Yarn Runner 3D</h2>
+          <p class="game-desc">
+            Race Leola's crochet hook through a moving yarn workshop. Switch between 3 lanes, jump over snarls, and gather colored yarn balls before the timer expires.
+          </p>
+          <div class="control-tags">
+            <span class="control-tag">← → Change Lanes</span>
+            <span class="control-tag">SPACE Jump</span>
+            <span class="control-tag">WASD</span>
+            <span class="control-tag">Touch Buttons</span>
+          </div>
+        </div>
+        <a href="games-v3/yarn-runner.html" class="clay-btn primary" style="width: 100%;">
+          Launch Yarn Runner 3D →
+        </a>
+      </article>
+
+      <!-- Game 2: Hook & Loop Arena -->
+      <article class="game-card-clay" style="border-color: #64f0c6;">
+        <div>
+          <div style="font-size: 0.8rem; letter-spacing: 1px; color: #64f0c6; text-transform: uppercase; font-weight: bold; margin-bottom: 6px;">Room 2 &bull; Arena</div>
+          <h2 class="game-title" style="color: #64f0c6;">Hook & Loop Arena</h2>
+          <p class="game-desc">
+            Drive a crochet hook around a free-movement 3D practice arena. Chase wandering yarn loops, align your angle, and press the action button to pull each loop through.
+          </p>
+          <div class="control-tags">
+            <span class="control-tag">WASD / Arrows Drive</span>
+            <span class="control-tag">SPACE / Button Hook</span>
+            <span class="control-tag">Touch D-Pad</span>
+          </div>
+        </div>
+        <a href="games-v3/hook-arena.html" class="clay-btn primary" style="width: 100%; background: linear-gradient(135deg, #246d55, #144434);">
+          Launch Hook Arena →
+        </a>
+      </article>
+
+      <!-- Game 3: Pattern Path 3D -->
+      <article class="game-card-clay" style="border-color: #8ca7ff;">
+        <div>
+          <div style="font-size: 0.8rem; letter-spacing: 1px; color: #8ca7ff; text-transform: uppercase; font-weight: bold; margin-bottom: 6px;">Room 3 &bull; Speed</div>
+          <h2 class="game-title" style="color: #8ca7ff;">Pattern Path 3D</h2>
+          <p class="game-desc">
+            Read Leola's stitch instruction, steer toward the correct glowing pattern gate, and dodge wrong stitch doors as the rhythm accelerates.
+          </p>
+          <div class="control-tags">
+            <span class="control-tag">← → Steer</span>
+            <span class="control-tag">↑ Accelerate</span>
+            <span class="control-tag">↓ Brake</span>
+            <span class="control-tag">Touch Steer</span>
+          </div>
+        </div>
+        <a href="games-v3/pattern-path.html" class="clay-btn primary" style="width: 100%; background: linear-gradient(135deg, #37538c, #1e335e);">
+          Launch Pattern Path →
+        </a>
+      </article>
+
+      <!-- Game 4: Stitch Quest 3D -->
+      <article class="game-card-clay" style="border-color: #f4c95d;">
+        <div>
+          <div style="font-size: 0.8rem; letter-spacing: 1px; color: #f4c95d; text-transform: uppercase; font-weight: bold; margin-bottom: 6px;">Room 4 &bull; Maze Quest</div>
+          <h2 class="game-title" style="color: #f4c95d;">Stitch Quest 3D</h2>
+          <p class="game-desc">
+            Explore a 3D craft-room maze and collect stitch tokens in the exact order required by the pattern: Chain (CH), Single Crochet (SC), Half Double, Double Crochet, and Slip Stitch.
+          </p>
+          <div class="control-tags">
+            <span class="control-tag">WASD Explore</span>
+            <span class="control-tag">E / SPACE Collect</span>
+            <span class="control-tag">Touch Pad</span>
+          </div>
+        </div>
+        <a href="games-v3/stitch-quest.html" class="clay-btn primary" style="width: 100%; background: linear-gradient(135deg, #8c6a23, #573f10);">
+          Launch Stitch Quest →
+        </a>
+      </article>
+
+      <!-- Game 5: Loop Lab Workbench -->
+      <article class="game-card-clay" style="border-color: #ff9d66;">
+        <div>
+          <div style="font-size: 0.8rem; letter-spacing: 1px; color: #ff9d66; text-transform: uppercase; font-weight: bold; margin-bottom: 6px;">Room 5 &bull; Workbench</div>
+          <h2 class="game-title" style="color: #ff9d66;">Loop Lab Workbench</h2>
+          <p class="game-desc">
+            Tactile 3D hook mechanics. Practice turning the clay hook and pulling loops through yarn strands, recording your stitch score in the library archive.
+          </p>
+          <div class="control-tags">
+            <span class="control-tag">E / Turn Hook</span>
+            <span class="control-tag">↓ / Pull Loop</span>
+            <span class="control-tag">Touch Buttons</span>
+          </div>
+        </div>
+        <a href="game-house.html?room=loop" class="clay-btn primary" style="width: 100%; background: linear-gradient(135deg, #8f4e24, #572d11);">
+          Launch Loop Lab →
+        </a>
+      </article>
+    </div>
+  </main>
+
+</body>
+</html>

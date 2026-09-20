@@ -1,0 +1,4 @@
+Blender stylize script starting...
+Blender version: 4.5.14 LTS
+GLB exported successfully: d:\Leeway-Ecosystem v2.1.4\leolas-liabrary\assets\models\leola_blender_stylized.glb
+File size: 501820 bytes

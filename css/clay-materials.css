@@ -1,0 +1,1552 @@
+/*
+LEEWAY HEADER â€” DO NOT REMOVE
+REGION: UI.APP.STYLE
+TAG: UI.STYLE.LLCLAY01.RESPONSIVE_BANNER
+5WH:
+WHAT = Leola's Learning Library clay UI and responsive presentation
+WHY = Preserve full-width governed visual presentation across device classes
+WHO = LeeWay / Agent Lee
+WHERE = css/clay-materials.css
+WHEN = 2026-09-20
+HOW = Responsive CSS with viewport-bound artwork scaling
+LICENSE: Project authority
+*/
+
+:root {
+  --wood-dark: #4e2d19;
+  --wood-mid: #78492a;
+  --wood-light: #9d683e;
+  --clay-cream: #fff8eb;
+  --clay-gold: #f5c45b;
+  --clay-green: #3d6e4a;
+  --clay-teal: #235965;
+  --clay-shadow: 0 16px 36px rgba(45, 23, 11, 0.45), 0 4px 12px rgba(45, 23, 11, 0.25);
+  --clay-border: 3px solid #6b3e21;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Georgia', serif;
+  background-color: #26160c;
+  color: #3e2213;
+  user-select: none;
+}
+
+/* ==========================================================================
+   CARVED WOODEN TOP BANNER (EXACT ARTWORK MATCH: media_1789897483592.png)
+   ========================================================================== */
+.wood-banner-container {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 100;
+  display: block;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(180deg, rgba(28, 16, 9, 0.88) 0%, rgba(20, 10, 5, 0.65) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 2px solid rgba(142, 88, 49, 0.45);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.wood-banner-scroll {
+  width: 100%;
+  max-width: none;
+  overflow: hidden;
+  display: block;
+  padding: 0;
+  margin: 0;
+  scrollbar-width: none;
+}
+
+.wood-banner-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.wood-banner-bar {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  height: auto;
+  aspect-ratio: 1024 / 108;
+  background-image: url('../assets/images/top_wood_banner_cropped.png');
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+/* Hotspot button base styles */
+.banner-btn-hotspot {
+  position: absolute;
+  top: 13%;
+  height: 74%;
+  background: transparent;
+  border: 2.5px solid transparent;
+  border-radius: 24px;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background 0.15s ease,
+              border-color 0.15s ease,
+              box-shadow 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.banner-btn-hotspot:hover {
+  background: rgba(255, 235, 150, 0.20);
+  border-color: rgba(255, 215, 0, 0.65);
+  box-shadow: inset 0 0 8px rgba(255, 235, 150, 0.3), 0 0 12px rgba(255, 215, 0, 0.45);
+  transform: translateY(-2px);
+}
+
+.banner-btn-hotspot:active {
+  transform: translateY(1px) scale(0.97);
+  background: rgba(255, 215, 0, 0.35);
+}
+
+.banner-btn-hotspot.active {
+  border-color: #ffd700;
+  background: rgba(255, 215, 0, 0.22);
+  box-shadow: inset 0 0 10px rgba(255, 215, 0, 0.45), 0 0 14px rgba(255, 215, 0, 0.55);
+}
+
+/* Button Horizontal Positions */
+.hotspot-plaque     { left: 0.6%;  width: 16.6%; top: 8%; height: 84%; border-radius: 18px; }
+.hotspot-courtyard  { left: 17.6%; width: 7.8%; }
+.hotspot-grand-hall { left: 25.8%; width: 7.8%; }
+.hotspot-bookshelves{ left: 34.0%; width: 7.8%; }
+.hotspot-reading    { left: 42.1%; width: 7.8%; }
+.hotspot-arcade     { left: 50.3%; width: 7.8%; }
+.hotspot-movie      { left: 58.4%; width: 7.8%; }
+.hotspot-globe      { left: 66.6%; width: 7.8%; }
+.hotspot-card       { left: 74.8%; width: 7.8%; }
+.hotspot-cam-first  { left: 83.0%; width: 7.8%; }
+.hotspot-cam-third  { left: 91.2%; width: 7.8%; }
+
+/* Floating Voice Pill */
+.floating-voice-pill {
+  position: fixed;
+  top: 122px;
+  right: 18px;
+  z-index: 120;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 14px;
+  background: rgba(46, 25, 13, 0.88);
+  border: 2px solid #8e5831;
+  border-radius: 19px;
+  color: #fff6e4;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, border-color 0.2s ease;
+}
+
+.floating-voice-pill:hover {
+  transform: scale(1.05);
+  background: rgba(62, 36, 20, 0.95);
+  border-color: #ffd700;
+}
+
+.floating-voice-pill.voice-muted {
+  opacity: 0.65;
+  filter: grayscale(0.6);
+}
+
+@media (max-width: 1040px) {
+  .wood-banner-scroll {
+    justify-content: flex-start;
+  }
+}
+
+@supports (padding: max(0px)) {
+  .wood-banner-container {
+    padding-top: max(6px, env(safe-area-inset-top));
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .floating-voice-pill {
+    top: calc(max(6px, env(safe-area-inset-top)) + 116px);
+    right: max(18px, env(safe-area-inset-right));
+  }
+}
+
+.site-header {
+  display: none;
+}
+
+/* --- EMBROIDERED WOODEN BRAND BADGE --- */
+.embroidered-wood-plaque {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(145deg, #442410 0%, #2e170a 100%);
+  border: 3px solid #7c4824;
+  border-radius: 22px;
+  padding: 6px 16px;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.12), inset 0 -2px 4px rgba(0, 0, 0, 0.6), 0 6px 14px rgba(0, 0, 0, 0.35);
+  text-decoration: none;
+  cursor: pointer;
+  overflow: visible;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.embroidered-wood-plaque:hover {
+  transform: scale(1.02);
+}
+
+/* Stitched border tracing with gold thread */
+.embroidery-stitch-border {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px dashed #e6bd69;
+  border-radius: 16px;
+  padding: 4px 12px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.brand-wood-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #562f17;
+  border: 2px solid #e6bd69;
+  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.brand-text h1.embroidered-title {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 1.28rem;
+  font-weight: 900;
+  color: #fff6e4;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 12px rgba(241, 196, 15, 0.35);
+}
+
+.brand-text span.embroidered-sub {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #f1c40f;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Magical particle sparkles floating around the logo */
+.magic-sparkle {
+  position: absolute;
+  font-size: 1.1rem;
+  color: #f1c40f;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(241, 196, 15, 0.8));
+  animation: floatSparkle 3s ease-in-out infinite alternate;
+}
+
+.sparkle-1 { top: -8px; left: -6px; animation-delay: 0s; }
+.sparkle-2 { top: -10px; right: 28px; animation-delay: 0.75s; font-size: 1.3rem; }
+.sparkle-3 { bottom: -8px; right: -4px; animation-delay: 1.5s; font-size: 0.9rem; }
+.sparkle-4 { bottom: -6px; left: 45%; animation-delay: 2.25s; }
+
+@keyframes floatSparkle {
+  0% { transform: translateY(0px) rotate(0deg) scale(0.85); opacity: 0.6; }
+  50% { transform: translateY(-4px) rotate(15deg) scale(1.15); opacity: 1; }
+  100% { transform: translateY(2px) rotate(-10deg) scale(0.9); opacity: 0.7; }
+}
+
+/* --- UNIFORM NAVIGATION BUTTONS --- */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes floatBadge {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.uniform-btn {
+  height: 46px;
+  border-radius: 23px;
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: linear-gradient(180deg, #fffcf5 0%, #f7ecd9 100%);
+  color: #4a2813;
+  border: 2.5px solid #804c24;
+  font-family: inherit;
+  font-size: 0.94rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  box-shadow: inset 0 2px 0 #ffffff, inset 0 -2px 0 rgba(128, 76, 36, 0.15), 0 5px 10px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  animation: floatBadge 3.6s ease-in-out infinite;
+}
+
+.header-nav button:nth-child(1) { animation-delay: 0.0s; }
+.header-nav button:nth-child(2) { animation-delay: 0.4s; }
+.header-nav button:nth-child(3) { animation-delay: 0.8s; }
+.header-nav button:nth-child(4) { animation-delay: 1.2s; }
+.header-nav button:nth-child(5) { animation-delay: 1.6s; }
+.header-nav button:nth-child(6) { animation-delay: 2.0s; }
+
+.uniform-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-7px) scale(1.05);
+  box-shadow: inset 0 2px 0 #ffffff, 0 8px 16px rgba(0, 0, 0, 0.32);
+  animation-play-state: paused;
+}
+
+.uniform-btn.active {
+  background: linear-gradient(180deg, #ffe08a 0%, #eab44f 100%);
+  border-color: #5c3212;
+  color: #381a07;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-svg-icon {
+  width: 19px;
+  height: 19px;
+  stroke-width: 2.3;
+  flex-shrink: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.uniform-action-btn {
+  height: 46px;
+  border-radius: 23px;
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: linear-gradient(180deg, #fce8b8 0%, #e5be79 100%);
+  color: #3e220e;
+  border: 2.5px solid #6e3914;
+  font-family: inherit;
+  font-size: 0.94rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.6), 0 5px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+  white-space: nowrap;
+  animation: floatBadge 3.6s ease-in-out infinite;
+}
+
+.header-actions button:nth-child(1) { animation-delay: 0.6s; }
+.header-actions button:nth-child(2) { animation-delay: 1.4s; }
+.header-actions button:nth-child(3) { animation-delay: 2.2s; }
+
+.uniform-action-btn:hover {
+  transform: translateY(-7px) scale(1.05);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.8), 0 8px 16px rgba(0, 0, 0, 0.35);
+  animation-play-state: paused;
+}
+
+/* ==========================================================================
+   INTERACTIVE STAGE CONTAINER (FULL PIXAR/DISNEY CLAYMATION)
+   ========================================================================== */
+.world-stage-container {
+  position: relative;
+  width: 100%;
+  min-height: 860px;
+  background-color: #1a0f08;
+  overflow: hidden;
+}
+
+.stage-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center top;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.layer-exterior {
+  background-image: url('../assets/images/library-exterior-walkup.jpg');
+  z-index: 10;
+  opacity: 1;
+}
+
+.layer-desk {
+  background-image: url('../assets/images/leola-desk-hero.jpg');
+  z-index: 5;
+  opacity: 0;
+  transform: scale(1.05);
+}
+
+.layer-interior {
+  background-image: url('../assets/images/library-interior-panorama.jpg');
+  z-index: 4;
+  opacity: 0;
+  transform: scale(1.05);
+}
+
+body[data-world-phase="desk"] .layer-exterior {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.2);
+}
+
+body[data-world-phase="desk"] .layer-desk {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+body[data-world-phase="interior"] .layer-exterior {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body[data-world-phase="interior"] .layer-desk {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body[data-world-phase="interior"] .layer-interior {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+/* ==========================================================================
+   THREE.JS 3D CANVAS OVERLAY (PARTICLES, SPARKLES, PATH DOTS)
+   ========================================================================== */
+#magic-canvas-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   EXTERIOR WALK-UP CONTROLS
+   ========================================================================== */
+.exterior-door-cta {
+  position: absolute;
+  left: 50%;
+  bottom: 12%;
+  transform: translateX(-50%);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.door-open-button {
+  background: linear-gradient(135deg, #fff4dc, #e8c693);
+  border: 4px solid #7c4824;
+  border-radius: 36px;
+  padding: 16px 36px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #4a2813;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  box-shadow: inset 0 3px 0 #ffffff, 0 12px 28px rgba(45, 23, 11, 0.5);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+}
+
+.door-open-button:hover {
+  transform: scale(1.06) translateY(-4px);
+  filter: brightness(1.08);
+}
+
+.door-open-button:active {
+  transform: scale(0.96) translateY(2px);
+}
+
+.door-open-subtext {
+  font-size: 1.05rem;
+  font-style: italic;
+  color: #fff9ee;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+  background: rgba(45, 24, 12, 0.75);
+  padding: 6px 16px;
+  border-radius: 26px;
+}
+
+/* ==========================================================================
+   LEOLA DESK HERO OVERLAYS & 4 INTERACTIVE CLAY CARDS
+   ========================================================================== */
+.desk-speech-balloon {
+  position: absolute;
+  top: 10%;
+  right: 18%;
+  max-width: 360px;
+  background: linear-gradient(145deg, #ffffff, #faf1e1);
+  border: 4px solid #6b3e21;
+  border-radius: 26px 26px 26px 4px;
+  padding: 16px 20px;
+  box-shadow: var(--clay-shadow);
+  z-index: 25;
+  transition: transform 0.3s ease;
+  animation: balloonFloat 4s ease-in-out infinite;
+}
+
+@keyframes balloonFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.desk-speech-title {
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: #5c341b;
+  margin-bottom: 6px;
+}
+
+.desk-speech-copy {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: #4a2813;
+}
+
+.desk-speech-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.desk-icon-btn {
+  background: #f1ddc0;
+  border: 1.5px solid #8c5731;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #4a2813;
+  cursor: pointer;
+}
+
+/* THE 4 INTERACTIVE CLAY TILES ACROSS BOTTOM OF DESK */
+.desk-activity-row {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  width: min(1380px, 96%);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.clay-activity-card {
+  background: linear-gradient(145deg, #fff7e7, #ecd5b1);
+  border: 4px solid #7c4824;
+  border-radius: 22px;
+  padding: 14px;
+  box-shadow: var(--clay-shadow), inset 0 2px 0 #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease;
+  position: relative;
+}
+
+.clay-activity-card:hover {
+  transform: translateY(-8px);
+  border-color: #a86433;
+}
+
+.activity-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.activity-icon {
+  font-size: 1.6rem;
+}
+
+.activity-title h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #4a2813;
+}
+
+.activity-title span {
+  font-size: 0.75rem;
+  color: #7b4f2c;
+  display: block;
+}
+
+.activity-body {
+  margin: 8px 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #4a2813;
+}
+
+.activity-cta-btn {
+  background: linear-gradient(135deg, #62916b, #3b6b45);
+  color: #ffffff;
+  border: 2px solid #284c31;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: inset 0 2px 0 #ffffff55, 0 3px 6px rgba(0, 0, 0, 0.2);
+  margin-top: auto;
+}
+
+.clay-activity-card:hover .activity-cta-btn {
+  filter: brightness(1.1);
+}
+
+/* STAGE VIEW SWITCHER CONTROLS */
+.stage-view-switcher {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 30;
+  display: flex;
+  gap: 8px;
+}
+
+.view-btn {
+  background: rgba(45, 23, 11, 0.85);
+  color: #f7e6c9;
+  border: 2px solid #8e5831;
+  border-radius: 14px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.view-btn.active {
+  background: #7a4623;
+  color: #ffffff;
+  border-color: #f0c36b;
+}
+
+/* ==========================================================================
+   THE MAGICAL LIBRARY CARD MODAL (USING EXACT MASTER ARTWORK)
+   ========================================================================== */
+.card-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(26, 13, 6, 0.82);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.card-modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.card-dialog-frame {
+  position: relative;
+  background: linear-gradient(145deg, #fff7eb, #eedcbd);
+  border: 5px solid #6b3e21;
+  border-radius: 32px;
+  padding: 24px;
+  max-width: 820px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
+.close-modal-x {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #d8b387;
+  border: 2px solid #6b3e21;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #4a2813;
+}
+
+.card-artwork-wrapper {
+  position: relative;
+  width: min(680px, 94%);
+  margin: 16px auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(45, 23, 11, 0.5);
+  animation: cardPulse 3.5s ease-in-out infinite;
+}
+
+@keyframes cardPulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.015) rotate(0.4deg); }
+}
+
+.card-bg-image {
+  width: 100%;
+  display: block;
+  border-radius: 24px;
+}
+
+/* DYNAMIC MEMBER OVERLAYS PRECISELY POSITIONED OVER THE MASTER IMAGE FIELDS */
+.card-overlay-name {
+  position: absolute;
+  top: 48.8%;
+  left: 45%;
+  width: 32%;
+  height: 5.8%;
+  display: flex;
+  align-items: center;
+  background: #f4ece0;
+  border-radius: 6px;
+  padding: 0 8px;
+  font-size: clamp(12px, 1.6vw, 17px);
+  font-weight: 900;
+  color: #3b210e;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.card-overlay-number {
+  position: absolute;
+  top: 55.8%;
+  left: 45%;
+  width: 32%;
+  height: 5.8%;
+  display: flex;
+  align-items: center;
+  background: #f4ece0;
+  border-radius: 6px;
+  padding: 0 8px;
+  font-size: clamp(11px, 1.4vw, 15px);
+  font-weight: 800;
+  font-family: monospace;
+  color: #43220f;
+  text-align: left;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.card-overlay-date {
+  position: absolute;
+  top: 62.8%;
+  left: 45%;
+  width: 32%;
+  height: 5.8%;
+  display: flex;
+  align-items: center;
+  background: #f4ece0;
+  border-radius: 6px;
+  padding: 0 8px;
+  font-size: clamp(11px, 1.3vw, 14px);
+  font-weight: 700;
+  color: #553018;
+  text-align: left;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.card-cta-row {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card-primary-cta {
+  background: linear-gradient(135deg, #377348, #224d2f);
+  color: #ffffff;
+  border: 2px solid #163620;
+  border-radius: 26px;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.card-secondary-cta {
+  background: linear-gradient(135deg, #f2d8b1, #d6b384);
+  color: #4e2b14;
+  border: 2px solid #825028;
+  border-radius: 26px;
+  padding: 12px 24px;
+  font-size: 1.05rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   CONTENT SECTIONS (ABOUT, DONATIONS, COMMUNITY, FOOTER)
+   ========================================================================== */
+.content-section {
+  padding: 80px 6%;
+  background: #fbf5e9;
+  border-top: 5px solid #88522c;
+  position: relative;
+}
+
+.section-grid-2col {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.section-lead {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: #4a2813;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 2.6rem;
+  margin: 0 0 16px 0;
+  color: #4a2813;
+}
+
+.section-eyebrow {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8c5731;
+  font-weight: 900;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.leola-fullbody-frame {
+  background: linear-gradient(145deg, #fff7eb, #ecd3a7);
+  border: 6px solid #734321;
+  border-radius: 32px;
+  padding: 12px;
+  box-shadow: var(--clay-shadow);
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.leola-fullbody-frame img {
+  width: 100%;
+  border-radius: 24px;
+  display: block;
+}
+
+/* DONATION BOX */
+.donation-box-clay {
+  background: linear-gradient(145deg, #fffaf1, #edd8b7);
+  border: 4px solid #7c4824;
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: var(--clay-shadow);
+  text-align: center;
+}
+
+.tier-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.tier-btn {
+  background: #fffdf8;
+  border: 2px solid #8c562e;
+  border-radius: 14px;
+  padding: 12px 22px;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #4a2813;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.tier-btn:hover, .tier-btn.selected {
+  background: #fcd98c;
+  transform: scale(1.08);
+  border-color: #5f3316;
+}
+
+/* SITE FOOTER */
+.site-footer {
+  background: #381e10;
+  color: #ebd7be;
+  padding: 60px 6% 30px;
+  border-top: 4px solid #84502a;
+}
+
+.footer-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #5d351e;
+}
+
+.footer-col h4 {
+  color: #f7d294;
+  margin: 0 0 14px 0;
+  font-size: 1.1rem;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col li {
+  margin-bottom: 10px;
+}
+
+.footer-col a {
+  color: #ecd3b6;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.footer-col a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 30px auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #bfa588;
+}
+
+@media (max-width: 1024px) {
+  .desk-activity-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .section-grid-2col {
+    grid-template-columns: 1fr;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .header-nav {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   FULL 3D GAME WORLD STYLES
+   ========================================================================== */
+#clay-game-world-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  display: block;
+}
+
+.game-controls-helper {
+  position: fixed;
+  bottom: 18px;
+  left: 20px;
+  z-index: 40;
+  background: rgba(36, 18, 9, 0.85);
+  color: #f7e6c9;
+  border: 2px solid #8e5831;
+  border-radius: 16px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: bold;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.world-interaction-badge {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  background: linear-gradient(135deg, #f7d172, #e5b244);
+  color: #3b210d;
+  border: 3px solid #6b3e21;
+  border-radius: 26px;
+  padding: 10px 24px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   LEOLA DESK DIALOGUE HERO CARD (EXACT MATCH TO media_1789886811402.jpg)
+   ========================================================================== */
+.leola-dialogue-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 9, 4, 0.72);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  padding: 16px;
+}
+
+.leola-dialogue-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.leola-hero-card {
+  position: relative;
+  width: 100%;
+  max-width: 590px;
+  background: #fffbf2;
+  border: 4px solid #5a3013;
+  border-radius: 28px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: heroCardPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes heroCardPop {
+  0% { transform: scale(0.92) translateY(20px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.hero-card-close-x {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(45, 20, 10, 0.75);
+  border: 2px solid #e2b06f;
+  color: #fff8eb;
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.hero-card-close-x:hover {
+  transform: scale(1.12);
+  background: #a93226;
+  border-color: #ffffff;
+}
+
+/* 1. Hero Artwork Header (Top-Only Card matching media_1789889275490.jpg) */
+.hero-card-header-art {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  background: #2a160d;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.hero-card-main-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+.hero-card-art-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 40%, rgba(26,11,4,0.7) 100%);
+  pointer-events: none;
+}
+
+/* Floating Conversational Speech Bubble on Hero Desk */
+.hero-speech-bubble-overlay {
+  position: relative;
+  z-index: 10;
+  margin: 0 16px 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 125px;
+  overflow-y: auto;
+  pointer-events: auto;
+}
+
+.hero-speech-bubble-overlay::-webkit-scrollbar {
+  width: 5px;
+}
+
+.hero-speech-bubble-overlay::-webkit-scrollbar-thumb {
+  background: #caa078;
+  border-radius: 4px;
+}
+
+.hero-speech-bubble {
+  padding: 10px 15px;
+  border-radius: 18px;
+  font-size: 0.94rem;
+  line-height: 1.45;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+}
+
+.hero-speech-bubble.assistant {
+  background: rgba(255, 253, 248, 0.95);
+  color: #381a07;
+  border: 2px solid #ecd5b8;
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+}
+
+.hero-speech-bubble.user {
+  background: rgba(243, 229, 245, 0.95);
+  color: #4a148c;
+  border: 2px solid #ce93d8;
+  border-bottom-right-radius: 4px;
+  align-self: flex-end;
+  font-weight: 700;
+}
+
+/* Active Desk Input Bar Matching media_1789889275490.jpg */
+.hero-card-desk-input-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px 14px 16px;
+  background: linear-gradient(180deg, rgba(20, 8, 3, 0) 0%, rgba(20, 8, 3, 0.72) 35%, rgba(15, 6, 2, 0.92) 100%);
+}
+
+.hero-purple-mic-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #9c27b0, #673ab7);
+  border: 2.5px solid #e1bee7;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 0 16px rgba(156, 39, 176, 0.55), 0 4px 10px rgba(0,0,0,0.35);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+
+.hero-purple-mic-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 24px rgba(156, 39, 176, 0.85), 0 6px 14px rgba(0,0,0,0.4);
+}
+
+.hero-purple-mic-btn.listening {
+  animation: micPulse 1.2s infinite;
+}
+
+@keyframes micPulse {
+  0%, 100% { box-shadow: 0 0 14px rgba(156, 39, 176, 0.6); }
+  50% { box-shadow: 0 0 28px rgba(233, 30, 99, 0.9); }
+}
+
+.purple-mic-glyph {
+  font-size: 1.3rem;
+}
+
+.hero-pill-input-box {
+  flex: 1;
+}
+
+.hero-pill-input {
+  width: 100%;
+  height: 46px;
+  border-radius: 23px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 2px solid #8e5831;
+  padding: 0 18px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: #381a07;
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.25);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-pill-input:focus {
+  border-color: #8e24aa;
+  box-shadow: 0 0 0 3px rgba(142, 36, 170, 0.3), inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.hero-purple-send-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7b1fa2, #4a148c);
+  border: 2.5px solid #d1c4e9;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(74, 20, 140, 0.45);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.15s ease;
+}
+
+.hero-purple-send-btn:hover {
+  transform: scale(1.1);
+  filter: brightness(1.15);
+}
+
+.purple-send-glyph {
+  font-size: 1.25rem;
+  line-height: 1;
+  margin-left: 2px;
+}
+  color: #4e2c16;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.dialogue-choice-btn:hover {
+  filter: brightness(1.08);
+  transform: scale(1.02);
+}
+
+/* 3D LIBRARY CARD INSPECTION MODAL */
+.card-3d-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  background: rgba(22, 11, 5, 0.88);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.card-3d-modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.card-3d-dialog {
+  position: relative;
+  background: linear-gradient(145deg, #fff7eb, #ecd8be);
+  border: 5px solid #6b3e21;
+  border-radius: 28px;
+  padding: 20px;
+  max-width: 860px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75);
+  text-align: center;
+}
+
+.card-3d-canvas-wrapper {
+  width: 100%;
+  height: 380px;
+  margin: 12px 0;
+  border-radius: 26px;
+  background: radial-gradient(circle, #5c351c 0%, #291509 100%);
+  border: 3px solid #7c4927;
+  overflow: hidden;
+  position: relative;
+}
+
+#card-3d-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+
+#card-3d-canvas:active {
+  cursor: grabbing;
+}
+
+/* PROMINENT WELCOME CTA: OPEN THE DOORS */
+.clay-doors-cta {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 95;
+  background: linear-gradient(135deg, #ffd966, #d98826);
+  border: 4px solid #5a3014;
+  border-radius: 50px;
+  padding: 16px 36px;
+  font-size: 1.3rem;
+  font-weight: 900;
+  font-family: 'Georgia', serif;
+  color: #381b08;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.9), 0 12px 28px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, opacity 0.3s ease;
+  user-select: none;
+}
+
+.clay-doors-cta:hover {
+  transform: translateX(-50%) scale(1.08);
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 1), 0 18px 36px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(135deg, #ffe385, #e59733);
+}
+
+.clay-doors-cta:active {
+  transform: translateX(-50%) scale(0.96);
+}
+
+/* VIDEO LESSONS THEATER MODAL */
+.video-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  background: rgba(18, 9, 4, 0.88);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.video-modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.video-dialog-frame {
+  position: relative;
+  background: linear-gradient(145deg, #fff7eb, #f0dfc8);
+  border: 5px solid #6b3e21;
+  border-radius: 28px;
+  padding: 24px;
+  max-width: 880px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75);
+}
+
+.video-player-container {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 3px solid #5a3014;
+  margin-bottom: 16px;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.6);
+}
+
+.video-player-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.video-playlist-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.video-tab-btn {
+  background: #fdf5e6;
+  border: 2px solid #8e5831;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #4a2813;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.video-tab-btn:hover, .video-tab-btn.active {
+  background: #f3be53;
+  border-color: #4a2813;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* DONATION MODAL */
+.donation-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  background: rgba(20, 10, 5, 0.88);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.donation-modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.donation-dialog-frame {
+  position: relative;
+  background: linear-gradient(145deg, #fff9f0, #f2dec5);
+  border: 5px solid #6b3e21;
+  border-radius: 28px;
+  padding: 28px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75);
+  text-align: center;
+}
+
+.stripe-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #635bff;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.donation-input-group {
+  margin: 16px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.donation-input-group input {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 2px solid #8c562e;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 140px;
+  text-align: center;
+  background: #fff;
+  color: #4a2813;
+}
+
+.stripe-card-mockup {
+  background: #ffffff;
+  border: 1px solid #ccd0d5;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  text-align: left;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.95rem;
+  color: #333;
+}
