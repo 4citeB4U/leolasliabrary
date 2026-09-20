@@ -1,30 +1,793 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#5d3824">
-<title>Leola's Learning Library</title>
-<meta name="description" content="Enter Leola's Learning Library, meet Sista Lee, receive your library card, read, learn with video lessons, and practice in the Game House.">
-<link rel="stylesheet" href="assets/cozy-library.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Leola's Learning Library - Full 3D Animated Game World</title>
+  <link rel="stylesheet" href="css/clay-materials.css?v=3">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+      }
+    }
+  </script>
 </head>
-<body data-phase="outside">
-<a class="skip" href="#reception">Skip entrance</a>
-<header class="topbar"><a class="brand" href="index.html"><span>✦</span><strong>Leola's Learning Library</strong><small>Stories · Learning · Play</small></a><div class="top-actions"><button id="voice-toggle" aria-pressed="false">Voice preview off</button><button id="motion-toggle" aria-pressed="false">Less motion</button><button id="card-open" hidden>My card</button></div></header>
-<main id="library">
-<section id="reception" class="reception" tabindex="-1" aria-label="Sista Lee seated behind her library desk">
-  <div class="scene"><img data-asset="desk" alt="Sista Lee seated behind the desk in Leola's cozy learning library" class="scene-img"></div>
-  <div class="speech" id="speech" role="status" aria-live="polite"><h1 id="speech-title">Hi there! I'm Sista Lee.</h1><p id="speech-copy">I'll be your librarian, book narrator, crochet teacher, and game coach. I'll stay with you throughout your visit.</p><div class="speech-actions"><button id="repeat">Repeat</button><button id="stop-speech">Stop</button><button id="ask-sista">Ask Sista Lee</button></div></div>
-  <section class="onboarding" id="onboarding" hidden aria-labelledby="onboard-title"><h2 id="onboard-title">Let's make your library card</h2><p>Your card keeps your name and learning progress on this device.</p><form id="join-form"><label>Your name<input id="member-name" name="name" autocomplete="name" required maxlength="50"></label><label>Email address<input id="member-email" name="email" type="email" autocomplete="email" required maxlength="120"></label><button class="primary" type="submit">Create my library card</button><p class="privacy">Your email is validated for this enrollment step but is not sent or stored by this device-only preview. Cloud account sync remains a separate service.</p><p id="join-error" class="error" role="alert"></p></form></section>
-  <div class="doors" id="doors" aria-label="Glass library doors"><div class="door left"></div><div class="door right"></div><div class="door-sign"><strong>Leola's Learning Library</strong><span>Good books. Brighter people.</span></div><div class="entry-box"><p>Step into the library.</p><button id="enter" class="primary">Open the doors</button><button id="enter-text" class="secondary">Enter with captions</button><small>Voice is optional. Sista Lee's library knowledge works immediately; her small on-device model warms in the background on supported browsers.</small></div></div>
-  <div id="sparkles" class="sparkles" aria-hidden="true"></div>
-</section>
-<section id="resources" class="resources" hidden aria-label="Library destinations">
-  <article class="panel"><header><span>📖</span><div><h2>Storybook</h2><p>Needle & Yarn: A Love Stitched in Time</p></div></header><div class="book-cover story"><strong>Needle & Yarn</strong><span>A Love Stitched in Time</span></div><a class="panel-link" href="reader.html?book=story">Ask Sista Lee for the storybook <b>›</b></a></article>
-  <article class="panel"><header><span>🧶</span><div><h2>Instructional Book</h2><p>Crochet Mastery: A Complete Guide</p></div></header><div class="book-cover instruction"><strong>Crochet Mastery</strong><span>Read · practice · master</span></div><a class="panel-link" href="reader.html?book=instruction">Ask Sista Lee for the guide <b>›</b></a></article>
-  <article class="panel videos"><header><span>▶</span><div><h2>Video Lessons</h2><p>Watch book-matched demonstrations.</p></div></header><div class="mini-videos"><a href="training.html#CM-GRIP-01"><video muted preload="metadata" data-asset="lesson1"></video><span>Holding Hook & Yarn</span></a><a href="training.html#CM-CHAIN-01"><video muted preload="metadata" data-asset="lesson2"></video><span>Foundation Chain</span></a><a href="training.html#CM-SC-01"><span class="video-pending">Single Crochet<br><small>Video in production</small></span></a></div><a class="panel-link" href="training.html">Watch with Sista Lee <b>›</b></a></article>
-  <article class="panel games"><header><span>🎮</span><div><h2>Game House</h2><p>Five crochet games. Pick a cover and play.</p></div></header><div class="cover-row"><a href="game-house.html?room=loop"><img data-asset="game-loop" alt="Loop Lab game cover"><span>Loop Lab</span></a><a href="game-house.html?room=tension"><img data-asset="game-tension" alt="Tension Tower game cover"><span>Tension Tower</span></a><a href="game-house.html?room=pattern"><img data-asset="game-pattern" alt="Pattern Quest game cover"><span>Pattern Quest</span></a><a href="game-house.html?room=amigurumi"><img data-asset="game-amigurumi" alt="Amigurumi Rescue game cover"><span>Amigurumi Rescue</span></a><a href="game-house.html?room=yarnfolk"><img data-asset="game-yarnfolk" alt="Yarnfolk Studio game cover"><span>Yarnfolk Studio</span></a></div><a class="panel-link" href="game-house.html">Enter the Game House <b>›</b></a></article>
-</section>
-</main>
-<dialog id="card-dialog"><button class="close" aria-label="Close">×</button><h2>Your Leola's Learning Library card</h2><div class="card-stage"><div class="magic-ring one"></div><div class="magic-ring two"></div><div class="card3d"><img data-asset="card" alt="Leola's Learning Library card"><strong id="card-name"></strong><span id="card-number"></span><span id="card-date"></span></div></div><p>Sista Lee has your card ready. It is saved on this device so your reading and game progress can grow with it.</p><button id="accept-card" class="primary">Take my card and explore</button></dialog>
-<dialog id="sista-dialog" class="sista-dialog"><button class="close" aria-label="Close">×</button><h2>Ask Sista Lee</h2><p id="brain-status">Instant library knowledge ready.</p><form id="sista-form"><label>Your question<textarea id="sista-question" maxlength="500" placeholder="What is a yarn over?" required></textarea></label><button class="primary" type="submit">Ask Sista Lee</button></form><p id="sista-answer" role="status"></p></dialog>
-<script type="module" src="js/cozy-library.js"></script>
-</body></html>
+<body>
+
+  <!-- ==========================================================================
+       FULLSCREEN 3D WEBGL GAME WORLD CANVAS
+       ========================================================================== -->
+  <canvas id="clay-game-world-canvas"></canvas>
+
+  <!-- ==========================================================================
+       TOPBAR 3D HUD NAVIGATION
+       ========================================================================== -->
+  <!-- ==========================================================================
+       CARVED WOODEN TOP BANNER HUD NAVIGATION (EXACT ARTWORK MATCH: media_1789897483592.png)
+       ========================================================================== -->
+  <header class="wood-banner-container">
+    <div class="wood-banner-scroll">
+      <div class="wood-banner-bar" role="navigation" aria-label="Library Navigation Banner">
+        <!-- 1. Left Brand Plaque -->
+        <a href="#" class="banner-btn-hotspot hotspot-plaque" id="hud-brand-link" title="Leola's Learning Library - Return to Courtyard" aria-label="Leola's Learning Library"></a>
+
+        <!-- 2-8. Quick-Travel In-Game Waypoint Buttons -->
+        <button class="banner-btn-hotspot hotspot-courtyard active" data-teleport="exterior" title="Courtyard & Lake Michigan Walkway" aria-label="Courtyard"></button>
+        <button class="banner-btn-hotspot hotspot-grand-hall" data-teleport="desk" title="Grand Hall & Leola's Desk" aria-label="Grand Hall"></button>
+        <button class="banner-btn-hotspot hotspot-bookshelves" data-teleport="bookshelves" title="Grand Bookshelves & Ladder" aria-label="Bookshelves"></button>
+        <button class="banner-btn-hotspot hotspot-reading" data-teleport="reading" title="Quiet Reading Nook & Poufs" aria-label="Reading Nook"></button>
+        <button class="banner-btn-hotspot hotspot-arcade" data-teleport="arcade" title="3D Arcade Cabinet" aria-label="3D Arcade"></button>
+        <button class="banner-btn-hotspot hotspot-movie" data-teleport="video" title="Movie Booth & Stories" aria-label="Movie Booth"></button>
+        <button class="banner-btn-hotspot hotspot-globe" data-teleport="globe" title="Grand Interactive Globe" aria-label="Grand Globe"></button>
+
+        <!-- 9. Holographic 3D Card Modal Trigger -->
+        <button class="banner-btn-hotspot hotspot-card" id="btn-open-3d-card" title="My 3D Holographic Library Card" aria-label="My 3D Card"></button>
+
+        <!-- 10-11. First & Third Person Camera Toggles -->
+        <button class="banner-btn-hotspot hotspot-cam-first active" id="btn-camera-first" title="First Person Camera View" aria-label="First Person"></button>
+        <button class="banner-btn-hotspot hotspot-cam-third" id="btn-camera-third" title="Third Person Camera View" aria-label="Third Person"></button>
+      </div>
+    </div>
+
+    <!-- Floating Sound & Speech Voice Toggle -->
+    <button id="btn-toggle-voice" class="floating-voice-pill" title="Toggle Sound & Speech" aria-label="Toggle Sound & Speech">
+      <span class="voice-icon">🔊</span>
+      <span id="voice-btn-label">Voice On</span>
+    </button>
+  </header>
+
+  <!-- ==========================================================================
+       IN-GAME INTERACTION HOVER BADGE
+       ========================================================================== -->
+  <div id="world-interaction-badge" class="world-interaction-badge">
+    ✦ Click to Talk to Leola
+  </div>
+
+  <!-- ==========================================================================
+       LEOLA SLM INTERACTIVE DIALOGUE HERO CARD (TOP SECTION ONLY, MATCHING media_1789889275490.jpg)
+       ========================================================================== -->
+  <div id="leola-dialogue-modal" class="leola-dialogue-backdrop" role="dialog" aria-modal="true">
+    <div class="leola-hero-card">
+      <button id="btn-dialogue-close" class="hero-card-close-x" title="Close Dialogue">✕</button>
+
+      <!-- Hero Artwork with Integrated Desk Input Bar and Speech Bubble -->
+      <div class="hero-card-header-art">
+        <img src="assets/images/leola-dialogue-card-hero.jpg" alt="Leola at her Library Desk" class="hero-card-main-img" />
+        <div class="hero-card-art-gradient"></div>
+
+        <!-- Floating Speech Stream on Desk -->
+        <div class="hero-speech-bubble-overlay" id="leola-chat-transcript">
+          <div class="hero-speech-bubble assistant" id="leola-speech-text">
+            Welcome to my desk! Ask me anything about crocheting stitches, yarn weights, our storybooks, or explore with me! ✦
+          </div>
+        </div>
+
+        <!-- Active Desk Input Bar Matching media_1789889275490.jpg -->
+        <div class="hero-card-desk-input-bar">
+          <button id="btn-voice-mic" class="hero-purple-mic-btn" title="Voice / Speak">
+            <span class="purple-mic-glyph">🎙️</span>
+          </button>
+          <div class="hero-pill-input-box">
+            <input type="text" id="leola-slm-input" class="hero-pill-input" placeholder="Ask Leola anything about crocheting, yarn, stitches, the library, or our stories..." autocomplete="off" />
+          </div>
+          <button id="btn-leola-slm-send" class="hero-purple-send-btn" title="Send Question">
+            <span class="purple-send-glyph">➤</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       GRAND TERRESTRIAL GLOBE INSPECTOR MODAL
+       ========================================================================== -->
+  <div id="globe-modal-backdrop" class="card-modal-backdrop" role="dialog" aria-modal="true">
+    <div class="card-dialog-frame" style="max-width: 620px; text-align: center;">
+      <button class="close-modal-x" id="btn-close-globe-modal">×</button>
+      <div style="font-size: 2.8rem; margin-bottom: 6px;">🌍</div>
+      <h2 style="font-size: 1.8rem; margin: 0 0 8px; color: #4a2813;">Grand Terrestrial Earth Globe</h2>
+      <span class="leola-slm-pill" style="margin-bottom: 12px;">Far Left Library Corner · 23.5° Axial Tilt</span>
+      <p style="font-size: 1.05rem; line-height: 1.55; color: #522d14; margin: 12px 0 18px 0; background: #fff9f0; padding: 16px 20px; border-radius: 18px; border: 2px solid #8e5831;">
+        Hand-crafted in clay with all <strong>seven continents</strong>: North America, South America, Europe, Africa, Asia, Australia, and Antarctica. Tilted at 23.5° upon an ornate mahogany tripod stand with a brass meridian gimbal ring.
+      </p>
+      <div style="display:flex; justify-content:center; gap:12px;">
+        <button id="btn-globe-spin-guide" class="card-primary-cta">🖐 Drag to Spin in 3D</button>
+        <button id="btn-globe-ask-leola" class="card-secondary-cta">Ask Leola About the World</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       3D MAGICAL LIBRARY CARD INSPECTOR WITH LIVE QR CODE
+       ========================================================================== -->
+  <div id="card-3d-modal" class="card-3d-modal-backdrop" role="dialog" aria-modal="true">
+    <div class="card-3d-dialog">
+      <button class="close-modal-x" id="btn-close-card-modal">×</button>
+      <h2 style="font-size: 1.8rem; margin: 0 0 6px; color: #4a2813;">Your 3D Magical Library Card</h2>
+      <p style="font-size: 0.95rem; margin: 0 0 10px; color: #6a3e21;">
+        Drag to rotate in full 3D · Stamped with your scannable login QR code
+      </p>
+
+      <!-- 3D Card WebGL Canvas -->
+      <div class="card-3d-canvas-wrapper">
+        <canvas id="card-3d-canvas"></canvas>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:14px;">
+        <button id="btn-card-flip" class="card-secondary-cta">↺ Flip Card</button>
+        <button id="btn-card-download" class="card-secondary-cta">⬇ Save Card Image</button>
+        <button id="btn-card-copy-link" class="card-secondary-cta">🔗 Copy QR Login Link</button>
+        <button id="btn-card-edit-name" class="card-secondary-cta">✎ Edit Name</button>
+        <button id="btn-card-explore-world" class="card-primary-cta">✦ Let's Explore</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       INTERACTIVE BOOK READER MODAL
+       ========================================================================== -->
+  <div id="reader-modal-backdrop" class="card-modal-backdrop" role="dialog" aria-modal="true">
+    <div class="card-dialog-frame" style="max-width: 820px; text-align: left;">
+      <button class="close-modal-x" id="btn-close-reader-modal">×</button>
+      <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+        <span id="reader-book-icon" style="font-size:2.2rem;">📖</span>
+        <div>
+          <h2 id="reader-book-title" style="margin:0; font-size:1.6rem; color:#4a2813;">Needle & Yarn</h2>
+          <span id="reader-book-sub" style="font-size:0.85rem; color:#7a4d2c; font-weight:bold;">A Love Stitched in Time</span>
+        </div>
+      </div>
+      <div id="reader-book-body" style="background:#fff9f0; border:2px solid #8e5831; border-radius:18px; padding:24px; min-height:220px; font-size:1.15rem; line-height:1.6; color:#3d200e;">
+        Loading cozy chapters...
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+        <button id="btn-reader-prev" class="card-secondary-cta">← Prev Page</button>
+        <span id="reader-page-indicator" style="font-weight:bold; color:#4a2813;">Page 1 of 4</span>
+        <button id="btn-reader-next" class="card-primary-cta">Next Page →</button>
+        <button id="btn-reader-bookmark" class="card-secondary-cta">★ Save Bookmark</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================================================
+       VIDEO THEATER MODAL (LOCAL MP4 PLAYLIST)
+       ========================================================================== -->
+  <div id="video-theater-modal" class="video-modal-backdrop" role="dialog" aria-modal="true">
+    <div class="video-dialog-frame">
+      <button class="close-modal-x" id="btn-close-video-modal">×</button>
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+        <span style="font-size:2rem;">🎬</span>
+        <div>
+          <h2 style="margin:0; font-size:1.5rem; color:#4a2813;">Leola's Video Theater</h2>
+          <span style="font-size:0.85rem; color:#7a4d2c; font-weight:bold;">Crochet &amp; Yarncraft Video Masterclasses</span>
+        </div>
+      </div>
+      <div class="video-player-container">
+        <video id="library-video-player" controls preload="metadata" src="assets/decoded/lesson1.mp4"></video>
+      </div>
+      <div class="video-playlist-tabs" style="margin-top:14px;">
+        <button class="video-tab active" data-src="assets/decoded/lesson1.mp4" data-title="Lesson 1: Holding Hook &amp; Yarn">
+          🧶 1. Holding Hook &amp; Yarn
+        </button>
+        <button class="video-tab" data-src="assets/decoded/lesson2.mp4" data-title="Lesson 2: Foundation Chains">
+          🔗 2. Foundation Chains
+        </button>
+        <button class="video-tab" data-src="assets/decoded/lesson3.mp4" data-title="Lesson 3: Single Crochet">
+          ✨ 3. Single Crochet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       STRIPE DONATION MODAL
+       ========================================================================== -->
+  <div id="donation-modal" class="donation-modal-backdrop" role="dialog" aria-modal="true">
+    <div class="donation-dialog-frame">
+      <button class="close-modal-x" id="btn-close-donation-modal">×</button>
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+        <span style="font-size:2.2rem;">🪙</span>
+        <div>
+          <h2 style="margin:0; font-size:1.6rem; color:#4a2813;">Support Leola's Library</h2>
+          <span class="stripe-badge">🔒 Powered by Stripe</span>
+        </div>
+      </div>
+      <p style="font-size:0.95rem; color:#6a3e21; margin:0 0 14px;">
+        Help keep our library free, cozy, and inspiring for every child and maker!
+      </p>
+
+      <div style="display:flex; gap:8px; justify-content:center; margin-bottom:14px;" id="donation-amounts">
+        <button class="card-secondary-cta donation-amt-btn active" data-amount="5">$5</button>
+        <button class="card-secondary-cta donation-amt-btn" data-amount="10">$10</button>
+        <button class="card-secondary-cta donation-amt-btn" data-amount="25">$25</button>
+        <button class="card-secondary-cta donation-amt-btn" data-amount="50">$50</button>
+      </div>
+
+      <div class="stripe-card-mockup">
+        <div style="font-weight:bold; margin-bottom:6px; color:#4a2813; font-size:0.9rem;">Card Information</div>
+        <input type="text" placeholder="Cardholder Name" id="donor-name" value="Kind Patron" style="width:100%; padding:8px 12px; margin-bottom:8px; border:2px solid #ecdac4; border-radius:8px; font-family:inherit; font-size:0.95rem;">
+        <input type="text" placeholder="Card number (4242 •••• •••• 4242)" value="4242 •••• •••• 4242" style="width:100%; padding:8px 12px; margin-bottom:8px; border:2px solid #ecdac4; border-radius:8px; font-family:inherit; font-size:0.95rem;">
+        <div style="display:flex; gap:8px;">
+          <input type="text" placeholder="MM / YY" value="12 / 28" style="width:50%; padding:8px 12px; border:2px solid #ecdac4; border-radius:8px; font-family:inherit; font-size:0.95rem;">
+          <input type="text" placeholder="CVC" value="888" style="width:50%; padding:8px 12px; border:2px solid #ecdac4; border-radius:8px; font-family:inherit; font-size:0.95rem;">
+        </div>
+      </div>
+
+      <div style="margin-top:16px; display:flex; flex-direction:column; gap:10px;">
+        <button id="btn-submit-donation" class="card-primary-cta" style="width:100%; padding:14px; font-size:1.15rem;">
+          ❤️ Complete $5 Donation
+        </button>
+        <div id="donation-success-msg" style="display:none; background:#e8f4ed; color:#2d6a4f; padding:12px; border-radius:12px; font-weight:bold; text-align:center;">
+          ✨ Thank you so much! Your receipt has been logged.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ONBOARDING NAME DIALOG MODAL
+       ========================================================================== -->
+  <div id="onboarding-modal" class="card-modal-backdrop" role="dialog" aria-modal="true">
+    <div class="card-dialog-frame" style="max-width:520px; text-align:center;">
+      <span style="font-size:3rem;">🪪</span>
+      <h2 style="margin:8px 0 6px; font-size:1.7rem; color:#4a2813;">Welcome to Leola's Library!</h2>
+      <p style="color:#6a3e21; font-size:1rem; margin:0 0 16px;">
+        Let's issue your official 3D Magical Library Card with your scannable login code. What name should appear on your card?
+      </p>
+      <input type="text" id="onboarding-name-input" placeholder="Your Name or Nickname" value="Jasmine Lee" style="width:80%; padding:12px 16px; font-size:1.2rem; border:3px solid #8e5831; border-radius:14px; font-family:inherit; text-align:center; margin-bottom:18px; outline:none; background:#fffcf6;">
+      <div style="display:flex; justify-content:center; gap:12px;">
+        <button id="btn-onboarding-cancel" class="card-secondary-cta">Explore First</button>
+        <button id="btn-onboarding-submit" class="card-primary-cta">Create My 3D Card ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       INITIALIZATION SCRIPT
+       ========================================================================== -->
+  <script type="module">
+    import { ClayWorld3D } from './js/world-3d.js';
+  import { LeolaSLMEngine } from './js/leola-slm.js';
+    import { Card3DInspector } from './js/card-3d-inspector.js';
+    import { stateManager } from './js/state-manager.js';
+
+    // 0. Instant Auto-Login from QR Code Parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const loginCard = urlParams.get('login');
+    const loginUser = urlParams.get('user');
+    if (loginCard && loginUser) {
+      await stateManager.ready;
+      await stateManager.patch({
+        guest: {
+          name: decodeURIComponent(loginUser),
+          cardId: decodeURIComponent(loginCard),
+          issuedAt: new Date().toISOString()
+        }
+      });
+    }
+
+    // 1. Initialize Main 3D Game World
+    const worldCanvas = document.getElementById('clay-game-world-canvas');
+    const world = new ClayWorld3D(worldCanvas);
+    window.__world3D = world;
+
+    // 2. Initialize 3D Card Inspector
+    const cardCanvas = document.getElementById('card-3d-canvas');
+    let cardInspector = null;
+    function getCardInspector() {
+      if (!cardInspector) {
+        cardInspector = new Card3DInspector(cardCanvas);
+      }
+      return cardInspector;
+    }
+
+    // 3. Audio / Speech Synthesis System
+    let voiceEnabled = true;
+    let synth = window.speechSynthesis;
+    let currentUtterance = null;
+
+    function speakLeola(text) {
+      if (!voiceEnabled || !synth) return;
+      synth.cancel();
+      currentUtterance = new SpeechSynthesisUtterance(text);
+      currentUtterance.rate = 0.95;
+      currentUtterance.pitch = 1.05;
+      const voices = synth.getVoices();
+      const warmVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Google') || v.name.includes('Natural')));
+      if (warmVoice) currentUtterance.voice = warmVoice;
+      synth.speak(currentUtterance);
+    }
+
+    function stopSpeech() {
+      if (synth) synth.cancel();
+    }
+
+    // Voice Toggle Pill
+    document.getElementById('btn-toggle-voice')?.addEventListener('click', () => {
+      voiceEnabled = !voiceEnabled;
+      const btn = document.getElementById('btn-toggle-voice');
+      const label = document.getElementById('voice-btn-label');
+      const icon = btn?.querySelector('.voice-icon');
+      if (label) label.textContent = voiceEnabled ? 'Voice On' : 'Voice Off';
+      if (icon) icon.textContent = voiceEnabled ? '🔊' : '🔇';
+      btn?.classList.toggle('voice-muted', !voiceEnabled);
+      if (!voiceEnabled) stopSpeech();
+    });
+
+    document.getElementById('btn-voice-replay')?.addEventListener('click', () => {
+      const text = document.getElementById('leola-speech-text').textContent;
+      speakLeola(text);
+    });
+
+    document.getElementById('btn-voice-stop')?.addEventListener('click', () => {
+      stopSpeech();
+    });
+
+    // 4. Quick Travel Waypoint Navigation
+    document.querySelectorAll('[data-teleport]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-teleport]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        world.teleportTo(btn.dataset.teleport);
+      });
+    });
+
+    world.addEventListener('phasechange', (e) => {
+      const phase = e.detail;
+      document.querySelectorAll('[data-teleport]').forEach(b => {
+        if (phase === 'outside' && b.dataset.teleport === 'exterior') {
+          b.classList.add('active');
+        } else if (phase === 'inside' && b.dataset.teleport === 'desk') {
+          b.classList.add('active');
+        }
+      });
+    });
+
+    // Brand Plaque Click: Return to Courtyard Walkway
+    document.getElementById('hud-brand-link')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      world.teleportTo('exterior');
+      document.querySelectorAll('[data-teleport]').forEach(b => {
+        b.classList.toggle('active', b.dataset.teleport === 'exterior');
+      });
+    });
+
+    // Camera Mode Hotspots (First Person vs Third Person)
+    const btnCamFirst = document.getElementById('btn-camera-first');
+    const btnCamThird = document.getElementById('btn-camera-third');
+
+    function syncCameraButtons(mode) {
+      if (btnCamFirst) btnCamFirst.classList.toggle('active', mode === 'first_person');
+      if (btnCamThird) btnCamThird.classList.toggle('active', mode === 'third_person');
+    }
+
+    btnCamFirst?.addEventListener('click', () => {
+      world.setCameraMode('first_person');
+      syncCameraButtons('first_person');
+    });
+
+    btnCamThird?.addEventListener('click', () => {
+      world.setCameraMode('third_person');
+      syncCameraButtons('third_person');
+    });
+
+    world.addEventListener('cameramodechange', (e) => {
+      syncCameraButtons(e.detail);
+    });
+
+    syncCameraButtons(world.cameraMode || 'first_person');
+
+    // 5. Interactive Leola SLM Engine & Dialogue Console Logic
+    const slmEngine = new LeolaSLMEngine();
+    const dialogueModal = document.getElementById('leola-dialogue-modal');
+    const transcriptEl = document.getElementById('leola-chat-transcript');
+    const slmInput = document.getElementById('leola-slm-input');
+    let lastSpokenText = "";
+
+    function openDialogue(initialText = null) {
+      dialogueModal.classList.add('active');
+      if (initialText) {
+        addAssistantMessage(initialText);
+      }
+    }
+
+    function closeDialogue() {
+      dialogueModal.classList.remove('active');
+      slmEngine.stopSpeaking();
+    }
+
+    function addUserMessage(text) {
+      const bubble = document.createElement('div');
+      bubble.className = 'hero-speech-bubble user';
+      bubble.textContent = text;
+      transcriptEl.appendChild(bubble);
+      transcriptEl.scrollTop = transcriptEl.scrollHeight;
+    }
+
+    function addAssistantMessage(text) {
+      lastSpokenText = text;
+      const bubble = document.createElement('div');
+      bubble.className = 'hero-speech-bubble assistant';
+      bubble.textContent = text;
+      transcriptEl.appendChild(bubble);
+      transcriptEl.scrollTop = transcriptEl.scrollHeight;
+      if (world.leola) {
+        world.leola.updateSpeechCanvas(text.substring(0, 48) + '... ✦');
+      }
+      if (slmEngine.isVoiceEnabled) {
+        slmEngine.speak(text);
+      }
+    }
+
+    async function handleSLMQuery(prompt) {
+      if (!prompt || !prompt.trim()) return;
+      const query = prompt.trim();
+      addUserMessage(query);
+      if (slmInput) slmInput.value = '';
+
+      // Special action triggers:
+      if (query.toLowerCase().includes("show my 3d library card") || query.toLowerCase().includes("card & qr")) {
+        closeDialogue();
+        open3DCardModal();
+        return;
+      }
+
+      // Generate response via on-device SLM
+      const result = await slmEngine.generateResponse(query);
+      addAssistantMessage(result.reply);
+    }
+
+    document.getElementById('btn-leola-slm-send')?.addEventListener('click', () => {
+      handleSLMQuery(slmInput?.value);
+    });
+
+    slmInput?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        handleSLMQuery(slmInput?.value);
+      }
+    });
+
+    document.getElementById('btn-dialogue-close')?.addEventListener('click', closeDialogue);
+
+    // Glowing Purple Mic Button Voice Interaction
+    document.getElementById('btn-voice-mic')?.addEventListener('click', () => {
+      const micBtn = document.getElementById('btn-voice-mic');
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRec();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        micBtn.classList.add('listening');
+        recognition.onresult = (event) => {
+          const text = event.results[0][0].transcript;
+          if (slmInput) slmInput.value = text;
+          micBtn.classList.remove('listening');
+          handleSLMQuery(text);
+        };
+        recognition.onerror = () => {
+          micBtn.classList.remove('listening');
+          if (lastSpokenText) slmEngine.speak(lastSpokenText);
+        };
+        recognition.onend = () => micBtn.classList.remove('listening');
+        recognition.start();
+      } else {
+        // Voice synthesize last text or welcome prompt
+        if (lastSpokenText) {
+          slmEngine.speak(lastSpokenText);
+        } else {
+          slmEngine.speak("Welcome to Leola's Library! Ask me anything about crocheting or our stories.");
+        }
+      }
+    });
+
+    // Listen to world events
+    world.addEventListener('talk_leola', () => {
+      openDialogue("Hello there, friend! I'm Leola, your Library Guide. My dialogue is powered by Leola-SLM-Craft-v2.4! Ask me anything about crocheting stitches, yarn weights, or exploring our cozy library!");
+    });
+
+    // Grand Globe Inspector Logic
+    const globeModal = document.getElementById('globe-modal-backdrop');
+    world.addEventListener('inspect_globe', () => {
+      if (globeModal) globeModal.classList.add('active');
+    });
+
+    document.getElementById('btn-close-globe-modal')?.addEventListener('click', () => {
+      if (globeModal) globeModal.classList.remove('active');
+    });
+
+    document.getElementById('btn-globe-spin-guide')?.addEventListener('click', () => {
+      if (globeModal) globeModal.classList.remove('active');
+      world.teleportTo('globe');
+    });
+
+    document.getElementById('btn-globe-ask-leola')?.addEventListener('click', () => {
+      if (globeModal) globeModal.classList.remove('active');
+      openDialogue("Our Grand Terrestrial Globe in the left corner is hand-sculpted with all seven continents! You can click and drag directly on it to spin the world!");
+    });
+
+    world.addEventListener('onboarding_request', () => {
+      openOnboardingModal();
+    });
+
+    world.addEventListener('interact', (e) => {
+      const data = e.detail;
+      if (data.type === 'arcade') {
+        openDialogue("Step right up! In the 3D Game House, we have 5 fun games: Loop Lab, Tension Tower, Pattern Quest, Amigurumi Rescue, and Yarnfolk Studio. Would you like to jump into the arcade now?");
+      } else if (data.type === 'reading-table') {
+        openBookReader('needle');
+      } else if (data.type === 'book-needle') {
+        openBookReader('needle');
+      } else if (data.type === 'book-crochet') {
+        openBookReader('crochet');
+      } else if (data.type === 'donation') {
+        openDonationModal();
+      } else if (data.type === 'video' || data.type === 'training' || data.type === 'movie-booth' || data.type === 'movie-booth-seat' || data.type === 'movie-booth-screen') {
+        openVideoModal();
+      }
+    });
+
+    // --- Onboarding Modal Logic ---
+    const onboardingModal = document.getElementById('onboarding-modal');
+    const onboardingInput = document.getElementById('onboarding-name-input');
+    function openOnboardingModal() {
+      if (onboardingModal) onboardingModal.classList.add('active');
+    }
+    document.getElementById('btn-onboarding-cancel')?.addEventListener('click', () => {
+      onboardingModal?.classList.remove('active');
+    });
+    document.getElementById('btn-onboarding-submit')?.addEventListener('click', async () => {
+      const name = onboardingInput?.value?.trim() || 'Jasmine Lee';
+      const cardId = 'LL-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+      await stateManager.patch({
+        guest: {
+          name: name,
+          cardId: cardId,
+          issuedAt: new Date().toISOString()
+        }
+      });
+      onboardingModal?.classList.remove('active');
+      open3DCardModal();
+    });
+
+    // --- Video Theater Modal Logic ---
+    const videoModal = document.getElementById('video-theater-modal');
+    const videoPlayer = document.getElementById('library-video-player');
+    function openVideoModal() {
+      if (videoModal) {
+        videoModal.classList.add('active');
+        if (videoPlayer) videoPlayer.play().catch(() => {});
+      }
+    }
+    document.getElementById('btn-close-video-modal')?.addEventListener('click', () => {
+      if (videoModal) videoModal.classList.remove('active');
+      if (videoPlayer) videoPlayer.pause();
+    });
+    document.querySelectorAll('.video-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        if (videoPlayer) {
+          videoPlayer.src = tab.dataset.src;
+          videoPlayer.play().catch(() => {});
+        }
+      });
+    });
+
+    // --- Stripe Donation Modal Logic ---
+    const donationModal = document.getElementById('donation-modal');
+    let selectedDonationAmount = 5;
+    function openDonationModal() {
+      if (donationModal) donationModal.classList.add('active');
+    }
+    document.getElementById('btn-close-donation-modal')?.addEventListener('click', () => {
+      if (donationModal) donationModal.classList.remove('active');
+    });
+    document.querySelectorAll('.donation-amt-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.donation-amt-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedDonationAmount = parseInt(btn.dataset.amount, 10);
+        const submitBtn = document.getElementById('btn-submit-donation');
+        if (submitBtn) submitBtn.textContent = `❤️ Complete $${selectedDonationAmount} Donation`;
+      });
+    });
+    document.getElementById('btn-submit-donation')?.addEventListener('click', async () => {
+      const donorName = document.getElementById('donor-name')?.value || 'Kind Patron';
+      const successMsg = document.getElementById('donation-success-msg');
+      const submitBtn = document.getElementById('btn-submit-donation');
+      if (submitBtn) submitBtn.disabled = true;
+      if (successMsg) successMsg.style.display = 'block';
+
+      // Record in local state
+      try {
+        const currentGuest = stateManager.snapshot()?.guest || {};
+        await stateManager.patch({
+          lastDonation: {
+            amount: selectedDonationAmount,
+            donor: donorName,
+            timestamp: new Date().toISOString()
+          }
+        });
+      } catch (err) {
+        console.warn('Could not record donation state:', err);
+      }
+
+      setTimeout(() => {
+        if (donationModal) donationModal.classList.remove('active');
+        if (submitBtn) submitBtn.disabled = false;
+        if (successMsg) successMsg.style.display = 'none';
+      }, 2000);
+    });
+
+    // Dialogue Choice Buttons
+    document.getElementById('choice-show-card')?.addEventListener('click', () => {
+      closeDialogue();
+      open3DCardModal();
+    });
+
+    document.getElementById('choice-read-needle')?.addEventListener('click', () => {
+      closeDialogue();
+      openBookReader('needle');
+    });
+
+    document.getElementById('choice-read-crochet')?.addEventListener('click', () => {
+      closeDialogue();
+      openBookReader('crochet');
+    });
+
+    document.getElementById('choice-watch-video')?.addEventListener('click', () => {
+      window.location.href = 'training.html';
+    });
+
+    document.getElementById('choice-play-arcade')?.addEventListener('click', () => {
+      window.location.href = 'game-house.html';
+    });
+
+    document.getElementById('choice-walk-tour')?.addEventListener('click', () => {
+      speechTextEl.textContent = "Follow me! I'll show you where we keep our most treasured storybooks and crochet guides.";
+      speakLeola(speechTextEl.textContent);
+      world.leola?.advanceWaypoint();
+      setTimeout(closeDialogue, 2200);
+    });
+
+    document.getElementById('choice-free-explore')?.addEventListener('click', () => {
+      speechTextEl.textContent = "Wonderful! Click anywhere on the floor to walk, or use WASD keys. Call me anytime you need a hand!";
+      speakLeola(speechTextEl.textContent);
+      setTimeout(closeDialogue, 1800);
+    });
+
+    // 6. 3D Card Modal Logic
+    const cardModal = document.getElementById('card-3d-modal');
+    function open3DCardModal() {
+      cardModal.classList.add('active');
+      const inspector = getCardInspector();
+      setTimeout(() => inspector.resize(), 100);
+    }
+
+    document.getElementById('btn-open-3d-card')?.addEventListener('click', open3DCardModal);
+    document.getElementById('btn-close-card-modal')?.addEventListener('click', () => cardModal.classList.remove('active'));
+    document.getElementById('btn-card-explore-world')?.addEventListener('click', () => cardModal.classList.remove('active'));
+
+    document.getElementById('btn-card-flip')?.addEventListener('click', () => {
+      getCardInspector().flipCard();
+    });
+
+    document.getElementById('btn-card-download')?.addEventListener('click', () => {
+      getCardInspector().downloadCardImage();
+    });
+
+    document.getElementById('btn-card-copy-link')?.addEventListener('click', () => {
+      getCardInspector().copyLoginLink();
+    });
+
+    document.getElementById('btn-card-edit-name')?.addEventListener('click', async () => {
+      const current = stateManager.snapshot()?.guest?.name || 'Jasmine Lee';
+      const next = prompt('Enter member name for your magical library card:', current);
+      if (next && next.trim()) {
+        const cardId = 'LL-' + Math.random().toString(36).substring(2, 12).toUpperCase();
+        await stateManager.patch({
+          guest: {
+            name: next.trim(),
+            cardId: cardId,
+            issuedAt: new Date().toISOString()
+          }
+        });
+        window.location.reload();
+      }
+    });
+
+    // 7. Interactive Book Reader Logic
+    const bookData = {
+      needle: {
+        title: "Needle & Yarn",
+        sub: "A Love Stitched in Time",
+        icon: "📖",
+        pages: [
+          "Chapter 1: The First Loop · On a soft amber morning at the edge of Willowbrook, a small wooden needle lay beside an untangled skein of apricot yarn. 'Every story begins with a single loop,' Leola whispered, gently guiding your fingers.",
+          "Chapter 2: Tension and Grace · To hold the yarn was to hold a conversation. Too tight, and the stitches would freeze; too loose, and they would wander away like autumn leaves. Together, we found the golden middle.",
+          "Chapter 3: The Gathering Row · Row upon row, the little blanket grew like warm bread rising. Neighbors stopped by, each adding a stitch of laughter, a loop of courage, and a thread of kindness.",
+          "Chapter 4: The Finishing Knot · As twilight settled over the courtyard, the last loop pulled through with a gentle snap. A warm creation, stitched by hand, preserved forever in our library."
+        ]
+      },
+      crochet: {
+        title: "Crochet Mastery",
+        sub: "The Foundational Guide",
+        icon: "🧶",
+        pages: [
+          "Lesson 1: The Magic Ring · Loop the yarn over two fingers, cross under the main strand, insert your hook, and draw through. This secret knot unlocks all round creations from hats to little amigurumi animals.",
+          "Lesson 2: The Foundation Chain · Yarn over, pull through loop. Repeat with steady, rhythmic breathing. Keep each chain as uniform as a string of polished pearls.",
+          "Lesson 3: Single Crochet (sc) · Insert hook into stitch, yarn over, pull up a loop (two loops on hook), yarn over, pull through both. Firm, warm, and sturdy.",
+          "Lesson 4: Sculpting Amigurumi · By combining increases (2 sc in one stitch) and invisible decreases, flat stitches become round, huggable clay creatures!"
+        ]
+      }
+    };
+
+    let activeBookKey = 'needle';
+    let activePage = 0;
+
+    window.openBookReader = function(bookKey) {
+      activeBookKey = bookKey;
+      activePage = 0;
+      renderBookPage();
+      document.getElementById('reader-modal-backdrop')?.classList.add('active');
+    };
+
+    function renderBookPage() {
+      const book = bookData[activeBookKey];
+      document.getElementById('reader-book-title').textContent = book.title;
+      document.getElementById('reader-book-sub').textContent = book.sub;
+      document.getElementById('reader-book-icon').textContent = book.icon;
+      document.getElementById('reader-book-body').textContent = book.pages[activePage];
+      document.getElementById('reader-page-indicator').textContent = `Page ${activePage + 1} of ${book.pages.length}`;
+    }
+
+    document.getElementById('btn-reader-prev')?.addEventListener('click', () => {
+      if (activePage > 0) {
+        activePage--;
+        renderBookPage();
+      }
+    });
+
+    document.getElementById('btn-reader-next')?.addEventListener('click', () => {
+      const book = bookData[activeBookKey];
+      if (activePage < book.pages.length - 1) {
+        activePage++;
+        renderBookPage();
+      }
+    });
+
+    document.getElementById('btn-close-reader-modal')?.addEventListener('click', () => {
+      document.getElementById('reader-modal-backdrop')?.classList.remove('active');
+    });
+
+    document.getElementById('btn-reader-bookmark')?.addEventListener('click', async () => {
+      const btn = document.getElementById('btn-reader-bookmark');
+      btn.textContent = '★ Bookmarked!';
+      setTimeout(() => { btn.textContent = '★ Save Bookmark'; }, 1800);
+      await stateManager.setBook(activeBookKey, { page: activePage, bookmarked: true });
+    });
+  </script>
+</body>
+</html>
