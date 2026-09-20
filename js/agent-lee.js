@@ -215,7 +215,6 @@ function setupAgentLeeNavigation(agentLeeCard) {
     });
   }
 }
-});
 
 // Set up Agent Lee functionality
 function setupAgentLee(agentLeeCard) {

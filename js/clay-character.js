@@ -328,7 +328,7 @@ export class ClayCharacter {
       const eye = new THREE.Mesh(new THREE.SphereGeometry(0.040, 12, 12), eyeWhiteMat);
       eye.position.set(xOff, 0.04, 0.21);
       eye.scale.set(1, 0.85, 0.45);
-
+      
       const iris = new THREE.Mesh(new THREE.SphereGeometry(0.026, 10, 10), irisMat);
       iris.position.set(xOff, 0.04, 0.225);
 

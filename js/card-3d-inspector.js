@@ -119,7 +119,7 @@ export class Card3DInspector {
 
     // Clay card base body
     this.cardMesh = new THREE.Mesh(geometry, edgeMat);
-
+    
     // Front face plane with perfect 1:1 UV mapping (positioned outside bevel peak)
     const frontPlaneGeo = new THREE.PlaneGeometry(cardWidth * 0.96, cardHeight * 0.96);
     const frontPlane = new THREE.Mesh(frontPlaneGeo, frontMat);
@@ -198,7 +198,7 @@ export class Card3DInspector {
     this.currentLoginUrl = loginUrl;
 
     const qrCanvas = QRCodeGenerator.generateCanvas(loginUrl, 130, '#2d180b', '#fffaf2');
-
+    
     // Stamp QR code in dedicated lower right badge
     const qrX = 810;
     const qrY = 485;
@@ -340,7 +340,7 @@ export class Card3DInspector {
     if (!this.cardMesh) return;
     this.isFlipped = !this.isFlipped;
     const targetY = this.isFlipped ? Math.PI : 0;
-
+    
     // Smooth flip
     const startY = this.cardMesh.rotation.y;
     let progress = 0;

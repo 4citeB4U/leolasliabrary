@@ -48,7 +48,7 @@ export class BookReader {
   setupInteractions() {
     document.getElementById('btn-next')?.addEventListener('click', () => this.turnPage(this.currentPage + 1));
     document.getElementById('btn-prev')?.addEventListener('click', () => this.turnPage(this.currentPage - 1));
-
+    
     const bookmarkBtn = document.getElementById('btn-bookmark');
     if (bookmarkBtn) {
       bookmarkBtn.addEventListener('click', async () => {

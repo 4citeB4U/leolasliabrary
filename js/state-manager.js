@@ -39,7 +39,7 @@ export function normalizeState(raw) {
   base.guest = { name: text(guest.name, 60), cardId: text(guest.cardId, 40) || null, issuedAt: iso(guest.issuedAt) };
   const loc = object(raw.location) ? raw.location : {};
   base.location = { route: text(loc.route, 100) || 'index.html', view: text(loc.view, 40) || 'outside', updatedAt: iso(loc.updatedAt) };
-
+  
   if (object(raw.books)) {
     base.books = { ...raw.books };
   }

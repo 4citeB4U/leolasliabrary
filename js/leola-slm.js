@@ -2,7 +2,7 @@
  * LeolaSLMEngine: On-Device Small Language Model (SLM) for Leola's Learning Library.
  * Model Identifier: Leola-SLM-Craft-v2.4
  * Specialization: Crochet & Fiber Arts Mastery, Library Architecture & Story Lore.
- *
+ * 
  * Features:
  * - Domain-distilled intent parser & generative response matrix.
  * - Deep crochet expertise (stitches, hooks, yarns, magic ring, tension, blocking, troubleshooting).
@@ -190,9 +190,9 @@ export class LeolaSLMEngine {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 0.95;
       utterance.pitch = 1.15; // Warm, friendly female cadence
-
+      
       const voices = this.speechSynth.getVoices();
-      const friendlyVoice = voices.find(v =>
+      const friendlyVoice = voices.find(v => 
         (v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Victoria') || v.name.includes('Karen') || v.name.includes('Natural')) && v.lang.startsWith('en')
       );
       if (friendlyVoice) utterance.voice = friendlyVoice;
