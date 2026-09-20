@@ -1,30 +1,18 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#5d3824">
-<title>Leola's Learning Library</title>
-<meta name="description" content="Enter Leola's Learning Library, meet Sista Lee, receive your library card, read, learn with video lessons, and practice in the Game House.">
-<link rel="stylesheet" href="assets/cozy-library.css">
-</head>
-<body data-phase="outside">
-<a class="skip" href="#reception">Skip entrance</a>
-<header class="topbar"><a class="brand" href="index.html"><span>✦</span><strong>Leola's Learning Library</strong><small>Stories · Learning · Play</small></a><div class="top-actions"><button id="voice-toggle" aria-pressed="false">Voice preview off</button><button id="motion-toggle" aria-pressed="false">Less motion</button><button id="card-open" hidden>My card</button></div></header>
-<main id="library">
-<section id="reception" class="reception" tabindex="-1" aria-label="Sista Lee seated behind her library desk">
-  <div class="scene"><img data-asset="desk" alt="Sista Lee seated behind the desk in Leola's cozy learning library" class="scene-img"></div>
-  <div class="speech" id="speech" role="status" aria-live="polite"><h1 id="speech-title">Hi there! I'm Sista Lee.</h1><p id="speech-copy">I'll be your librarian, book narrator, crochet teacher, and game coach. I'll stay with you throughout your visit.</p><div class="speech-actions"><button id="repeat">Repeat</button><button id="stop-speech">Stop</button><button id="ask-sista">Ask Sista Lee</button></div></div>
-  <section class="onboarding" id="onboarding" hidden aria-labelledby="onboard-title"><h2 id="onboard-title">Let's make your library card</h2><p>Your card keeps your name and learning progress on this device.</p><form id="join-form"><label>Your name<input id="member-name" name="name" autocomplete="name" required maxlength="50"></label><label>Email address<input id="member-email" name="email" type="email" autocomplete="email" required maxlength="120"></label><button class="primary" type="submit">Create my library card</button><p class="privacy">Your email is validated for this enrollment step but is not sent or stored by this device-only preview. Cloud account sync remains a separate service.</p><p id="join-error" class="error" role="alert"></p></form></section>
-  <div class="doors" id="doors" aria-label="Glass library doors"><div class="door left"></div><div class="door right"></div><div class="door-sign"><strong>Leola's Learning Library</strong><span>Good books. Brighter people.</span></div><div class="entry-box"><p>Step into the library.</p><button id="enter" class="primary">Open the doors</button><button id="enter-text" class="secondary">Enter with captions</button><small>Voice is optional. Sista Lee's library knowledge works immediately; her small on-device model warms in the background on supported browsers.</small></div></div>
-  <div id="sparkles" class="sparkles" aria-hidden="true"></div>
-</section>
-<section id="resources" class="resources" hidden aria-label="Library destinations">
-  <article class="panel"><header><span>📖</span><div><h2>Storybook</h2><p>Needle & Yarn: A Love Stitched in Time</p></div></header><div class="book-cover story"><strong>Needle & Yarn</strong><span>A Love Stitched in Time</span></div><a class="panel-link" href="reader.html?book=story">Ask Sista Lee for the storybook <b>›</b></a></article>
-  <article class="panel"><header><span>🧶</span><div><h2>Instructional Book</h2><p>Crochet Mastery: A Complete Guide</p></div></header><div class="book-cover instruction"><strong>Crochet Mastery</strong><span>Read · practice · master</span></div><a class="panel-link" href="reader.html?book=instruction">Ask Sista Lee for the guide <b>›</b></a></article>
-  <article class="panel videos"><header><span>▶</span><div><h2>Video Lessons</h2><p>Watch book-matched demonstrations.</p></div></header><div class="mini-videos"><a href="training.html#CM-GRIP-01"><video muted preload="metadata" data-asset="lesson1"></video><span>Holding Hook & Yarn</span></a><a href="training.html#CM-CHAIN-01"><video muted preload="metadata" data-asset="lesson2"></video><span>Foundation Chain</span></a><a href="training.html#CM-SC-01"><span class="video-pending">Single Crochet<br><small>Video in production</small></span></a></div><a class="panel-link" href="training.html">Watch with Sista Lee <b>›</b></a></article>
-  <article class="panel games"><header><span>🎮</span><div><h2>Game House</h2><p>Five crochet games. Pick a cover and play.</p></div></header><div class="cover-row"><a href="game-house.html?room=loop"><img data-asset="game-loop" alt="Loop Lab game cover"><span>Loop Lab</span></a><a href="game-house.html?room=tension"><img data-asset="game-tension" alt="Tension Tower game cover"><span>Tension Tower</span></a><a href="game-house.html?room=pattern"><img data-asset="game-pattern" alt="Pattern Quest game cover"><span>Pattern Quest</span></a><a href="game-house.html?room=amigurumi"><img data-asset="game-amigurumi" alt="Amigurumi Rescue game cover"><span>Amigurumi Rescue</span></a><a href="game-house.html?room=yarnfolk"><img data-asset="game-yarnfolk" alt="Yarnfolk Studio game cover"><span>Yarnfolk Studio</span></a></div><a class="panel-link" href="game-house.html">Enter the Game House <b>›</b></a></article>
-</section>
-</main>
-<dialog id="card-dialog"><button class="close" aria-label="Close">×</button><h2>Your Leola's Learning Library card</h2><div class="card-stage"><div class="magic-ring one"></div><div class="magic-ring two"></div><div class="card3d"><img data-asset="card" alt="Leola's Learning Library card"><strong id="card-name"></strong><span id="card-number"></span><span id="card-date"></span></div></div><p>Sista Lee has your card ready. It is saved on this device so your reading and game progress can grow with it.</p><button id="accept-card" class="primary">Take my card and explore</button></dialog>
-<dialog id="sista-dialog" class="sista-dialog"><button class="close" aria-label="Close">×</button><h2>Ask Sista Lee</h2><p id="brain-status">Instant library knowledge ready.</p><form id="sista-form"><label>Your question<textarea id="sista-question" maxlength="500" placeholder="What is a yarn over?" required></textarea></label><button class="primary" type="submit">Ask Sista Lee</button></form><p id="sista-answer" role="status"></p></dialog>
-<script type="module" src="js/cozy-library.js"></script>
-</body></html>
+<!-- REGION: LEOLA.PUBLIC.ENTRY | TAG: ROLLBACK.3D.ENTRANCE
+WHAT: restored WebGL walk-up and glass-door entrance.
+WHO: Creator-approved rollback. WHY: recover the pre-regression visitor journey.
+WHERE: index.html. HOW: Three.js entrance -> recovered Magic Desk route. LICENSE: MIT. -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#183e38">
+<meta name="description" content="Walk into Leola's Learning Library, meet Leola at her desk, receive your library card, read, learn and play.">
+<title>Leola's Learning Library</title><link rel="stylesheet" href="assets/library.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js"}}</script></head>
+<body data-page="entrance"><a class="skip-link" href="library-desk.html" id="skip-resources">Skip the walk and enter the library</a><main>
+<div id="world" role="img" aria-label="A warm 3D library behind glass sliding doors"></div><div class="vignette" aria-hidden="true"></div>
+<header class="masthead"><a href="index.html" class="wordmark"><span class="brand-seal" aria-hidden="true">L</span><span>LEOLA'S<span class="brand-sub">LEARNING LIBRARY</span></span></a><div class="mast-actions"><span class="edition">A LEEWAY EXPERIENCE</span><button id="motion-toggle" class="text-button" aria-pressed="false">Reduce motion</button><button id="sound-toggle" class="round-button" aria-label="Turn sound off" aria-pressed="false">Sound on</button></div></header>
+<section id="entry" class="entry-panel"><p class="eyebrow"><span></span> STORIES TO READ. SKILLS TO KEEP.</p><h1>A little curiosity.<br>A world of <em>possibility.</em></h1><p class="entry-copy">Walk up to the glass doors, come inside, and meet Leola at her librarian's desk.</p><div class="entry-buttons"><button id="open-doors" class="button primary" disabled>Preparing your visit…</button><button id="quiet-entry" class="button glass" disabled>Enter with captions</button></div><p class="permission-note">Voice is optional. You can decline microphone permission and still enter. No camera is requested.</p><p id="load-status" class="load-status" role="status">Opening the library…</p></section>
+<div id="arrival" class="arrival" hidden><span class="eyebrow">WELCOME INSIDE</span><h2>Leola's Learning Library</h2><button id="skip-tour" class="button glass">Go straight to Leola's desk</button></div>
+<div id="caption" class="caption" role="status" aria-live="polite" hidden></div>
+<footer class="entry-footer"><span>LEOLA (SISTER) LEE</span><span>Read · Watch · Practice · Create</span><a href="library-desk.html">Enter library</a></footer>
+<noscript><section class="noscript"><h2>Welcome to Leola's Learning Library</h2><p>The animated walk-in requires JavaScript.</p><a href="library-desk.html">Enter the library</a></section></noscript>
+</main><script type="module" src="js/library-app.js"></script></body></html>
