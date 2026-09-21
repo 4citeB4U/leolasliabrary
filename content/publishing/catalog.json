@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "publisher": {
+    "id": "leolas-library-publishing",
+    "name": "Leola's Library Publishing House",
+    "model": "curated-display-and-author-support",
+    "sellerOfRecord": false
+  },
+  "policies": {
+    "pricing": "Authors/publishers control their listed price and external purchase destination. Leola's Library displays approved listings and does not claim to be seller of record unless a future commerce agreement explicitly says otherwise.",
+    "premieres": "premiereRank controls the current 3D showcase. Set premiere=false to return a title to the general catalog.",
+    "removal": "A title can be removed from display by setting status to withdrawn without modifying the 3D world."
+  },
+  "books": [
+    {
+      "id": "needle-and-yarn",
+      "slug": "needle-and-yarn",
+      "title": "Needle & Yarn",
+      "subtitle": "A Love Stitched in Time",
+      "author": {
+        "name": "Leola (Sister) Lee"
+      },
+      "edition": "Revised six-chapter edition",
+      "format": "ebook",
+      "status": "published",
+      "featured": true,
+      "premiere": true,
+      "premiereRank": 1,
+      "cover": {
+        "front": "ruu3udr62d.png",
+        "back": null,
+        "spine": null
+      },
+      "content": {
+        "type": "markdown-chapters",
+        "source": "books/needle-and-yarn/book.md",
+        "chapterCount": 6
+      },
+      "commerce": {
+        "currency": "USD",
+        "price": null,
+        "purchaseUrl": null,
+        "priceLabel": "Price coming soon"
+      },
+      "rights": {
+        "displayApproved": true
+      }
+    },
+    {
+      "id": "crochet-mastery",
+      "slug": "crochet-mastery",
+      "title": "Crochet Mastery",
+      "subtitle": "A Complete Guide",
+      "author": {
+        "name": "Leola (Sister) Lee"
+      },
+      "edition": "Digital learning edition",
+      "format": "ebook",
+      "status": "published",
+      "featured": true,
+      "premiere": true,
+      "premiereRank": 2,
+      "cover": {
+        "front": "jva31043ou.png",
+        "back": null,
+        "spine": null
+      },
+      "content": {
+        "type": "course-json",
+        "source": "content/instructional-course.json",
+        "chapterCount": 6
+      },
+      "commerce": {
+        "currency": "USD",
+        "price": null,
+        "purchaseUrl": null,
+        "priceLabel": "Price coming soon"
+      },
+      "rights": {
+        "displayApproved": true
+      }
+    }
+  ]
+}
