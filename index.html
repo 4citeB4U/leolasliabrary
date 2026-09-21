@@ -265,6 +265,7 @@
   import { LeolaSLMEngine } from './js/leola-slm.js';
     import { Card3DInspector } from './js/card-3d-inspector.js';
     import { stateManager } from './js/state-manager.js';
+    import { PublishingCatalog } from './js/publishing-catalog.js';
 
     // 0. Instant Auto-Login from QR Code Parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -712,6 +713,7 @@
     });
 
     // 7. Canonical Featured Book / eBook Reader Logic
+    const publishingCatalog = new PublishingCatalog();
     const bookData = {
       needle:{title:"Needle & Yarn",sub:"A Love Stitched in Time",icon:"📖",source:"books/needle-and-yarn/book.md",chapters:[]},
       crochet:{title:"Crochet Mastery",sub:"A Complete Guide",icon:"🧶",source:"content/instructional-course.json",chapters:[]}
@@ -722,7 +724,14 @@
     function parseNeedle(md){const re=/^#\s+(?:\*)?Chapter\s+(?:One|Two|Three|Four|Five|Six|1|2|3|4|5|6)[^\n]*$/gmi;const m=[...md.matchAll(re)],out=[],seen=new Set();for(let i=0;i<m.length;i++){const h=m[i][0].replace(/^#\s+/,'').replace(/\*/g,'').trim(),key=(h.match(/Chapter\s+(One|Two|Three|Four|Five|Six|[1-6])/i)||[])[1]?.toLowerCase();if(!key||seen.has(key))continue;seen.add(key);let next=md.length;for(let j=i+1;j<m.length;j++){const k=(m[j][0].match(/Chapter\s+(One|Two|Three|Four|Five|Six|[1-6])/i)||[])[1]?.toLowerCase();if(k&&!seen.has(k)){next=m[j].index;break;}}out.push({title:h,html:proseToPaper(md.slice(m[i].index+m[i][0].length,next).trim())});if(out.length===6)break;}return out;}
     function crochetHtml(ch){return '<h3 style="text-align:center;color:#6f3f20;">Chapter '+ch.number+': '+escapeHtml(ch.title)+'</h3><p>Part of Leola’s complete Crochet Mastery eBook and learning path.</p><h4 style="color:#7b4a25;">What you will learn</h4><ul>'+ch.topics.map(t=>'<li>'+escapeHtml(t)+'</li>').join('')+'</ul><h4 style="color:#7b4a25;">Lessons</h4><ol>'+ch.lessons.map(l=>'<li style="margin:.55em 0;"><strong>'+escapeHtml(l.title)+'</strong></li>').join('')+'</ol>';}
     async function loadCanonicalBooks(){if(booksLoaded)return;const [n,c]=await Promise.all([fetch(bookData.needle.source,{cache:'no-store'}),fetch(bookData.crochet.source,{cache:'no-store'})]);if(!n.ok||!c.ok)throw new Error('Canonical book source unavailable');bookData.needle.chapters=parseNeedle(await n.text());const course=await c.json();bookData.crochet.chapters=course.chapters.map(ch=>({title:'Chapter '+ch.number+': '+ch.title,html:crochetHtml(ch)}));if(bookData.needle.chapters.length!==6||bookData.crochet.chapters.length!==6)throw new Error('Book chapter count verification failed');booksLoaded=true;}
-    window.openBookReader=async function(bookKey){activeBookKey=bookKey;activePage=0;document.getElementById('reader-modal-backdrop')?.classList.add('active');document.getElementById('reader-book-body').innerHTML='<p style="text-align:center;">Opening the complete eBook…</p>';try{await loadCanonicalBooks();renderBookPage();}catch(err){document.getElementById('reader-book-body').innerHTML='<p><strong>Book loading error:</strong> '+escapeHtml(err.message)+'</p>';}};
+    async function syncPublishingShowcase(){
+      const books=await publishingCatalog.books();
+      const box=document.getElementById('reader-showcase');
+      if(!box)return;
+      box.innerHTML=books.map(b=>`<button class="book-showcase-card" data-catalog-book="${b.id}" style="position:relative;background:#fff8e8;border:${b.premiere?'4px solid #b77a2d':'2px solid #9a6336'};border-radius:18px;padding:14px;cursor:pointer;text-align:center;">${b.premiere?'<span style="position:absolute;top:10px;right:10px;background:#6f3f20;color:white;border-radius:999px;padding:5px 9px;font-size:.72rem;font-weight:800;">PREMIERE</span>':''}<img src="${b.cover.front}" alt="${b.title} front cover" style="width:100%;max-width:210px;height:260px;object-fit:cover;border-radius:10px;"><strong style="display:block;margin-top:10px;color:#4a2813;">${b.title}</strong><span style="display:block;color:#7a4d2c;">${b.subtitle||''}</span><small>by ${b.author.name} · ${b.commerce.priceLabel||'View book'}</small></button>`).join('');
+      box.querySelectorAll('[data-catalog-book]').forEach(x=>x.addEventListener('click',()=>window.openBookReader(x.dataset.catalogBook)));
+    }
+    window.openBookReader=async function(bookKey){const aliases={'needle-and-yarn':'needle','crochet-mastery':'crochet'};activeBookKey=aliases[bookKey]||bookKey;activePage=0;document.getElementById('reader-modal-backdrop')?.classList.add('active');await syncPublishingShowcase();document.getElementById('reader-book-body').innerHTML='<p style="text-align:center;">Opening the complete eBook…</p>';try{await loadCanonicalBooks();renderBookPage();}catch(err){document.getElementById('reader-book-body').innerHTML='<p><strong>Book loading error:</strong> '+escapeHtml(err.message)+'</p>';}};
     function renderBookPage(){const b=bookData[activeBookKey],chs=b.chapters,ch=chs[activePage];document.getElementById('reader-book-title').textContent=b.title;document.getElementById('reader-book-sub').textContent=b.sub;document.getElementById('reader-book-icon').textContent=b.icon;document.getElementById('reader-book-body').innerHTML=ch.html;document.getElementById('reader-page-indicator').textContent='Chapter '+(activePage+1)+' of '+chs.length;const tabs=document.getElementById('reader-chapter-tabs');tabs.innerHTML=chs.map((c,i)=>'<button class="'+(i===activePage?'card-primary-cta':'card-secondary-cta')+'" data-chapter="'+i+'" style="white-space:nowrap;">'+(i+1)+'. '+escapeHtml(c.title.replace(/^Chapter\s+[^:—-]+[:—-]?\s*/i,''))+'</button>').join('');tabs.querySelectorAll('[data-chapter]').forEach(x=>x.addEventListener('click',()=>{activePage=Number(x.dataset.chapter);renderBookPage();}));}
     document.querySelectorAll('.book-showcase-card').forEach(x=>x.addEventListener('click',()=>window.openBookReader(x.dataset.book)));
     document.getElementById('btn-reader-prev')?.addEventListener('click',()=>{if(activePage>0){activePage--;renderBookPage();}});
