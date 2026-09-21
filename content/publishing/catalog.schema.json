@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Leola's Library Publishing Catalog",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "publisher",
+    "books"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer"
+    },
+    "publisher": {
+      "type": "object"
+    },
+    "policies": {
+      "type": "object"
+    },
+    "books": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "author",
+          "format",
+          "status",
+          "cover",
+          "content",
+          "commerce"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "author": {
+            "type": "object",
+            "required": [
+              "name"
+            ]
+          },
+          "format": {
+            "enum": [
+              "ebook",
+              "print",
+              "audiobook",
+              "multiformat"
+            ]
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "review",
+              "published",
+              "withdrawn"
+            ]
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "premiere": {
+            "type": "boolean"
+          },
+          "premiereRank": {
+            "type": "integer"
+          },
+          "cover": {
+            "type": "object"
+          },
+          "content": {
+            "type": "object",
+            "required": [
+              "type",
+              "source"
+            ]
+          },
+          "commerce": {
+            "type": "object",
+            "required": [
+              "currency"
+            ]
+          },
+          "rights": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}
