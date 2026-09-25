@@ -1,5 +1,5 @@
 /*
-LEEWAY HEADER â€” DO NOT REMOVE
+LEEWAY HEADER Ã¢â‚¬â€ DO NOT REMOVE
 REGION: UI.APP.3D.WORLD
 TAG: UI.WORLD.LLCLAY01.FINAL_RECONSTRUCTION
 5WH:
@@ -597,7 +597,7 @@ export class ClayWorld3D extends EventTarget {
     // 9. Scenic background: Lake with arched bridge and gazebo (Image 1 left)
     this.buildLakeAndBridge(-16, 12);
 
-    // 10. Grand Milwaukee Skyline Outdoor 360° Panoramic Scenery & Monument (Image 3)
+    // 10. Grand Milwaukee Skyline Outdoor 360Â° Panoramic Scenery & Monument (Image 3)
     this.buildMilwaukeeScenery();
   }
 
@@ -952,6 +952,8 @@ export class ClayWorld3D extends EventTarget {
     usBankGroup.add(beacon);
 
     this.scene.add(usBankGroup);
+    this.leewayRecoveryWindowCountMap = { usBankSign:true, usBankTower:'mullion-grid', boathouseLowerPanes:15, westBuildingWindowFrames:true };
+    // LEEWAY_RECOVERY_WINDOW_COUNT_MAP
 
     // B. The Northwestern Mutual Modern Curved Glass Tower
     const nwmGroup = new THREE.Group();
@@ -1159,6 +1161,15 @@ export class ClayWorld3D extends EventTarget {
       glass.position.set(x, 1.75, 3.58);
       g.add(glass);
     });
+    // LEEWAY_RECOVERY_BOATHOUSE_WINDOW_BANDS: restored lower boathouse glazing without changing structure.
+    for (let gx = -11.2; gx <= 11.2; gx += 1.6) {
+      const pane = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.82, 0.12), glassMat);
+      pane.position.set(gx, 1.62, 3.72);
+      g.add(pane);
+      const verticalFrame = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.9, 0.15), whiteMat);
+      verticalFrame.position.set(gx + 0.56, 1.62, 3.78);
+      g.add(verticalFrame);
+    }
 
     // Curved central canopy represented as stacked arched ribs/shell layers.
     for (let i = 0; i < 6; i++) {
@@ -1259,6 +1270,23 @@ export class ClayWorld3D extends EventTarget {
       const cornice = new THREE.Mesh(new THREE.BoxGeometry(b.w + 0.6, 0.8, b.d + 0.6), this.clayMaterial(0xd8d0c2, 0.9));
       cornice.position.set(b.x, b.h + 0.4, b.z);
       this.scene.add(cornice);
+
+      // LEEWAY_RECOVERY_STOREFRONT_WINDOW_FRAMES: restored visible building windows without changing building bodies.
+      const recoveredWindowMat = this.clayMaterial(0x172f3a, 0.45, 0.25);
+      const recoveredFrameMat = this.clayMaterial(0xf2eadc, 0.82);
+      for (let wy = 4.2; wy < b.h - 1.8; wy += 3.1) {
+        [-b.w * 0.24, b.w * 0.24].forEach(wx => {
+          const win = new THREE.Mesh(new THREE.BoxGeometry(1.05, 1.45, 0.08), recoveredWindowMat);
+          win.position.set(b.x + wx, wy, b.z + b.d * 0.51);
+          this.scene.add(win);
+          const mull = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.55, 0.10), recoveredFrameMat);
+          mull.position.set(b.x + wx, wy, b.z + b.d * 0.53);
+          this.scene.add(mull);
+          const cross = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.075, 0.10), recoveredFrameMat);
+          cross.position.set(b.x + wx, wy, b.z + b.d * 0.535);
+          this.scene.add(cross);
+        });
+      }
 
       if (b.type === 'warehouse') {
         // Rooftop cedar water tank on stilts
@@ -1378,7 +1406,7 @@ export class ClayWorld3D extends EventTarget {
     this.scene.add(lightGroup);
 
     // 3. Sailboats on Lake Michigan at Various Distances in Deep Water (z >= 42)
-    this.buildSailboat(12, 42, -0.45, 'MKE ♥', 0x1e3f8a);
+    this.buildSailboat(12, 42, -0.45, 'MKE â™¥', 0x1e3f8a);
     this.buildSailboat(30, 48, 0.35, 'WISCONSIN', 0x991b1b);
     this.buildSailboat(-14, 44, 0.15, '', 0x059669);
     this.buildSailboat(48, 56, -0.2, '', 0x2563eb);
@@ -1494,7 +1522,7 @@ export class ClayWorld3D extends EventTarget {
       this.scene.add(wRock);
     }
 
-    // 2. Iconic 3D Carved Monument: "Milwaukee ♥ A Kinder Brighter City" (Image 3)
+    // 2. Iconic 3D Carved Monument: "Milwaukee â™¥ A Kinder Brighter City" (Image 3)
     const signGroup = new THREE.Group();
     signGroup.position.set(-4.5, 0, 24.8);
 
@@ -1541,7 +1569,7 @@ export class ClayWorld3D extends EventTarget {
 
     mkeCtx.fillStyle = '#ff6b6b';
     mkeCtx.font = 'bold 64px sans-serif';
-    mkeCtx.fillText('♥', 512, 265);
+    mkeCtx.fillText('â™¥', 512, 265);
 
     mkeCtx.fillStyle = '#ffecd1';
     mkeCtx.font = 'bold 54px Georgia, serif';
@@ -2256,7 +2284,7 @@ export class ClayWorld3D extends EventTarget {
     body.userData = {
       type: 'squirrel',
       name: 'Barnaby the Walnut Squirrel',
-      prompt: 'âœ¦ Barnaby runs to the tree, retrieves a walnut, and returns to his bench.'
+      prompt: 'Ã¢Å“Â¦ Barnaby runs to the tree, retrieves a walnut, and returns to his bench.'
     };
     head.userData = body.userData;
     this.interactiveObjects.push(body);
@@ -2356,7 +2384,7 @@ export class ClayWorld3D extends EventTarget {
     stone.userData = {
       type: 'milestone',
       name: "Leola's Milestone & Pip the Bluebird",
-      prompt: '✦ Pip chirps: "Welcome! Come on inside!"'
+      prompt: 'âœ¦ Pip chirps: "Welcome! Come on inside!"'
     };
     this.interactiveObjects.push(stone);
   }
@@ -2455,7 +2483,7 @@ export class ClayWorld3D extends EventTarget {
     ctx.fillText('Stories', 128, 140);
     ctx.fillText('Brighter', 128, 190);
     ctx.fillText('Days', 128, 240);
-    ctx.fillText('♥', 128, 290);
+    ctx.fillText('â™¥', 128, 290);
 
     const tex = new THREE.CanvasTexture(canvas);
     const face = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 1.15), new THREE.MeshBasicMaterial({ map: tex }));
@@ -2687,7 +2715,7 @@ export class ClayWorld3D extends EventTarget {
 
     // Wall Sculptural Banners inside
     this.createCarvedPlaque("ALL ARE\nWELCOME\nHERE", 16.4, 6.0, -8, 2.6, 3.8);
-    this.createCarvedPlaque("BOOKS · IDEAS\nPEOPLE\nA BRIGHTER\nTOMORROW", -16.4, 6.0, -8, 2.6, 3.8);
+    this.createCarvedPlaque("BOOKS Â· IDEAS\nPEOPLE\nA BRIGHTER\nTOMORROW", -16.4, 6.0, -8, 2.6, 3.8);
   }
 
   buildGlassRoof() {
@@ -2909,7 +2937,7 @@ export class ClayWorld3D extends EventTarget {
     pctx.fillText("LEOLA'S LIBRARY", 256, 56);
     pctx.fillStyle = '#e6bd69';
     pctx.font = '18px Georgia, serif';
-    pctx.fillText('✦ Welcome · Stories · Community ✦', 256, 88);
+    pctx.fillText('âœ¦ Welcome Â· Stories Â· Community âœ¦', 256, 88);
 
     const plaqueTex = new THREE.CanvasTexture(plaqueCanvas);
     const frontPlaque = new THREE.Mesh(
@@ -2956,12 +2984,12 @@ export class ClayWorld3D extends EventTarget {
     this.librarianHelper.headMesh.userData = {
       type: 'librarian_helper',
       name: 'Maya (Assistant Librarian)',
-      prompt: '✦ Talk to Maya (Assistant Librarian)'
+      prompt: 'âœ¦ Talk to Maya (Assistant Librarian)'
     };
     this.librarianHelper.torsoMesh.userData = {
       type: 'librarian_helper',
       name: 'Maya (Assistant Librarian)',
-      prompt: '✦ Talk to Maya (Assistant Librarian)'
+      prompt: 'âœ¦ Talk to Maya (Assistant Librarian)'
     };
     this.interactiveObjects.push(this.librarianHelper.headMesh);
     this.interactiveObjects.push(this.librarianHelper.torsoMesh);
@@ -2975,7 +3003,7 @@ export class ClayWorld3D extends EventTarget {
     deskSensor.userData = {
       type: 'desk',
       name: "Leola's 3/4 Circle Reception Desk",
-      prompt: '✦ Click to Meet Leola at the Desk',
+      prompt: 'âœ¦ Click to Meet Leola at the Desk',
       walkTo: new THREE.Vector3(0, 1.8, -5.2)
     };
     this.interactiveObjects.push(deskSensor);
@@ -3024,7 +3052,7 @@ export class ClayWorld3D extends EventTarget {
     b1Ctx.fillText('Needle & Yarn', 128, 110);
     b1Ctx.font = 'italic 16px Georgia, serif';
     b1Ctx.fillText('A Love Stitched in Time', 128, 150);
-    b1Ctx.fillText('🧶', 128, 220);
+    b1Ctx.fillText('ðŸ§¶', 128, 220);
     const b1Tex = new THREE.CanvasTexture(b1Canvas);
     const b1Label = new THREE.Mesh(new THREE.PlaneGeometry(0.58, 0.78), new THREE.MeshBasicMaterial({ map: b1Tex }));
     b1Label.rotation.x = -Math.PI / 2;
@@ -3034,7 +3062,7 @@ export class ClayWorld3D extends EventTarget {
     book1Cover.userData = {
       type: 'book-needle',
       name: 'Needle & Yarn: A Love Stitched in Time',
-      prompt: '✦ Click to Pick Up & Read "Needle & Yarn"'
+      prompt: 'âœ¦ Click to Pick Up & Read "Needle & Yarn"'
     };
     this.interactiveObjects.push(book1Cover);
     this.scene.add(book1Group);
@@ -3074,7 +3102,7 @@ export class ClayWorld3D extends EventTarget {
     b2Ctx.fillText('Crochet Mastery', 128, 110);
     b2Ctx.font = 'italic 16px Georgia, serif';
     b2Ctx.fillText('Foundational Guide', 128, 150);
-    b2Ctx.fillText('✨', 128, 220);
+    b2Ctx.fillText('âœ¨', 128, 220);
     const b2Tex = new THREE.CanvasTexture(b2Canvas);
     const b2Label = new THREE.Mesh(new THREE.PlaneGeometry(0.58, 0.78), new THREE.MeshBasicMaterial({ map: b2Tex }));
     b2Label.rotation.x = -Math.PI / 2;
@@ -3084,7 +3112,7 @@ export class ClayWorld3D extends EventTarget {
     book2Cover.userData = {
       type: 'book-crochet',
       name: 'Crochet Mastery: Foundational Guide',
-      prompt: '✦ Click to Pick Up & Read "Crochet Mastery"'
+      prompt: 'âœ¦ Click to Pick Up & Read "Crochet Mastery"'
     };
     this.interactiveObjects.push(book2Cover);
     this.scene.add(book2Group);
@@ -3113,7 +3141,7 @@ export class ClayWorld3D extends EventTarget {
     slot.position.set(0, 0.23, 0);
     boxGroup.add(slot);
 
-    // Brass Plaque on front: "DONATIONS · Stripe Support"
+    // Brass Plaque on front: "DONATIONS Â· Stripe Support"
     const donCanvas = document.createElement('canvas');
     donCanvas.width = 512;
     donCanvas.height = 160;
@@ -3125,7 +3153,7 @@ export class ClayWorld3D extends EventTarget {
     dctx.textAlign = 'center';
     dctx.fillText('DONATIONS', 256, 70);
     dctx.font = 'bold 24px Georgia, serif';
-    dctx.fillText('🔒 Stripe Support', 256, 120);
+    dctx.fillText('ðŸ”’ Stripe Support', 256, 120);
 
     const donTex = new THREE.CanvasTexture(donCanvas);
     const plaqueMesh = new THREE.Mesh(new THREE.PlaneGeometry(0.56, 0.22), new THREE.MeshBasicMaterial({ map: donTex }));
@@ -3135,7 +3163,7 @@ export class ClayWorld3D extends EventTarget {
     boxChest.userData = {
       type: 'donation',
       name: "Stripe Donation Box",
-      prompt: "✦ Click to Support Leola's Library via Stripe"
+      prompt: "âœ¦ Click to Support Leola's Library via Stripe"
     };
     this.interactiveObjects.push(boxChest);
     this.scene.add(boxGroup);
@@ -3644,7 +3672,7 @@ export class ClayWorld3D extends EventTarget {
     dropFinial.position.set(0, 1.08, 0.12);
     this.grandGlobeGroup.add(dropFinial);
 
-    // 2. Semi-Meridian Gimbal Arc Ring at 23.5° Tilt
+    // 2. Semi-Meridian Gimbal Arc Ring at 23.5Â° Tilt
     const arcRadius = 0.86;
     const meridianArc = new THREE.Mesh(
       new THREE.TorusGeometry(arcRadius, 0.045, 16, 48, Math.PI * 1.06),
@@ -3725,7 +3753,7 @@ export class ClayWorld3D extends EventTarget {
     this.grandGlobeSphere.userData = {
       type: 'grand_globe',
       name: 'Grand Terrestrial Earth Globe',
-      prompt: '🖐 Click & Drag to Spin the Earth Globe'
+      prompt: 'ðŸ– Click & Drag to Spin the Earth Globe'
     };
     this.grandGlobeGroup.add(this.grandGlobeSphere);
     this.interactiveObjects.push(this.grandGlobeSphere);
@@ -3766,7 +3794,7 @@ export class ClayWorld3D extends EventTarget {
     this.grandGlobeGroup.add(sunbeamLight);
     this.grandGlobeGroup.add(windowGroup);
 
-    // Chalkboard on Wall: "Stories Open New Horizons ★ ♥" (Right of window)
+    // Chalkboard on Wall: "Stories Open New Horizons â˜… â™¥" (Right of window)
     const chalkTex = loader.load('assets/images/globe_chalkboard_horizons.png');
     const chalkboard = new THREE.Mesh(
       new THREE.BoxGeometry(1.15, 1.65, 0.08),
@@ -3775,7 +3803,7 @@ export class ClayWorld3D extends EventTarget {
     chalkboard.position.set(2.4, 3.35, -2.8);
     this.grandGlobeGroup.add(chalkboard);
 
-    // Wooden Plaque on Left Bookshelf Bay: "Good Books Brighter Worlds ♥"
+    // Wooden Plaque on Left Bookshelf Bay: "Good Books Brighter Worlds â™¥"
     const plaqueTex = loader.load('assets/images/globe_plaque_good_books.png');
     const plaque = new THREE.Mesh(
       new THREE.BoxGeometry(0.65, 1.25, 0.06),
@@ -3784,7 +3812,7 @@ export class ClayWorld3D extends EventTarget {
     plaque.position.set(-3.1, 2.45, -1.2);
     this.grandGlobeGroup.add(plaque);
 
-    // Bay Window Reading Bench with Blue Corduroy Cushion & "Read Explore Belong ♥" Pillow
+    // Bay Window Reading Bench with Blue Corduroy Cushion & "Read Explore Belong â™¥" Pillow
     const benchGroup = new THREE.Group();
     benchGroup.position.set(-2.2, 0, -1.3);
 
@@ -3809,7 +3837,7 @@ export class ClayWorld3D extends EventTarget {
     benchCushion.userData = {
       type: 'globe_bench',
       name: 'Globe Reading Window Bench',
-      prompt: '✦ Sit by the Grand Globe & Read',
+      prompt: 'âœ¦ Sit by the Grand Globe & Read',
       walkTo: new THREE.Vector3(x - 2.2, 1.8, z - 0.2),
       seatPos: new THREE.Vector3(x - 2.2, 1.25, z - 1.1),
       seatLook: new THREE.Vector3(x, 1.7, z)
@@ -3948,7 +3976,7 @@ export class ClayWorld3D extends EventTarget {
     tableTop.userData = {
       type: 'reading-table',
       name: 'Reading Table',
-      prompt: '✦ Click to Sit Down & Read Needle & Yarn',
+      prompt: 'âœ¦ Click to Sit Down & Read Needle & Yarn',
       walkTo: new THREE.Vector3(-8.5, 1.8, -13.8),
       seatPos: new THREE.Vector3(-8.5, 1.35, -14.2),
       seatLook: new THREE.Vector3(-8.5, 1.15, -16.0)
@@ -4285,7 +4313,7 @@ export class ClayWorld3D extends EventTarget {
       this.arcadeGroup.add(trimFront);
     });
 
-    // 4. Backlit Illuminated Marquee Header: "3D CLAY ARCADE · 5 GAMES"
+    // 4. Backlit Illuminated Marquee Header: "3D CLAY ARCADE Â· 5 GAMES"
     const marqueeCanvas = document.createElement('canvas');
     marqueeCanvas.width = 512;
     marqueeCanvas.height = 160;
@@ -4305,10 +4333,10 @@ export class ClayWorld3D extends EventTarget {
     mctx.textAlign = 'center';
     mctx.shadowColor = '#000000';
     mctx.shadowBlur = 8;
-    mctx.fillText("★ 3D CLAY ARCADE ★", 256, 68);
+    mctx.fillText("â˜… 3D CLAY ARCADE â˜…", 256, 68);
     mctx.fillStyle = '#ffe082';
     mctx.font = 'bold 22px Georgia, serif';
-    mctx.fillText("✦ 5 RETRO CROCHET GAMES ✦", 256, 118);
+    mctx.fillText("âœ¦ 5 RETRO CROCHET GAMES âœ¦", 256, 118);
 
     const marqueeTex = new THREE.CanvasTexture(marqueeCanvas);
     const marqueeMesh = new THREE.Mesh(
@@ -4345,7 +4373,7 @@ export class ClayWorld3D extends EventTarget {
     cctx.fillStyle = '#26c6da';
     cctx.font = 'bold 30px monospace';
     cctx.textAlign = 'center';
-    cctx.fillText("YARN RUNNER · 3D", 256, 75);
+    cctx.fillText("YARN RUNNER Â· 3D", 256, 75);
     cctx.fillStyle = '#ffca28';
     cctx.font = 'bold 20px monospace';
     cctx.fillText("SCORE: 02480   LVL: 04", 256, 115);
@@ -4363,7 +4391,7 @@ export class ClayWorld3D extends EventTarget {
     cctx.font = '18px monospace';
     cctx.fillText("INSERT TOKEN OR CLICK TO PLAY", 256, 310);
     cctx.fillStyle = '#69f0ae';
-    cctx.fillText("▶ 1P  CROCHET CRUSH  FLAPPY YARN  CRAFT QUEST ◀", 256, 345);
+    cctx.fillText("â–¶ 1P  CROCHET CRUSH  FLAPPY YARN  CRAFT QUEST â—€", 256, 345);
 
     const crtTex = new THREE.CanvasTexture(crtScreenCanvas);
     const crtMesh = new THREE.Mesh(
@@ -4461,7 +4489,7 @@ export class ClayWorld3D extends EventTarget {
     this.arcadeGroup.add(coinDoor);
 
     [-0.18, 0.18].forEach(cx => {
-      // Lighted 25¢ orange reject button
+      // Lighted 25Â¢ orange reject button
       const coinInsert = new THREE.Mesh(
         new THREE.BoxGeometry(0.12, 0.16, 0.04),
         new THREE.MeshStandardMaterial({ color: 0xff6d00, emissive: 0xff6d00, emissiveIntensity: 0.5 })
@@ -4474,7 +4502,7 @@ export class ClayWorld3D extends EventTarget {
     body.userData = {
       type: 'arcade',
       name: '3D Crochet Arcade (5 Games)',
-      prompt: '🕹️ Click to Play 5 Retro Arcade Games',
+      prompt: 'ðŸ•¹ï¸ Click to Play 5 Retro Arcade Games',
       walkTo: new THREE.Vector3(13.2, 1.8, -20.0)
     };
     this.interactiveObjects.push(body);
@@ -4545,7 +4573,7 @@ export class ClayWorld3D extends EventTarget {
       this.movieBoothGroup.add(hDeco);
     }
 
-    // 2. Carved Wooden Entrance Sign: "♥ Movie Booth ♥ / Books to Big Adventures"
+    // 2. Carved Wooden Entrance Sign: "â™¥ Movie Booth â™¥ / Books to Big Adventures"
     const signBoard = new THREE.Mesh(
       new THREE.BoxGeometry(3.4, 0.82, 0.08),
       new THREE.MeshStandardMaterial({ map: signTex, roughness: 0.75 })
@@ -4612,7 +4640,7 @@ export class ClayWorld3D extends EventTarget {
     sconceLight.position.set(-1.75, 3.8, -35.2);
     this.movieBoothGroup.add(sconceLight);
 
-    // Plaque under sconce: "Good Movies Grow Great Readers ♥"
+    // Plaque under sconce: "Good Movies Grow Great Readers â™¥"
     const plaqueLeft = new THREE.Mesh(
       new THREE.BoxGeometry(0.04, 1.05, 0.48),
       new THREE.MeshStandardMaterial({ map: plaqueLeftTex, roughness: 0.85 })
@@ -4665,9 +4693,9 @@ export class ClayWorld3D extends EventTarget {
 
     // Stack of 3 Books on Center Counter (x = 0) with spine labels
     const stackData = [
-      { text: 'Kindness Always Wins ♥', bg: '#4361ee', color: 0x4361ee, h: 0.075, w: 0.30, d: 0.44 },
-      { text: 'Animals in Film ★', bg: '#f4a261', color: 0xf4a261, h: 0.072, w: 0.28, d: 0.40 },
-      { text: 'Stories on Screen ♥', bg: '#2a9d8f', color: 0x2a9d8f, h: 0.070, w: 0.26, d: 0.36 }
+      { text: 'Kindness Always Wins â™¥', bg: '#4361ee', color: 0x4361ee, h: 0.075, w: 0.30, d: 0.44 },
+      { text: 'Animals in Film â˜…', bg: '#f4a261', color: 0xf4a261, h: 0.072, w: 0.28, d: 0.40 },
+      { text: 'Stories on Screen â™¥', bg: '#2a9d8f', color: 0x2a9d8f, h: 0.070, w: 0.26, d: 0.36 }
     ];
     let curBookY = 1.54;
     stackData.forEach((bk) => {
@@ -4719,8 +4747,8 @@ export class ClayWorld3D extends EventTarget {
     backrestL.position.set(-1.95, 0.92, -35.2);
     this.movieBoothGroup.add(backrestL);
 
-    // Pillow: "Cozy Stories Here ♥"
-    const pillowTex = this.createPillowTexture("Cozy Stories\nHere ♥");
+    // Pillow: "Cozy Stories Here â™¥"
+    const pillowTex = this.createPillowTexture("Cozy Stories\nHere â™¥");
     const pillowL = new THREE.Mesh(
       new THREE.BoxGeometry(0.42, 0.42, 0.16),
       new THREE.MeshStandardMaterial({ map: pillowTex, roughness: 0.9 })
@@ -4745,7 +4773,7 @@ export class ClayWorld3D extends EventTarget {
     backrestR.position.set(1.95, 0.92, -35.2);
     this.movieBoothGroup.add(backrestR);
 
-    // Terracotta Corduroy Star Pillow ("★")
+    // Terracotta Corduroy Star Pillow ("â˜…")
     const starPillowMat = this.clayMaterial(0xb85633, 0.9);
     const pillowR = new THREE.Mesh(new THREE.BoxGeometry(0.40, 0.40, 0.16), starPillowMat);
     pillowR.position.set(1.45, 0.74, -35.65);
@@ -4773,7 +4801,7 @@ export class ClayWorld3D extends EventTarget {
     this.movieBoothGroup.add(blanketDrape);
 
     // 8. Floor Rugs
-    // Woven runner inside booth: "SMALL SCREEN BIG IDEAS ♥"
+    // Woven runner inside booth: "SMALL SCREEN BIG IDEAS â™¥"
     const matInside = new THREE.Mesh(
       new THREE.PlaneGeometry(1.8, 1.05),
       new THREE.MeshStandardMaterial({ map: rugTex, roughness: 0.9 })
@@ -4800,7 +4828,7 @@ export class ClayWorld3D extends EventTarget {
     const boothInteractionData = {
       type: 'movie-booth-seat',
       name: 'Cozy Movie Booth',
-      prompt: '🎬 Click to Sit Down & Watch Movies in Movie Booth',
+      prompt: 'ðŸŽ¬ Click to Sit Down & Watch Movies in Movie Booth',
       walkTo: new THREE.Vector3(0, 1.8, -34.8),
       seatPos: new THREE.Vector3(-1.05, 1.15, -35.2),
       seatLook: new THREE.Vector3(0, 1.45, -36.65)
@@ -4812,7 +4840,7 @@ export class ClayWorld3D extends EventTarget {
     cushionR.userData = { ...boothInteractionData, seat: 'right', seatPos: new THREE.Vector3(1.05, 1.15, -35.2) };
     this.interactiveObjects.push(cushionR);
 
-    tvScreen.userData = { ...boothInteractionData, prompt: '🎬 Click to Sit & Watch Video Masterclasses' };
+    tvScreen.userData = { ...boothInteractionData, prompt: 'ðŸŽ¬ Click to Sit & Watch Video Masterclasses' };
     this.interactiveObjects.push(tvScreen);
 
     this.scene.add(this.movieBoothGroup);
@@ -4934,7 +4962,7 @@ export class ClayWorld3D extends EventTarget {
     });
 
     // Plaques and Tags on Towers
-    const plaque1Tex = this.createMoviePlaqueTexture("Movies\nInspire\nReaders ♥");
+    const plaque1Tex = this.createMoviePlaqueTexture("Movies\nInspire\nReaders â™¥");
     const plaque1 = new THREE.Mesh(
       new THREE.BoxGeometry(0.68, 0.78, 0.06),
       new THREE.MeshStandardMaterial({ map: plaque1Tex, roughness: 0.85 })
@@ -4942,7 +4970,7 @@ export class ClayWorld3D extends EventTarget {
     plaque1.position.set(-4.25, 3.28, -35.05);
     this.movieBoothGroup.add(plaque1);
 
-    const plaque2Tex = this.createMoviePlaqueTexture("Real People\nBrave Ideas\nBetter Worlds ♥");
+    const plaque2Tex = this.createMoviePlaqueTexture("Real People\nBrave Ideas\nBetter Worlds â™¥");
     const plaque2 = new THREE.Mesh(
       new THREE.BoxGeometry(0.68, 0.78, 0.06),
       new THREE.MeshStandardMaterial({ map: plaque2Tex, roughness: 0.85 })
@@ -5274,8 +5302,8 @@ export class ClayWorld3D extends EventTarget {
 
     ctx.fillStyle = '#f1c40f';
     ctx.font = '36px sans-serif';
-    ctx.fillText('✨', 64, 180);
-    ctx.fillText('✨', 930, 180);
+    ctx.fillText('âœ¨', 64, 180);
+    ctx.fillText('âœ¨', 930, 180);
 
     ctx.fillStyle = '#fff4d8';
     ctx.font = 'bold 72px Georgia, serif';
@@ -5287,7 +5315,7 @@ export class ClayWorld3D extends EventTarget {
     ctx.fillStyle = '#f7d070';
     ctx.font = 'bold 30px Georgia, serif';
     ctx.shadowBlur = 4;
-    ctx.fillText("✦ Stories · Knowledge · Wonder · Community ✦", 512, 245);
+    ctx.fillText("âœ¦ Stories Â· Knowledge Â· Wonder Â· Community âœ¦", 512, 245);
 
     return new THREE.CanvasTexture(canvas);
   }
@@ -5341,7 +5369,7 @@ export class ClayWorld3D extends EventTarget {
 
     ctx.font = 'bold 36px Georgia, serif';
     ctx.fillStyle = '#221a14';
-    ctx.fillText('Imaginations ♥', 256, 315);
+    ctx.fillText('Imaginations â™¥', 256, 315);
 
     return new THREE.CanvasTexture(canvas);
   }
@@ -5518,7 +5546,7 @@ export class ClayWorld3D extends EventTarget {
 
     ctx.fillStyle = '#ff6b6b';
     ctx.font = 'bold 64px sans-serif';
-    ctx.fillText('♥', 256, 480);
+    ctx.fillText('â™¥', 256, 480);
 
     return new THREE.CanvasTexture(canvas);
   }
@@ -5912,7 +5940,7 @@ export class ClayWorld3D extends EventTarget {
     const deskPropsGroup = new THREE.Group();
     deskPropsGroup.position.set(0, 1.36, 0.85);
 
-    // A. Ceramic Coffee Mug: "Good Projects Brighter People ♥"
+    // A. Ceramic Coffee Mug: "Good Projects Brighter People â™¥"
     const mugTex = this.createMugTexture();
     const mugMat = new THREE.MeshStandardMaterial({ map: mugTex, roughness: 0.5 });
     const mug = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.075, 0.16, 16), mugMat);
@@ -5967,7 +5995,7 @@ export class ClayWorld3D extends EventTarget {
     swatch.rotation.y = 0.15;
     deskPropsGroup.add(swatch);
 
-    // E. Carved Honey-Oak & Brass Desk Plaque: "Leola · Library Guide"
+    // E. Carved Honey-Oak & Brass Desk Plaque: "Leola Â· Library Guide"
     const plaqueMat = new THREE.MeshStandardMaterial({
       map: this.createDeskPlaqueTexture(),
       roughness: 0.65
@@ -5990,17 +6018,17 @@ export class ClayWorld3D extends EventTarget {
     headMesh.userData = {
       type: 'leola',
       name: 'Leola (Library Guide)',
-      prompt: '✦ Talk to Leola (Library Guide)'
+      prompt: 'âœ¦ Talk to Leola (Library Guide)'
     };
     vest.userData = {
       type: 'leola',
       name: 'Leola (Library Guide)',
-      prompt: '✦ Talk to Leola (Library Guide)'
+      prompt: 'âœ¦ Talk to Leola (Library Guide)'
     };
     plaque.userData = {
       type: 'leola',
       name: 'Leola (Library Guide)',
-      prompt: '✦ Talk to Leola (Library Guide)'
+      prompt: 'âœ¦ Talk to Leola (Library Guide)'
     };
     this.interactiveObjects.push(headMesh);
     this.interactiveObjects.push(vest);
@@ -6125,7 +6153,7 @@ export class ClayWorld3D extends EventTarget {
     ctx.font = 'bold 36px Georgia, serif';
     ctx.textAlign = 'center';
     ctx.fillText('Good Projects', 256, 105);
-    ctx.fillText('Brighter People ♥', 256, 165);
+    ctx.fillText('Brighter People â™¥', 256, 165);
 
     return new THREE.CanvasTexture(canvas);
   }
@@ -6175,7 +6203,7 @@ export class ClayWorld3D extends EventTarget {
     ctx.textAlign = 'center';
     ctx.shadowColor = '#000000';
     ctx.shadowBlur = 4;
-    ctx.fillText('Leola · Library Guide', 256, 75);
+    ctx.fillText('Leola Â· Library Guide', 256, 75);
 
     return new THREE.CanvasTexture(canvas);
   }
@@ -6185,7 +6213,7 @@ export class ClayWorld3D extends EventTarget {
     this.seatedSpeechCanvas.width = 512;
     this.seatedSpeechCanvas.height = 256;
     this.seatedSpeechCtx = this.seatedSpeechCanvas.getContext('2d');
-    this.updateSeatedSpeechCanvas("Welcome to Leola's Library! ✨ Ask me anything!");
+    this.updateSeatedSpeechCanvas("Welcome to Leola's Library! âœ¨ Ask me anything!");
 
     this.seatedSpeechTexture = new THREE.CanvasTexture(this.seatedSpeechCanvas);
     const billboard = new THREE.Mesh(
@@ -6261,7 +6289,7 @@ export class ClayWorld3D extends EventTarget {
       sweaterColor: 0x782834, pantsColor: 0x243952, shoeColor: 0x4a2a16,
       hasGlasses: true, hasHairBun: true,
       bookTitle: 'Stories of Kindness', bookColor: 0x2b4c7e,
-      prompt: 'âœ¦ Elena is reading with both hands on her open book.'
+      prompt: 'Ã¢Å“Â¦ Elena is reading with both hands on her open book.'
     });
     this.seatedPatrons.push(elena);
 
@@ -6273,7 +6301,7 @@ export class ClayWorld3D extends EventTarget {
       sweaterColor: 0xd49b43, pantsColor: 0x23374d, shoeColor: 0x5c381f,
       isFadeHair: true,
       bookTitle: 'Architects of Wonder', bookColor: 0x3d704d,
-      prompt: 'âœ¦ Marcus is seated naturally with his book held above his lap.'
+      prompt: 'Ã¢Å“Â¦ Marcus is seated naturally with his book held above his lap.'
     });
     this.seatedPatrons.push(marcus);
 
@@ -6285,7 +6313,7 @@ export class ClayWorld3D extends EventTarget {
       sweaterColor: 0x9b82aa, pantsColor: 0x286367, shoeColor: 0xf0ede6,
       hasHeadband: true, headbandColor: 0xf1c40f, hasPonytail: true,
       bookTitle: 'Crochet Motifs', bookColor: 0xba3268,
-      prompt: 'âœ¦ Chloe is seated by the globe with visible legs, feet, and book.'
+      prompt: 'Ã¢Å“Â¦ Chloe is seated by the globe with visible legs, feet, and book.'
     });
     this.seatedPatrons.push(chloe);
   }
@@ -6852,7 +6880,7 @@ export class ClayWorld3D extends EventTarget {
 
   triggerLeolaOnboarding() {
     this.phase = 'talking_leola';
-    this.leola.startDialogue("Welcome to my desk! Let's get you set up with your library card ✦");
+    this.leola.startDialogue("Welcome to my desk! Let's get you set up with your library card âœ¦");
     this.dispatchEvent(new CustomEvent('onboarding_request'));
   }
 
