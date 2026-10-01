@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "topics": [
+    {
+      "id": "library",
+      "label": "Tell me about this library",
+      "answer": null,
+      "status": "awaiting-notebooklm-output",
+      "roles": [
+        "leola",
+        "helper"
+      ]
+    },
+    {
+      "id": "books",
+      "label": "Tell me about Leola’s books",
+      "answer": null,
+      "recording": {
+        "provider": "NotebookLM",
+        "title": "Leola’s Learning Library — Premier Books Introduction",
+        "kind": "video",
+        "src": null,
+        "status": "awaiting-authorized-media-file",
+        "duration": "7:21"
+      },
+      "status": "awaiting-notebooklm-output",
+      "roles": [
+        "leola",
+        "helper"
+      ]
+    },
+    {
+      "id": "tour",
+      "label": "What can I do in the library?",
+      "answer": null,
+      "status": "awaiting-notebooklm-output",
+      "roles": [
+        "leola",
+        "helper"
+      ]
+    },
+    {
+      "id": "authors",
+      "label": "I’d like to register my ebook",
+      "answer": null,
+      "status": "awaiting-notebooklm-output",
+      "roles": [
+        "leola",
+        "helper"
+      ]
+    },
+    {
+      "id": "details",
+      "label": "Tell me about the spaces and new books",
+      "answer": null,
+      "status": "awaiting-notebooklm-output",
+      "roles": [
+        "helper"
+      ]
+    }
+  ]
+}

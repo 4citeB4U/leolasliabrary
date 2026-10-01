@@ -1,0 +1,565 @@
+{
+  "schemaVersion": 1,
+  "title": "Needle & Yarn: A Love Stitched in Time",
+  "author": "Leola “Sista” Lee",
+  "sourcePdfSha256": "5ec0c79f2cb2400b36f9d991f747bd9ed4822e57358db71eb0e2461d0d2ae39c",
+  "transcriptionMethod": "Manual transcription verified visually against every full-resolution caption crop and full dedication page. No old manuscript content used.",
+  "pageIndexBase": 0,
+  "sourcePageMeaning": "One-based individual illustrated reader page; printedPage is printed page number.",
+  "scope": "All32interior-page narrative captions, dedication and author note. Decorative illustration signage and production footers excluded. Titles stored separately for optional narrator reading.",
+  "speakerPolicy": "Only explicitly identified dialogue is assigned named character voices. Unattributed quoted dialogue remains narrator for review; no gender/voice assignments made. Emotion neutral avoids adding unsupported performance directions.",
+  "reviewNotes": [
+    {
+      "printedPages": [
+        5,
+        6,
+        12,
+        14,
+        17,
+        20,
+        29
+      ],
+      "issue": "Caption includes quoted dialogue without explicit speaker name; retained verbatim under narrator rather than assigning guessed voice."
+    },
+    {
+      "printedPages": [
+        1
+      ],
+      "issue": "Dedication signature reads Sister Lee; cover reads Leola Sista Lee. Both source wordings preserved."
+    }
+  ],
+  "pages": [
+    {
+      "pageIndex": 1,
+      "title": "Dedication",
+      "segments": [
+        {
+          "speaker": "Leola",
+          "text": "To my children, grandchildren, and great-grandchildren, who have been the threads that bind my life together.\n\nTo every hand that has ever held a crochet hook, seeking to create something beautiful.\n\nAnd especially to those who have yet to discover the joy of creating with yarn and needle - may this story inspire your journey.\n\nWith love and faith, - Sister Lee",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 2,
+      "printedPage": 1,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-002.jpg",
+      "sourceImageSha256": "fd2558932d92b7ed19cf361c34ed8d42c0c047ce0214d815a8ed349d9c8f41fd",
+      "captionText": "To my children, grandchildren, and great-grandchildren, who have been the threads that bind my life together.\n\nTo every hand that has ever held a crochet hook, seeking to create something beautiful.\n\nAnd especially to those who have yet to discover the joy of creating with yarn and needle - may this story inspire your journey.\n\nWith love and faith, - Sister Lee"
+    },
+    {
+      "pageIndex": 2,
+      "title": "A Note from Leola",
+      "segments": [
+        {
+          "speaker": "Leola",
+          "text": "Every stitch tells a story. Mistakes are not failures but opportunities for growth. Most importantly, we are all connected - stitched together in a pattern larger than ourselves.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 3,
+      "printedPage": 2,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-003.jpg",
+      "sourceImageSha256": "ea5df6bf24f458a5531d4acdcc6ff4d4f9ee2c7f2fa4707d5b4e5dd5ffc5eb68",
+      "captionText": "Every stitch tells a story. Mistakes are not failures but opportunities for growth. Most importantly, we are all connected - stitched together in a pattern larger than ourselves."
+    },
+    {
+      "pageIndex": 3,
+      "title": "Chapter One - The Magic Begins",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "The little bell over the shop door gave a bright ding-a-ling. Morning sunshine slipped in right behind a woman and stretched itself long.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 4,
+      "printedPage": 3,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-004.jpg",
+      "sourceImageSha256": "d8f9d527b0d5cbc3ad4e423ea66e15bc0344d8c352ff6860c8bae6162baaa18e",
+      "captionText": "The little bell over the shop door gave a bright ding-a-ling. Morning sunshine slipped in right behind a woman and stretched itself long."
+    },
+    {
+      "pageIndex": 4,
+      "title": "A Shop Full of Possibility",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "There were some places in this world you hurried through, and some places you simply did not. A good yarn shop was one of those places.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 5,
+      "printedPage": 4,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-005.jpg",
+      "sourceImageSha256": "7971ebe92c7b04328f9a1b4079e7fceefa3e3bd43e0d6a33e27e0e58793af95e",
+      "captionText": "There were some places in this world you hurried through, and some places you simply did not. A good yarn shop was one of those places."
+    },
+    {
+      "pageIndex": 5,
+      "title": "The Choosing",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "The hand returned. Two fingers pressed gently into her fibers. Up she went. \"Good gracious!\"",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 6,
+      "printedPage": 5,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-006.jpg",
+      "sourceImageSha256": "d35b1347c3c313fc648719b08723cbf9c4ffda8f7d2162bb7dbe0c0e22cafc78",
+      "captionText": "The hand returned. Two fingers pressed gently into her fibers. Up she went. \"Good gracious!\""
+    },
+    {
+      "pageIndex": 6,
+      "title": "A New World",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "\"I'm gettin' chosen.\" Then everything changed. The shop was no longer the whole world.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 7,
+      "printedPage": 6,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-007.jpg",
+      "sourceImageSha256": "1f5a251155bff42bd124eadfaf76e7d480d8ba4456275556f6ef4de82ff967f5",
+      "captionText": "\"I'm gettin' chosen.\" Then everything changed. The shop was no longer the whole world."
+    },
+    {
+      "pageIndex": 7,
+      "title": "Chapter Two - The First Hello",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Morning came quietly to Leola's house. Inside the wicker basket, nobody moved... for nearly five whole seconds.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 8,
+      "printedPage": 7,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-008.jpg",
+      "sourceImageSha256": "66e2c9c143311c91089d95a3edaf5223e8f4649443ce5c778caa6843721719f3",
+      "captionText": "Morning came quietly to Leola's house. Inside the wicker basket, nobody moved... for nearly five whole seconds."
+    },
+    {
+      "pageIndex": 8,
+      "title": "Meet the Basket Family",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "The basket family steps into the story - one familiar face at a time.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 9,
+      "printedPage": 8,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-009.jpg",
+      "sourceImageSha256": "396447df2b4cd39c65e8a49d778ddec6289a17ca3c3883c660725c6bc0e4813a",
+      "captionText": "The basket family steps into the story - one familiar face at a time."
+    },
+    {
+      "pageIndex": 9,
+      "title": "More of the Living Tools",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "More of Leola's little living tools join the room, ready to laugh, help, and make.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 10,
+      "printedPage": 9,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-010.jpg",
+      "sourceImageSha256": "014ee9ea1ca0742c0a3dcb8e927ed7a3ec24798d60013f8eb5c409fc0be76d27",
+      "captionText": "More of Leola's little living tools join the room, ready to laugh, help, and make."
+    },
+    {
+      "pageIndex": 10,
+      "title": "First Stitches Together",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Over. Catch. Through. Again. A good stitch was not made by Needle alone. It was not made by Yarn alone.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 11,
+      "printedPage": 10,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-011.jpg",
+      "sourceImageSha256": "c65c3d9c0abdd2d0c9da56d219c62f155e76fda4e5d16a196fef93d51053ad9e",
+      "captionText": "Over. Catch. Through. Again. A good stitch was not made by Needle alone. It was not made by Yarn alone."
+    },
+    {
+      "pageIndex": 11,
+      "title": "Chapter Three - Working Together",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Rain had been tapping against Leola's window since before daylight. The kind of rain that made a house feel warmer simply because you were inside it.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 12,
+      "printedPage": 11,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-012.jpg",
+      "sourceImageSha256": "e29ccaf794827e2d24628ac7952fbd32e30306218c064cdb1f1be699efe9aa33",
+      "captionText": "Rain had been tapping against Leola's window since before daylight. The kind of rain that made a house feel warmer simply because you were inside it."
+    },
+    {
+      "pageIndex": 12,
+      "title": "The Scarf Begins",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "\"A scarf!\" The idea thrilled her. A real thing. Something somebody could wear.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 13,
+      "printedPage": 12,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-013.jpg",
+      "sourceImageSha256": "2bb10bfa5139ca37f36e86a9163876fdc4f51b77466f8aa1ae7924830dcb57db",
+      "captionText": "\"A scarf!\" The idea thrilled her. A real thing. Something somebody could wear."
+    },
+    {
+      "pageIndex": 13,
+      "title": "Their Rhythm",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Another project. Another mistake. Another lesson. Another chance to discover what their hands could make.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 14,
+      "printedPage": 13,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-014.jpg",
+      "sourceImageSha256": "dccb546c805add55edd7f87d05d8eddb6200451e4ba5e5b4e9fc8368d9871202",
+      "captionText": "Another project. Another mistake. Another lesson. Another chance to discover what their hands could make."
+    },
+    {
+      "pageIndex": 14,
+      "title": "Made to Be Given",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "\"We made somebody happy.\" Maybe making was about giving something of yourself away and discovering that somehow you were not smaller for it.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 15,
+      "printedPage": 14,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-015.jpg",
+      "sourceImageSha256": "b9fa8fa0c3bf9b79da3c52496d99e7cf3a50093f1e362ef65855bf5c81bc2d66",
+      "captionText": "\"We made somebody happy.\" Maybe making was about giving something of yourself away and discovering that somehow you were not smaller for it."
+    },
+    {
+      "pageIndex": 15,
+      "title": "Chapter Four - The Break",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Autumn had settled properly over Milwaukee. Not all at once. It had arrived leaf by leaf.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 16,
+      "printedPage": 15,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-016.jpg",
+      "sourceImageSha256": "6954cf7d8c550c411dae7638d6772d4901c4ab29722c8ea36f27751d6101b57d",
+      "captionText": "Autumn had settled properly over Milwaukee. Not all at once. It had arrived leaf by leaf."
+    },
+    {
+      "pageIndex": 16,
+      "title": "Before Everything Changed",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Inside the house, the projects had started changing too. Scarves. Hats. Mittens. Blankets thick enough to hold back a Wisconsin winter.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 17,
+      "printedPage": 16,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-017.jpg",
+      "sourceImageSha256": "ce23a76cb33c4e77ea727409dcc40cd8e602c6d92a23ad66dcb3c3bcbe611ad4",
+      "captionText": "Inside the house, the projects had started changing too. Scarves. Hats. Mittens. Blankets thick enough to hold back a Wisconsin winter."
+    },
+    {
+      "pageIndex": 17,
+      "title": "The Door Opened Hard",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "\"Momma, don't panic.\" There are some words that make panic arrive before the rest of the sentence. \"It's your granddaughter.\"",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 18,
+      "printedPage": 17,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-018.jpg",
+      "sourceImageSha256": "ca0b3a16d1cf3453080953ec320b052cf8dd69d2709d874547efd5f47b48ca48",
+      "captionText": "\"Momma, don't panic.\" There are some words that make panic arrive before the rest of the sentence. \"It's your granddaughter.\""
+    },
+    {
+      "pageIndex": 18,
+      "title": "Snap",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "The strand pulled. Needle twisted sideways. A tiny metallic sound came from his tip. Tick. Then - snap.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 19,
+      "printedPage": 18,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-019.jpg",
+      "sourceImageSha256": "5517eb2d4db84be670e927783bd766dd38847f6a0786043cabcd166b02e63347",
+      "captionText": "The strand pulled. Needle twisted sideways. A tiny metallic sound came from his tip. Tick. Then - snap."
+    },
+    {
+      "pageIndex": 19,
+      "title": "The Basket Went Quiet",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Yarn rushed toward him. Scissors shot upright. Measuring Tape uncoiled. Hook climbed over a folded piece of fabric.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 20,
+      "printedPage": 19,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-020.jpg",
+      "sourceImageSha256": "27403973990d365050f95ce0b493f47622843a9bbfe0ab5504e528654c611e90",
+      "captionText": "Yarn rushed toward him. Scissors shot upright. Measuring Tape uncoiled. Hook climbed over a folded piece of fabric."
+    },
+    {
+      "pageIndex": 20,
+      "title": "Where You Come Back",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "\"I like it.\" \"Why?\" Yarn touched the faint repair line gently. \"Because that's where you came back.\"",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 21,
+      "printedPage": 20,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-021.jpg",
+      "sourceImageSha256": "df2b9282386c9ae70578bd59f1c46114228a30ebeb01b96d64a494cb71f63707",
+      "captionText": "\"I like it.\" \"Why?\" Yarn touched the faint repair line gently. \"Because that's where you came back.\""
+    },
+    {
+      "pageIndex": 21,
+      "title": "Chapter Five - The Return",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Winter came early that year. Outside Leola's window, snow drifted down in fat, lazy flakes.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 22,
+      "printedPage": 21,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-022.jpg",
+      "sourceImageSha256": "bacc0c67c03799f5bf634eb33556b9782b88ab349a28ba78b8a05da96e99b80f",
+      "captionText": "Winter came early that year. Outside Leola's window, snow drifted down in fat, lazy flakes."
+    },
+    {
+      "pageIndex": 22,
+      "title": "First Snow",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Yarn pressed herself against the side of the basket.",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "Yarn",
+          "text": "\"Oh, my stars.\"",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "narrator",
+          "text": "Needle looked up.",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "Needle",
+          "text": "\"What?\"",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "Yarn",
+          "text": "\"Come look.\"",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 23,
+      "printedPage": 22,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-023.jpg",
+      "sourceImageSha256": "8563d22fcdc07c2432b60dcdd182fea2928525f0d175af709b0d7add406f5e46",
+      "captionText": "Yarn pressed herself against the side of the basket. \"Oh, my stars.\" Needle looked up. \"What?\" \"Come look.\""
+    },
+    {
+      "pageIndex": 23,
+      "title": "A Christmas Stitch",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "The house filled with winter color, warm yarn, food, laughter, and the kind of noise family leaves behind in every room.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 24,
+      "printedPage": 23,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-024.jpg",
+      "sourceImageSha256": "8e602cb092ed3d7e48f8887f1e3abc730b776d5f00a9370356c851e4df5c09b7",
+      "captionText": "The house filled with winter color, warm yarn, food, laughter, and the kind of noise family leaves behind in every room."
+    },
+    {
+      "pageIndex": 24,
+      "title": "Family Gathers",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "The Christmas lights blinked softly in the other room. Red. Green. Gold. Outside, snow continued falling over Milwaukee.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 25,
+      "printedPage": 24,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-025.jpg",
+      "sourceImageSha256": "d74b59f3c7c56d0cd49ffc58508e43881e114342f84157c4c6b883e13f28ddb6",
+      "captionText": "The Christmas lights blinked softly in the other room. Red. Green. Gold. Outside, snow continued falling over Milwaukee."
+    },
+    {
+      "pageIndex": 25,
+      "title": "The Autumn Hat Finds Her",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "The granddaughter opened the final package. The autumn hat came out - sunset orange and deep brown. Leola straightened it, and her granddaughter hugged her.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 26,
+      "printedPage": 25,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-026.jpg",
+      "sourceImageSha256": "b9aa4f9bd59c21e3d3494a54474d804218db0c094fb126ab5a8401b3cecb2229",
+      "captionText": "The granddaughter opened the final package. The autumn hat came out - sunset orange and deep brown. Leola straightened it, and her granddaughter hugged her."
+    },
+    {
+      "pageIndex": 26,
+      "title": "Micky Brings Her Basket",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Eventually the celebration began winding down. Micky came into Leola's craft room carrying her own crochet bag and set it near the old wicker basket.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 27,
+      "printedPage": 26,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-027.jpg",
+      "sourceImageSha256": "0d5b0d667c801d973c680ba15700250194951a5c9266151b2ac5ed4b1c6f63b5",
+      "captionText": "Eventually the celebration began winding down. Micky came into Leola's craft room carrying her own crochet bag and set it near the old wicker basket."
+    },
+    {
+      "pageIndex": 27,
+      "title": "Two Baskets, One Family",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Micky placed her basket beside Leola's. Two generations of hands, tools, yarn, stories, mistakes, patience, and love now shared the same room.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 28,
+      "printedPage": 27,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-028.jpg",
+      "sourceImageSha256": "b1fcdf1193c26e1aa5559f4287ff469da2de5108b6c9acc8fceddc0bdc76804c",
+      "captionText": "Micky placed her basket beside Leola's. Two generations of hands, tools, yarn, stories, mistakes, patience, and love now shared the same room."
+    },
+    {
+      "pageIndex": 28,
+      "title": "Chapter Six - The Pattern Continues",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Winter did not leave Milwaukee all at once. It loosened its grip. One morning, the tree outside Leola's window held a tiny green bud.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 29,
+      "printedPage": 28,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-029.jpg",
+      "sourceImageSha256": "64809d89bcef188f201b041c7a177d90c59c4f1136dcbf358a125f601307172f",
+      "captionText": "Winter did not leave Milwaukee all at once. It loosened its grip. One morning, the tree outside Leola's window held a tiny green bud."
+    },
+    {
+      "pageIndex": 29,
+      "title": "Learning by Doing",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "\"Do you wanna learn?\" \"Yes.\" \"Then yes.\" The stitches were not perfect. They did not need to be.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 30,
+      "printedPage": 29,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-030.jpg",
+      "sourceImageSha256": "2f2cc68c380078043fb8ccfbda97243ee85a60240ede54e57f0eb38080ad2d81",
+      "captionText": "\"Do you wanna learn?\" \"Yes.\" \"Then yes.\" The stitches were not perfect. They did not need to be."
+    },
+    {
+      "pageIndex": 30,
+      "title": "The Older Tools Teach",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Knowing the answer is not the same thing as learning how to find it. The older tools began making room for the younger ones.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 31,
+      "printedPage": 30,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-031.jpg",
+      "sourceImageSha256": "831c335d37e0df4c575d0db8dc58a3878705b1f617606e35073b4583e159cb13",
+      "captionText": "Knowing the answer is not the same thing as learning how to find it. The older tools began making room for the younger ones."
+    },
+    {
+      "pageIndex": 31,
+      "title": "Time Keeps Moving",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "The seasons changed. The house stayed home. The work kept growing - one row, one lesson, one return at a time.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 32,
+      "printedPage": 31,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-032.jpg",
+      "sourceImageSha256": "80def4ea780a2fc3df2112b75350d14fe4d783c8dde02ebdebfd7ffeb317cec6",
+      "captionText": "The seasons changed. The house stayed home. The work kept growing - one row, one lesson, one return at a time."
+    },
+    {
+      "pageIndex": 32,
+      "title": "Together",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Thread by thread. Stitch by stitch. Generation by generation. Together.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 33,
+      "printedPage": 32,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-033.jpg",
+      "sourceImageSha256": "9317ebf9375ee26309081001aad84b07ee3f6e7088cdd501e4d7ca59670ea22c",
+      "captionText": "Thread by thread. Stitch by stitch. Generation by generation. Together."
+    }
+  ]
+}

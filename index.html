@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Leola's Learning Library - Full 3D Animated Game World</title>
-  <link rel="stylesheet" href="css/clay-materials.css?v=3">
+  <link rel="stylesheet" href="css/clay-materials.css?v=exit-1">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
   <script type="importmap">
     {
@@ -13,6 +13,7 @@
       }
     }
   </script>
+  <link rel="stylesheet" href="css/author-library.css?v=1">
 </head>
 <body>
 
@@ -51,12 +52,12 @@
       </div>
     </div>
 
-    <!-- Floating Sound & Speech Voice Toggle -->
+  </header>
+    <!-- Outside the clipped banner so the sound control remains reachable. -->
     <button id="btn-toggle-voice" class="floating-voice-pill" title="Toggle Sound & Speech" aria-label="Toggle Sound & Speech">
       <span class="voice-icon">🔊</span>
       <span id="voice-btn-label">Voice On</span>
     </button>
-  </header>
 
   <!-- ==========================================================================
        IN-GAME INTERACTION HOVER BADGE
@@ -152,13 +153,11 @@
   <div id="reader-modal-backdrop" class="card-modal-backdrop" role="dialog" aria-modal="true">
     <div class="card-dialog-frame" style="max-width:980px;text-align:left;max-height:92vh;overflow:auto;background:linear-gradient(135deg,#f7e7bd,#fffaf0 55%,#ead2a2);border:3px solid #7b4a25;box-shadow:0 24px 80px rgba(45,25,10,.45);">
       <button class="close-modal-x" id="btn-close-reader-modal">×</button>
-      <div style="text-align:center;margin-bottom:14px;"><div style="font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:#8a5a32;font-weight:800;">Leola's Featured Collection</div><h2 style="margin:4px 0 2px;color:#4a2813;font-size:1.9rem;">Treasured Books Showcase</h2><p style="margin:0;color:#795133;">Choose a cover, then read every chapter on the library's magical paper.</p></div>
-      <div id="reader-showcase" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:14px 0 20px;">
-        <button class="book-showcase-card" data-book="needle" style="background:#fff8e8;border:2px solid #9a6336;border-radius:18px;padding:14px;cursor:pointer;text-align:center;"><img src="ruu3udr62d.png" alt="Needle & Yarn front cover" style="width:100%;max-width:210px;height:260px;object-fit:cover;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.2);"><strong style="display:block;margin-top:10px;color:#4a2813;">Needle & Yarn</strong><span style="color:#7a4d2c;">A Love Stitched in Time · Complete 6-Chapter Edition</span></button>
-        <button class="book-showcase-card" data-book="crochet" style="background:#fff8e8;border:2px solid #9a6336;border-radius:18px;padding:14px;cursor:pointer;text-align:center;"><img src="jva31043ou.png" alt="Crochet Mastery front cover" style="width:100%;max-width:210px;height:260px;object-fit:cover;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.2);"><strong style="display:block;margin-top:10px;color:#4a2813;">Crochet Mastery</strong><span style="color:#7a4d2c;">A Complete Guide · 6 Chapters / 16 Lessons</span></button>
-      </div>
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;border-top:1px solid #c9a77c;padding-top:16px;"><span id="reader-book-icon" style="font-size:2.2rem;">📖</span><div><h2 id="reader-book-title" style="margin:0;font-size:1.6rem;color:#4a2813;">Needle & Yarn</h2><span id="reader-book-sub" style="font-size:.85rem;color:#7a4d2c;font-weight:bold;">A Love Stitched in Time</span></div></div>
       <div id="reader-chapter-tabs" style="display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;"></div>
+      <div id="reader-accessibility" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
+        <button id="reader-zoom-out" aria-label="Make book text smaller">&#128269; −</button><span id="reader-zoom-level">100%</span><button id="reader-zoom-in" aria-label="Make book text larger">&#128269; +</button><button id="reader-zoom-reset">Reset size</button><button id="reader-listen">Listen to this chapter</button><button id="reader-stop">Stop reading</button><span id="reader-voice-status" role="status"></span>
+      </div>
       <article id="reader-book-body" style="background:radial-gradient(circle at top,#fffdf7,#f8edcf);border:2px solid #a67845;border-radius:18px;padding:30px;min-height:320px;font-family:Georgia,'Times New Roman',serif;font-size:1.08rem;line-height:1.78;color:#342113;box-shadow:inset 0 0 28px rgba(145,103,54,.12);">Loading complete book...</article>
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap;"><button id="btn-reader-prev" class="card-secondary-cta">← Previous Chapter</button><span id="reader-page-indicator" style="font-weight:bold;color:#4a2813;">Chapter 1 of 6</span><button id="btn-reader-next" class="card-primary-cta">Next Chapter →</button><button id="btn-reader-bookmark" class="card-secondary-cta">★ Save Bookmark</button></div>
     </div>
@@ -261,7 +260,13 @@
        INITIALIZATION SCRIPT
        ========================================================================== -->
   <script type="module">
-    import { ClayWorld3D } from './js/world-3d.js';
+    import { installLibrarianConversations } from './js/librarian-conversations.js';
+    import { renderPublication } from './js/publication-reader.js';
+    import { installBookCarry } from './js/book-carry.js';
+    import { installAvatarChoice } from './js/avatar-choice.js';
+    import { installLibraryVoice } from './js/library-voice.js';
+    import { installAuthorLibrary } from './js/author-library.js';
+    import { ClayWorld3D } from './js/world-3d.js?v=authors-1';
   import { LeolaSLMEngine } from './js/leola-slm.js';
     import { Card3DInspector } from './js/card-3d-inspector.js';
     import { stateManager } from './js/state-manager.js';
@@ -286,6 +291,9 @@
     const worldCanvas = document.getElementById('clay-game-world-canvas');
     const world = new ClayWorld3D(worldCanvas);
     window.__world3D = world;
+    installAvatarChoice(world);
+    installLibraryVoice(world);
+    installAuthorLibrary(world).then(async()=>{await installBookCarry(world);world.avatarChoice.attachMenu();world.libraryVoice.attachMenu('#library-tools');}).catch(error => console.error("Author library setup failed", error));
 
     // 2. Initialize 3D Card Inspector
     const cardCanvas = document.getElementById('card-3d-canvas');
@@ -400,16 +408,15 @@
     const slmInput = document.getElementById('leola-slm-input');
     let lastSpokenText = "";
 
-    function openDialogue(initialText = null) {
-      dialogueModal.classList.add('active');
-      if (initialText) {
-        addAssistantMessage(initialText);
-      }
+    function openDialogue() {
+      world.librarianConversations?.open();
     }
 
     function closeDialogue() {
       dialogueModal.classList.remove('active');
       slmEngine.stopSpeaking();
+      stopSpeech();
+      world.librarianConversations?.close();
     }
 
     function addUserMessage(text) {
@@ -428,7 +435,7 @@
       transcriptEl.appendChild(bubble);
       transcriptEl.scrollTop = transcriptEl.scrollHeight;
       if (world.leola) {
-        world.leola.updateSpeechCanvas(text.substring(0, 48) + '... ✦');
+        world.leola.updateSpeechCanvas?.(text.substring(0, 48) + '... ✦');
       }
       if (slmEngine.isVoiceEnabled) {
         slmEngine.speak(text);
@@ -498,7 +505,7 @@
 
     // Listen to world events
     world.addEventListener('talk_leola', () => {
-      openDialogue("Hello there, friend! I'm Leola, your Library Guide. My dialogue is powered by Leola-SLM-Craft-v2.4! Ask me anything about crocheting stitches, yarn weights, or exploring our cozy library!");
+      openDialogue("Hello there, friend! I'm Leola, your Library Guide. Choose a question below to hear about the library, Leola’s books, or how to find your way around. You can also type your own question.");
     });
 
     // Grand Globe Inspector Logic
@@ -528,17 +535,17 @@
     world.addEventListener('interact', (e) => {
       const data = e.detail;
       if (data.type === 'arcade') {
-        openDialogue("Step right up! In the 3D Game House, we have 5 fun games: Loop Lab, Tension Tower, Pattern Quest, Amigurumi Rescue, and Yarnfolk Studio. Would you like to jump into the arcade now?");
+        window.location.href = 'game-house.html';
       } else if (data.type === 'reading-table') {
-        openBookReader('needle');
+        world.bookCarry?.pickup('needle-and-yarn');
       } else if (data.type === 'book-needle') {
-        openBookReader('needle');
+        world.bookCarry?.pickup('needle-and-yarn');
       } else if (data.type === 'book-crochet') {
-        openBookReader('crochet');
+        world.bookCarry?.pickup('crochet-mastery');
       } else if (data.type === 'donation') {
         openDonationModal();
       } else if (data.type === 'video' || data.type === 'training' || data.type === 'movie-booth' || data.type === 'movie-booth-seat' || data.type === 'movie-booth-screen') {
-        openVideoModal();
+        world.wallVideoPlayer?.open();
       }
     });
 
@@ -712,18 +719,16 @@
       }
     });
 
+    installLibrarianConversations(world, {openDialogue, closeDialogue, addAssistantMessage, stopSpeech:()=>{stopSpeech();slmEngine.stopSpeaking();}, speak:speakLeola}).catch(console.error);
+
     // 7. Canonical Featured Book / eBook Reader Logic
     const publishingCatalog = new PublishingCatalog();
     const bookData = {
-      needle:{title:"Needle & Yarn",sub:"A Love Stitched in Time",icon:"📖",source:"books/needle-and-yarn/book.md",chapters:[]},
-      crochet:{title:"Crochet Mastery",sub:"A Complete Guide",icon:"🧶",source:"content/instructional-course.json",chapters:[]}
+      crochet:{title:"Crochet Mastery",sub:"A Complete Guide",icon:"🧶",source:"content/crochet-mastery-chapters.json",chapters:[]}
     };
-    let activeBookKey='needle',activePage=0,booksLoaded=false;
+    let activeBookKey='crochet',activePage=0,booksLoaded=false;
     const escapeHtml=(v='')=>v.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-    function proseToPaper(text){return text.split(/\n{2,}/).filter(Boolean).map(p=>{const clean=p.replace(/^#{1,6}\s*/,'').replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1');if(/^Chapter\s/i.test(clean)||/^— End of Chapter/i.test(clean))return '<h3 style="text-align:center;color:#6f3f20;margin:8px 0 24px;">'+escapeHtml(clean)+'</h3>';if(/^---$/.test(clean.trim()))return '<hr style="border:0;border-top:1px solid #c9a77c;margin:26px 0;">';return '<p style="margin:0 0 1em;">'+escapeHtml(clean).replace(/\n/g,'<br>')+'</p>';}).join('');}
-    function parseNeedle(md){const re=/^#\s+(?:\*)?Chapter\s+(?:One|Two|Three|Four|Five|Six|1|2|3|4|5|6)[^\n]*$/gmi;const m=[...md.matchAll(re)],out=[],seen=new Set();for(let i=0;i<m.length;i++){const h=m[i][0].replace(/^#\s+/,'').replace(/\*/g,'').trim(),key=(h.match(/Chapter\s+(One|Two|Three|Four|Five|Six|[1-6])/i)||[])[1]?.toLowerCase();if(!key||seen.has(key))continue;seen.add(key);let next=md.length;for(let j=i+1;j<m.length;j++){const k=(m[j][0].match(/Chapter\s+(One|Two|Three|Four|Five|Six|[1-6])/i)||[])[1]?.toLowerCase();if(k&&!seen.has(k)){next=m[j].index;break;}}out.push({title:h,html:proseToPaper(md.slice(m[i].index+m[i][0].length,next).trim())});if(out.length===6)break;}return out;}
-    function crochetHtml(ch){return '<h3 style="text-align:center;color:#6f3f20;">Chapter '+ch.number+': '+escapeHtml(ch.title)+'</h3><p>Part of Leola’s complete Crochet Mastery eBook and learning path.</p><h4 style="color:#7b4a25;">What you will learn</h4><ul>'+ch.topics.map(t=>'<li>'+escapeHtml(t)+'</li>').join('')+'</ul><h4 style="color:#7b4a25;">Lessons</h4><ol>'+ch.lessons.map(l=>'<li style="margin:.55em 0;"><strong>'+escapeHtml(l.title)+'</strong></li>').join('')+'</ol>';}
-    async function loadCanonicalBooks(){if(booksLoaded)return;const [n,c]=await Promise.all([fetch(bookData.needle.source,{cache:'no-store'}),fetch(bookData.crochet.source,{cache:'no-store'})]);if(!n.ok||!c.ok)throw new Error('Canonical book source unavailable');bookData.needle.chapters=parseNeedle(await n.text());const course=await c.json();bookData.crochet.chapters=course.chapters.map(ch=>({title:'Chapter '+ch.number+': '+ch.title,html:crochetHtml(ch)}));if(bookData.needle.chapters.length!==6||bookData.crochet.chapters.length!==6)throw new Error('Book chapter count verification failed');booksLoaded=true;}
+    async function loadCanonicalBooks(){if(booksLoaded)return;const response=await fetch(bookData.crochet.source,{cache:'no-store'});if(!response.ok)throw new Error('Book source unavailable');const course=await response.json();bookData.crochet.chapters=course.chapters.map(ch=>({title:ch.title,html:ch.html}));booksLoaded=true;}
     async function syncPublishingShowcase(){
       const books=await publishingCatalog.books();
       const box=document.getElementById('reader-showcase');
@@ -731,12 +736,36 @@
       box.innerHTML=books.map(b=>`<button class="book-showcase-card" data-catalog-book="${b.id}" style="position:relative;background:#fff8e8;border:${b.premiere?'4px solid #b77a2d':'2px solid #9a6336'};border-radius:18px;padding:14px;cursor:pointer;text-align:center;">${b.premiere?'<span style="position:absolute;top:10px;right:10px;background:#6f3f20;color:white;border-radius:999px;padding:5px 9px;font-size:.72rem;font-weight:800;">PREMIERE</span>':''}<img src="${b.cover.front}" alt="${b.title} front cover" style="width:100%;max-width:210px;height:260px;object-fit:cover;border-radius:10px;"><strong style="display:block;margin-top:10px;color:#4a2813;">${b.title}</strong><span style="display:block;color:#7a4d2c;">${b.subtitle||''}</span><small>by ${b.author.name} · ${b.commerce.priceLabel||'View book'}</small></button>`).join('');
       box.querySelectorAll('[data-catalog-book]').forEach(x=>x.addEventListener('click',()=>window.openBookReader(x.dataset.catalogBook)));
     }
-    window.openBookReader=async function(bookKey){const aliases={'needle-and-yarn':'needle','crochet-mastery':'crochet'};activeBookKey=aliases[bookKey]||bookKey;activePage=0;document.getElementById('reader-modal-backdrop')?.classList.add('active');await syncPublishingShowcase();document.getElementById('reader-book-body').innerHTML='<p style="text-align:center;">Opening the complete eBook…</p>';try{await loadCanonicalBooks();renderBookPage();}catch(err){document.getElementById('reader-book-body').innerHTML='<p><strong>Book loading error:</strong> '+escapeHtml(err.message)+'</p>';}};
-    function renderBookPage(){const b=bookData[activeBookKey],chs=b.chapters,ch=chs[activePage];document.getElementById('reader-book-title').textContent=b.title;document.getElementById('reader-book-sub').textContent=b.sub;document.getElementById('reader-book-icon').textContent=b.icon;document.getElementById('reader-book-body').innerHTML=ch.html;document.getElementById('reader-page-indicator').textContent='Chapter '+(activePage+1)+' of '+chs.length;const tabs=document.getElementById('reader-chapter-tabs');tabs.innerHTML=chs.map((c,i)=>'<button class="'+(i===activePage?'card-primary-cta':'card-secondary-cta')+'" data-chapter="'+i+'" style="white-space:nowrap;">'+(i+1)+'. '+escapeHtml(c.title.replace(/^Chapter\s+[^:—-]+[:—-]?\s*/i,''))+'</button>').join('');tabs.querySelectorAll('[data-chapter]').forEach(x=>x.addEventListener('click',()=>{activePage=Number(x.dataset.chapter);renderBookPage();}));}
+    let publicationCleanup=null;
+    async function openCatalogPublication(bookKey) {
+      document.getElementById('reader-modal-backdrop').classList.add('active');
+      const body=document.getElementById('reader-book-body');body.textContent='Opening this publication…';
+      document.getElementById('reader-chapter-tabs').replaceChildren();
+      for(const id of ['btn-reader-prev','btn-reader-next','btn-reader-bookmark','reader-page-indicator'])document.getElementById(id).hidden=true;
+      try {
+        const book=await publishingCatalog.get(bookKey);
+        if(!book || book.status!=='published' || !book.rights?.displayApproved)throw new Error('This book is not currently available in the library.');
+        document.getElementById('reader-book-title').textContent=book.title;document.getElementById('reader-book-sub').textContent=[book.subtitle,book.author.name].filter(Boolean).join(' · ');
+        body.replaceChildren();
+        if(!book.rights.readApproved || !book.content?.source){body.textContent=book.description||'This is an approved book listing. A reading edition has not been provided.';return;}
+        const url=new URL(book.content.source,location.href);if(url.origin!==location.origin)throw new Error('A library-hosted reading edition is required.');
+        const response=await fetch(url);if(!response.ok)throw new Error('The reading edition could not be loaded.');
+        const blob=await response.blob(),name=decodeURIComponent(url.pathname.split('/').pop());publicationCleanup=await renderPublication(new File([blob],name,{type:blob.type}),body);
+      } catch(error){body.textContent=error.message;}
+    }
+    window.openBookReader=async function(bookKey){if(['needle','needle-and-yarn'].includes(bookKey)){document.getElementById('reader-modal-backdrop').classList.remove('active');world.librarianConversations?.close();if(!world.illustratedBookReader){const {installIllustratedBookReader}=await import('./js/illustrated-book-reader.js');world.illustratedBookReader=installIllustratedBookReader(world);}return world.illustratedBookReader.open();}world.illustratedBookReader?.close();publicationCleanup?.();publicationCleanup=null;if(!['needle-and-yarn','crochet-mastery','needle','crochet'].includes(bookKey)){await syncPublishingShowcase();return openCatalogPublication(bookKey);}for(const id of ['btn-reader-prev','btn-reader-next','btn-reader-bookmark','reader-page-indicator'])document.getElementById(id).hidden=false;const aliases={'needle-and-yarn':'needle','crochet-mastery':'crochet'};activeBookKey=aliases[bookKey]||bookKey;activePage=0;document.getElementById('reader-modal-backdrop')?.classList.add('active');await syncPublishingShowcase();document.getElementById('reader-book-body').innerHTML='<p style="text-align:center;">Opening the complete eBook…</p>';try{await loadCanonicalBooks();renderBookPage();}catch(err){document.getElementById('reader-book-body').innerHTML='<p><strong>Book loading error:</strong> '+escapeHtml(err.message)+'</p>';}};
+    let readerZoom=100;
+    function setReaderZoom(value){readerZoom=Math.max(80,Math.min(240,value));document.getElementById('reader-book-body').style.fontSize=(1.08*readerZoom/100)+'rem';document.getElementById('reader-zoom-level').textContent=readerZoom+'%';}
+    document.getElementById('reader-zoom-out').onclick=()=>setReaderZoom(readerZoom-20);
+    document.getElementById('reader-zoom-in').onclick=()=>setReaderZoom(readerZoom+20);
+    document.getElementById('reader-zoom-reset').onclick=()=>setReaderZoom(100);
+    document.getElementById('reader-listen').onclick=async()=>{const status=document.getElementById('reader-voice-status');status.textContent='Preparing narration…';try{const result=await world.libraryVoice.readBook('crochet-mastery',{pageIndex:activePage});status.textContent=result?.stopped?'Reading stopped.':'Reading finished.';}catch(error){status.textContent=error.message;}};
+    document.getElementById('reader-stop').onclick=()=>{world.libraryVoice.stop();document.getElementById('reader-voice-status').textContent='Reading stopped.';};
+    function renderBookPage(){const b=bookData[activeBookKey],chs=b.chapters,ch=chs[activePage],art=ch.illustration,figure=art?'<figure class="reader-story-illustration"><img src="'+art.src+'" alt="'+escapeHtml(art.alt)+'" loading="eager"><figcaption>'+escapeHtml(art.caption)+'</figcaption></figure>':'';document.getElementById('reader-book-title').textContent=b.title;document.getElementById('reader-book-sub').textContent=b.sub;document.getElementById('reader-book-icon').textContent=b.icon;document.getElementById('reader-book-body').innerHTML='<article class="reader-story-page">'+figure+ch.html+'</article>';document.getElementById('reader-page-indicator').textContent='Chapter '+(activePage+1)+' of '+chs.length;const tabs=document.getElementById('reader-chapter-tabs');tabs.innerHTML=chs.map((c,i)=>'<button class="'+(i===activePage?'card-primary-cta':'card-secondary-cta')+'" data-chapter="'+i+'" style="white-space:nowrap;">'+(i+1)+'. '+escapeHtml(c.title.replace(/^Chapter\s+[^:—-]+[:—-]?\s*/i,''))+'</button>').join('');tabs.querySelectorAll('[data-chapter]').forEach(x=>x.addEventListener('click',()=>{activePage=Number(x.dataset.chapter);renderBookPage();}));}
     document.querySelectorAll('.book-showcase-card').forEach(x=>x.addEventListener('click',()=>window.openBookReader(x.dataset.book)));
     document.getElementById('btn-reader-prev')?.addEventListener('click',()=>{if(activePage>0){activePage--;renderBookPage();}});
     document.getElementById('btn-reader-next')?.addEventListener('click',()=>{const b=bookData[activeBookKey];if(activePage<b.chapters.length-1){activePage++;renderBookPage();}});
-    document.getElementById('btn-close-reader-modal')?.addEventListener('click',()=>document.getElementById('reader-modal-backdrop')?.classList.remove('active'));
+    document.getElementById('btn-close-reader-modal')?.addEventListener('click',()=>{publicationCleanup?.();publicationCleanup=null;document.getElementById('reader-modal-backdrop')?.classList.remove('active');});
     document.getElementById('btn-reader-bookmark')?.addEventListener('click',async()=>{const btn=document.getElementById('btn-reader-bookmark');btn.textContent='★ Bookmarked!';setTimeout(()=>btn.textContent='★ Save Bookmark',1800);await stateManager.setBook(activeBookKey,{page:activePage,bookmarked:true});});
   </script>
 </body>

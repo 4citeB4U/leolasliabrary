@@ -4,7 +4,7 @@ WHO: Creator-authorized LeeWay; WHY: generated source is not deploy proof.
 LICENSE: MIT. No API source, credentials, tests, evidence, staging, or dependencies are emitted. */
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const EXCLUDE=new Set(['api','backend','tests','scripts','docs','test-evidence','node_modules','public','lib','evidence','_staging']);
-const EXT=/\.(?:html|css|js|mjs|json|png|jpe?g|webp|gif|svg|ico|glb|gltf|bin|b64|mp4|webm|wav|mp3|ogg|vtt|txt)$/i;
+const EXT=/\.(?:html|css|js|mjs|json|png|jpe?g|webp|gif|svg|ico|glb|gltf|bin|b64|mp4|webm|wav|mp3|ogg|vtt|txt|epub)$/i;
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 function build(root){
  root=path.resolve(root);const out=path.join(root,'public'),chosen=[];

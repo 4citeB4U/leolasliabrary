@@ -101,7 +101,12 @@ dist/
 
 # Test outputs
 test-results/
+test-evidence/
 coverage/
+
+# Blender local autosaves / connector stderr
+*.blend1
+*.log.err
 
 # Local configuration
 config.local.js

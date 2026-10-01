@@ -18,23 +18,25 @@
       "title": "Needle & Yarn",
       "subtitle": "A Love Stitched in Time",
       "author": {
-        "name": "Leola (Sister) Lee"
+        "name": "Leola “Sista” Lee"
       },
-      "edition": "Revised six-chapter edition",
+      "edition": "Illustrated edition from creator-supplied final PDF",
       "format": "ebook",
       "status": "published",
       "featured": true,
       "premiere": true,
       "premiereRank": 1,
       "cover": {
-        "front": "ruu3udr62d.png",
+        "front": "assets/books/needle-and-yarn/cover.jpg",
         "back": null,
         "spine": null
       },
       "content": {
-        "type": "markdown-chapters",
-        "source": "books/needle-and-yarn/book.md",
-        "chapterCount": 6
+        "type": "illustrated-pages",
+        "source": "content/needle-and-yarn-illustrated.json",
+        "chapterCount": 6,
+        "pageCount": 33,
+        "epub": "assets/books/needle-and-yarn/needle-and-yarn.epub"
       },
       "commerce": {
         "currency": "USD",
@@ -43,7 +45,8 @@
         "priceLabel": "Price coming soon"
       },
       "rights": {
-        "displayApproved": true
+        "displayApproved": true,
+        "readApproved": true
       }
     },
     {
@@ -66,8 +69,8 @@
         "spine": null
       },
       "content": {
-        "type": "course-json",
-        "source": "content/instructional-course.json",
+        "type": "chapter-json",
+        "source": "content/crochet-mastery-chapters.json",
         "chapterCount": 6
       },
       "commerce": {
@@ -77,7 +80,8 @@
         "priceLabel": "Price coming soon"
       },
       "rights": {
-        "displayApproved": true
+        "displayApproved": true,
+        "readApproved": true
       }
     }
   ]

@@ -1,3 +1,10 @@
+import { installReadingSeats } from './reading-seats.js';
+import { findWalkPath } from './walk-routing.js';
+import { installWallVideoPlayer } from './wall-video-player.js';
+import { replaceDonationGift } from './donation-gift.js';
+import { addPlaygroundVisitors } from './playground-visitors.js';
+import { refreshLibraryVisuals } from './library-visual-refresh.js';
+import { buildAvenueMall } from './avenue-mall.js';
 /*
 LEEWAY HEADER Ã¢â‚¬â€ DO NOT REMOVE
 REGION: UI.APP.3D.WORLD
@@ -15,6 +22,8 @@ LICENSE: Project authority
 
 import * as THREE from 'three';
 import { ClayCharacter } from './clay-character.js';
+import { finishWaterfrontEdges } from './waterfront-edge.js';
+import { curveCityStreet } from './city-street.js';
 
 /**
  * Leola's Learning Library - Full 3D Interactive World
@@ -36,8 +45,9 @@ export class ClayWorld3D extends EventTarget {
     this.walkSpeed = 4.8;
     this.cameraMode = 'first_person'; // 'first_person' | 'third_person'
 
-    this.yaw = 0;
-    this.pitch = 0;
+    this.yaw = Math.PI;
+    this.avatarHeading = this.yaw;
+    this.pitch = 0.09;
     this.isDragging = false;
     this.prevPointerX = 0;
     this.prevPointerY = 0;
@@ -51,6 +61,7 @@ export class ClayWorld3D extends EventTarget {
     this.skyClouds = [];
     this.skyBirds = [];
     this.promenadeNPCs = [];
+    this.citySidewalkNPCs = [];
     this.walkableSurfaces = [];
     this.solidObstacles = [];
     this.playerRadius = 0.42;
@@ -103,15 +114,17 @@ export class ClayWorld3D extends EventTarget {
 
     // Warm brilliant golden sunlight
     this.sun = new THREE.DirectionalLight(0xfff2d0, 2.6);
-    this.sun.position.set(16, 28, 18);
+    this.sun.position.set(16, 36, 50);
+    this.sun.target.position.set(0, 0, -16);
+    this.scene.add(this.sun.target);
     this.sun.castShadow = true;
     const shadowMapSize = this.isMobileDevice ? 1024 : 2048;
     this.sun.shadow.mapSize.width = shadowMapSize;
     this.sun.shadow.mapSize.height = shadowMapSize;
     this.sun.shadow.camera.near = 0.5;
-    this.sun.shadow.camera.far = 100;
-    this.sun.shadow.camera.left = -30;
-    this.sun.shadow.camera.right = 30;
+    this.sun.shadow.camera.far = 160;
+    this.sun.shadow.camera.left = -45;
+    this.sun.shadow.camera.right = 45;
     this.sun.shadow.camera.top = 30;
     this.sun.shadow.camera.bottom = -30;
     this.sun.shadow.bias = -0.0005;
@@ -324,6 +337,9 @@ export class ClayWorld3D extends EventTarget {
     this.buildGroundAndCourtyard();
     this.buildBuildingPerimeterWalkway();
     this.buildMilwaukeeBoatHouse();
+    finishWaterfrontEdges(this);
+    curveCityStreet(this);
+    buildAvenueMall(this);
     this.buildLibraryArchitecture();
     this.buildGlassRoof();
     this.buildGlassDoors();
@@ -336,7 +352,14 @@ export class ClayWorld3D extends EventTarget {
     this.buildMovieBoothBackWall();
     this.buildTrueSeatedLeolaAvatar();
     this.buildSeatedPatrons();
+    refreshLibraryVisuals(this);
     this.initCollisionSystem();
+    installWallVideoPlayer(this);
+    installReadingSeats(this);
+    this.solidObstacles.push({...this.wallVideoPlayer.bench.userData.collision, type: 'box', name: 'Movie Booth Center Bench'});
+    replaceDonationGift(this);
+    this.playgroundVisitors = addPlaygroundVisitors(this);
+    this.interactiveObjects = this.interactiveObjects.filter(o => !['reading-table','globe_bench'].includes(o.userData.type));
     this.initPathDotsSystem();
     this.initThirdPersonAvatar();
   }
@@ -344,8 +367,8 @@ export class ClayWorld3D extends EventTarget {
   initCollisionSystem() {
     // Solid physical collision boundaries for all furniture and architectural elements
     this.solidObstacles = [
-      // 1. Reception Desk (3/4 circular wood desk at center x=0, z=-9.0)
-      { type: 'cylinder', x: 0, z: -9.0, r: 4.15, name: 'Reception Desk' },
+      // 1. Reception Desk (3/4 circular wood desk at center x=0, z=-7.5)
+      { type: 'cylinder', x: 0, z: -7.5, r: 2.72, name: 'Reception Desk' },
 
       // 2. Study Tables with Chairs (East Library Hall - spaced generously 7m from reception desk)
       { type: 'box', minX: 3.8, maxX: 8.6, minZ: -13.2, maxZ: -9.8, name: 'Study Table 1' },
@@ -357,7 +380,7 @@ export class ClayWorld3D extends EventTarget {
       { type: 'box', minX: -6.5, maxX: -3.5, minZ: -13.0, maxZ: -10.8, name: 'Stepped Book Stand' },
 
       // 4. 3D Arcade Cabinet (East Alcove)
-      { type: 'box', minX: 11.4, maxX: 14.2, minZ: -21.6, maxZ: -18.4, name: '3D Arcade Cabinet' },
+      { type: 'box', minX: 14.65, maxX: 16.95, minZ: -22.0, maxZ: -18.0, name: '3D Arcade Cabinet' },
 
       // 5. Grand Globe Station & Window Bench (Left Back Wall)
       { type: 'cylinder', x: -9.2, z: -33.6, r: 1.15, name: 'Grand Globe Stand' },
@@ -378,7 +401,6 @@ export class ClayWorld3D extends EventTarget {
       { type: 'box', minX: -18.0, maxX: -14.0, minZ: 9.5, maxZ: 14.5, name: 'Lake Bridge' },
 
       // 8. Outdoor Lakefront Solid Props & Border Rocks
-      { type: 'box', minX: -6.0, maxX: -3.0, minZ: 24.2, maxZ: 25.4, name: 'Milwaukee Monument Sign' },
       { type: 'box', minX: -24.0, maxX: -2.8, minZ: 23.4, maxZ: 24.1, name: 'West Grass Border Rocks' },
       { type: 'box', minX: 2.8, maxX: 24.0, minZ: 23.4, maxZ: 24.1, name: 'East Grass Border Rocks' },
       { type: 'box', minX: 21.0, maxX: 47.0, minZ: 5.0, maxZ: 17.5, name: 'Milwaukee Lakefront Boathouse Pavilion' }
@@ -387,6 +409,12 @@ export class ClayWorld3D extends EventTarget {
 
   resolveCollisions(pos) {
     const r = this.playerRadius;
+    if (this.phase === 'park') {
+      // Keep the visitor on the open approach, clear of equipment and the water.
+      pos.x = THREE.MathUtils.clamp(pos.x, 21.5, 34);
+      pos.z = THREE.MathUtils.clamp(pos.z, -12, 3);
+      return pos;
+    }
 
     // 1. Room Boundary Clamping & Bookshelf Standoff (Never walk into or against shelves/walls)
     if (pos.z < 4.2) {
@@ -447,6 +475,16 @@ export class ClayWorld3D extends EventTarget {
           pos.z += ((pos.z - nz) / dist) * push;
         }
       });
+    }
+
+    if (this.barnabySquirrel?.group?.visible) {
+      const squirrel = this.barnabySquirrel.group.position;
+      const dist = Math.hypot(pos.x - squirrel.x, pos.z - squirrel.z);
+      const minD = 0.44 + r;
+      if (dist < minD && dist > 0.001) {
+        pos.x += ((pos.x - squirrel.x) / dist) * (minD - dist);
+        pos.z += ((pos.z - squirrel.z) / dist) * (minD - dist);
+      }
     }
 
     // 4. Static Solid Obstacles (desks, tables, chairs, arcade, globe, benches)
@@ -525,14 +563,14 @@ export class ClayWorld3D extends EventTarget {
   buildGroundAndCourtyard() {
     // 1. Lush Green Grass Lawn (instead of dirt)
     const grassTex = this.createGrassTexture();
-    const grassGeo = new THREE.PlaneGeometry(100, 100, 16, 16);
+    const grassGeo = new THREE.PlaneGeometry(100, 80, 16, 16);
     const grassMat = new THREE.MeshStandardMaterial({
       map: grassTex,
       roughness: 0.9
     });
     this.ground = new THREE.Mesh(grassGeo, grassMat);
     this.ground.rotation.x = -Math.PI / 2;
-    this.ground.position.set(0, 0, 14);
+    this.ground.position.set(0, 0, -16);
     this.ground.receiveShadow = true;
     this.ground.userData.walkable = true;
     this.scene.add(this.ground);
@@ -594,8 +632,8 @@ export class ClayWorld3D extends EventTarget {
     // 8. Chalkboard A-Frame Sign: "Good Stories Brighter Days" (Image 1)
     this.buildChalkboardEasel(4.2, 6.5);
 
-    // 9. Scenic background: Lake with arched bridge and gazebo (Image 1 left)
-    this.buildLakeAndBridge(-16, 12);
+    // 9. Scenic background: keep the garden pond entirely west of the city street.
+    // The Avenue mall replaces the old garden bridge and pavilion here.
 
     // 10. Grand Milwaukee Skyline Outdoor 360Â° Panoramic Scenery & Monument (Image 3)
     this.buildMilwaukeeScenery();
@@ -674,57 +712,57 @@ export class ClayWorld3D extends EventTarget {
     // 1. Broad Ground & Lake Michigan Basin (Covering the Full U-Shape Panorama)
     this.buildUEnvironmentGround();
 
-    // 2. South Downtown Skyline: US Bank Center, Northwestern Mutual, City Hall, Mid-Rises
+    // Full 3D clay Milwaukee skyline; no static waterfront image planes.
     this.buildSouthDowntownSkyline();
+    this.buildWaterfrontBackgroundBuildings();
 
     // 3. Iconic Santiago Calatrava Milwaukee Art Museum (Soaring Sun-Veil Wings & Suspension Bridge)
     this.buildCalatravaArtMuseum();
 
-    // 4. West City Streetscape (Left Arm of U-Shape: Buildings, Avenue, Autumn Trees, Vehicles)
+    // 4. Right-side city corridor: buildings, sidewalks, trees, and through traffic.
     this.buildWestStreetscape();
 
     // 5. East Lakefront Harbor (Right Arm of U-Shape: Lake Michigan, Breakwater Lighthouse, Sailboats, Coastal Bluffs)
     this.buildEastLakefrontHarbor();
+    this.buildLighthousePlayground();
 
     // 6. Lakefront Promenade, Stone Riprap, Monument & Walkers (South Border)
     this.buildLakefrontPromenade();
 
-    // 7. 3D Smiling Clay Sun with Radiant Rays & Fluffy Clouds
-    this.build3DSunAndSky();
+    // Sky elements are built once by buildSkyAndSun().
   }
 
   buildUEnvironmentGround() {
-    // West asphalt city street ground (Left arm)
-    const westGeo = new THREE.PlaneGeometry(50, 65);
-    const westMat = this.clayMaterial(0x4a4845, 0.95);
-    const westGround = new THREE.Mesh(westGeo, westMat);
-    westGround.rotation.x = -Math.PI / 2;
-    westGround.position.set(-42, 0.01, 16);
-    this.scene.add(westGround);
-
-    // Lake Michigan Deep Blue Water Surface (Spanning South & East from z = 24.5 to 94.5)
-    const waterGeo = new THREE.PlaneGeometry(130, 70);
-    const waterMat = new THREE.MeshStandardMaterial({
-      color: 0x2774aa,
-      roughness: 0.15,
-      metalness: 0.78,
-      transparent: true,
-      opacity: 0.94
-    });
-    const lakeWater = new THREE.Mesh(waterGeo, waterMat);
-    lakeWater.rotation.x = -Math.PI / 2;
-    lakeWater.position.set(10, 0.015, 59.5);
-    this.scene.add(lakeWater);
-
-    // East Coastal Park Lawn & Bluffs (Right arm: stops at shoreline z = 24.0)
-    const eastGeo = new THREE.PlaneGeometry(42, 38);
-    const eastMat = this.clayMaterial(0x447738, 0.9);
-    const eastGround = new THREE.Mesh(eastGeo, eastMat);
-    eastGround.rotation.x = -Math.PI / 2;
-    eastGround.position.set(40, 0.04, 5);
-    this.scene.add(eastGround);
+    // At the waterfront spawn (+Z view), negative X is the viewer's RIGHT.
+    const surface = (name, width, length, x, z, color, y, walkable=false) => {
+      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(width, length), this.clayMaterial(color, 0.92));
+      mesh.name = name; mesh.rotation.x = -Math.PI / 2;
+      mesh.position.set(x,y,z); mesh.receiveShadow = true;
+      if (walkable) { mesh.userData.walkable = true; this.walkableSurfaces.push(mesh); }
+      this.scene.add(mesh); return mesh;
+    };
+    surface('Milwaukee_West_Grass',70,600,-55,0,0x4f7f3b,0.025,true);
+    surface('Milwaukee_City_Street',8,600,-27,0,0x34383b,0.055);
+    surface('Milwaukee_City_Sidewalk',3,600,-21.5,0,0xc8c3b8,0.065,true);
+    surface('Milwaukee_West_Outer_Sidewalk',3,600,-32.5,0,0xc8c3b8,0.065,true);
+    surface('Milwaukee_East_Grass_Base',45,90,41.5,-21,0x538343,0.04,true);
+    surface('Milwaukee_East_Park_Sidewalk',3,65,21.5,-7,0xc8c3b8,0.065,true);
+    surface('Boardwalk_City_Link',5,3,-19,25.5,0xc8c3b8,0.07,true);
+    // A continuous pedestrian quay connects the city sidewalk to the museum approach.
+    surface('Boathouse_Approach_Quay',27,3,-9,69.5,0xc8c3b8,0.10,true);
+    surface('Boathouse_Entry_Link',3,8,4,66.5,0xc8c3b8,0.11,true);
+    const lineMat=this.clayMaterial(0xe9c64c,0.72);
+    for(let z=-298;z<=298;z+=6){
+      const dash=new THREE.Mesh(new THREE.BoxGeometry(0.13,0.025,3),lineMat);
+      dash.name='Street_Centerline';dash.position.set(-27,0.075,z);this.scene.add(dash);
+    }
+    // The lake ends at the land edge; no water under the road or city buildings.
+    const lakeWater=new THREE.Mesh(new THREE.PlaneGeometry(95,70),new THREE.MeshStandardMaterial({
+      color:0x174862,roughness:0.25,metalness:0.38
+    }));
+    lakeWater.name='Lake_Michigan_Water';lakeWater.rotation.x=-Math.PI/2;
+    lakeWater.position.set(27.5,0.015,59.5);this.scene.add(lakeWater);
   }
-
 
   buildBuildingPerimeterWalkway() {
     const pathTex = this.createCurvedStonePathTexture();
@@ -750,10 +788,11 @@ export class ClayWorld3D extends EventTarget {
     addPlane(2.8, 45.8, -18.5, -16.75, stoneMat);
     addPlane(2.8, 45.8, 18.5, -16.75, stoneMat);
     addPlane(35.0, 2.8, 0, -39.0, stoneMat);
-    // Both side loops get boardwalk/civic-walk treatment, with rocks and roses like the front.
-    addPlane(4.0, 46.0, -22.0, -16.7, deckMat, 0.052);
-    addPlane(4.0, 46.0, 22.0, -16.7, deckMat, 0.052);
-    addPlane(35.0, 4.0, 0, 26.6, deckMat, 0.052);
+    // Concrete side approaches carry pedestrians from the building perimeter to the boardwalk ends.
+    const westPromenade = addPlane(3.2, 20.8, -18.5, 16.5, stoneMat, 0.052);
+    westPromenade.name = 'West_Boardwalk_Sidewalk_Connector';
+    const eastPromenade = addPlane(3.2, 20.8, 18.5, 16.5, stoneMat, 0.052);
+    eastPromenade.name = 'East_Boardwalk_Sidewalk_Connector';
 
     const decorateSide = (side) => {
       const pathX = side * 18.5;
@@ -808,60 +847,145 @@ export class ClayWorld3D extends EventTarget {
 
 
   buildMilwaukeeBoatHouse() {
-    // Removed the duplicate immediate-right boathouse. This area is now land, street, sidewalk, and boardwalk support.
+    // Right-side civic lawn. Keep the lighthouse visually isolated from city blocks.
     const side = new THREE.Group();
     side.position.set(34, 0, 9.5);
     const grassMat = this.clayMaterial(0x5e8a45, 0.94);
-    const streetMat = this.clayMaterial(0x3f4548, 0.93);
-    const walkMat = this.clayMaterial(0xcac0ae, 0.86);
-    const curbMat = this.clayMaterial(0x8f887f, 0.9);
 
-    const grass = new THREE.Mesh(new THREE.PlaneGeometry(32, 28), grassMat);
+    const grass = new THREE.Mesh(new THREE.PlaneGeometry(24, 61), grassMat);
+    grass.name = 'Milwaukee_East_Grass';
     grass.rotation.x = -Math.PI / 2;
-    grass.position.set(0, 0.061, 0);
+    grass.position.set(10.5, 0.021, -18);
     grass.receiveShadow = true;
     side.add(grass);
 
-    const street = new THREE.Mesh(new THREE.PlaneGeometry(34, 6.0), streetMat);
-    street.rotation.x = -Math.PI / 2;
-    street.position.set(0, 0.066, -7.8);
-    street.receiveShadow = true;
-    side.add(street);
-
-    const sidewalk = new THREE.Mesh(new THREE.PlaneGeometry(34, 2.0), walkMat);
-    sidewalk.rotation.x = -Math.PI / 2;
-    sidewalk.position.set(0, 0.071, -4.2);
-    sidewalk.receiveShadow = true;
-    sidewalk.userData.walkable = true;
-    side.add(sidewalk);
-    this.walkableSurfaces.push(sidewalk);
-
-    for (let i = -7; i <= 7; i++) {
-      const curb = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.14, 0.18), curbMat);
-      curb.position.set(i * 2.2, 0.13, -5.25);
-      side.add(curb);
-    }
-
-    // Small street details instead of a duplicate civic pavilion.
-    [[-10,-6.9,0xe76f51],[0,-8.4,0xf4a261],[9,-7.2,0x457b9d]].forEach(([x,z,c]) => {
-      this.buildClayCar(34 + x, 9.5 + z, c, 'sedan');
-    });
-
-    // Decorative low shrubs keep this land zone visually tied to the front path.
-    [-12, -8, -4, 4, 8, 12].forEach((x, idx) => {
+    // Decorative low shrubs keep this land zone visually tied to the sidewalk.
+    [1, 5, 9, 13, 17].forEach((x, idx) => {
       const shrub = new THREE.Mesh(new THREE.SphereGeometry(0.62, 10, 8), this.clayMaterial(0x4f7f3b, 0.92));
       shrub.scale.set(1.55, 0.65, 0.95);
-      shrub.position.set(x, 0.42, 3.2 + Math.sin(idx) * 0.4);
+      shrub.position.set(x, 0.42, 8.2 + Math.sin(idx) * 0.4);
       side.add(shrub);
+    });
+
+    const treeMat = this.clayMaterial(0x5f3f27, 0.92);
+    const crownMats = [0x3f743d, 0x548444, 0x6b9348].map(color => this.clayMaterial(color, 0.9));
+    [
+      { x: 4, z: -3, s: 1.0 },
+      { x: 14, z: -1, s: 1.15 },
+      { x: 15, z: 17, s: 0.92 }
+    ].forEach((spec, index) => {
+      const tree = new THREE.Group();
+      tree.name = `Lighthouse_Landscape_Tree_${index + 1}`;
+      tree.position.set(spec.x, 0, spec.z);
+      tree.scale.setScalar(spec.s);
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.42, 4.2, 10), treeMat);
+      trunk.position.y = 2.1;
+      tree.add(trunk);
+      [[0,5.0,0],[-0.9,4.7,0.2],[0.85,4.8,-0.25],[0.1,5.7,0]].forEach(([x,y,z], puffIndex) => {
+        const crown = new THREE.Mesh(new THREE.SphereGeometry(1.35, 10, 9), crownMats[(index + puffIndex) % crownMats.length]);
+        crown.position.set(x,y,z);
+        tree.add(crown);
+      });
+      side.add(tree);
     });
 
     this.scene.add(side);
   }
 
+  buildLighthousePlayground() {
+    // Reference composition: landscaped play island, low equipment and open lake behind it.
+    const park=new THREE.Group();park.name='Lighthouse_Childrens_Park';
+    park.position.set(43,0.08,-4);park.rotation.y=-Math.PI/2;
+    this.scene.add(park);
+    const mat=c=>this.clayMaterial(c,0.88);
+    const sand=mat(0xe8c38b),rim=mat(0xb98d5d),green=mat(0x287b60),blue=mat(0x286395),
+      yellow=mat(0xf5bf26),red=mat(0xc76845),wood=mat(0xb89460),rope=mat(0x333f3e);
+    const box=(parent,w,h,d,x,y,z,m)=>{
+      const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);
+      o.castShadow=true;o.receiveShadow=true;parent.add(o);return o;
+    };
+    const beam=(parent,a,b,r,m)=>{
+      const av=new THREE.Vector3(...a),bv=new THREE.Vector3(...b),dir=bv.clone().sub(av);
+      const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,dir.length(),10),m);
+      o.position.copy(av).add(bv).multiplyScalar(0.5);
+      o.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir.normalize());
+      o.castShadow=true;parent.add(o);return o;
+    };
+    const pad=new THREE.Mesh(new THREE.CylinderGeometry(1,1,0.16,64),rim);
+    pad.scale.set(9.5,1,6.1);pad.position.y=0.08;pad.name='Playground_Contained_Sand_Border';park.add(pad);
+    const bed=new THREE.Mesh(new THREE.CylinderGeometry(1,1,0.12,64),sand);
+    bed.scale.set(9.3,1,5.9);bed.position.y=0.18;bed.receiveShadow=true;park.add(bed);
+    const swings=new THREE.Group();swings.name='Playground_Two_Swings';swings.position.set(-4,0.24,-0.4);park.add(swings);
+    [-2.2,2.2].forEach(x=>{beam(swings,[x,0,-1.3],[x,3.4,0],0.11,green);beam(swings,[x,0,1.3],[x,3.4,0],0.11,green);});
+    beam(swings,[-2.4,3.4,0],[2.4,3.4,0],0.13,green);
+    this.parkSwings=[];
+    [-1,1].forEach(x=>{
+      const seat=new THREE.Group();seat.position.set(x,3.3,0);swings.add(seat);
+      [-0.36,0.36].forEach(sx=>beam(seat,[sx,0,0],[sx,-2.5,0],0.025,rope));
+      box(seat,0.9,0.13,0.45,0,-2.5,0,green);this.parkSwings.push(seat);
+    });
+    const tower=new THREE.Group();tower.name='Playground_Blue_Roof_Slide';tower.position.set(2.2,0.24,-1.9);park.add(tower);
+    [-1,1].forEach(x=>[-1,1].forEach(z=>box(tower,0.18,4.1,0.18,x,2.05,z,wood)));
+    box(tower,2.3,0.18,2.3,0,1.8,0,wood);
+    const roof=new THREE.Mesh(new THREE.ConeGeometry(1.9,1.2,4),blue);roof.rotation.y=Math.PI/4;roof.position.y=4.55;tower.add(roof);
+    [-1,1].forEach(x=>{
+      box(tower,0.14,0.13,2,x,2.8,0,red);
+      for(let z=-0.8;z<=0.81;z+=0.4)box(tower,0.1,0.9,0.1,x,2.3,z,red);
+    });
+    box(tower,2,0.13,0.14,0,2.8,-1,red);
+    for(let x=-0.8;x<=0.81;x+=0.4)box(tower,0.1,0.9,0.1,x,2.3,-1,red);
+    // Curved slide ribbon with raised side rails, facing the park entrance.
+    const curve=new THREE.CatmullRomCurve3([new THREE.Vector3(0,1.85,1),new THREE.Vector3(0,1.7,1.7),new THREE.Vector3(0,0.5,3.1),new THREE.Vector3(0,0.3,3.9)]);
+    const points=curve.getPoints(28),verts=[],ids=[];
+    points.forEach(v=>verts.push(-0.55,v.y,v.z,0.55,v.y,v.z));
+    for(let i=0;i<28;i++){const n=i*2;ids.push(n,n+2,n+1,n+1,n+2,n+3);}
+    const slideGeo=new THREE.BufferGeometry();slideGeo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));slideGeo.setIndex(ids);slideGeo.computeVertexNormals();
+    const slideMat=yellow.clone();slideMat.side=THREE.DoubleSide;
+    const slide=new THREE.Mesh(slideGeo,slideMat);slide.castShadow=true;tower.add(slide);
+    [-0.6,0.6].forEach(x=>{
+      const railCurve=new THREE.CatmullRomCurve3(points.map(v=>new THREE.Vector3(x,v.y+0.13,v.z)));
+      tower.add(new THREE.Mesh(new THREE.TubeGeometry(railCurve,28,0.11,8,false),yellow));
+    });
+    // Broad ladder steps at the tower's right side.
+    for(let i=0;i<6;i++)box(tower,0.65,0.16,0.85,2.9-i*0.3,0.3+i*0.28,0,wood);
+    [-0.5,0.5].forEach(z=>beam(tower,[3.1,1,z],[1,2.65,z],0.055,green));
+    const seesaw=new THREE.Group();seesaw.name='Playground_Seesaw';seesaw.position.set(-1.2,0.24,3.5);park.add(seesaw);
+    box(seesaw,0.5,0.65,0.65,0,0.325,0,wood);
+    const balance=new THREE.Group();balance.position.y=0.75;balance.rotation.z=0.08;seesaw.add(balance);
+    box(balance,4.8,0.16,0.32,0,0,0,red);
+    [-1,1].forEach(sign=>{box(balance,0.7,0.12,0.62,sign*2.05,0.12,0,yellow);beam(balance,[sign*1.65,0,0],[sign*1.65,0.65,0],0.055,green);beam(balance,[sign*1.65,0.65,-0.25],[sign*1.65,0.65,0.25],0.055,green);});
+    const arch=new THREE.Group();arch.name='Playground_Climbing_Arch';arch.position.set(6,0.24,2);park.add(arch);
+    [-0.6,0.6].forEach(z=>{
+      const arc=new THREE.CatmullRomCurve3(Array.from({length:17},(_,i)=>new THREE.Vector3(Math.cos(i/16*Math.PI)*1.7,Math.sin(i/16*Math.PI)*1.55,z)));
+      arch.add(new THREE.Mesh(new THREE.TubeGeometry(arc,24,0.085,8,false),blue));
+    });
+    for(let i=1;i<8;i++){const a=i/8*Math.PI;beam(arch,[Math.cos(a)*1.7,Math.sin(a)*1.55,-0.6],[Math.cos(a)*1.7,Math.sin(a)*1.55,0.6],0.07,blue);}
+    // Concrete path meets the existing park sidewalk; equipment stays off the path.
+    const approach=new THREE.Mesh(new THREE.PlaneGeometry(16.2,2.6),mat(0xc8c3b8));
+    approach.name='Playground_Approach';approach.rotation.x=-Math.PI/2;approach.position.set(29,0.075,-4);
+    approach.userData.walkable=true;this.scene.add(approach);this.walkableSurfaces.push(approach);
+    // Open lake beyond the grassy bluff, including the previously missing water below distant boats.
+    const water=new THREE.Mesh(new THREE.PlaneGeometry(180,360),new THREE.MeshStandardMaterial({color:0x397fa6,roughness:0.38,metalness:0.2}));
+    water.name='Playground_Open_Lake';water.rotation.x=-Math.PI/2;water.position.set(154,0.012,70);this.scene.add(water);
+    for(let i=0;i<3;i++){
+      this.buildSailboat(88+i*16,-30+i*25,0,'',0x2563eb);
+      const boat=this.sailboats[this.sailboats.length-1];boat.name=`Playground_Sailboat_${i+1}`;
+      boat.userData.harborMotion.speed=0.035+i*0.008;
+    }
+    for(let i=0;i<4;i++){
+      const cloud=new THREE.Group();cloud.name=`Playground_Cloud_${i}`;
+      const x=85+i*24,z=-50+i*24;
+      cloud.userData={baseX:x,baseZ:z,speed:0.007,offset:i};cloud.position.set(x,17+i%2*5,z);
+      [-1,0,1].forEach((v,j)=>{const puff=new THREE.Mesh(new THREE.SphereGeometry(2.4,12,9),mat(0xffffff));puff.scale.set(1.5,0.65,1);puff.position.set(v*2.4,j===1?0.6:0,0);cloud.add(puff);});
+      this.scene.add(cloud);this.skyClouds.push(cloud);
+    }
+  }
+
   buildSouthDowntownSkyline() {
     // A. The US Bank Center Skyscraper (Image Reference)
     const usBankGroup = new THREE.Group();
-    usBankGroup.position.set(-18, 0, 56);
+    usBankGroup.position.set(-18, 0, 92);
+    usBankGroup.scale.setScalar(0.78);
 
     const whiteFrameMat = this.clayMaterial(0xf5f6f8, 0.65);
     const blueGlassMat = new THREE.MeshStandardMaterial({
@@ -957,7 +1081,8 @@ export class ClayWorld3D extends EventTarget {
 
     // B. The Northwestern Mutual Modern Curved Glass Tower
     const nwmGroup = new THREE.Group();
-    nwmGroup.position.set(-5, 0, 59);
+    nwmGroup.position.set(-5, 0, 94);
+    nwmGroup.scale.setScalar(0.78);
 
     const cyanGlassMat = new THREE.MeshStandardMaterial({
       color: 0x3aa0b2,
@@ -985,7 +1110,8 @@ export class ClayWorld3D extends EventTarget {
 
     // C. Historic Flemish Milwaukee City Hall & Spire
     const cityHallGroup = new THREE.Group();
-    cityHallGroup.position.set(-30, 0, 53);
+    cityHallGroup.position.set(-30, 0, 88);
+    cityHallGroup.scale.setScalar(0.80);
 
     const brickMat = this.clayMaterial(0x993d25, 0.9);
     const stoneTrimMat = this.clayMaterial(0xded5c2, 0.85);
@@ -1029,9 +1155,9 @@ export class ClayWorld3D extends EventTarget {
 
     // D. Mid-Rise Downtown Clay Buildings
     const midRises = [
-      { x: -9, z: 49, w: 7, h: 18, d: 6.5, col: 0xd8cdbc }, // Limestone commercial
-      { x: -23, z: 47, w: 6.5, h: 22, d: 6, col: 0x82462e }, // Terracotta brick
-      { x: 1, z: 52, w: 6, h: 16, d: 6, col: 0x3c6482 }    // Blue glass block
+      { x: -9, z: 84, w: 7, h: 18, d: 6.5, col: 0xd8cdbc }, // Limestone commercial
+      { x: -23, z: 82, w: 6.5, h: 22, d: 6, col: 0x82462e }, // Terracotta brick
+      { x: 1, z: 86, w: 6, h: 16, d: 6, col: 0x3c6482 }    // Blue glass block
     ];
 
     midRises.forEach(b => {
@@ -1051,11 +1177,60 @@ export class ClayWorld3D extends EventTarget {
   }
 
 
+  buildWaterfrontBackgroundBuildings() {
+    // 3D clay skyline behind the museum/boathouse. No billboard geometry.
+    const specs = [
+      { x: 10, z: 88, w: 7.5, h: 23, d: 7.0, body: 0xc9b89a, glass: 0x274a5b },
+      { x: 19, z: 91, w: 8.5, h: 32, d: 7.5, body: 0x6f8997, glass: 0x163d53 },
+      { x: 29, z: 89, w: 9.5, h: 20, d: 8.0, body: 0xb66b45, glass: 0x2a4050 },
+      { x: 39, z: 94, w: 7.2, h: 28, d: 6.8, body: 0xd2c7b7, glass: 0x31576b },
+      { x: 49, z: 97, w: 9.0, h: 18, d: 8.0, body: 0x7e6d63, glass: 0x223f4e }
+    ];
+
+    specs.forEach((b, index) => {
+      const group = new THREE.Group();
+      group.name = `Milwaukee_Background_Building_${index + 1}`;
+      group.position.set(b.x, 0, b.z);
+      group.scale.setScalar(0.82);
+      const shell = new THREE.Mesh(
+        new THREE.BoxGeometry(b.w, b.h, b.d),
+        this.clayMaterial(b.body, 0.88)
+      );
+      shell.position.y = b.h * 0.5;
+      shell.castShadow = true;
+      shell.receiveShadow = true;
+      group.add(shell);
+
+      const glassMat = this.clayMaterial(b.glass, 0.48);
+      const frameMat = this.clayMaterial(0xe9dfcf, 0.76);
+      for (let y = 2.1; y < b.h - 1.0; y += 2.45) {
+        const band = new THREE.Mesh(new THREE.BoxGeometry(b.w * 0.84, 0.72, 0.12), glassMat);
+        band.position.set(0, y, -b.d * 0.5 - 0.07);
+        group.add(band);
+      }
+      for (let x = -b.w * 0.33; x <= b.w * 0.33; x += b.w * 0.22) {
+        const mullion = new THREE.Mesh(new THREE.BoxGeometry(0.12, b.h * 0.84, 0.16), frameMat);
+        mullion.position.set(x, b.h * 0.5, -b.d * 0.5 - 0.12);
+        group.add(mullion);
+      }
+
+      const roofH = 0.75 + (index % 2) * 0.45;
+      const roof = new THREE.Mesh(
+        new THREE.BoxGeometry(b.w * 0.76, roofH, b.d * 0.72),
+        this.clayMaterial(index % 2 ? 0x4c5b62 : 0x8f887e, 0.86)
+      );
+      roof.position.y = b.h + roofH * 0.5;
+      group.add(roof);
+      this.scene.add(group);
+    });
+  }
+
   buildCalatravaArtMuseum() {
     // Kept boathouse: rebuilt as the pushed-back 3D waterfront hero from the reference image.
     const g = new THREE.Group();
-    g.position.set(4, 0, 43.0);
-    g.scale.setScalar(1.05);
+    g.name = 'Milwaukee_Waterfront_Museum_3D';
+    g.position.set(4, 0, 57.0);
+    g.scale.setScalar(0.82);
 
     const whiteMat = this.clayMaterial(0xf6efe4, 0.56);
     const stoneMat = this.clayMaterial(0xcfc5b5, 0.86);
@@ -1078,27 +1253,13 @@ export class ClayWorld3D extends EventTarget {
       return beam;
     };
 
-    const land = new THREE.Mesh(new THREE.PlaneGeometry(70, 38), grassMat);
+    const land = new THREE.Mesh(new THREE.PlaneGeometry(62, 20), grassMat);
     land.rotation.x = -Math.PI / 2;
-    land.position.set(0, 0.07, 4);
+    land.position.set(0, 0.07, 3.6);
     land.receiveShadow = true;
     g.add(land);
 
-    // Waterline foreground for the hero, with riprap, quay, rope, and posts.
-    const water = new THREE.Mesh(new THREE.PlaneGeometry(76, 14), new THREE.MeshStandardMaterial({
-      color: 0x167bb8, roughness: 0.18, metalness: 0.62, transparent: true, opacity: 0.88
-    }));
-    water.rotation.x = -Math.PI / 2;
-    water.position.set(0, 0.03, 20.4);
-    g.add(water);
-
-    for (let i = -28; i <= 28; i += 2) {
-      const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(0.44 + (Math.abs(i) % 5) * 0.025), rockMat);
-      rock.scale.set(1.25, 0.72, 0.95);
-      rock.position.set(i * 0.68, 0.30, 13.9 + Math.sin(i) * 0.12);
-      rock.rotation.y = i * 0.27;
-      g.add(rock);
-    }
+    // Lake Michigan water is supplied once by buildUEnvironmentGround().
 
     const quay = new THREE.Mesh(new THREE.BoxGeometry(40, 0.36, 1.0), stoneMat);
     quay.position.set(0, 0.27, 12.7);
@@ -1158,29 +1319,29 @@ export class ClayWorld3D extends EventTarget {
     g.add(base);
     [-7.2, -3.6, 3.6, 7.2].forEach(x => {
       const glass = new THREE.Mesh(new THREE.BoxGeometry(3.0, 1.25, 0.18), glassMat);
-      glass.position.set(x, 1.75, 3.58);
+      glass.position.set(x, 1.75, -3.58);
       g.add(glass);
     });
     // LEEWAY_RECOVERY_BOATHOUSE_WINDOW_BANDS: restored lower boathouse glazing without changing structure.
     for (let gx = -11.2; gx <= 11.2; gx += 1.6) {
       const pane = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.82, 0.12), glassMat);
-      pane.position.set(gx, 1.62, 3.72);
+      pane.position.set(gx, 1.62, -3.72);
       g.add(pane);
       const verticalFrame = new THREE.Mesh(new THREE.BoxGeometry(0.055, 0.9, 0.15), whiteMat);
-      verticalFrame.position.set(gx + 0.56, 1.62, 3.78);
+      verticalFrame.position.set(gx + 0.56, 1.62, -3.78);
       g.add(verticalFrame);
     }
 
     // Curved central canopy represented as stacked arched ribs/shell layers.
     for (let i = 0; i < 6; i++) {
       const arch = new THREE.Mesh(new THREE.TorusGeometry(4.7 + i * 0.35, 0.16, 10, 52, Math.PI), whiteMat);
-      arch.position.set(0, 2.15 + i * 0.06, 3.68 - i * 0.18);
+      arch.position.set(0, 2.15 + i * 0.06, -3.68 + i * 0.18);
       arch.scale.y = 0.46 + i * 0.02;
       g.add(arch);
     }
     [-4.9, 4.9].forEach(x => {
       const post = new THREE.Mesh(new THREE.BoxGeometry(0.48, 2.7, 0.48), whiteMat);
-      post.position.set(x, 1.32, 3.65);
+      post.position.set(x, 1.32, -3.65);
       g.add(post);
     });
 
@@ -1188,11 +1349,11 @@ export class ClayWorld3D extends EventTarget {
     const tri = new THREE.Shape();
     tri.moveTo(-4.0, 0); tri.lineTo(0, 7.6); tri.lineTo(4.0, 0); tri.closePath();
     const atrium = new THREE.Mesh(new THREE.ShapeGeometry(tri), glassMat);
-    atrium.position.set(0, 2.55, 3.84);
+    atrium.position.set(0, 2.55, -3.84);
     g.add(atrium);
     for (let i = -4; i <= 4; i++) {
       const x = i * 0.55;
-      beamBetween(new THREE.Vector3(x, 2.65, 3.90), new THREE.Vector3(x * 0.15, 9.8 - Math.abs(x) * 0.8, 3.92), 0.045);
+      beamBetween(new THREE.Vector3(x, 2.65, -3.90), new THREE.Vector3(x * 0.15, 9.8 - Math.abs(x) * 0.8, -3.92), 0.045);
     }
 
     // Three central masts/spires.
@@ -1220,45 +1381,19 @@ export class ClayWorld3D extends EventTarget {
       g.add(collar);
     }
 
-    // Distant skyline on land, behind the pavilion.
-    const skyline = [
-      { x:-18, z:-13, w:4.4, h:12, d:3.2, c:0xd5a66c },
-      { x:-13, z:-15, w:3.8, h:8, d:3.2, c:0xc58b52 },
-      { x:-8, z:-17, w:4.2, h:10, d:3.4, c:0x60798b },
-      { x:9, z:-16, w:4.5, h:13, d:3.4, c:0x1c5968 },
-      { x:15, z:-13.5, w:4.8, h:15, d:3.5, c:0xf0e2c8 },
-      { x:21, z:-13, w:4.8, h:10, d:3.6, c:0x9b4c35 }
-    ];
-    skyline.forEach(b => {
-      const m = new THREE.Mesh(new THREE.BoxGeometry(b.w, b.h, b.d), this.clayMaterial(b.c, 0.88));
-      m.position.set(b.x, b.h * 0.5, b.z);
-      g.add(m);
-      const win = new THREE.Mesh(new THREE.BoxGeometry(b.w * 0.78, b.h * 0.72, 0.06), this.clayMaterial(0x26394a, 0.65));
-      win.position.set(b.x, b.h * 0.50, b.z + b.d * 0.52);
-      g.add(win);
-    });
-
-    // US Bank label, stylized but small and subordinate.
-    const labelCanvas = document.createElement('canvas');
-    labelCanvas.width = 512; labelCanvas.height = 128;
-    const lctx = labelCanvas.getContext('2d');
-    lctx.fillStyle = '#f8f8f8'; lctx.fillRect(0,0,512,128);
-    lctx.fillStyle = '#c62828'; lctx.font = 'bold 44px sans-serif'; lctx.textAlign = 'center'; lctx.fillText('us bank',256,82);
-    const label = new THREE.Mesh(new THREE.PlaneGeometry(2.2,0.55), new THREE.MeshBasicMaterial({ map:new THREE.CanvasTexture(labelCanvas) }));
-    label.position.set(15,15.4,-11.2);
-    g.add(label);
-
     this.scene.add(g);
+
+    // No static panorama: the waterfront backdrop is fully modeled with 3D clay geometry.
   }
 
   buildWestStreetscape() {
-    // West Arm of U-Shape: Continuous Downtown Urban Streetscape (Left when facing South)
+    // Right-side Milwaukee street wall, pulled back beyond the outer sidewalk.
     const buildingsW = [
-      { x: -32, z: 24, w: 9, h: 23, d: 8, col: 0xe8dbb8, type: 'cream_city' }, // Milwaukee Cream City Brick
-      { x: -44, z: 28, w: 10, h: 28, d: 9, col: 0x244f77, type: 'blue_glass' }, // Glass office tower
-      { x: -34, z: 8, w: 8, h: 18, d: 7.5, col: 0x863d2a, type: 'warehouse' },   // Historic brick warehouse
-      { x: -48, z: 10, w: 9.5, h: 25, d: 9, col: 0x5b646c, type: 'granite' },    // Granite commercial tower
-      { x: -32, z: -8, w: 8.5, h: 17, d: 8, col: 0x7a4d36, type: 'storefront' }  // Brownstone lofts
+      { x: -41, z: 40, w: 9, h: 23, d: 8, col: 0xe8dbb8, type: 'cream_city' },
+      { x: -52, z: 58, w: 10, h: 28, d: 9, col: 0x244f77, type: 'blue_glass' },
+      { x: -41, z: 76, w: 8, h: 18, d: 7.5, col: 0x863d2a, type: 'warehouse' },
+      { x: -54, z: 98, w: 9.5, h: 25, d: 9, col: 0x5b646c, type: 'granite' },
+      { x: -42, z: 120, w: 8.5, h: 17, d: 8, col: 0x7a4d36, type: 'storefront' }
     ];
 
     buildingsW.forEach(b => {
@@ -1271,19 +1406,19 @@ export class ClayWorld3D extends EventTarget {
       cornice.position.set(b.x, b.h + 0.4, b.z);
       this.scene.add(cornice);
 
-      // LEEWAY_RECOVERY_STOREFRONT_WINDOW_FRAMES: restored visible building windows without changing building bodies.
+      // Window rows face the street so the right-side architecture reads as buildings, not blocks.
       const recoveredWindowMat = this.clayMaterial(0x172f3a, 0.45, 0.25);
       const recoveredFrameMat = this.clayMaterial(0xf2eadc, 0.82);
       for (let wy = 4.2; wy < b.h - 1.8; wy += 3.1) {
-        [-b.w * 0.24, b.w * 0.24].forEach(wx => {
-          const win = new THREE.Mesh(new THREE.BoxGeometry(1.05, 1.45, 0.08), recoveredWindowMat);
-          win.position.set(b.x + wx, wy, b.z + b.d * 0.51);
-          this.scene.add(win);
-          const mull = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.55, 0.10), recoveredFrameMat);
-          mull.position.set(b.x + wx, wy, b.z + b.d * 0.53);
+        [-b.d * 0.25, b.d * 0.25].forEach(wz => {
+          const win = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.45, 1.05), recoveredWindowMat);
+          win.position.set(b.x + b.w * 0.51, wy, b.z + wz);
+          win.name = 'City_Street_Facing_Window'; this.scene.add(win);
+          const mull = new THREE.Mesh(new THREE.BoxGeometry(0.10, 1.55, 0.08), recoveredFrameMat);
+          mull.position.set(b.x + b.w * 0.53, wy, b.z + wz);
           this.scene.add(mull);
-          const cross = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.075, 0.10), recoveredFrameMat);
-          cross.position.set(b.x + wx, wy, b.z + b.d * 0.535);
+          const cross = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.075, 1.15), recoveredFrameMat);
+          cross.position.set(b.x + b.w * 0.535, wy, b.z + wz);
           this.scene.add(cross);
         });
       }
@@ -1296,11 +1431,11 @@ export class ClayWorld3D extends EventTarget {
       }
     });
 
-    // Avenue Sidewalk & Autumn Shade Trees along West Corridor
+    // Shade trees along the grass verge between the street and buildings.
     const treeColors = [0xf3be38, 0xd85b24, 0x3a773d, 0xe09428];
-    for (let t = 0; t < 7; t++) {
-      const tz = 32 - t * 6.5;
-      const tx = -23.5 + (Math.random() - 0.5) * 1.0;
+    for (let t = 0; t < 10; t++) {
+      const tz = 28 + t * 16;
+      const tx = -35.2 + (Math.random() - 0.5) * 0.5;
 
       // Tree trunk
       const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.35, 3.2, 8), this.clayMaterial(0x5a361e, 0.9));
@@ -1316,14 +1451,17 @@ export class ClayWorld3D extends EventTarget {
       }
     }
 
-    // Clay City Vehicles parked along West curb
-    this.buildClayCar(-26, 20, 0xfac832, 'taxi'); // Yellow Cab
-    this.buildClayCar(-26.5, 6, 0x2563eb, 'sedan'); // Blue Sedan
+    // Fixed opposing lanes; recycling is beyond the fog, never an on-screen U-turn.
+    for(let i=0;i<8;i++) this.buildClayCar(i%2 ? -28.4 : -25.6, -240+i*60,
+      [0xfac832,0x2563eb,0xe76f51,0x76a892][i%4], i===0?'taxi':'sedan',
+      {minZ:-260,maxZ:260,speed:6,phase:i*65,direction:i%2?-1:1});
   }
 
-  buildClayCar(x, z, colorHex, type) {
+  buildClayCar(x, z, colorHex, type, traffic = null) {
     const car = new THREE.Group();
-    car.position.set(x, 0.45, z);
+    car.name = `Street_Car_${type}_${Math.round(x)}_${Math.round(z)}`;
+    car.position.set(x, 0.035, z);
+    car.scale.setScalar(0.68);
 
     // Car Body
     const bodyMat = this.clayMaterial(colorHex, 0.6);
@@ -1353,7 +1491,13 @@ export class ClayWorld3D extends EventTarget {
     }
 
     car.rotation.y = Math.PI;
+    if (traffic) {
+      this.trafficCars ??= [];
+      car.userData.streetTraffic = { ...traffic, laneX: x };
+      this.trafficCars.push(car);
+    }
     this.scene.add(car);
+    return car;
   }
 
   buildEastLakefrontHarbor() {
@@ -1374,6 +1518,7 @@ export class ClayWorld3D extends EventTarget {
 
     // 2. Milwaukee Harbor Breakwater Lighthouse
     const lightGroup = new THREE.Group();
+    lightGroup.name = 'Milwaukee_Lighthouse';
     lightGroup.position.set(42, 0, 16);
 
     const lhWhiteMat = this.clayMaterial(0xffffff, 0.7);
@@ -1405,16 +1550,13 @@ export class ClayWorld3D extends EventTarget {
 
     this.scene.add(lightGroup);
 
-    // 3. Sailboats on Lake Michigan at Various Distances in Deep Water (z >= 42)
-    this.buildSailboat(12, 42, -0.45, 'MKE â™¥', 0x1e3f8a);
-    this.buildSailboat(30, 48, 0.35, 'WISCONSIN', 0x991b1b);
-    this.buildSailboat(-14, 44, 0.15, '', 0x059669);
-    this.buildSailboat(48, 56, -0.2, '', 0x2563eb);
+    // Open-water sailing is camera-left of the museum, never inside the dock basin.
+    for(let i=0;i<6;i++) this.buildSailboat(76+i*13,78+i*9,0,'',0x2563eb);
 
     // 4. East Grassy Bluffs with Shade Trees
     const treeColors = [0x3e7545, 0xefb834, 0xd85b24];
     for (let e = 0; e < 6; e++) {
-      const ez = 22 - e * 5.5;
+      const ez = e < 3 ? 22 - e * 5.5 : -16 - (e - 3) * 5.5;
       const ex = 24.5 + (Math.random() - 0.5) * 1.5;
 
       const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.32, 2.8, 8), this.clayMaterial(0x5a361e, 0.9));
@@ -1432,6 +1574,7 @@ export class ClayWorld3D extends EventTarget {
 
   buildSailboat(x, z, rotY, insignia, insigColor) {
     const boat = new THREE.Group();
+    boat.name = `Harbor_Sailboat_${(this.sailboats?.length || 0) + 1}`;
     boat.position.set(x, 0.2, z);
 
     const hullMat = this.clayMaterial(0xffffff, 0.85);
@@ -1481,12 +1624,23 @@ export class ClayWorld3D extends EventTarget {
 
     boat.rotation.y = rotY;
     this.scene.add(boat);
+    this.sailboats ??= [];
+    boat.userData.harborMotion = {
+      baseX: x,
+      baseZ: z,
+      baseRotY: rotY,
+      phase: this.sailboats.length * 1.7 + x * 0.03,
+      speed: 0.10 + this.sailboats.length * 0.018,
+      radiusX: 10,
+      radiusZ: 4
+    };
+    this.sailboats.push(boat);
   }
 
   buildLakefrontPromenade() {
     // 1. Grass Edge Border Rocks (z = 23.75) - Stopping completely before the wooden boardwalk deck (z in [24.35, 27.05])
     const rockColors = [0x998d7f, 0xaf9f8d, 0x82776a, 0xb8aba0];
-    for (let r = -24; r <= 24; r += 1.5) {
+    for (let r = -17; r <= 17; r += 1.5) {
       if (Math.abs(r) < 2.8) continue; // Keep central walkway into dock completely open
       const rockMat = this.clayMaterial(rockColors[Math.abs(Math.floor(r * 2)) % rockColors.length], 0.95);
       const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(0.38 + Math.random() * 0.22), rockMat);
@@ -1499,7 +1653,7 @@ export class ClayWorld3D extends EventTarget {
 
     // 1b. Colorful Grass Flower Border behind rocks (z = 23.25, y = 0.16)
     const promenadeFlowerColors = [0xde5484, 0xf6d155, 0x5b92e5, 0xffffff, 0xba55d3, 0xffa07a];
-    for (let f = -23.5; f <= 23.5; f += 0.9) {
+    for (let f = -16.7; f <= 16.7; f += 0.9) {
       if (Math.abs(f) < 3.0) continue;
       const col = promenadeFlowerColors[Math.abs(Math.floor(f * 3)) % promenadeFlowerColors.length];
       const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.025, 0.18, 6), this.clayMaterial(0x3e7545, 0.85));
@@ -1511,104 +1665,10 @@ export class ClayWorld3D extends EventTarget {
       this.scene.add(blossom);
     }
 
-    // 1c. Lake Water Riprap Breakwater Boulders (z = 27.85 - resting out in the water past dock railing)
-    for (let w = -24; w <= 24; w += 1.8) {
-      const wRockMat = this.clayMaterial(rockColors[Math.abs(Math.floor(w * 3)) % rockColors.length], 0.92);
-      const wRock = new THREE.Mesh(new THREE.DodecahedronGeometry(0.55 + Math.random() * 0.35), wRockMat);
-      wRock.scale.set(1.3, 0.75, 1.1);
-      wRock.position.set(w + (Math.random() - 0.5) * 0.4, 0.22, 27.85 + (Math.random() - 0.5) * 0.3);
-      wRock.rotation.set(Math.random(), Math.random(), Math.random());
-      wRock.castShadow = true;
-      this.scene.add(wRock);
-    }
+    // Water-side rocks follow the shared land boundary in waterfront-edge.js.
 
     // 2. Iconic 3D Carved Monument: "Milwaukee â™¥ A Kinder Brighter City" (Image 3)
-    const signGroup = new THREE.Group();
-    signGroup.position.set(-4.5, 0, 24.8);
 
-    const baseStone = this.clayMaterial(0xd7cdb8, 0.85);
-    const pBase = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.45, 0.8), baseStone);
-    pBase.position.y = 0.225;
-    pBase.castShadow = true;
-    signGroup.add(pBase);
-
-    [-0.95, 0.95].forEach(px => {
-      const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.6, 0.55), baseStone);
-      pillar.position.set(px, 1.1, 0);
-      pillar.castShadow = true;
-      signGroup.add(pillar);
-    });
-
-    const woodMat = this.clayMaterial(0x8a5229, 0.75);
-    const signBoard = new THREE.Mesh(new THREE.BoxGeometry(2.7, 1.15, 0.16), woodMat);
-    signBoard.position.set(0, 1.35, 0.05);
-    signBoard.castShadow = true;
-    signGroup.add(signBoard);
-
-    const mkeCanvas = document.createElement('canvas');
-    mkeCanvas.width = 1024;
-    mkeCanvas.height = 512;
-    const mkeCtx = mkeCanvas.getContext('2d');
-    const grad = mkeCtx.createLinearGradient(0, 0, 0, 512);
-    grad.addColorStop(0, '#93582d');
-    grad.addColorStop(1, '#663919');
-    mkeCtx.fillStyle = grad;
-    mkeCtx.roundRect(16, 16, 992, 480, 28);
-    mkeCtx.fill();
-    mkeCtx.lineWidth = 14;
-    mkeCtx.strokeStyle = '#43210b';
-    mkeCtx.stroke();
-
-    mkeCtx.textAlign = 'center';
-    mkeCtx.fillStyle = '#fff4e0';
-    mkeCtx.shadowColor = '#241005';
-    mkeCtx.shadowBlur = 10;
-    mkeCtx.shadowOffsetY = 6;
-    mkeCtx.font = 'bold 112px "Segoe Script", "Brush Script MT", Georgia, cursive';
-    mkeCtx.fillText('Milwaukee', 512, 190);
-
-    mkeCtx.fillStyle = '#ff6b6b';
-    mkeCtx.font = 'bold 64px sans-serif';
-    mkeCtx.fillText('â™¥', 512, 265);
-
-    mkeCtx.fillStyle = '#ffecd1';
-    mkeCtx.font = 'bold 54px Georgia, serif';
-    mkeCtx.shadowBlur = 6;
-    mkeCtx.shadowOffsetY = 4;
-    mkeCtx.fillText('A Kinder Brighter City', 512, 350);
-
-    const mkeSignTex = new THREE.CanvasTexture(mkeCanvas);
-    const signFace = new THREE.Mesh(
-      new THREE.PlaneGeometry(2.55, 1.05),
-      new THREE.MeshStandardMaterial({ map: mkeSignTex, roughness: 0.7 })
-    );
-    signFace.position.set(0, 1.35, 0.14);
-    signGroup.add(signFace);
-
-    // Clustered Purple Coneflowers & Black-Eyed Susans around Monument Base
-    const flowerColors = [0x9c27b0, 0xba68c8, 0xffd54f, 0xffb300];
-    for (let f = 0; f < 16; f++) {
-      const angle = (f / 16) * Math.PI * 2;
-      const dist = 0.9 + Math.random() * 0.7;
-      const fx = Math.cos(angle) * dist;
-      const fz = Math.sin(angle) * 0.5;
-      const col = flowerColors[f % flowerColors.length];
-
-      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.5, 6), this.clayMaterial(0x3e7545, 0.8));
-      stem.position.set(fx, 0.25, fz);
-      signGroup.add(stem);
-
-      const blossom = new THREE.Mesh(new THREE.DodecahedronGeometry(0.12), this.clayMaterial(col, 0.6));
-      blossom.position.set(fx, 0.5, fz);
-      signGroup.add(blossom);
-
-      const cone = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.08, 6), this.clayMaterial(0xd86221, 0.7));
-      cone.position.set(fx, 0.56, fz);
-      signGroup.add(cone);
-    }
-
-    signGroup.rotation.y = 0.2;
-    this.scene.add(signGroup);
 
     // 3. Promenade Wooden Bench placed safely on lush green grass before rocks and boardwalk
     this.buildParkBench(7.8, 21.0, -0.35, false);
@@ -1637,104 +1697,74 @@ export class ClayWorld3D extends EventTarget {
 
   buildHarborDockBoardwalk() {
     const dockGroup = new THREE.Group();
-    const woodColors = [0x785338, 0x6e4b31, 0x825b3e, 0x5e3e26];
     const ironMat = this.clayMaterial(0x222225, 0.85);
     const ropeMat = this.clayMaterial(0xc2a67e, 0.95);
 
-    // Continuous Main Timber Boardwalk Deck (x in [-24, 24], z in [24.4, 27.0])
+    const plankCanvas = document.createElement('canvas');
+    plankCanvas.width = 512;
+    plankCanvas.height = 64;
+    const plankContext = plankCanvas.getContext('2d');
+    const plankColors = ['#785338', '#6e4b31', '#825b3e', '#5e3e26'];
+    for (let x = 0; x < plankCanvas.width; x += 16) {
+      plankContext.fillStyle = plankColors[(x / 16) % plankColors.length];
+      plankContext.fillRect(x, 0, 15, plankCanvas.height);
+      plankContext.fillStyle = 'rgba(34, 20, 11, .42)';
+      plankContext.fillRect(x + 15, 0, 1, plankCanvas.height);
+    }
+    const plankTexture = new THREE.CanvasTexture(plankCanvas);
+    plankTexture.colorSpace = THREE.SRGBColorSpace;
+    plankTexture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
+    const plankMaterial = new THREE.MeshStandardMaterial({ map: plankTexture, roughness: 0.9 });
+
+    // The boardwalk spans only the waterfront frontage and terminates at concrete sidewalks.
     const deckSubstructure = new THREE.Mesh(
-      new THREE.BoxGeometry(48.2, 0.18, 2.7),
+      new THREE.BoxGeometry(34.2, 0.18, 2.7),
       this.clayMaterial(0x4a3221, 0.9)
     );
+    deckSubstructure.name = 'Harbor_Boardwalk_Substructure';
     deckSubstructure.position.set(0, 0.09, 25.7);
     deckSubstructure.receiveShadow = true;
     dockGroup.add(deckSubstructure);
 
-    // Individual transverse weathered timber planks every 0.38m
-    for (let px = -24; px <= 24; px += 0.38) {
-      const plankCol = woodColors[Math.abs(Math.floor(px * 3)) % woodColors.length];
-      const plank = new THREE.Mesh(
-        new THREE.BoxGeometry(0.35, 0.05, 2.66),
-        this.clayMaterial(plankCol, 0.85)
-      );
-      plank.position.set(px, 0.19, 25.7);
-      plank.receiveShadow = true;
-      dockGroup.add(plank);
-    }
+    const plankDeck = new THREE.Mesh(new THREE.BoxGeometry(34, 0.08, 2.62), plankMaterial);
+    plankDeck.name = 'Harbor_Boardwalk_Deck';
+    plankDeck.position.set(0, 0.20, 25.7);
+    plankDeck.receiveShadow = true;
+    dockGroup.add(plankDeck);
 
     // Heavy Timber Edge Fascia Beam along Harbor Water Edge (z = 27.05)
     const fasciaBeam = new THREE.Mesh(
-      new THREE.BoxGeometry(48.2, 0.32, 0.18),
+      new THREE.BoxGeometry(34.2, 0.32, 0.18),
       this.clayMaterial(0x5a3b22, 0.88)
     );
     fasciaBeam.position.set(0, 0.16, 27.05);
     dockGroup.add(fasciaBeam);
 
-    // Heavy Timber Dock Pilings along water boundary with iron pile bands
-    for (let px = -22; px <= 22; px += 3.6) {
-      const piling = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.18, 0.22, 1.4, 12),
-        this.clayMaterial(0x442c18, 0.9)
-      );
-      piling.position.set(px, 0.5, 27.12);
-      piling.castShadow = true;
-      dockGroup.add(piling);
-
-      // Iron band cap on top of piling
-      const band = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.19, 0.19, 0.06, 12),
-        ironMat
-      );
-      band.position.set(px, 1.15, 27.12);
-      dockGroup.add(band);
-
-      // Coiled marine mooring rope around piling
-      const ropeCoil = new THREE.Mesh(
-        new THREE.TorusGeometry(0.20, 0.035, 8, 14),
-        ropeMat
-      );
-      ropeCoil.rotation.x = Math.PI / 2;
-      ropeCoil.position.set(px, 0.65, 27.12);
-      dockGroup.add(ropeCoil);
-    }
-
-    // Heavy Marine Rope Railing connecting wooden stanchion posts along the harbor edge
-    for (let px = -23; px <= 23; px += 2.4) {
+    // Low rope railing keeps the water view open and avoids the old wall of pilings.
+    for (let px = -17; px <= 17.01; px += 3.4) {
       const stanchion = new THREE.Mesh(
-        new THREE.BoxGeometry(0.12, 1.05, 0.12),
+        new THREE.CylinderGeometry(0.07, 0.08, 0.72, 10),
         this.clayMaterial(0x5c3d25, 0.85)
       );
-      stanchion.position.set(px, 0.65, 26.92);
+      stanchion.position.set(px, 0.58, 26.92);
       stanchion.castShadow = true;
       dockGroup.add(stanchion);
 
-      // Dual suspended sagging marine ropes
-      if (px < 22) {
-        const nextX = px + 2.4;
+      if (px < 17) {
+        const nextX = px + 3.4;
         const midX = (px + nextX) * 0.5;
-
-        // Top rope catenary curve
         const curveTop = new THREE.CatmullRomCurve3([
-          new THREE.Vector3(px, 1.05, 26.92),
-          new THREE.Vector3(midX, 0.96, 26.92),
-          new THREE.Vector3(nextX, 1.05, 26.92)
+          new THREE.Vector3(px, 0.92, 26.92),
+          new THREE.Vector3(midX, 0.82, 26.92),
+          new THREE.Vector3(nextX, 0.92, 26.92)
         ]);
         const ropeTop = new THREE.Mesh(new THREE.TubeGeometry(curveTop, 12, 0.024, 6, false), ropeMat);
         dockGroup.add(ropeTop);
-
-        // Lower rope catenary curve
-        const curveLow = new THREE.CatmullRomCurve3([
-          new THREE.Vector3(px, 0.58, 26.92),
-          new THREE.Vector3(midX, 0.51, 26.92),
-          new THREE.Vector3(nextX, 0.58, 26.92)
-        ]);
-        const ropeLow = new THREE.Mesh(new THREE.TubeGeometry(curveLow, 12, 0.02, 6, false), ropeMat);
-        dockGroup.add(ropeLow);
       }
     }
 
     // Cast-Iron Mooring Cleats / Double-Horn Bollards spaced every 6m
-    [-18, -12, -6, 6, 12, 18].forEach(bx => {
+    [-13, -8, -3, 3, 8, 13].forEach(bx => {
       const bollardBase = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.06, 0.18), ironMat);
       bollardBase.position.set(bx, 0.23, 26.75);
       dockGroup.add(bollardBase);
@@ -1755,6 +1785,7 @@ export class ClayWorld3D extends EventTarget {
 
   buildPromenadeWalkingNPCs() {
     this.promenadeNPCs = [];
+    this.citySidewalkNPCs = [];
     const people = [
       { name:'Mateo', skinColor:0x8d5536, shirtColor:0xc49a6c, pantsColor:0x2b4c7e, shoeColor:0xf2f2f2, hairColor:0x1f140e, hatColor:0xb83232, hasBackpack:true },
       { name:'Nia', skinColor:0xa66a44, shirtColor:0xe76f51, pantsColor:0x264653, shoeColor:0x2a9d8f, hairColor:0x1c1917, hasPonytail:true },
@@ -1769,11 +1800,28 @@ export class ClayWorld3D extends EventTarget {
       const dir = (i % 2 === 0) ? 1 : -1;
       this.createWalkingHumanNPC({ ...p, x: -16 + i * 4.4, z: 26.6, minX:-17.5, maxX:17.5, dir, speed:0.82 + (i % 4) * 0.10 });
     });
+    people.slice(4, 7).forEach((p,i)=>{
+      this.createWalkingHumanNPC({...p,name:`${p.name} Museum Visitor`,x:-21.5,z:30+i*12,
+        dir:1,speed:0.8,scale:0.8,routeType:'museum'});
+    });
+    people.slice(0, 4).forEach((p, i) => {
+      this.createWalkingHumanNPC({
+        ...p,
+        name: `${p.name} City Walker`,
+        x: -32.5,
+        z: 38 + i * 18,
+        dir: i % 2 === 0 ? 1 : -1,
+        speed: 1.0 + i * 0.08,
+        scale: 0.68,
+        routeType: 'citySidewalk'
+      });
+    });
   }
 
   createWalkingHumanNPC(config) {
     const npcGroup = new THREE.Group();
     npcGroup.position.set(config.x, 0, config.z);
+    npcGroup.scale.setScalar(config.scale ?? 1);
 
     const targetRotY = (config.dir > 0) ? Math.PI / 2 : -Math.PI / 2;
     npcGroup.rotation.y = targetRotY;
@@ -1956,7 +2004,7 @@ export class ClayWorld3D extends EventTarget {
 
     this.scene.add(npcGroup);
 
-    this.promenadeNPCs.push({
+    const npcRecord = {
       name: config.name,
       group: npcGroup,
       legL,
@@ -1969,41 +2017,75 @@ export class ClayWorld3D extends EventTarget {
       speed: config.speed,
       walkCycle: Math.random() * Math.PI * 2,
       targetRotY,
-      holdItem: !!config.hasBook
-    });
+      holdItem: !!config.hasBook,
+      routeType: config.routeType || 'promenade'
+    };
+    if (config.routeType === 'citySidewalk') this.citySidewalkNPCs.push(npcRecord);
+    else this.promenadeNPCs.push(npcRecord);
   }
 
 
   updatePromenadeNPCs(dt) {
     if (!this.promenadeNPCs) return;
-    const lerp = (a,b,t) => ({ x:THREE.MathUtils.lerp(a[0],b[0],t), z:THREE.MathUtils.lerp(a[1],b[1],t) });
+    const route = [
+      [-16.5, 25.7],
+      [-18.5, 22.0],
+      [-18.5, -39.0],
+      [18.5, -39.0],
+      [18.5, 22.0],
+      [16.5, 25.7]
+    ];
     this.promenadeNPCs.forEach((npc, idx) => {
-      if (npc.loopState === undefined) {
-        npc.loopState = 'boardwalk'; npc.hiddenElapsed = 0; npc.hiddenDuration = 5 + ((idx * 1.37) % 5);
+    const activeRoute = npc.routeType === 'museum'
+      ? [[-21.8,25.5],[-21.8,69.5],[4,69.5],[4,64],[3.3,64],[3.3,68.8],[-21.1,68.8],[-21.1,25.5]] : route;
+    const segments = activeRoute.map((point, index) => {
+      const next = activeRoute[(index + 1) % activeRoute.length];
+      return { a:point, b:next, length:Math.hypot(next[0] - point[0], next[1] - point[1]) };
+    });
+    const totalLength = segments.reduce((sum, segment) => sum + segment.length, 0);
+
+      if (npc.routeDistance === undefined) npc.routeDistance = (idx / this.promenadeNPCs.length) * totalLength;
+      npc.routeDistance = (npc.routeDistance + npc.dir * npc.speed * dt + totalLength) % totalLength;
+      let remaining = npc.routeDistance;
+      let active = segments[0];
+      for (const segment of segments) {
+        active = segment;
+        if (remaining <= segment.length) break;
+        remaining -= segment.length;
       }
-      if (npc.loopState === 'boardwalk') {
-        npc.group.visible = true;
-        npc.group.position.x += npc.dir * npc.speed * dt;
-        npc.group.position.z = 26.6 + Math.sin((npc.group.position.x + idx) * 0.16) * 0.10;
-        npc.targetRotY = (npc.dir > 0) ? Math.PI / 2 : -Math.PI / 2;
-        if ((npc.dir > 0 && npc.group.position.x >= 18) || (npc.dir < 0 && npc.group.position.x <= -18)) {
-          npc.loopState = 'sideHidden'; npc.hiddenElapsed = 0; npc.hiddenDuration = 5 + ((idx * 1.37) % 5); npc.group.visible = false;
-        }
-      } else {
-        npc.hiddenElapsed += dt;
-        const phase = Math.min(1, npc.hiddenElapsed / npc.hiddenDuration);
-        const pts = npc.dir > 0 ? [[18,26.6],[22,-8],[22,-39],[-22,-39],[-18,26.6]] : [[-18,26.6],[-22,-8],[-22,-39],[22,-39],[18,26.6]];
-        const scaled = phase * 4; const seg = Math.min(3, Math.floor(scaled)); const t = Math.min(1, scaled - seg);
-        const p = lerp(pts[seg], pts[seg + 1], t);
-        npc.group.position.set(p.x, 0, p.z);
-        if (phase >= 1) { npc.group.position.set(npc.dir > 0 ? -18 : 18, 0, 26.6); npc.loopState = 'boardwalk'; npc.group.visible = true; }
-      }
+      const t = active.length > 0 ? remaining / active.length : 0;
+      const x = THREE.MathUtils.lerp(active.a[0], active.b[0], t);
+      const z = THREE.MathUtils.lerp(active.a[1], active.b[1], t);
+      npc.group.visible = true;
+      npc.group.position.set(x, 0, z);
+      const travelSign = npc.dir >= 0 ? 1 : -1;
+      npc.targetRotY = Math.atan2((active.b[0] - active.a[0]) * travelSign, (active.b[1] - active.a[1]) * travelSign);
       npc.group.rotation.y = THREE.MathUtils.lerp(npc.group.rotation.y, npc.targetRotY, dt * 5.0);
       npc.walkCycle += dt * npc.speed * 5.0; const stride = Math.sin(npc.walkCycle);
       npc.legL.rotation.x = stride * 0.58; npc.legR.rotation.x = -stride * 0.58;
       if (!npc.holdItem) { npc.armL.rotation.x = -stride * 0.48; npc.armR.rotation.x = stride * 0.48; }
       else { npc.armL.rotation.x = -stride * 0.34; npc.armR.rotation.x = -0.32 + Math.sin(npc.walkCycle * 0.5) * 0.06; }
-      if (npc.group.visible) npc.group.position.y = Math.abs(Math.sin(npc.walkCycle * 2.0)) * 0.035;
+      if (npc.group.visible) npc.group.position.y = (npc.routeType === 'museum' ? 0.11 : z > 24.3 ? 0.24 : 0.052) + Math.abs(Math.sin(npc.walkCycle * 2.0)) * 0.035;
+    });
+
+    this.citySidewalkNPCs?.forEach(npc => {
+      npc.group.visible = true;
+      const route = this.cityStreetRoute;
+      npc.streetDistance ??= 300 + npc.group.position.z;
+      npc.streetDistance = 320 + ((npc.streetDistance - 320 + npc.dir * npc.speed * dt) % 140 + 140) % 140;
+      const point = route.sample(npc.streetDistance, -route.sample(npc.streetDistance).halfWidth - route.sample(npc.streetDistance).sidewalkWidth / 2);
+      npc.group.position.set(point.x, 0.205, point.z);
+      npc.targetRotY = point.heading + (npc.dir > 0 ? 0 : Math.PI);
+      npc.group.rotation.y = THREE.MathUtils.lerp(npc.group.rotation.y, npc.targetRotY, dt * 5.0);
+      npc.walkCycle += dt * npc.speed * 5.0;
+      const stride = Math.sin(npc.walkCycle);
+      npc.legL.rotation.x = stride * 0.52;
+      npc.legR.rotation.x = -stride * 0.52;
+      if (!npc.holdItem) {
+        npc.armL.rotation.x = -stride * 0.42;
+        npc.armR.rotation.x = stride * 0.42;
+      }
+      npc.group.position.y = 0.205 + Math.abs(Math.sin(npc.walkCycle * 2.0)) * 0.025;
     });
   }
 
@@ -2030,41 +2112,46 @@ export class ClayWorld3D extends EventTarget {
       });
       this.scene.add(cloud); this.skyClouds.push(cloud);
     };
-    makeCloud(-19, 27, 38, 1.55, 0.05); makeCloud(18, 29, 39, 1.35, 0.04); makeCloud(-5, 25, 42, 0.75, 0.055); makeCloud(30, 23, 48, 0.95, 0.045);
-
-    const birdBodyMat = this.clayMaterial(0xf7f7f2, 0.55);
-    const birdTipMat = this.clayMaterial(0x1b1b1b, 0.75);
-    for (let i=0;i<7;i++) {
-      const bird = new THREE.Group(); bird.position.set(-24+i*7, 20+(i%3)*2.2, 32+i*2.0); bird.userData={baseX:bird.position.x,baseY:bird.position.y,baseZ:bird.position.z,speed:0.06+i*0.008,offset:i*1.9};
-      const body = new THREE.Mesh(new THREE.SphereGeometry(0.12,8,6), birdBodyMat); bird.add(body);
-      const wingL = new THREE.Mesh(new THREE.ConeGeometry(0.06,0.65,6), birdBodyMat); wingL.position.set(-0.35,0,0); wingL.rotation.z=Math.PI/2; bird.add(wingL);
-      const wingR = wingL.clone(); wingR.position.x=0.35; wingR.rotation.z=-Math.PI/2; bird.add(wingR);
-      const tipL = new THREE.Mesh(new THREE.SphereGeometry(0.035,6,4), birdTipMat); tipL.position.set(-0.64,0,0); bird.add(tipL);
-      const tipR = tipL.clone(); tipR.position.x=0.64; bird.add(tipR);
-      bird.userData.wingL=wingL; bird.userData.wingR=wingR; this.scene.add(bird); this.flyingBirds.push(bird);
+    for(let i=0;i<12;i++) makeCloud(-55+(i%6)*21,22+Math.floor(i/6)*8,
+      30+Math.floor(i/6)*42,1.4+(i%3)*0.35,0.022+(i%4)*0.003);
+    for(let i=0;i<6;i++) makeCloud(-24+(i%3)*24,25+Math.floor(i/3)*6,
+      -30+Math.floor(i/3)*24,2.1+(i%2)*0.4,0.025+(i%3)*0.004);
+    const bodyMat=this.clayMaterial(0xf7f7f2,0.8), tipMat=this.clayMaterial(0x303b43,0.8);
+    for(let i=0;i<10;i++){
+      const bird=new THREE.Group(),flock=i>=4;
+      bird.name=`Flying_Bird_${i}`;
+      bird.userData={baseX:flock?-8+(i-4)*2.2:-24+i*16,baseY:flock?18+(i%2)*1.2:7+i*1.2,
+        baseZ:flock?78+Math.abs(i-7)*2:34+i*5,speed:flock?0.13:0.18,offset:flock?0:i*1.7,flock};
+      const body=new THREE.Mesh(new THREE.SphereGeometry(0.18,10,8),bodyMat);
+      body.scale.set(0.7,0.8,1.8);bird.add(body);
+      const head=new THREE.Mesh(new THREE.SphereGeometry(0.115,8,6),bodyMat);head.position.set(0,0.12,0.29);bird.add(head);
+      const beak=new THREE.Mesh(new THREE.ConeGeometry(0.04,0.17,6),this.clayMaterial(0xd6a349,0.8));
+      beak.rotation.x=Math.PI/2;beak.position.set(0,0.1,0.42);bird.add(beak);
+      [-1,1].forEach(sign=>{
+        const pivot=new THREE.Group();pivot.name=sign<0?'Left_Wing':'Right_Wing';pivot.position.x=sign*0.09;
+        const wing=new THREE.Mesh(new THREE.SphereGeometry(1,10,6),bodyMat);
+        wing.scale.set(0.45,0.045,0.16);wing.position.set(sign*0.38,0,-0.03);pivot.add(wing);
+        const tip=new THREE.Mesh(new THREE.SphereGeometry(1,8,6),tipMat);
+        tip.scale.set(0.18,0.038,0.11);tip.position.set(sign*0.76,0,-0.08);pivot.add(tip);
+        bird.add(pivot);bird.userData[sign<0?'wingL':'wingR']=pivot;
+      });
+      bird.scale.setScalar(flock?0.8:1.1);this.scene.add(bird);this.flyingBirds.push(bird);
     }
   }
 
-
-  updateSkyElements(dt, time) {
-    if (this.skyClouds) {
-      this.skyClouds.forEach(cloud => {
-        const data = cloud.userData;
-        cloud.position.x = data.baseX + Math.sin(time * data.speed + data.offset) * 1.4;
-        cloud.position.z = data.baseZ + Math.cos(time * data.speed * 0.7 + data.offset) * 0.5;
-      });
-    }
-    if (this.flyingBirds) {
-      this.flyingBirds.forEach(bird => {
-        const data = bird.userData;
-        bird.position.x = data.baseX + Math.sin(time * data.speed + data.offset) * 10.0;
-        bird.position.z = data.baseZ + Math.cos(time * data.speed + data.offset) * 3.5;
-        bird.position.y = data.baseY + Math.sin(time * data.speed * 1.3 + data.offset) * 0.8;
-        const wingAngle = Math.sin(time * 5.0 + data.offset) * 0.35;
-        data.wingL.rotation.z = Math.PI / 2 + wingAngle;
-        data.wingR.rotation.z = -Math.PI / 2 - wingAngle;
-      });
-    }
+  updateSkyElements(dt,time) {
+    this.skyClouds?.forEach(cloud=>{
+      const d=cloud.userData,t=time*d.speed+d.offset;
+      cloud.position.x=d.baseX+Math.sin(t)*9;
+      cloud.position.z=d.baseZ+Math.cos(t*0.75)*5;
+    });
+    this.flyingBirds?.forEach(bird=>{
+      const d=bird.userData,t=time*d.speed+d.offset;
+      bird.position.set(d.baseX+Math.sin(t)*10,d.baseY+Math.sin(t*1.3)*0.65,d.baseZ+Math.cos(t)*6);
+      bird.rotation.y=Math.atan2(Math.cos(t)*10,-Math.sin(t)*6);
+      const flap=Math.sin(time*4.8+(d.flock?0:d.offset))*0.5;
+      d.wingL.rotation.z=-flap;d.wingR.rotation.z=flap;
+    });
   }
 
   createEntrancePlanter(x, z) {
@@ -2160,8 +2247,10 @@ export class ClayWorld3D extends EventTarget {
 
   buildReadingSquirrel(x, z) {
     const squirrelGroup = new THREE.Group();
+    squirrelGroup.name = 'Barnaby_Squirrel';
+    squirrelGroup.scale.setScalar(1.55);
     const benchPos = new THREE.Vector3(x - 0.2, 0.58, z);
-    const treeBase = new THREE.Vector3(-7.25, 0.12, 16.9);
+    const climbFace = new THREE.Vector3(-6.50, 0.12, 16.15);
     squirrelGroup.position.copy(benchPos);
 
     const furMat = this.clayMaterial(0x8e4420, 0.88);
@@ -2278,13 +2367,22 @@ export class ClayWorld3D extends EventTarget {
       armL,
       armR,
       benchPos,
-      treeBase
+      climbFace,
+      fadeMaterials: []
     };
+
+    squirrelGroup.traverse(obj => {
+      if (!obj.isMesh || !obj.material) return;
+      obj.material = obj.material.clone();
+      obj.material.transparent = true;
+      obj.material.opacity = 1;
+      this.barnabySquirrel.fadeMaterials.push(obj.material);
+    });
 
     body.userData = {
       type: 'squirrel',
       name: 'Barnaby the Walnut Squirrel',
-      prompt: 'Ã¢Å“Â¦ Barnaby runs to the tree, retrieves a walnut, and returns to his bench.'
+      prompt: ' Barnaby runs to the tree, retrieves a walnut, and returns to his bench.'
     };
     head.userData = body.userData;
     this.interactiveObjects.push(body);
@@ -2295,17 +2393,40 @@ export class ClayWorld3D extends EventTarget {
   updateBarnabySquirrel(time) {
     if (!this.barnabySquirrel) return;
     const b = this.barnabySquirrel;
-    const cycle = time % 28.0;
+    const cycle = time % 24.0;
     const lerp3 = (a, c, t) => a.clone().lerp(c, THREE.MathUtils.clamp(t, 0, 1));
-    let running = false; b.group.visible = true;
+    let running = false;
+    let opacity = 1;
+    b.group.visible = true;
 
-    if (cycle < 5) { b.group.position.copy(b.benchPos); b.group.rotation.y = 0.25; b.walnutGroup.visible = true; }
-    else if (cycle < 8) { const p = lerp3(b.benchPos,b.treeBase,(cycle-5)/3); p.y += Math.abs(Math.sin(time*12))*0.035; b.group.position.copy(p); b.group.rotation.y=-Math.PI/2; b.walnutGroup.visible=false; running=true; }
-    else if (cycle < 11) { b.group.position.set(b.treeBase.x, THREE.MathUtils.lerp(0.12,3.15,(cycle-8)/3), b.treeBase.z); b.group.rotation.y=Math.PI; b.walnutGroup.visible=false; running=true; }
-    else if (cycle < 13) { b.group.position.set(b.treeBase.x,3.15,b.treeBase.z); b.group.visible = cycle < 11.6 || cycle > 12.4; b.walnutGroup.visible = cycle > 12.2; }
-    else if (cycle < 16) { b.group.position.set(b.treeBase.x, THREE.MathUtils.lerp(3.15,0.12,(cycle-13)/3), b.treeBase.z); b.group.rotation.y=0; b.walnutGroup.visible=true; running=true; }
-    else if (cycle < 19) { const p = lerp3(b.treeBase,b.benchPos,(cycle-16)/3); p.y += Math.abs(Math.sin(time*12))*0.035; b.group.position.copy(p); b.group.rotation.y=Math.PI/2; b.walnutGroup.visible=true; running=true; }
-    else { b.group.position.copy(b.benchPos); b.group.rotation.y=0.25; b.walnutGroup.visible=true; }
+    if (cycle < 5) {
+      b.group.position.copy(b.benchPos);
+      b.group.rotation.y = 0.25;
+      b.walnutGroup.visible = true;
+    } else if (cycle < 9) {
+      const p = lerp3(b.benchPos, b.climbFace, (cycle - 5) / 4);
+      p.y += Math.abs(Math.sin(time * 12)) * 0.035;
+      b.group.position.copy(p);
+      b.group.rotation.y = -Math.PI / 2;
+      b.walnutGroup.visible = false;
+      running = true;
+    } else if (cycle < 13) {
+      b.group.position.set(b.climbFace.x, THREE.MathUtils.lerp(0.12, 4.5, (cycle - 9) / 4), b.climbFace.z);
+      b.group.rotation.y = -Math.PI / 2;
+      b.walnutGroup.visible = false;
+      running = true;
+    } else if (cycle < 14.5) {
+      b.group.position.set(b.climbFace.x, THREE.MathUtils.lerp(4.5, 5.25, (cycle - 13) / 1.5), b.climbFace.z);
+      b.walnutGroup.visible = false;
+      opacity = 1 - (cycle - 13) / 1.5;
+    } else {
+      b.group.position.set(b.climbFace.x, 5.25, b.climbFace.z);
+      b.walnutGroup.visible = false;
+      opacity = 0;
+      b.group.visible = false;
+    }
+
+    b.fadeMaterials.forEach(material => { material.opacity = opacity; });
 
     const gait = Math.sin(time*13);
     b.legL.rotation.x = running ? gait*0.65 : 0;
@@ -2384,7 +2505,7 @@ export class ClayWorld3D extends EventTarget {
     stone.userData = {
       type: 'milestone',
       name: "Leola's Milestone & Pip the Bluebird",
-      prompt: 'âœ¦ Pip chirps: "Welcome! Come on inside!"'
+      prompt: ' Pip chirps: "Welcome! Come on inside!"'
     };
     this.interactiveObjects.push(stone);
   }
@@ -2448,6 +2569,7 @@ export class ClayWorld3D extends EventTarget {
 
     const bannerTex = new THREE.CanvasTexture(bannerCanvas);
     const banner = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 3.0), new THREE.MeshStandardMaterial({ map: bannerTex, roughness: 0.8, side: THREE.DoubleSide }));
+    banner.name = 'Library_Lamppost_Banner';
     banner.position.set(0.7, 3.4, 0);
     lampGroup.add(banner);
 
@@ -2483,7 +2605,7 @@ export class ClayWorld3D extends EventTarget {
     ctx.fillText('Stories', 128, 140);
     ctx.fillText('Brighter', 128, 190);
     ctx.fillText('Days', 128, 240);
-    ctx.fillText('â™¥', 128, 290);
+    ctx.fillText('', 128, 290);
 
     const tex = new THREE.CanvasTexture(canvas);
     const face = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 1.15), new THREE.MeshBasicMaterial({ map: tex }));
@@ -2495,9 +2617,11 @@ export class ClayWorld3D extends EventTarget {
 
   buildShadeTree(x, z) {
     const tree = new THREE.Group();
+    tree.name = 'Courtyard_Shade_Tree';
     tree.position.set(x, 0, z);
 
     const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.9, 5.0, 12), this.clayMaterial(0x5a361e, 0.9));
+    trunk.name = 'Courtyard_Shade_Tree_Trunk';
     trunk.position.y = 2.5;
     trunk.castShadow = true;
     tree.add(trunk);
@@ -2521,7 +2645,8 @@ export class ClayWorld3D extends EventTarget {
       roughness: 0.1,
       metalness: 0.8
     });
-    const water = new THREE.Mesh(new THREE.CircleGeometry(16, 32), waterMat);
+    const water = new THREE.Mesh(new THREE.CircleGeometry(7, 32), waterMat);
+    water.name = 'West_Grass_Garden_Pond';
     water.rotation.x = -Math.PI / 2;
     water.position.set(x - 6, 0.02, z);
     this.scene.add(water);
@@ -2533,6 +2658,7 @@ export class ClayWorld3D extends EventTarget {
       new THREE.Vector3(x, 0.2, z + 2)
     ]);
     const bridge = new THREE.Mesh(new THREE.TubeGeometry(bridgeCurve, 20, 0.4, 8, false), this.clayMaterial(0x8a5832, 0.8));
+    bridge.name = 'West_Grass_Garden_Bridge';
     bridge.castShadow = true;
     this.scene.add(bridge);
 
@@ -2852,70 +2978,42 @@ export class ClayWorld3D extends EventTarget {
     const topMat = this.clayMaterial(0x84502b, 0.72); // Polished top counter with wax sheen
     const goldMat = this.clayMaterial(0xd4af37, 0.35, 0.7); // Polished brass
 
-    // Center of 3/4 circle desk
+    // Compact continuous horseshoe: closed surfaces on the outside, inside,
+    // countertop, underside and both rear ends. No segmented floating planks.
     const centerX = 0;
-    const centerZ = -9.0;
-    const rOuter = 3.9;
-    const rInner = 3.25;
-    const rMid = 3.58;
+    const centerZ = -7.5;
+    const rOuter = 2.6;
+    const rInner = 1.8;
+    const rMid = 2.2;
     const counterHeight = 1.15;
-    const totalAngle = Math.PI * 1.5; // 270 degrees = 3/4 circle
-    const startAngle = -Math.PI * 0.75; // -135 degrees to +135 degrees (rear 90 degrees open)
-
-    // Outer curved wall
-    const outerGeo = new THREE.CylinderGeometry(rOuter, rOuter, counterHeight, 48, 1, true, startAngle, totalAngle);
-    const outerWall = new THREE.Mesh(outerGeo, woodMat);
-    outerWall.position.set(centerX, counterHeight * 0.5, centerZ);
-    outerWall.castShadow = true;
-    outerWall.receiveShadow = true;
-    this.deskGroup.add(outerWall);
-
-    // Inner curved wall
-    const innerGeo = new THREE.CylinderGeometry(rInner, rInner, counterHeight, 48, 1, true, startAngle, totalAngle);
-    const innerWall = new THREE.Mesh(innerGeo, woodMat);
-    innerWall.position.set(centerX, counterHeight * 0.5, centerZ);
-    innerWall.castShadow = true;
-    this.deskGroup.add(innerWall);
-
-    // Smooth rounded counter top (composed of smoothly overlapping beveled arc segments)
-    const segments = 40;
-    for (let i = 0; i <= segments; i++) {
-      const theta = startAngle + (i / segments) * totalAngle;
-      const sx = centerX + Math.sin(theta) * rMid;
-      const sz = centerZ + Math.cos(theta) * rMid;
-
-      // Rounded soft-edge counter plank
-      const topSegment = new THREE.Mesh(
-        new THREE.BoxGeometry(0.72, 0.14, 0.36),
-        topMat
-      );
-      topSegment.position.set(sx, counterHeight + 0.07, sz);
-      topSegment.rotation.y = theta;
-      topSegment.castShadow = true;
-      topSegment.receiveShadow = true;
-      this.deskGroup.add(topSegment);
-
-      // Base molding trim along outer base
-      const baseSegment = new THREE.Mesh(
-        new THREE.BoxGeometry(0.12, 0.18, 0.38),
-        woodMat
-      );
-      const bx = centerX + Math.sin(theta) * (rOuter + 0.04);
-      const bz = centerZ + Math.cos(theta) * (rOuter + 0.04);
-      baseSegment.position.set(bx, 0.09, bz);
-      baseSegment.rotation.y = theta;
-      this.deskGroup.add(baseSegment);
-    }
-
-    // Soft rounded end-caps for both ends of the 3/4 circle (no sharp edges!)
-    [startAngle, startAngle + totalAngle].forEach(endTheta => {
-      const ex = centerX + Math.sin(endTheta) * rMid;
-      const ez = centerZ + Math.cos(endTheta) * rMid;
-      const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, counterHeight + 0.14, 16), topMat);
-      cap.position.set(ex, (counterHeight + 0.14) * 0.5, ez);
-      cap.castShadow = true;
-      this.deskGroup.add(cap);
-    });
+    const totalAngle = Math.PI * 1.5;
+    const startAngle = -Math.PI * 0.75;
+    const solidArc = (inner, outer, height, baseY, material, name) => {
+      const shape = new THREE.Shape();
+      const steps = 80;
+      for (let i = 0; i <= steps; i++) {
+        const theta = startAngle + totalAngle * i / steps;
+        const x = Math.sin(theta) * outer, z = Math.cos(theta) * outer;
+        if (i === 0) shape.moveTo(x, z); else shape.lineTo(x, z);
+      }
+      for (let i = steps; i >= 0; i--) {
+        const theta = startAngle + totalAngle * i / steps;
+        shape.lineTo(Math.sin(theta) * inner, Math.cos(theta) * inner);
+      }
+      shape.closePath();
+      const mesh = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, {depth: height, bevelEnabled: false, steps: 1}), material);
+      mesh.rotation.x = Math.PI / 2;
+      mesh.position.set(centerX, baseY + height, centerZ);
+      mesh.name = name;
+      mesh.castShadow = true; mesh.receiveShadow = true;
+      this.deskGroup.add(mesh);
+      return mesh;
+    };
+    solidArc(rInner, rOuter, counterHeight - .05, .05, woodMat, 'Reception_Continuous_Body');
+    solidArc(rInner - .06, rOuter + .06, .14, counterHeight, topMat, 'Reception_Continuous_Countertop');
+    solidArc(rInner - .035, rOuter + .04, .14, .05, topMat, 'Reception_Continuous_Plinth');
+    this.deskGroup.name = 'Compact_Horseshoe_Reception';
+    this.deskGroup.userData.footprint = {centerX, centerZ, outerRadius: rOuter + .06, innerRadius: rInner - .06, width: 5.32, counterTopY: 1.29};
 
     // Front Carved Plaque on Desk: "LEOLA'S LIBRARY"
     const plaqueCanvas = document.createElement('canvas');
@@ -2937,7 +3035,7 @@ export class ClayWorld3D extends EventTarget {
     pctx.fillText("LEOLA'S LIBRARY", 256, 56);
     pctx.fillStyle = '#e6bd69';
     pctx.font = '18px Georgia, serif';
-    pctx.fillText('âœ¦ Welcome Â· Stories Â· Community âœ¦', 256, 88);
+    pctx.fillText(' Welcome  Stories  Community ', 256, 88);
 
     const plaqueTex = new THREE.CanvasTexture(plaqueCanvas);
     const frontPlaque = new THREE.Mesh(
@@ -2946,6 +3044,20 @@ export class ClayWorld3D extends EventTarget {
     );
     frontPlaque.position.set(centerX, 0.65, centerZ + rOuter + 0.05);
     this.deskGroup.add(frontPlaque);
+    // The flat front signs have real backing and brackets back to the curved
+    // fascia, so their edges do not appear to float when seen from the side.
+    const plaqueBacking = new THREE.Mesh(new THREE.BoxGeometry(3.22, .82, .08), woodMat);
+    plaqueBacking.position.set(0, .65, centerZ + rOuter - .01);
+    plaqueBacking.castShadow = true;
+    this.deskGroup.add(plaqueBacking);
+    for (const x of [-1.2, 1.2]) {
+      const mount = new THREE.Mesh(new THREE.BoxGeometry(.11, .18, .52), woodMat);
+      mount.position.set(x, .65, -5.10);
+      this.deskGroup.add(mount);
+      const authorSignMount = new THREE.Mesh(new THREE.BoxGeometry(.10, .12, .63), woodMat);
+      authorSignMount.position.set(x, 1.13, -5.025);
+      this.deskGroup.add(authorSignMount);
+    }
 
     // Brass Counter Bell at theta = 0.45
     const bellTheta = 0.45;
@@ -2959,7 +3071,7 @@ export class ClayWorld3D extends EventTarget {
     this.deskGroup.add(bell);
 
     // Ceramic Daisy Vase on left side of arc (theta = -0.95)
-    const vaseTheta = -0.95;
+    const vaseTheta = -1.5;
     const vx = centerX + Math.sin(vaseTheta) * rMid;
     const vz = centerZ + Math.cos(vaseTheta) * rMid;
     const vase = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.22, 0.45, 16), this.clayMaterial(0xe8d5be, 0.5));
@@ -2980,16 +3092,17 @@ export class ClayWorld3D extends EventTarget {
 
     // Librarian Helper NPC (Maya) - Pushes the rolling book cart around bookshelves
     this.librarianHelper = new ClayCharacter(this.scene);
+    this.librarianHelper.speechBillboard.visible = false;
 
     this.librarianHelper.headMesh.userData = {
       type: 'librarian_helper',
       name: 'Maya (Assistant Librarian)',
-      prompt: 'âœ¦ Talk to Maya (Assistant Librarian)'
+      prompt: ' Talk to Maya (Assistant Librarian)'
     };
     this.librarianHelper.torsoMesh.userData = {
       type: 'librarian_helper',
       name: 'Maya (Assistant Librarian)',
-      prompt: 'âœ¦ Talk to Maya (Assistant Librarian)'
+      prompt: ' Talk to Maya (Assistant Librarian)'
     };
     this.interactiveObjects.push(this.librarianHelper.headMesh);
     this.interactiveObjects.push(this.librarianHelper.torsoMesh);
@@ -3003,8 +3116,8 @@ export class ClayWorld3D extends EventTarget {
     deskSensor.userData = {
       type: 'desk',
       name: "Leola's 3/4 Circle Reception Desk",
-      prompt: 'âœ¦ Click to Meet Leola at the Desk',
-      walkTo: new THREE.Vector3(0, 1.8, -5.2)
+      prompt: ' Click to Meet Leola at the Desk',
+      walkTo: new THREE.Vector3(0, 0, -4.1)
     };
     this.interactiveObjects.push(deskSensor);
     this.deskGroup.add(deskSensor);
@@ -3013,12 +3126,12 @@ export class ClayWorld3D extends EventTarget {
   }
 
   buildInteractiveDeskProps() {
-    const centerZ = -9.0;
-    const rMid = 3.58;
+    const centerZ = -7.5;
+    const rMid = 2.2;
     const deskTopY = 1.15 + 0.14; // Counter surface height
 
     // 1. 3D Book: "Needle & Yarn: A Love Stitched in Time" at theta = -0.38
-    const theta1 = -0.38;
+    const theta1 = -0.95;
     const b1X = Math.sin(theta1) * rMid;
     const b1Z = centerZ + Math.cos(theta1) * rMid;
 
@@ -3052,7 +3165,7 @@ export class ClayWorld3D extends EventTarget {
     b1Ctx.fillText('Needle & Yarn', 128, 110);
     b1Ctx.font = 'italic 16px Georgia, serif';
     b1Ctx.fillText('A Love Stitched in Time', 128, 150);
-    b1Ctx.fillText('ðŸ§¶', 128, 220);
+    b1Ctx.fillText('', 128, 220);
     const b1Tex = new THREE.CanvasTexture(b1Canvas);
     const b1Label = new THREE.Mesh(new THREE.PlaneGeometry(0.58, 0.78), new THREE.MeshBasicMaterial({ map: b1Tex }));
     b1Label.rotation.x = -Math.PI / 2;
@@ -3062,13 +3175,13 @@ export class ClayWorld3D extends EventTarget {
     book1Cover.userData = {
       type: 'book-needle',
       name: 'Needle & Yarn: A Love Stitched in Time',
-      prompt: 'âœ¦ Click to Pick Up & Read "Needle & Yarn"'
+      prompt: 'Read "Needle & Yarn"'
     };
     this.interactiveObjects.push(book1Cover);
     this.scene.add(book1Group);
 
     // 2. 3D Book: "Crochet Mastery" at theta = -0.12
-    const theta2 = -0.12;
+    const theta2 = -0.52;
     const b2X = Math.sin(theta2) * rMid;
     const b2Z = centerZ + Math.cos(theta2) * rMid;
 
@@ -3102,7 +3215,7 @@ export class ClayWorld3D extends EventTarget {
     b2Ctx.fillText('Crochet Mastery', 128, 110);
     b2Ctx.font = 'italic 16px Georgia, serif';
     b2Ctx.fillText('Foundational Guide', 128, 150);
-    b2Ctx.fillText('âœ¨', 128, 220);
+    b2Ctx.fillText('', 128, 220);
     const b2Tex = new THREE.CanvasTexture(b2Canvas);
     const b2Label = new THREE.Mesh(new THREE.PlaneGeometry(0.58, 0.78), new THREE.MeshBasicMaterial({ map: b2Tex }));
     b2Label.rotation.x = -Math.PI / 2;
@@ -3112,13 +3225,13 @@ export class ClayWorld3D extends EventTarget {
     book2Cover.userData = {
       type: 'book-crochet',
       name: 'Crochet Mastery: Foundational Guide',
-      prompt: 'âœ¦ Click to Pick Up & Read "Crochet Mastery"'
+      prompt: 'Read "Crochet Mastery"'
     };
     this.interactiveObjects.push(book2Cover);
     this.scene.add(book2Group);
 
     // 3. 3D Stripe Donation Box at theta = +0.18
-    const thetaDon = 0.18;
+    const thetaDon = 0.78;
     const donX = Math.sin(thetaDon) * rMid;
     const donZ = centerZ + Math.cos(thetaDon) * rMid;
 
@@ -3153,7 +3266,7 @@ export class ClayWorld3D extends EventTarget {
     dctx.textAlign = 'center';
     dctx.fillText('DONATIONS', 256, 70);
     dctx.font = 'bold 24px Georgia, serif';
-    dctx.fillText('ðŸ”’ Stripe Support', 256, 120);
+    dctx.fillText(' Stripe Support', 256, 120);
 
     const donTex = new THREE.CanvasTexture(donCanvas);
     const plaqueMesh = new THREE.Mesh(new THREE.PlaneGeometry(0.56, 0.22), new THREE.MeshBasicMaterial({ map: donTex }));
@@ -3163,7 +3276,7 @@ export class ClayWorld3D extends EventTarget {
     boxChest.userData = {
       type: 'donation',
       name: "Stripe Donation Box",
-      prompt: "âœ¦ Click to Support Leola's Library via Stripe"
+      prompt: " Click to Support Leola's Library via Stripe"
     };
     this.interactiveObjects.push(boxChest);
     this.scene.add(boxGroup);
@@ -3753,7 +3866,7 @@ export class ClayWorld3D extends EventTarget {
     this.grandGlobeSphere.userData = {
       type: 'grand_globe',
       name: 'Grand Terrestrial Earth Globe',
-      prompt: 'ðŸ– Click & Drag to Spin the Earth Globe'
+      prompt: ' Click & Drag to Spin the Earth Globe'
     };
     this.grandGlobeGroup.add(this.grandGlobeSphere);
     this.interactiveObjects.push(this.grandGlobeSphere);
@@ -3837,7 +3950,7 @@ export class ClayWorld3D extends EventTarget {
     benchCushion.userData = {
       type: 'globe_bench',
       name: 'Globe Reading Window Bench',
-      prompt: 'âœ¦ Sit by the Grand Globe & Read',
+      prompt: ' Sit by the Grand Globe & Read',
       walkTo: new THREE.Vector3(x - 2.2, 1.8, z - 0.2),
       seatPos: new THREE.Vector3(x - 2.2, 1.25, z - 1.1),
       seatLook: new THREE.Vector3(x, 1.7, z)
@@ -3976,7 +4089,7 @@ export class ClayWorld3D extends EventTarget {
     tableTop.userData = {
       type: 'reading-table',
       name: 'Reading Table',
-      prompt: 'âœ¦ Click to Sit Down & Read Needle & Yarn',
+      prompt: ' Click to Sit Down & Read Needle & Yarn',
       walkTo: new THREE.Vector3(-8.5, 1.8, -13.8),
       seatPos: new THREE.Vector3(-8.5, 1.35, -14.2),
       seatLook: new THREE.Vector3(-8.5, 1.15, -16.0)
@@ -4333,10 +4446,10 @@ export class ClayWorld3D extends EventTarget {
     mctx.textAlign = 'center';
     mctx.shadowColor = '#000000';
     mctx.shadowBlur = 8;
-    mctx.fillText("â˜… 3D CLAY ARCADE â˜…", 256, 68);
+    mctx.fillText(" 3D CLAY ARCADE ", 256, 68);
     mctx.fillStyle = '#ffe082';
     mctx.font = 'bold 22px Georgia, serif';
-    mctx.fillText("âœ¦ 5 RETRO CROCHET GAMES âœ¦", 256, 118);
+    mctx.fillText(" 5 RETRO CROCHET GAMES ", 256, 118);
 
     const marqueeTex = new THREE.CanvasTexture(marqueeCanvas);
     const marqueeMesh = new THREE.Mesh(
@@ -4373,7 +4486,7 @@ export class ClayWorld3D extends EventTarget {
     cctx.fillStyle = '#26c6da';
     cctx.font = 'bold 30px monospace';
     cctx.textAlign = 'center';
-    cctx.fillText("YARN RUNNER Â· 3D", 256, 75);
+    cctx.fillText("YARN RUNNER  3D", 256, 75);
     cctx.fillStyle = '#ffca28';
     cctx.font = 'bold 20px monospace';
     cctx.fillText("SCORE: 02480   LVL: 04", 256, 115);
@@ -4391,7 +4504,7 @@ export class ClayWorld3D extends EventTarget {
     cctx.font = '18px monospace';
     cctx.fillText("INSERT TOKEN OR CLICK TO PLAY", 256, 310);
     cctx.fillStyle = '#69f0ae';
-    cctx.fillText("â–¶ 1P  CROCHET CRUSH  FLAPPY YARN  CRAFT QUEST â—€", 256, 345);
+    cctx.fillText(" 1P  CROCHET CRUSH  FLAPPY YARN  CRAFT QUEST ", 256, 345);
 
     const crtTex = new THREE.CanvasTexture(crtScreenCanvas);
     const crtMesh = new THREE.Mesh(
@@ -4502,7 +4615,7 @@ export class ClayWorld3D extends EventTarget {
     body.userData = {
       type: 'arcade',
       name: '3D Crochet Arcade (5 Games)',
-      prompt: 'ðŸ•¹ï¸ Click to Play 5 Retro Arcade Games',
+      prompt: ' Click to Play 5 Retro Arcade Games',
       walkTo: new THREE.Vector3(13.2, 1.8, -20.0)
     };
     this.interactiveObjects.push(body);
@@ -4828,7 +4941,7 @@ export class ClayWorld3D extends EventTarget {
     const boothInteractionData = {
       type: 'movie-booth-seat',
       name: 'Cozy Movie Booth',
-      prompt: 'ðŸŽ¬ Click to Sit Down & Watch Movies in Movie Booth',
+      prompt: ' Click to Sit Down & Watch Movies in Movie Booth',
       walkTo: new THREE.Vector3(0, 1.8, -34.8),
       seatPos: new THREE.Vector3(-1.05, 1.15, -35.2),
       seatLook: new THREE.Vector3(0, 1.45, -36.65)
@@ -4840,7 +4953,7 @@ export class ClayWorld3D extends EventTarget {
     cushionR.userData = { ...boothInteractionData, seat: 'right', seatPos: new THREE.Vector3(1.05, 1.15, -35.2) };
     this.interactiveObjects.push(cushionR);
 
-    tvScreen.userData = { ...boothInteractionData, prompt: 'ðŸŽ¬ Click to Sit & Watch Video Masterclasses' };
+    tvScreen.userData = { ...boothInteractionData, prompt: ' Click to Sit & Watch Video Masterclasses' };
     this.interactiveObjects.push(tvScreen);
 
     this.scene.add(this.movieBoothGroup);
@@ -5028,7 +5141,7 @@ export class ClayWorld3D extends EventTarget {
       new THREE.TorusGeometry(archRadius, 0.20, 16, 32, Math.PI),
       oakMat
     );
-    archFrame.rotation.z = Math.PI;
+    archFrame.rotation.z = 0;
     archGroup.add(archFrame);
 
     const glassMat = new THREE.MeshStandardMaterial({
@@ -5302,8 +5415,8 @@ export class ClayWorld3D extends EventTarget {
 
     ctx.fillStyle = '#f1c40f';
     ctx.font = '36px sans-serif';
-    ctx.fillText('âœ¨', 64, 180);
-    ctx.fillText('âœ¨', 930, 180);
+    ctx.fillText('', 64, 180);
+    ctx.fillText('', 930, 180);
 
     ctx.fillStyle = '#fff4d8';
     ctx.font = 'bold 72px Georgia, serif';
@@ -5315,7 +5428,7 @@ export class ClayWorld3D extends EventTarget {
     ctx.fillStyle = '#f7d070';
     ctx.font = 'bold 30px Georgia, serif';
     ctx.shadowBlur = 4;
-    ctx.fillText("âœ¦ Stories Â· Knowledge Â· Wonder Â· Community âœ¦", 512, 245);
+    ctx.fillText(" Stories  Knowledge  Wonder  Community ", 512, 245);
 
     return new THREE.CanvasTexture(canvas);
   }
@@ -5369,7 +5482,7 @@ export class ClayWorld3D extends EventTarget {
 
     ctx.font = 'bold 36px Georgia, serif';
     ctx.fillStyle = '#221a14';
-    ctx.fillText('Imaginations â™¥', 256, 315);
+    ctx.fillText('Imaginations ', 256, 315);
 
     return new THREE.CanvasTexture(canvas);
   }
@@ -5546,57 +5659,18 @@ export class ClayWorld3D extends EventTarget {
 
     ctx.fillStyle = '#ff6b6b';
     ctx.font = 'bold 64px sans-serif';
-    ctx.fillText('â™¥', 256, 480);
+    ctx.fillText('', 256, 480);
 
     return new THREE.CanvasTexture(canvas);
   }
 
-  sitDownInMovieBooth(data) {
-    this.phase = 'seated';
-    this.isWalking = false;
-    this.clearNavigationDots();
 
-    const startPos = this.camera.position.clone();
-    const endPos = data.seatPos || new THREE.Vector3(-1.05, 1.15, -35.2);
-    const startLook = new THREE.Vector3(
-      this.camera.position.x - Math.sin(this.yaw),
-      this.camera.position.y + this.pitch,
-      this.camera.position.z - Math.cos(this.yaw)
-    );
-    const endLook = data.seatLook || new THREE.Vector3(0, 1.45, -36.65);
-
-    let t = 0;
-    const animateSeat = () => {
-      t += 0.04;
-      const easeT = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      this.camera.position.lerpVectors(startPos, endPos, easeT);
-      const curLook = new THREE.Vector3().lerpVectors(startLook, endLook, easeT);
-      this.camera.lookAt(curLook);
-
-      if (t < 1.0) {
-        requestAnimationFrame(animateSeat);
-      } else {
-        this.camera.position.copy(endPos);
-        this.camera.lookAt(endLook);
-        this.playerPos.set(endPos.x, 0, endPos.z);
-        const dx = endLook.x - endPos.x;
-        const dz = endLook.z - endPos.z;
-        this.yaw = Math.atan2(-dx, -dz);
-        this.pitch = 0.05;
-        this.dispatchEvent(new CustomEvent('interact', { detail: { type: 'movie-booth-seat', seated: true } }));
-      }
-    };
-    animateSeat();
-  }
-
-  // ==========================================
-  // TRUE SEATED LEOLA AVATAR (RECEPTION DESK)
-  // ==========================================
   buildTrueSeatedLeolaAvatar() {
     const leolaGroup = new THREE.Group();
-    // Reception desk center is (0, 0, -9.0), counter height 1.35.
-    // Leola is seated behind the desk at (0, 0, -9.3) facing forward (+z, rotY = 0)
-    leolaGroup.position.set(0, 0, -9.3);
+    // Reception desk center is (0, 0, -7.5), counter height 1.29.
+    // Leola is seated behind the front counter at (0, 0, -6.15) facing forward (+z, rotY = 0)
+    leolaGroup.position.set(0, 0, -6.15);
+    leolaGroup.name = 'Leola_At_Front_Counter';
 
     // Materials faithful to turnaround reference sheets
     const skinMat = this.clayMaterial(0xba7744, 0.82); // Warm bronze clay skin
@@ -5938,7 +6012,7 @@ export class ClayWorld3D extends EventTarget {
 
     // 7. DESK ACCESSORIES IN FRONT OF LEOLA (On curved counter top y = 1.48, z = -8.0 to -8.5)
     const deskPropsGroup = new THREE.Group();
-    deskPropsGroup.position.set(0, 1.36, 0.85);
+    deskPropsGroup.position.set(0, 1.29, 0.85);
 
     // A. Ceramic Coffee Mug: "Good Projects Brighter People â™¥"
     const mugTex = this.createMugTexture();
@@ -6011,6 +6085,7 @@ export class ClayWorld3D extends EventTarget {
     const speechBillboard = this.initSeatedLeolaSpeechBillboard();
     speechBillboard.position.set(0, seatHeight + 1.45, 0);
     leolaGroup.add(speechBillboard);
+    speechBillboard.visible = false;
 
     this.scene.add(leolaGroup);
 
@@ -6018,17 +6093,17 @@ export class ClayWorld3D extends EventTarget {
     headMesh.userData = {
       type: 'leola',
       name: 'Leola (Library Guide)',
-      prompt: 'âœ¦ Talk to Leola (Library Guide)'
+      prompt: ' Talk to Leola (Library Guide)'
     };
     vest.userData = {
       type: 'leola',
       name: 'Leola (Library Guide)',
-      prompt: 'âœ¦ Talk to Leola (Library Guide)'
+      prompt: ' Talk to Leola (Library Guide)'
     };
     plaque.userData = {
       type: 'leola',
       name: 'Leola (Library Guide)',
-      prompt: 'âœ¦ Talk to Leola (Library Guide)'
+      prompt: ' Talk to Leola (Library Guide)'
     };
     this.interactiveObjects.push(headMesh);
     this.interactiveObjects.push(vest);
@@ -6061,6 +6136,7 @@ export class ClayWorld3D extends EventTarget {
       },
       update: (dt, cameraPos) => {
         const time = performance.now() * 0.001;
+        headGroup.rotation.z = this.librarianNarrating ? Math.sin(time * 3.5) * 0.025 : 0;
         // Breathing oscillation
         const breathe = Math.sin(time * 2.2) * 0.008;
         headGroup.position.y = seatHeight + 0.88 + breathe * 1.2;
@@ -6153,7 +6229,7 @@ export class ClayWorld3D extends EventTarget {
     ctx.font = 'bold 36px Georgia, serif';
     ctx.textAlign = 'center';
     ctx.fillText('Good Projects', 256, 105);
-    ctx.fillText('Brighter People â™¥', 256, 165);
+    ctx.fillText('Brighter People ', 256, 165);
 
     return new THREE.CanvasTexture(canvas);
   }
@@ -6203,7 +6279,7 @@ export class ClayWorld3D extends EventTarget {
     ctx.textAlign = 'center';
     ctx.shadowColor = '#000000';
     ctx.shadowBlur = 4;
-    ctx.fillText('Leola Â· Library Guide', 256, 75);
+    ctx.fillText('Leola  Library Guide', 256, 75);
 
     return new THREE.CanvasTexture(canvas);
   }
@@ -6289,7 +6365,7 @@ export class ClayWorld3D extends EventTarget {
       sweaterColor: 0x782834, pantsColor: 0x243952, shoeColor: 0x4a2a16,
       hasGlasses: true, hasHairBun: true,
       bookTitle: 'Stories of Kindness', bookColor: 0x2b4c7e,
-      prompt: 'Ã¢Å“Â¦ Elena is reading with both hands on her open book.'
+      prompt: ' Elena is reading with both hands on her open book.'
     });
     this.seatedPatrons.push(elena);
 
@@ -6301,7 +6377,7 @@ export class ClayWorld3D extends EventTarget {
       sweaterColor: 0xd49b43, pantsColor: 0x23374d, shoeColor: 0x5c381f,
       isFadeHair: true,
       bookTitle: 'Architects of Wonder', bookColor: 0x3d704d,
-      prompt: 'Ã¢Å“Â¦ Marcus is seated naturally with his book held above his lap.'
+      prompt: ' Marcus is seated naturally with his book held above his lap.'
     });
     this.seatedPatrons.push(marcus);
 
@@ -6313,7 +6389,7 @@ export class ClayWorld3D extends EventTarget {
       sweaterColor: 0x9b82aa, pantsColor: 0x286367, shoeColor: 0xf0ede6,
       hasHeadband: true, headbandColor: 0xf1c40f, hasPonytail: true,
       bookTitle: 'Crochet Motifs', bookColor: 0xba3268,
-      prompt: 'Ã¢Å“Â¦ Chloe is seated by the globe with visible legs, feet, and book.'
+      prompt: ' Chloe is seated by the globe with visible legs, feet, and book.'
     });
     this.seatedPatrons.push(chloe);
   }
@@ -6546,37 +6622,62 @@ export class ClayWorld3D extends EventTarget {
 
   initThirdPersonAvatar() {
     this.playerAvatar = new THREE.Group();
-    this.playerAvatar.name = 'Player_Visitor_Avatar';
+    this.playerAvatar.name = 'Leola_Player_Avatar';
 
-    // Stylized visitor with warm clay aesthetic
-    const sweaterMat = this.clayMaterial(0xd49b43, 0.85); // Mustard yellow clay sweater
-    const pantsMat = this.clayMaterial(0x27435f, 0.86);   // Navy clay trousers
-    const skinMat = this.clayMaterial(0x8a5432, 0.82);    // Clay skin
-    const beanieMat = this.clayMaterial(0x2d6a4f, 0.88);  // Forest green clay beanie
-    const bootMat = this.clayMaterial(0x4a2813, 0.85);    // Brown clay boots
+    const blouseMat = this.clayMaterial(0xf2e5cf, 0.92);
+    const vestMat = this.clayMaterial(0x49384e, 0.88);
+    const vestRustMat = this.clayMaterial(0x7a3f3b, 0.9);
+    const vestBlueMat = this.clayMaterial(0x283d5c, 0.9);
+    const pantsMat = this.clayMaterial(0x6d3e38, 0.9);
+    const skinMat = this.clayMaterial(0x9a5d38, 0.84);
+    const hairMat = this.clayMaterial(0x211716, 0.96);
+    const bootMat = this.clayMaterial(0x4a2813, 0.88);
+    const earringMat = this.clayMaterial(0x5d8175, 0.86);
 
     // Hips & Torso
     const hips = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.25, 0.22, 12), pantsMat);
     hips.position.y = 0.95;
     this.playerAvatar.add(hips);
 
-    const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.22, 0.52, 12), sweaterMat);
+    const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.22, 0.52, 12), blouseMat);
     torso.position.y = 1.30;
     torso.castShadow = true;
     this.playerAvatar.add(torso);
 
-    // Head & Beanie
+    const vest = new THREE.Mesh(new THREE.CylinderGeometry(0.275, 0.235, 0.43, 12, 1, true), vestMat);
+    vest.position.set(0, 1.31, 0);
+    this.playerAvatar.add(vest);
+    [[-0.12, 1.38, 0.24, vestRustMat], [0.12, 1.22, 0.24, vestBlueMat]].forEach(([x, y, z, material]) => {
+      const patch = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.14, 0.018), material);
+      patch.position.set(x, y, z);
+      this.playerAvatar.add(patch);
+    });
+
+    // Head, braided crown, bun, and teal earrings match Leola's supplied character sheet.
     const head = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), skinMat);
     head.position.y = 1.72;
     this.playerAvatar.add(head);
 
-    const beanie = new THREE.Mesh(new THREE.SphereGeometry(0.24, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.55), beanieMat);
-    beanie.position.set(0, 1.76, -0.02);
-    this.playerAvatar.add(beanie);
-
-    const pompom = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), sweaterMat);
-    pompom.position.set(0, 2.02, -0.02);
-    this.playerAvatar.add(pompom);
+    const crown = new THREE.Mesh(new THREE.TorusGeometry(0.185, 0.045, 8, 18), hairMat);
+    crown.rotation.x = Math.PI / 2;
+    crown.position.set(0, 1.86, 0);
+    this.playerAvatar.add(crown);
+    const bun = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 10), hairMat);
+    bun.scale.set(1.2, 0.85, 1.0);
+    bun.position.set(0, 1.83, 0.17);
+    this.playerAvatar.add(bun);
+    for (let i = 0; i < 7; i++) {
+      const braid = new THREE.Mesh(new THREE.TorusGeometry(0.15 + i * 0.008, 0.018, 6, 16, Math.PI * 1.35), hairMat);
+      braid.rotation.set(Math.PI / 2, 0, -0.42 + i * 0.14);
+      braid.position.set(0, 1.85, -0.005);
+      this.playerAvatar.add(braid);
+    }
+    [-1, 1].forEach(side => {
+      const earring = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), earringMat);
+      earring.scale.set(1, 0.45, 1.15);
+      earring.position.set(side * 0.23, 1.66, 0);
+      this.playerAvatar.add(earring);
+    });
 
     // Articulated legs for walking
     this.pLegL = new THREE.Group();
@@ -6602,14 +6703,14 @@ export class ClayWorld3D extends EventTarget {
     // Arms
     this.pArmL = new THREE.Group();
     this.pArmL.position.set(-0.30, 1.48, 0);
-    const armLMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.46, 10), sweaterMat);
+    const armLMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.46, 10), blouseMat);
     armLMesh.position.y = -0.23;
     this.pArmL.add(armLMesh);
     this.playerAvatar.add(this.pArmL);
 
     this.pArmR = new THREE.Group();
     this.pArmR.position.set(0.30, 1.48, 0);
-    const armRMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.46, 10), sweaterMat);
+    const armRMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.46, 10), blouseMat);
     armRMesh.position.y = -0.23;
     this.pArmR.add(armRMesh);
     this.playerAvatar.add(this.pArmR);
@@ -6689,8 +6790,9 @@ export class ClayWorld3D extends EventTarget {
     window.addEventListener('resize', () => this.onResize());
 
     window.addEventListener('keydown', (e) => {
+      if (e.target.closest?.('input, textarea, select, [contenteditable=true]')) return;
       this.keys.add(e.code);
-      if (e.code === 'KeyV') {
+      if (e.code === 'KeyV' && !e.repeat) {
         this.toggleCameraMode();
       }
       if (e.code === 'KeyE') {
@@ -6701,7 +6803,40 @@ export class ClayWorld3D extends EventTarget {
     });
     window.addEventListener('keyup', (e) => this.keys.delete(e.code));
 
+    const cancelWalk = () => {
+      this.walkPath = [];
+      this.walkTarget = null;
+      this.onArriveCallback = null;
+      this.targetYaw = undefined;
+      this.isWalking = false;
+      this.clearNavigationDots();
+      if (this.phase === 'doors-opening') this.phase = this.playerPos.z > 5.4 ? 'outside' : 'inside';
+    };
+    const releasePointer = () => {
+      this.isDragging = false;
+      this.isDraggingGlobe = false;
+      this.activePointerId = null;
+    };
+    window.addEventListener('blur', () => { releasePointer(); this.keys.clear(); });
+    this.canvas.addEventListener('pointercancel', releasePointer);
+    this.canvas.addEventListener('lostpointercapture', releasePointer);
+    this.canvas.style.touchAction = 'none';
+    this.canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      cancelWalk();
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? this.canvas.clientHeight : 1;
+      this.yaw -= e.deltaX * unit * 0.002;
+      if (this.cameraMode === 'third_person') {
+        this.orbitDistance = Math.max(2, Math.min(9, (this.orbitDistance ?? 3.6) + e.deltaY * unit * 0.006));
+      } else {
+        this.pitch = Math.max(-0.95, Math.min(1.22, this.pitch - e.deltaY * unit * 0.002));
+      }
+    }, { passive: false });
     this.canvas.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0 || this.activePointerId != null) return;
+      this.activePointerId = e.pointerId;
+      this.pointerDragged = false;
+      try { this.canvas.setPointerCapture(e.pointerId); } catch { /* Synthetic input has no active browser pointer. */ }
       this.pointerStartX = e.clientX;
       this.pointerStartY = e.clientY;
       // Immediately release any automated yaw tracking so user mouse-look is 100% responsive and never vibrates
@@ -6722,12 +6857,15 @@ export class ClayWorld3D extends EventTarget {
       this.prevPointerY = e.clientY;
     });
 
-    window.addEventListener('pointerup', () => {
-      this.isDragging = false;
-      this.isDraggingGlobe = false;
-    });
+    window.addEventListener('pointerup', releasePointer);
 
     window.addEventListener('pointermove', (e) => {
+      if (this.activePointerId != null && e.pointerId !== this.activePointerId) return;
+      if ((this.isDragging || this.isDraggingGlobe) && e.buttons === 0) { releasePointer(); return; }
+      if (this.activePointerId != null && Math.hypot(e.clientX - this.pointerStartX, e.clientY - this.pointerStartY) > 7) {
+        this.pointerDragged = true;
+        cancelWalk();
+      }
       if (this.isDraggingGlobe && this.grandGlobeSphere) {
         const dx = e.clientX - this.prevGlobePointerX;
         this.globeSpinVelocity = dx * 0.008;
@@ -6749,14 +6887,22 @@ export class ClayWorld3D extends EventTarget {
       this.prevPointerY = e.clientY;
     });
 
-    this.canvas.addEventListener('click', (e) => this.handleClick(e));
+    this.canvas.addEventListener('pointerleave',()=>{const b=document.getElementById('world-interaction-badge');if(b)b.style.opacity='0';});
+    this.canvas.addEventListener('click', (e) => {const b=document.getElementById('world-interaction-badge');if(b)b.style.opacity='0';this.handleClick(e);});
+  }
+
+  getInteractiveHits(raycaster) {
+    return raycaster.intersectObjects(this.interactiveObjects, true).filter(hit => {
+      for (let object=hit.object; object; object=object.parent) if (!object.visible) return false;
+      return true;
+    });
   }
 
   checkHover(e) {
-    const raycaster = this.getRaycaster(e);
-    const hits = raycaster.intersectObjects(this.interactiveObjects, true);
-
     const badge = document.getElementById('world-interaction-badge');
+    if (document.body.classList.contains('npc-conversation-open') || document.querySelector('dialog[open], .modal-backdrop.active')) { if(badge)badge.style.opacity='0'; return; }
+    const raycaster = this.getRaycaster(e);
+    const hits = this.getInteractiveHits(raycaster);
     if (hits.length > 0) {
       let obj = hits[0].object;
       while (obj && !obj.userData?.prompt && obj.parent) {
@@ -6764,6 +6910,8 @@ export class ClayWorld3D extends EventTarget {
       }
       if (obj?.userData?.prompt && badge) {
         badge.textContent = obj.userData.prompt;
+        badge.style.left = Math.max(8, Math.min(e.clientX + 16, window.innerWidth - 250)) + 'px';
+        badge.style.top = Math.max(8, Math.min(e.clientY + 18, window.innerHeight - 76)) + 'px';
         badge.style.opacity = '1';
         this.canvas.style.cursor = 'pointer';
         return;
@@ -6787,14 +6935,14 @@ export class ClayWorld3D extends EventTarget {
   handleClick(e) {
     // If user was dragging mouse to turn/look around, do NOT trigger click navigation or interaction!
     const dragDist = Math.hypot(e.clientX - this.pointerStartX, e.clientY - this.pointerStartY);
-    if (dragDist > 7) {
+    if (this.pointerDragged || dragDist > 7) {
       return;
     }
 
     const raycaster = this.getRaycaster(e);
 
     // 1. Interactive Object Clicks (doors, leola, seats, books, arcade, globe)
-    const hits = raycaster.intersectObjects(this.interactiveObjects, true);
+    const hits = this.getInteractiveHits(raycaster);
     if (hits.length > 0) {
       let obj = hits[0].object;
       while (obj && !obj.userData?.type && obj.parent) {
@@ -6829,6 +6977,12 @@ export class ClayWorld3D extends EventTarget {
   }
 
   handleObjectInteraction(data) {
+    if (data.type === 'table-reading-seat') { this.readingSeats?.choose(data.seatId); return; }
+    if (['author-invitation','author-seat','author-clipboard','premiere-book'].includes(data.type)) {
+      this.dispatchEvent(new CustomEvent(data.type, { detail: data }));
+      return;
+    }
+
     if (data.type === 'doors') {
       this.openDoorsAndEnter();
       return;
@@ -6842,23 +6996,19 @@ export class ClayWorld3D extends EventTarget {
       this.dispatchEvent(new CustomEvent('inspect_globe'));
       return;
     }
-    if (data.type === 'globe_bench') {
-      this.sitDownAtReadingTable(data);
+    if (data.type === 'librarian_helper') { this.cancelWalking(); this.dispatchEvent(new CustomEvent('talk_helper')); return; }
+    if (['globe_bench','reading-table'].includes(data.type)) return;
+
+    if (data.type === 'movie-booth-screen' || data.type === 'video') {
+      this.wallVideoPlayer?.open(); return;
+    }
+    if (data.type === 'movie-booth-seat') {
+      this.startWalkingTo(new THREE.Vector3(0, 0, -30.8), () => this.sitDownInMovieBooth());
       return;
     }
 
-    if (data.type === 'movie-booth-seat' || data.type === 'movie-booth-screen') {
-      if (data.walkTo && this.camera.position.distanceTo(data.walkTo) > 3.0) {
-        this.startWalkingTo(data.walkTo, () => {
-          this.sitDownInMovieBooth(data);
-        });
-      } else {
-        this.sitDownInMovieBooth(data);
-      }
-      return;
-    }
-
-    if (data.type === 'book-needle' || data.type === 'book-crochet' || data.type === 'donation' || data.type === 'video' || data.type === 'arcade') {
+    if (data.type === 'book-needle' || data.type === 'book-crochet') { this.bookCarry?.pickup(data.bookId || data.type); return; }
+    if (data.type === 'donation' || data.type === 'video' || data.type === 'arcade') {
       this.dispatchEvent(new CustomEvent('interact', { detail: data }));
       return;
     }
@@ -6868,7 +7018,7 @@ export class ClayWorld3D extends EventTarget {
         if (data.type === 'reading-table') {
           this.sitDownAtReadingTable(data);
         } else if (data.type === 'desk') {
-          this.triggerLeolaOnboarding();
+          this.triggerLeolaDialogue();
         } else {
           this.dispatchEvent(new CustomEvent('interact', { detail: data }));
         }
@@ -6880,146 +7030,78 @@ export class ClayWorld3D extends EventTarget {
 
   triggerLeolaOnboarding() {
     this.phase = 'talking_leola';
-    this.leola.startDialogue("Welcome to my desk! Let's get you set up with your library card âœ¦");
+    this.leola.startDialogue("Welcome to my desk! Let's get you set up with your library card ");
     this.dispatchEvent(new CustomEvent('onboarding_request'));
   }
 
   triggerLeolaDialogue() {
-    this.phase = 'talking_leola';
-    this.leola.startDialogue("Welcome to Leola's Library! Ask me anything!");
+    this.cancelWalking();
+    this.dispatchEvent(new CustomEvent('talk_leola'));
+  }
 
-    const targetPos = new THREE.Vector3(
-      this.leola.group.position.x + 0.3,
-      1.8,
-      this.leola.group.position.z + 2.6
-    );
-    this.startWalkingTo(targetPos, () => {
-      this.yaw = 0;
-      this.pitch = -0.05;
-      this.dispatchEvent(new CustomEvent('talk_leola'));
-    });
+  cancelWalking() {
+    this.walkTarget = null;
+    this.walkPath = [];
+    this.onArriveCallback = null;
+    this.targetYaw = undefined;
+    this.isWalking = false;
+    this.clearNavigationDots();
   }
 
   startWalkingTo(destPos, onArrive = null) {
-    if (this.phase === 'seated') {
-      this.standUp();
-    }
-
-    const safeTarget = this.resolveCollisions(destPos.clone());
-    this.walkTarget = safeTarget;
+    if (this.phase === 'seated') this.standUp();
+    this.cancelWalking();
+    const path = findWalkPath(this, this.playerPos, destPos);
+    if (!path) return false;
+    this.playerPos.set(path[0].x, 0, path[0].z);
+    this.walkPath = path.slice(1).map(p => new THREE.Vector3(p.x, 0, p.z));
+    this.walkTarget = this.walkPath.shift() || null;
     this.onArriveCallback = onArrive;
-    this.isWalking = true;
-    this.showNavigationDots(this.camera.position.clone(), safeTarget);
-
-    const dx = safeTarget.x - this.camera.position.x;
-    const dz = safeTarget.z - this.camera.position.z;
-    if (Math.hypot(dx, dz) > 0.5) {
-      this.targetYaw = Math.atan2(-dx, -dz);
-    }
+    this.isWalking = !!this.walkTarget;
+    if (this.walkTarget) this.showNavigationDots(this.playerPos.clone(), destPos);
+    return true;
   }
 
   openDoorsAndEnter() {
-    if (this.phase === 'doors-opening' || this.phase === 'inside') return;
+    if (this.phase === 'doors-opening') return;
+    if (this.phase === 'seated') this.standUp();
+    const leaving = this.playerPos.z < 5;
     this.phase = 'doors-opening';
     this.playDoorSound();
     this.dispatchEvent(new CustomEvent('phasechange', { detail: 'doors-opening' }));
 
-    this.startWalkingTo(new THREE.Vector3(0, 1.8, -2.8), () => {
-      this.phase = 'inside';
-      this.dispatchEvent(new CustomEvent('phasechange', { detail: 'inside' }));
+    this.startWalkingTo(new THREE.Vector3(0, 0, leaving ? 10 : -2.8), () => {
+      this.phase = this.playerPos.z > 5.4 ? 'outside' : 'inside';
+      this.dispatchEvent(new CustomEvent('phasechange', { detail: this.phase }));
     });
   }
 
-  sitDownAtReadingTable(data) {
-    this.phase = 'seated';
-    this.isWalking = false;
-    this.clearNavigationDots();
-
-    const startPos = this.camera.position.clone();
-    const endPos = data.seatPos || new THREE.Vector3(-8.5, 1.15, -14.8);
-    const startLook = new THREE.Vector3(
-      this.camera.position.x - Math.sin(this.yaw),
-      this.camera.position.y + this.pitch,
-      this.camera.position.z - Math.cos(this.yaw)
-    );
-    const endLook = data.seatLook || new THREE.Vector3(-8.5, 0.95, -16.2);
-
-    let t = 0;
-    const animateSeat = () => {
-      t += 0.05;
-      const easeT = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      this.camera.position.lerpVectors(startPos, endPos, easeT);
-      const curLook = new THREE.Vector3().lerpVectors(startLook, endLook, easeT);
-      this.camera.lookAt(curLook);
-
-      if (t < 1.0) {
-        requestAnimationFrame(animateSeat);
-      } else {
-        this.camera.position.copy(endPos);
-        this.camera.lookAt(endLook);
-        this.yaw = 0;
-        this.pitch = -0.15;
-        this.dispatchEvent(new CustomEvent('interact', { detail: { type: 'reading-table', seated: true } }));
-      }
-    };
-    animateSeat();
+  sitDownAtReadingTable() {
+    // Only the two author chairs and the centered cinema bench are visitor seats.
   }
 
-  sitDownInMovieBooth(data) {
+  sitDownInMovieBooth() {
+    this.cancelWalking();
     this.phase = 'seated';
-    this.isWalking = false;
-    this.clearNavigationDots();
-
-    const startPos = this.camera.position.clone();
-    // Sit comfortably on the navy blue bench on the left looking at the cinema TV screen
-    const endPos = data.seatPos || new THREE.Vector3(-0.95, 1.25, -34.7);
-    const startLook = new THREE.Vector3(
-      this.camera.position.x - Math.sin(this.yaw),
-      this.camera.position.y + this.pitch,
-      this.camera.position.z - Math.cos(this.yaw)
-    );
-    // Look at the center of the Owl Cinema TV screen & counter props
-    const endLook = data.seatLook || new THREE.Vector3(0.1, 2.5, -36.5);
-
-    let t = 0;
-    const animateSeat = () => {
-      t += 0.05;
-      const easeT = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      this.camera.position.lerpVectors(startPos, endPos, easeT);
-      const curLook = new THREE.Vector3().lerpVectors(startLook, endLook, easeT);
-      this.camera.lookAt(curLook);
-
-      if (t < 1.0) {
-        requestAnimationFrame(animateSeat);
-      } else {
-        this.camera.position.copy(endPos);
-        this.camera.lookAt(endLook);
-        const dx = endLook.x - endPos.x;
-        const dy = endLook.y - endPos.y;
-        const dz = endLook.z - endPos.z;
-        this.yaw = Math.atan2(-dx, -dz);
-        this.pitch = Math.atan2(dy, Math.hypot(dx, dz));
-        if (this.playerPos) this.playerPos.set(endPos.x, 0, endPos.z);
-        this.dispatchEvent(new CustomEvent('interact', { detail: { type: 'movie-booth', seated: true } }));
-      }
-    };
-    animateSeat();
+    this.seatStandPos = new THREE.Vector3(0, 0, -30.8);
+    this.playerPos.set(0, 0, -32.35);
+    this.camera.position.set(0, 1.6, -32.35);
+    this.camera.lookAt(0, 3.15, -36.49);
+    this.yaw = this.camera.rotation.y;
+    this.pitch = this.camera.rotation.x;
+    this.playerAvatar.visible = false;
+    this.wallVideoPlayer?.open();
   }
 
   standUp() {
     if (this.phase !== 'seated') return;
     this.phase = 'inside';
-    if (this.camera.position.z < -30.0 || (this.playerPos && this.playerPos.z < -30.0)) {
-      this.camera.position.set(0, 1.8, -33.4);
-      if (this.playerPos) this.playerPos.set(0, 0, -33.4);
-      this.yaw = 0;
-      this.pitch = 0;
-    } else {
-      this.camera.position.set(-8.5, 1.8, -13.8);
-      if (this.playerPos) this.playerPos.set(-8.5, 0, -13.8);
-      this.yaw = 0;
-      this.pitch = 0;
-    }
+    const origin = this.seatStandPos || this.playerPos.clone();
+    const safe = findWalkPath(this, origin, origin)?.[0];
+    if (safe) this.playerPos.set(safe.x, 0, safe.z);
+    this.seatStandPos = null;
+    this.camera.position.set(this.playerPos.x, 1.8, this.playerPos.z);
+    this.cancelWalking();
     this.dispatchEvent(new CustomEvent('standup'));
   }
 
@@ -7033,6 +7115,7 @@ export class ClayWorld3D extends EventTarget {
   }
 
   updateDoors(dt) {
+    if (this.phase === 'park') return;
     const playerZ = this.playerPos ? this.playerPos.z : this.camera.position.z;
     const playerX = this.playerPos ? this.playerPos.x : this.camera.position.x;
 
@@ -7060,7 +7143,11 @@ export class ClayWorld3D extends EventTarget {
   }
 
   updateMovement(dt) {
-    if (this.phase === 'seated') return;
+    if (this.phase === 'seated') {
+      const moving = ['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].some(k=>this.keys.has(k));
+      if (moving) this.standUp();
+      else { this.camera.rotation.set(this.pitch, this.yaw, 0, 'YXZ'); return; }
+    }
 
     if (!this.playerPos) {
       this.playerPos = new THREE.Vector3(this.camera.position.x, 0, this.camera.position.z);
@@ -7077,65 +7164,41 @@ export class ClayWorld3D extends EventTarget {
 
     if (move.lengthSq() > 0.001) {
       this.isWalking = true;
+      this.walkPath = [];
       this.walkTarget = null;
+      this.onArriveCallback = null;
       this.targetYaw = undefined;
       this.clearNavigationDots();
+      this.avatarHeading = Math.atan2(-move.x, -move.z);
       move.normalize().multiplyScalar(this.walkSpeed * dt);
       const candidate = this.playerPos.clone().add(move);
       this.playerPos.copy(this.resolveCollisions(candidate));
     }
 
     if (this.walkTarget) {
-      const cur = this.playerPos;
-      const target = this.walkTarget;
-      const dist = Math.hypot(target.x - cur.x, target.z - cur.z);
-
-      if (dist > 0.35) {
-        const step = Math.min(dist, this.walkSpeed * dt);
-        const dirX = (target.x - cur.x) / dist;
-        const dirZ = (target.z - cur.z) / dist;
-        const candidate = new THREE.Vector3(cur.x + dirX * step, 0, cur.z + dirZ * step);
-        const resolved = this.resolveCollisions(candidate);
-
-        // Check if movement was completely blocked by a solid obstacle or boundary
-        const progress = Math.hypot(resolved.x - cur.x, resolved.z - cur.z);
-        if (progress < 0.001 && step > 0.01) {
-          // Blocked by solid obstacle or standoff buffer: stop cleanly
-          this.isWalking = false;
-          this.walkTarget = null;
-          this.targetYaw = undefined;
-          this.clearNavigationDots();
-          if (this.onArriveCallback) {
-            this.onArriveCallback();
-            this.onArriveCallback = null;
-          }
-        } else {
-          cur.x = resolved.x;
-          cur.z = resolved.z;
-
-          if (this.targetYaw !== undefined) {
-            let diff = this.targetYaw - this.yaw;
-            while (diff < -Math.PI) diff += Math.PI * 2;
-            while (diff > Math.PI) diff -= Math.PI * 2;
-            this.yaw += diff * dt * 4.0;
-            if (Math.abs(diff) < 0.04) {
-              this.targetYaw = undefined;
-            }
-          }
+      const target = this.walkTarget, cur = this.playerPos;
+      const dist = Math.hypot(target.x-cur.x,target.z-cur.z);
+      if (dist <= Math.max(.025,this.walkSpeed*dt)) {
+        cur.copy(target);
+        this.walkTarget = this.walkPath?.shift() || null;
+        if (!this.walkTarget) {
+          const callback = this.onArriveCallback;
+          this.cancelWalking();
+          callback?.();
+          if (this.phase === 'seated') return;
         }
       } else {
-        cur.x = target.x;
-        cur.z = target.z;
-        this.isWalking = false;
-        this.walkTarget = null;
-        this.targetYaw = undefined;
-        this.clearNavigationDots();
-        if (this.onArriveCallback) {
-          this.onArriveCallback();
-          this.onArriveCallback = null;
-        }
+        const step = Math.min(dist,this.walkSpeed*dt);
+        const candidate = new THREE.Vector3(cur.x+(target.x-cur.x)*step/dist,0,cur.z+(target.z-cur.z)*step/dist);
+        const resolved = this.resolveCollisions(candidate);
+        if (Math.hypot(resolved.x-cur.x,resolved.z-cur.z)<.001) {
+          const final = this.walkPath?.at(-1) || target, callback = this.onArriveCallback;
+          this.startWalkingTo(final,callback);
+        } else cur.copy(resolved);
       }
     }
+
+    if (this.isWalking && this.walkTarget) this.avatarHeading = Math.atan2(this.playerPos.x - this.walkTarget.x, this.playerPos.z - this.walkTarget.z);
 
     // Safety pass through solid collision resolver
     this.playerPos.copy(this.resolveCollisions(this.playerPos));
@@ -7145,7 +7208,7 @@ export class ClayWorld3D extends EventTarget {
       if (this.playerAvatar) {
         this.playerAvatar.visible = true;
         this.playerAvatar.position.set(this.playerPos.x, 0, this.playerPos.z);
-        this.playerAvatar.rotation.y = this.yaw + Math.PI;
+        this.playerAvatar.rotation.y = this.avatarHeading ?? this.yaw;
 
         // Animate limbs while walking
         if (this.isWalking) {
@@ -7161,22 +7224,13 @@ export class ClayWorld3D extends EventTarget {
           if (this.pArmR) this.pArmR.rotation.x = 0;
         }
       }
-      const camDist = 3.6;
-      // Position camera behind the player and adjust height with pitch
-      const camHeight = 2.2 - Math.sin(this.pitch) * 1.8;
+      const camDist = this.orbitDistance ?? 3.6;
       this.camera.position.set(
-        this.playerPos.x + Math.sin(this.yaw) * camDist * Math.cos(this.pitch * 0.5),
-        camHeight,
-        this.playerPos.z + Math.cos(this.yaw) * camDist * Math.cos(this.pitch * 0.5)
+        this.playerPos.x + Math.sin(this.yaw) * camDist * Math.cos(this.pitch),
+        Math.max(0.45, 1.45 - Math.sin(this.pitch) * camDist),
+        this.playerPos.z + Math.cos(this.yaw) * camDist * Math.cos(this.pitch)
       );
-      this.playerAvatar.rotation.y = this.yaw;
-      // Look at player chest and up/down into sky or ground with pitch
-      const targetY = 1.45 + Math.sin(this.pitch) * 4.5;
-      this.camera.lookAt(
-        this.playerPos.x - Math.sin(this.yaw) * 4.0,
-        targetY,
-        this.playerPos.z - Math.cos(this.yaw) * 4.0
-      );
+      this.camera.lookAt(this.playerPos.x, 1.45, this.playerPos.z);
     } else {
       // First Person: Camera at player's eye level (steady y = 1.8, zero shaking)
       if (this.playerAvatar) {
@@ -7190,20 +7244,30 @@ export class ClayWorld3D extends EventTarget {
   }
 
   teleportTo(loc) {
+    if (this.phase === 'seated') this.standUp();
     this.isWalking = false;
     this.walkTarget = null;
+    this.walkPath = [];
+    this.onArriveCallback = null;
+    this.targetYaw = undefined;
     this.clearNavigationDots();
 
-    if (loc === 'exterior') {
+    if (loc === 'playground') {
+      this.phase = 'park';
+      this.camera.position.set(24, 1.8, -4);
+      this.playerPos.set(24, 0, -4);
+      this.yaw = -Math.PI / 2;
+      this.pitch = 0.04;
+    } else if (loc === 'exterior') {
       this.phase = 'outside';
       this.camera.position.set(0, 1.8, 22); if (!this.playerPos) this.playerPos = new THREE.Vector3(); this.playerPos.set(0, 0, 22);
-      this.yaw = 0;
+      this.yaw = Math.PI;
       this.pitch = -0.05;
     } else if (loc === 'desk') {
       this.phase = 'inside';
       this.doorGroupL.position.x = -3.8;
       this.doorGroupR.position.x = 3.8;
-      this.camera.position.set(0, 1.8, -5.5); if (!this.playerPos) this.playerPos = new THREE.Vector3(); this.playerPos.set(0, 0, -5.5);
+      this.camera.position.set(0, 1.8, -4.1); if (!this.playerPos) this.playerPos = new THREE.Vector3(); this.playerPos.set(0, 0, -4.1);
       this.yaw = 0;
       this.pitch = -0.06;
     } else if (loc === 'bookshelves') {
@@ -7257,6 +7321,21 @@ export class ClayWorld3D extends EventTarget {
     this.updateMovement(dt);
     this.updatePromenadeNPCs(dt);
     this.updateSkyElements(dt, time);
+    this.playgroundVisitors?.update(time);
+    this.bookCarry?.update();
+    this.parkSwings?.forEach((swing,i)=>{swing.rotation.x=Math.sin(time*1.15+i*0.7)*0.14;});
+
+    this.trafficCars?.forEach(car => {
+      const traffic = car.userData.streetTraffic;
+      const route = this.cityStreetRoute;
+      const distance = ((time * traffic.speed * traffic.direction + traffic.phase) % route.length + route.length) % route.length;
+      const halfWidth = route.sample(distance).halfWidth;
+      const point = route.sample(distance, traffic.direction * halfWidth * 0.5);
+      car.position.set(point.x, 0.19, point.z);
+      car.rotation.y = point.heading + (traffic.direction > 0 ? 0 : Math.PI);
+      traffic.routeDistance = distance;
+
+    });
 
     // Smoothly spin the Grand Earth Globe
     if (this.grandGlobeSphere && !this.isDraggingGlobe) {
@@ -7267,14 +7346,17 @@ export class ClayWorld3D extends EventTarget {
       }
     }
 
-    // Animate Birds in the sky
-    this.flyingBirds.forEach(bird => {
-      const data = bird.userData;
-      bird.position.x = data.baseX + Math.sin(time * data.speed + data.offset) * 12.0;
-      bird.position.z = data.baseZ + Math.cos(time * data.speed + data.offset) * 8.0;
-      const wingAngle = Math.sin(time * 12.0 + data.offset) * 0.5;
-      data.wingL.rotation.z = wingAngle;
-      data.wingR.rotation.z = -wingAngle;
+    // Animate harbor sailboats so the waterfront is visibly alive.
+    this.sailboats?.forEach((boat, index) => {
+      const m = boat.userData.harborMotion;
+      const t = time * m.speed + m.phase;
+      const dx = Math.cos(t) * m.radiusX;
+      const dz = -Math.sin(t * 0.82) * 0.82 * m.radiusZ;
+      boat.position.x = m.baseX + Math.sin(t) * m.radiusX;
+      boat.position.z = m.baseZ + Math.cos(t * 0.82) * m.radiusZ;
+      boat.position.y = 0.22 + Math.sin(time * 1.7 + m.phase) * 0.06;
+      boat.rotation.y = Math.atan2(dx, dz) + m.baseRotY * 0.18;
+      boat.rotation.z = Math.sin(time * 1.15 + index) * 0.018;
     });
 
     if (this.librarianHelper) {

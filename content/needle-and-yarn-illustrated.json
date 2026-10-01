@@ -1,0 +1,548 @@
+{
+  "schemaVersion": 1,
+  "title": "Needle & Yarn: A Love Stitched in Time",
+  "author": "Leola “Sista” Lee",
+  "edition": "Illustrated edition from creator-supplied final PDF",
+  "cover": "assets/books/needle-and-yarn/cover.jpg",
+  "epub": "assets/books/needle-and-yarn/needle-and-yarn.epub",
+  "pageCount": 33,
+  "sourcePdfPageCount": 17,
+  "layout": "individual illustrated pages",
+  "textAvailability": "Image-only source PDF; no extractable text layer. Page labels are provided, not an invented transcript.",
+  "sourceSha256": "5ec0c79f2cb2400b36f9d991f747bd9ed4822e57358db71eb0e2461d0d2ae39c",
+  "chapters": [
+    {
+      "number": 1,
+      "title": "Chapter One - The Magic Begins",
+      "pageIndex": 3,
+      "page": 4
+    },
+    {
+      "number": 2,
+      "title": "Chapter Two - The First Hello",
+      "pageIndex": 7,
+      "page": 8
+    },
+    {
+      "number": 3,
+      "title": "Chapter Three - Working Together",
+      "pageIndex": 11,
+      "page": 12
+    },
+    {
+      "number": 4,
+      "title": "Chapter Four - The Break",
+      "pageIndex": 15,
+      "page": 16
+    },
+    {
+      "number": 5,
+      "title": "Chapter Five - The Return",
+      "pageIndex": 21,
+      "page": 22
+    },
+    {
+      "number": 6,
+      "title": "Chapter Six - The Pattern Continues",
+      "pageIndex": 28,
+      "page": 29
+    }
+  ],
+  "pages": [
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-001.jpg",
+      "width": 640,
+      "height": 960,
+      "text": "",
+      "label": "Cover",
+      "sourcePdfPage": 1,
+      "sourceCrop": [
+        520.0,
+        30.0,
+        1160.0,
+        990.0
+      ],
+      "printedPage": null
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-002.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Dedication",
+      "sourcePdfPage": 2,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 1
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-003.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "A Note from Leola",
+      "sourcePdfPage": 2,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 2
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-004.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Chapter One - The Magic Begins",
+      "sourcePdfPage": 3,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 3
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-005.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "A Shop Full of Possibility",
+      "sourcePdfPage": 3,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 4
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-006.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "The Choosing",
+      "sourcePdfPage": 4,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 5
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-007.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "A New World",
+      "sourcePdfPage": 4,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 6
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-008.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Chapter Two - The First Hello",
+      "sourcePdfPage": 5,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 7
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-009.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Meet the Basket Family",
+      "sourcePdfPage": 5,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 8
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-010.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "More of the Living Tools",
+      "sourcePdfPage": 6,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 9
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-011.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "First Stitches Together",
+      "sourcePdfPage": 6,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 10
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-012.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Chapter Three - Working Together",
+      "sourcePdfPage": 7,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 11
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-013.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "The Scarf Begins",
+      "sourcePdfPage": 7,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 12
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-014.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Their Rhythm",
+      "sourcePdfPage": 8,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 13
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-015.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Made to Be Given",
+      "sourcePdfPage": 8,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 14
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-016.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Chapter Four - The Break",
+      "sourcePdfPage": 9,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 15
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-017.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Before Everything Changed",
+      "sourcePdfPage": 9,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 16
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-018.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "The Door Opened Hard",
+      "sourcePdfPage": 10,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 17
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-019.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Snap",
+      "sourcePdfPage": 10,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 18
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-020.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "The Basket Went Quiet",
+      "sourcePdfPage": 11,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 19
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-021.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Where You Come Back",
+      "sourcePdfPage": 11,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 20
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-022.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Chapter Five - The Return",
+      "sourcePdfPage": 12,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 21
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-023.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "First Snow",
+      "sourcePdfPage": 12,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 22
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-024.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "A Christmas Stitch",
+      "sourcePdfPage": 13,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 23
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-025.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Family Gathers",
+      "sourcePdfPage": 13,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 24
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-026.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "The Autumn Hat Finds Her",
+      "sourcePdfPage": 14,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 25
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-027.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Micky Brings Her Basket",
+      "sourcePdfPage": 14,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 26
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-028.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Two Baskets, One Family",
+      "sourcePdfPage": 15,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 27
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-029.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Chapter Six - The Pattern Continues",
+      "sourcePdfPage": 15,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 28
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-030.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Learning by Doing",
+      "sourcePdfPage": 16,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 29
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-031.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "The Older Tools Teach",
+      "sourcePdfPage": 16,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 30
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-032.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Time Keeps Moving",
+      "sourcePdfPage": 17,
+      "sourceCrop": [
+        32.0,
+        42.0,
+        831.0,
+        954.0
+      ],
+      "printedPage": 31
+    },
+    {
+      "src": "assets/books/needle-and-yarn/pages/page-033.jpg",
+      "width": 799,
+      "height": 912,
+      "text": "",
+      "label": "Together",
+      "sourcePdfPage": 17,
+      "sourceCrop": [
+        849.0,
+        42.0,
+        1648.0,
+        954.0
+      ],
+      "printedPage": 32
+    }
+  ]
+}

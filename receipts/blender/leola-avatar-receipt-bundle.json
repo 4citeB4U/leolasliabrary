@@ -1,0 +1,3246 @@
+{
+  "scene": "leola-avatar",
+  "generatedAt": "2026-09-29T14:58:46.7437694-05:00",
+  "mcpEndpoint": "http://127.0.0.1:43119/mcp/blender",
+  "protocol": "LEEWAY-BLENDER-WORKER-v1",
+  "runtimeState": {
+    "mcp_source": "PRESENT",
+    "mcp_build": "PASS",
+    "mcp_endpoint": "READY",
+    "worker_state": "ONLINE",
+    "native_blender_execution": "EXECUTED",
+    "worker_pairing_configured": true,
+    "active_worker_count": 1,
+    "total_workers_registered": 1,
+    "total_jobs_dispatched": 50,
+    "total_receipts_created": 50,
+    "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+    "allowed_tools": [
+      "blender_status",
+      "blender_scene_summary",
+      "blender_create_primitive",
+      "blender_transform_object",
+      "blender_set_material",
+      "blender_add_light",
+      "blender_set_camera",
+      "blender_render_preview",
+      "blender_save_blend",
+      "blender_export_glb"
+    ]
+  },
+  "output": {
+    "preview": "leola_clay_avatar_preview.png",
+    "blend": "leola_clay_avatar.blend",
+    "glb": "leola_clay_avatar.glb"
+  },
+  "terminalJobs": [
+    {
+      "job_id": "job-blender-1790711923653-1c16e6cb",
+      "tool": "blender_scene_summary",
+      "parameters": {
+        "include_meshes": true
+      },
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-29T19:58:43.653Z",
+      "caller_agent": "Agent Lee - Leolas Library clay world build",
+      "worker_id": "leolas-leola-avatar-0244f193",
+      "dispatched_at": "2026-09-29T19:58:43.697Z",
+      "completed_at": "2026-09-29T19:58:43.713Z",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711923653-1c16e6cb",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_scene_summary",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Active scene: Scene",
+          "Objects (24): Cube, Light, Camera, Leola_Torso, Leola_Vest, Leola_Head, Leola_Bun, Leola_BraidCrown, Leola_Eye_L, Leola_Eye_R, Leola_Nose, Leola_Smile, Leola_Pants, Leola_Arm_L, Leola_Arm_R, Leola_Leg_L, Leola_Leg_R, Leola_Boot_L, Leola_Boot_R, Leola_Earring_L",
+          "Materials (21): Clay_Leola_Arm_L, Clay_Leola_Arm_R, Clay_Leola_Boot_L, Clay_Leola_Boot_R, Clay_Leola_BraidCrown, Clay_Leola_Bun, Clay_Leola_Earring_L, Clay_Leola_Earring_R, Clay_Leola_Eye_L, Clay_Leola_Eye_R, Clay_Leola_Head, Clay_Leola_Leg_L, Clay_Leola_Leg_R, Clay_Leola_Necklace, Clay_Leola_Nose, Clay_Leola_Pants, Clay_Leola_Smile, Clay_Leola_Torso, Clay_Leola_Vest, Dots Stroke"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      },
+      "receipt_id": "receipt-blender-1790711923713-54d85a87"
+    },
+    {
+      "job_id": "job-blender-1790711923794-ef409df3",
+      "tool": "blender_render_preview",
+      "parameters": {
+        "output_path": "leola_clay_avatar_preview.png",
+        "resolution_x": 1280,
+        "resolution_y": 720
+      },
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-29T19:58:43.794Z",
+      "caller_agent": "Agent Lee - Leolas Library clay world build",
+      "worker_id": "leolas-leola-avatar-0244f193",
+      "dispatched_at": "2026-09-29T19:58:43.852Z",
+      "completed_at": "2026-09-29T19:58:45.86Z",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711923794-ef409df3",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_render_preview",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Rendered preview to C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar_preview.png"
+        ],
+        "artifacts": [
+          "C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar_preview.png"
+        ],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      },
+      "receipt_id": "receipt-blender-1790711925860-dba15b26"
+    },
+    {
+      "job_id": "job-blender-1790711925894-ca8d2905",
+      "tool": "blender_save_blend",
+      "parameters": {
+        "filepath": "leola_clay_avatar.blend"
+      },
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-29T19:58:45.894Z",
+      "caller_agent": "Agent Lee - Leolas Library clay world build",
+      "worker_id": "leolas-leola-avatar-0244f193",
+      "dispatched_at": "2026-09-29T19:58:46Z",
+      "completed_at": "2026-09-29T19:58:46.007Z",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711925894-ca8d2905",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_save_blend",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Saved Blender project to C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.blend"
+        ],
+        "artifacts": [
+          "C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.blend"
+        ],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      },
+      "receipt_id": "receipt-blender-1790711926007-0f1a39f7"
+    },
+    {
+      "job_id": "job-blender-1790711926033-fb4e392d",
+      "tool": "blender_export_glb",
+      "parameters": {
+        "filepath": "leola_clay_avatar.glb"
+      },
+      "status": "SUCCEEDED",
+      "created_at": "2026-09-29T19:58:46.033Z",
+      "caller_agent": "Agent Lee - Leolas Library clay world build",
+      "worker_id": "leolas-leola-avatar-0244f193",
+      "dispatched_at": "2026-09-29T19:58:46.138Z",
+      "completed_at": "2026-09-29T19:58:46.668Z",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711926033-fb4e392d",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_export_glb",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Exported GLB to C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.glb"
+        ],
+        "artifacts": [
+          "C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.glb"
+        ],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      },
+      "receipt_id": "receipt-blender-1790711926668-c8b2da41"
+    }
+  ],
+  "receipts": [
+    {
+      "receipt_id": "receipt-blender-1790711926668-c8b2da41",
+      "task_id": "job-blender-1790711926033-fb4e392d",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "6307cfcc561ae2e364816b93c7f8e72e9a843bc0e78a2e2a368fc198f6eec8cb",
+      "output_hash": "89c8d10956da5db6e1122f936f52cbc0240f0d7023acc1da53c013f918e96791",
+      "tools_requested": [
+        "blender_export_glb"
+      ],
+      "tools_executed": [
+        "blender_export_glb"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "6307cfcc561ae2e364816b93c7f8e72e9a843bc0e78a2e2a368fc198f6eec8cb",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711926033-fb4e392d",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_export_glb",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Exported GLB to C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.glb"
+        ],
+        "artifacts": [
+          "C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.glb"
+        ],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      },
+      "timestamp": "2026-09-29T19:58:46.669Z",
+      "evidence": [
+        "Exported GLB to C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.glb"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [
+          "C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.glb"
+        ],
+        "tool": "blender_export_glb",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711926007-0f1a39f7",
+      "task_id": "job-blender-1790711925894-ca8d2905",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "edf04ca00a53582d866922707cfa2ae0d59873b5f20e6d4ba5f7be86f186b7d5",
+      "output_hash": "5973416cfcfbb24c3085c55da5b76404c7363339a67f3e06cd6f345ad4b72178",
+      "tools_requested": [
+        "blender_save_blend"
+      ],
+      "tools_executed": [
+        "blender_save_blend"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "edf04ca00a53582d866922707cfa2ae0d59873b5f20e6d4ba5f7be86f186b7d5",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711925894-ca8d2905",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_save_blend",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Saved Blender project to C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.blend"
+        ],
+        "artifacts": [
+          "C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.blend"
+        ],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      },
+      "timestamp": "2026-09-29T19:58:46.007Z",
+      "evidence": [
+        "Saved Blender project to C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.blend"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [
+          "C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar.blend"
+        ],
+        "tool": "blender_save_blend",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711925860-dba15b26",
+      "task_id": "job-blender-1790711923794-ef409df3",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "799218690c281b860ad7fa285409e03b14241da5a4ea94d613b4322b891e5ed1",
+      "output_hash": "f34fa2de35d1e10c7a1c2ee32ff9f4080cd1f91028e9bc948504bb3f6f24113f",
+      "tools_requested": [
+        "blender_render_preview"
+      ],
+      "tools_executed": [
+        "blender_render_preview"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "799218690c281b860ad7fa285409e03b14241da5a4ea94d613b4322b891e5ed1",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711923794-ef409df3",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_render_preview",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Rendered preview to C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar_preview.png"
+        ],
+        "artifacts": [
+          "C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar_preview.png"
+        ],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      },
+      "timestamp": "2026-09-29T19:58:45.86Z",
+      "evidence": [
+        "Rendered preview to C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar_preview.png"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [
+          "C:\\Users\\Leona\\Documents\\Codex\\2026-09-28\\ok-i-want-you-to-actually-2\\work\\leolasliabrary-edit\\assets\\models\\leola_clay_avatar_preview.png"
+        ],
+        "tool": "blender_render_preview",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711923713-54d85a87",
+      "task_id": "job-blender-1790711923653-1c16e6cb",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "b5b73cf2c941e62e46f77f77048846036adbf02fef02c4247bfde4706cbde64f",
+      "output_hash": "6ee6acba3396c8efa9aa766686b1739a1cb2dfdfdc0c2ad5697bc35fc06cd3fe",
+      "tools_requested": [
+        "blender_scene_summary"
+      ],
+      "tools_executed": [
+        "blender_scene_summary"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "b5b73cf2c941e62e46f77f77048846036adbf02fef02c4247bfde4706cbde64f",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711923653-1c16e6cb",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_scene_summary",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Active scene: Scene",
+          "Objects (24): Cube, Light, Camera, Leola_Torso, Leola_Vest, Leola_Head, Leola_Bun, Leola_BraidCrown, Leola_Eye_L, Leola_Eye_R, Leola_Nose, Leola_Smile, Leola_Pants, Leola_Arm_L, Leola_Arm_R, Leola_Leg_L, Leola_Leg_R, Leola_Boot_L, Leola_Boot_R, Leola_Earring_L",
+          "Materials (21): Clay_Leola_Arm_L, Clay_Leola_Arm_R, Clay_Leola_Boot_L, Clay_Leola_Boot_R, Clay_Leola_BraidCrown, Clay_Leola_Bun, Clay_Leola_Earring_L, Clay_Leola_Earring_R, Clay_Leola_Eye_L, Clay_Leola_Eye_R, Clay_Leola_Head, Clay_Leola_Leg_L, Clay_Leola_Leg_R, Clay_Leola_Necklace, Clay_Leola_Nose, Clay_Leola_Pants, Clay_Leola_Smile, Clay_Leola_Torso, Clay_Leola_Vest, Dots Stroke"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      },
+      "timestamp": "2026-09-29T19:58:43.713Z",
+      "evidence": [
+        "Active scene: Scene",
+        "Objects (24): Cube, Light, Camera, Leola_Torso, Leola_Vest, Leola_Head, Leola_Bun, Leola_BraidCrown, Leola_Eye_L, Leola_Eye_R, Leola_Nose, Leola_Smile, Leola_Pants, Leola_Arm_L, Leola_Arm_R, Leola_Leg_L, Leola_Leg_R, Leola_Boot_L, Leola_Boot_R, Leola_Earring_L",
+        "Materials (21): Clay_Leola_Arm_L, Clay_Leola_Arm_R, Clay_Leola_Boot_L, Clay_Leola_Boot_R, Clay_Leola_BraidCrown, Clay_Leola_Bun, Clay_Leola_Earring_L, Clay_Leola_Earring_R, Clay_Leola_Eye_L, Clay_Leola_Eye_R, Clay_Leola_Head, Clay_Leola_Leg_L, Clay_Leola_Leg_R, Clay_Leola_Necklace, Clay_Leola_Nose, Clay_Leola_Pants, Clay_Leola_Smile, Clay_Leola_Torso, Clay_Leola_Vest, Dots Stroke"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_scene_summary",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711923556-4e617197",
+      "task_id": "job-blender-1790711923512-8fc735f4",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "cce626d2b2b348ab43be157c7015b1981d4ac10ece5221afd93290e948bda114",
+      "output_hash": "f09226d6ed36d356359d213c2e18cad09397bdfba834fb977ecf6b0c38f95706",
+      "tools_requested": [
+        "blender_set_camera"
+      ],
+      "tools_executed": [
+        "blender_set_camera"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "cce626d2b2b348ab43be157c7015b1981d4ac10ece5221afd93290e948bda114",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711923512-8fc735f4",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_camera",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Camera Camera set active"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      },
+      "timestamp": "2026-09-29T19:58:43.556Z",
+      "evidence": [
+        "Camera Camera set active"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_camera",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711923419-8e0ef1da",
+      "task_id": "job-blender-1790711923374-d0e0cec3",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "4a546fb32b4e8cbf1a611ca0a5b096c78fed55892dc93d13f7ecedeae2bdce50",
+      "output_hash": "fa3a91d4a7472bf62ab20e08d7efd25e381bba050fc273b2d30ac839324abb2e",
+      "tools_requested": [
+        "blender_add_light"
+      ],
+      "tools_executed": [
+        "blender_add_light"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "4a546fb32b4e8cbf1a611ca0a5b096c78fed55892dc93d13f7ecedeae2bdce50",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711923374-d0e0cec3",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_add_light",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created AREA light Waterfront_Fill"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      },
+      "timestamp": "2026-09-29T19:58:43.419Z",
+      "evidence": [
+        "Created AREA light Waterfront_Fill"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_add_light",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 24
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711923277-ffc647c0",
+      "task_id": "job-blender-1790711923233-1c36f45c",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "7f00b49002990967334e6bcff25fe2f1ffadccef6d5ad59d748b82f94d2f8c42",
+      "output_hash": "6a64e279da8b328482cbac86cb247c402895c434ad1e52af1144404f7f1f5ec1",
+      "tools_requested": [
+        "blender_add_light"
+      ],
+      "tools_executed": [
+        "blender_add_light"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "7f00b49002990967334e6bcff25fe2f1ffadccef6d5ad59d748b82f94d2f8c42",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711923233-1c36f45c",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_add_light",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created SUN light Warm_Sun"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 23
+        }
+      },
+      "timestamp": "2026-09-29T19:58:43.277Z",
+      "evidence": [
+        "Created SUN light Warm_Sun"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_add_light",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 23
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711923129-d37aa120",
+      "task_id": "job-blender-1790711923093-95bee74e",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "8a98596ef550b6f93eecc63aa25dfe163527324450ca9ed70c6b3d84049da8fe",
+      "output_hash": "55bf65a71e2eeaa64ff86c7f1c0747dae93fa4f2a260dc34b56d3595645bb4e3",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "8a98596ef550b6f93eecc63aa25dfe163527324450ca9ed70c6b3d84049da8fe",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711923093-95bee74e",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Necklace to Leola_Necklace"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 22
+        }
+      },
+      "timestamp": "2026-09-29T19:58:43.129Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Necklace to Leola_Necklace"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 22
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711923005-c6317da6",
+      "task_id": "job-blender-1790711922952-6436c7d0",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "c014ec46308e0eeb08fee14d1965c05d9375412cabe9082bb15caa4f845e9631",
+      "output_hash": "a053d8970a237067cbf94dc335ffde742d537d1e57142adfcc9d3d720af0f1a8",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "c014ec46308e0eeb08fee14d1965c05d9375412cabe9082bb15caa4f845e9631",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711922952-6436c7d0",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created sphere named Leola_Necklace at [0, -0.75, 4.95]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 22
+        }
+      },
+      "timestamp": "2026-09-29T19:58:43.005Z",
+      "evidence": [
+        "Created sphere named Leola_Necklace at [0, -0.75, 4.95]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 22
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711922858-8b18428d",
+      "task_id": "job-blender-1790711922814-959dadc8",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "893140a6c1abfa814314f3d18713ce924730a79c780a80d1d78aec575191a573",
+      "output_hash": "057f11a718bd864a0654dc1da507998c3377a77147cfe8ffebf61a259c4647bb",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "893140a6c1abfa814314f3d18713ce924730a79c780a80d1d78aec575191a573",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711922814-959dadc8",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Earring_R to Leola_Earring_R"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 21
+        }
+      },
+      "timestamp": "2026-09-29T19:58:42.858Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Earring_R to Leola_Earring_R"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 21
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711922704-9ba93226",
+      "task_id": "job-blender-1790711922676-8b2bb64f",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "0b1e6ae61b8d181dc970e0d750f1cc80fa1b292bbb22cc8de6beff713edffea6",
+      "output_hash": "df77baa7a2d0a9b3372832b14bcea3b25ed5911a8c8fd6e5319436f1c79bcdcf",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "0b1e6ae61b8d181dc970e0d750f1cc80fa1b292bbb22cc8de6beff713edffea6",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711922676-8b2bb64f",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created sphere named Leola_Earring_R at [1.12, -0.15, 6.05]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 21
+        }
+      },
+      "timestamp": "2026-09-29T19:58:42.704Z",
+      "evidence": [
+        "Created sphere named Leola_Earring_R at [1.12, -0.15, 6.05]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 21
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711922556-5f8a6f78",
+      "task_id": "job-blender-1790711922537-7fcff69f",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "056ff334b8946e5ccdbee22190be57f2591168aa9c4aa7c4b5bd774955908697",
+      "output_hash": "baef4b9465886371a5d2f1ec67dd6d24befb4371c5d7d9a17858e078b2d674e6",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "056ff334b8946e5ccdbee22190be57f2591168aa9c4aa7c4b5bd774955908697",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711922537-7fcff69f",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Earring_L to Leola_Earring_L"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 20
+        }
+      },
+      "timestamp": "2026-09-29T19:58:42.556Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Earring_L to Leola_Earring_L"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 20
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711922431-397b0e80",
+      "task_id": "job-blender-1790711922396-13965701",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "f99901956a8b2d3452ec1bc35c410fc6b41547329a17bfcde3256edb0dbedf1d",
+      "output_hash": "a21b5f5ad2d4cafcf296c22f05419541a3e12144a99776a912764558e68b6edf",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "f99901956a8b2d3452ec1bc35c410fc6b41547329a17bfcde3256edb0dbedf1d",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711922396-13965701",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created sphere named Leola_Earring_L at [-1.12, -0.15, 6.05]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 20
+        }
+      },
+      "timestamp": "2026-09-29T19:58:42.431Z",
+      "evidence": [
+        "Created sphere named Leola_Earring_L at [-1.12, -0.15, 6.05]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 20
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711922300-80100156",
+      "task_id": "job-blender-1790711922257-67db59bb",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "8113cae9cc4e5e3311cdfa8de2d45d73aaa8c80485c9d1bd49ecf95d3eee39bc",
+      "output_hash": "c40809eb0bd4a128f8b13b4d43f53057b21bdfc528454b1d9d70a11205c5b00a",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "8113cae9cc4e5e3311cdfa8de2d45d73aaa8c80485c9d1bd49ecf95d3eee39bc",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711922257-67db59bb",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Boot_R to Leola_Boot_R"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 19
+        }
+      },
+      "timestamp": "2026-09-29T19:58:42.3Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Boot_R to Leola_Boot_R"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 19
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711922161-7d68f80e",
+      "task_id": "job-blender-1790711922115-50fd9e99",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "321b110863143b4b16ec313a17fd4bb07dab9fd553218a3610bc705bf246fc25",
+      "output_hash": "4f5b8aa2b44299c6aa542849258c834e703dcf4cc1b6bec03024b3e9d71ea371",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "321b110863143b4b16ec313a17fd4bb07dab9fd553218a3610bc705bf246fc25",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711922115-50fd9e99",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created cube named Leola_Boot_R at [0.55, -0.25, -0.65]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 19
+        }
+      },
+      "timestamp": "2026-09-29T19:58:42.161Z",
+      "evidence": [
+        "Created cube named Leola_Boot_R at [0.55, -0.25, -0.65]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 19
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711922004-fa38ea9b",
+      "task_id": "job-blender-1790711921976-d1273e81",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "0d85ba19c67d25fcf10f665cd823439a78e39cb9ba6d31165e350f6847971026",
+      "output_hash": "a39f93523664a557118d4a347e4b3d6d6cd4cc968968289bed3ba9ccd58e96fc",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "0d85ba19c67d25fcf10f665cd823439a78e39cb9ba6d31165e350f6847971026",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711921976-d1273e81",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Boot_L to Leola_Boot_L"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 18
+        }
+      },
+      "timestamp": "2026-09-29T19:58:42.004Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Boot_L to Leola_Boot_L"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 18
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711921865-e1b7efbb",
+      "task_id": "job-blender-1790711921836-35338cd2",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "5cc022f94ddd6d4295bb12736c3746799c04a671d39909b9b7d464f7b3346226",
+      "output_hash": "c4b9da129c0c5e79137560c13128be8ec20b77010fefa2d12e80310eef98a322",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "5cc022f94ddd6d4295bb12736c3746799c04a671d39909b9b7d464f7b3346226",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711921836-35338cd2",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created cube named Leola_Boot_L at [-0.55, -0.25, -0.65]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 18
+        }
+      },
+      "timestamp": "2026-09-29T19:58:41.865Z",
+      "evidence": [
+        "Created cube named Leola_Boot_L at [-0.55, -0.25, -0.65]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 18
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711921738-26c2382d",
+      "task_id": "job-blender-1790711921693-0f22e499",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "3af16b8b57f44d453bd0d3369dfebf62b3f6bc6eecfc327435de483d89121444",
+      "output_hash": "6c7dd255de237b03739795ac8e0c32c8508d08211b490580c5893582ae82d377",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "3af16b8b57f44d453bd0d3369dfebf62b3f6bc6eecfc327435de483d89121444",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711921693-0f22e499",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Leg_R to Leola_Leg_R"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 17
+        }
+      },
+      "timestamp": "2026-09-29T19:58:41.738Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Leg_R to Leola_Leg_R"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 17
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711921614-29c5fb35",
+      "task_id": "job-blender-1790711921554-a2663446",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "4804ab227a8e854ba7245fd637e3eac872e287ebc704c03da5d9859413936f0d",
+      "output_hash": "ab5c225cf53aaca765769111d15101734a2bc80101a06af1ad59c9201fc15152",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "4804ab227a8e854ba7245fd637e3eac872e287ebc704c03da5d9859413936f0d",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711921554-a2663446",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created cylinder named Leola_Leg_R at [0.55, 0, 0.55]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 17
+        }
+      },
+      "timestamp": "2026-09-29T19:58:41.614Z",
+      "evidence": [
+        "Created cylinder named Leola_Leg_R at [0.55, 0, 0.55]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 17
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711921474-1e10173a",
+      "task_id": "job-blender-1790711921413-8f2916c4",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "414edf117f5d8fa322d3fda38e7e6a85eab13beb89ef8c191ee3f72ce4225ecb",
+      "output_hash": "2e4771ae2e9f77ca0b3f818f4415ecbb4d5eea451202f48c311311ccf5914ffe",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "414edf117f5d8fa322d3fda38e7e6a85eab13beb89ef8c191ee3f72ce4225ecb",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711921413-8f2916c4",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Leg_L to Leola_Leg_L"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 16
+        }
+      },
+      "timestamp": "2026-09-29T19:58:41.474Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Leg_L to Leola_Leg_L"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 16
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711921350-c2d95237",
+      "task_id": "job-blender-1790711921275-2b0befc2",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "a77c7ef67790af560273f201fa1c91882a98fe6317a4d51d34ce308714e7f2f3",
+      "output_hash": "ba4da4b2bdde8fd400587a74e2b2d4ee0ce25f8a796f1d71d129e9217401d3db",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "a77c7ef67790af560273f201fa1c91882a98fe6317a4d51d34ce308714e7f2f3",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711921275-2b0befc2",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created cylinder named Leola_Leg_L at [-0.55, 0, 0.55]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 16
+        }
+      },
+      "timestamp": "2026-09-29T19:58:41.35Z",
+      "evidence": [
+        "Created cylinder named Leola_Leg_L at [-0.55, 0, 0.55]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 16
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711921224-06ddf301",
+      "task_id": "job-blender-1790711921134-063defdf",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "70c010dd14a3e743d69450f63d00a94c18cb902b8a648107079c2c656572b478",
+      "output_hash": "a9135a999c331eb75a0a01bf818755645ecf9ffc938fbe88464beb77f41b1b3e",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "70c010dd14a3e743d69450f63d00a94c18cb902b8a648107079c2c656572b478",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711921134-063defdf",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Arm_R to Leola_Arm_R"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 15
+        }
+      },
+      "timestamp": "2026-09-29T19:58:41.224Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Arm_R to Leola_Arm_R"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 15
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711921099-5df51014",
+      "task_id": "job-blender-1790711920993-72992f8a",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "413b3183415d1c710b243fba199aee7fe3f5ea67c03f9c66582b515a8c85983c",
+      "output_hash": "26217829a6b548493141d2816be38dd08a67195d2facfbabecedbdb83a051409",
+      "tools_requested": [
+        "blender_transform_object"
+      ],
+      "tools_executed": [
+        "blender_transform_object"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "413b3183415d1c710b243fba199aee7fe3f5ea67c03f9c66582b515a8c85983c",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711920993-72992f8a",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_transform_object",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Transformed object Leola_Arm_R"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 15
+        }
+      },
+      "timestamp": "2026-09-29T19:58:41.099Z",
+      "evidence": [
+        "Transformed object Leola_Arm_R"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_transform_object",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 15
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711920959-ef88cfa8",
+      "task_id": "job-blender-1790711920853-97b54718",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "86ce72bf3d7bfa7bf0625fed80fcba036ae2445f4b3c05d6da785b887d0222ea",
+      "output_hash": "7e65ec9fb10f5dcc26056e2667e421700e5ea715cd14bad15308e1f74c7c590a",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "86ce72bf3d7bfa7bf0625fed80fcba036ae2445f4b3c05d6da785b887d0222ea",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711920853-97b54718",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created cylinder named Leola_Arm_R at [1.45, 0, 3.65]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 15
+        }
+      },
+      "timestamp": "2026-09-29T19:58:40.96Z",
+      "evidence": [
+        "Created cylinder named Leola_Arm_R at [1.45, 0, 3.65]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 15
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711920818-3a87a995",
+      "task_id": "job-blender-1790711920713-0392ef16",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "9ea74afb7a97a62ba43a17f972c4e192f0a50c9b3e0a64285b2a07ec6379130e",
+      "output_hash": "4b5d0d35e261190ddabfa537cbf69588d650cb7dc9f402a465d5b7c910ae340a",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "9ea74afb7a97a62ba43a17f972c4e192f0a50c9b3e0a64285b2a07ec6379130e",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711920713-0392ef16",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Arm_L to Leola_Arm_L"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 14
+        }
+      },
+      "timestamp": "2026-09-29T19:58:40.818Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Arm_L to Leola_Arm_L"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 14
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711920572-da1a08fe",
+      "task_id": "job-blender-1790711920433-912d6d54",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "104d0af836be6a500f26cb3a96d725c8b79ed08ae6e307c86af93cc394d8f836",
+      "output_hash": "da4d37123818891a39b4bf26ac1840ac9e03655633d6ebcf1cf1805b953ed963",
+      "tools_requested": [
+        "blender_transform_object"
+      ],
+      "tools_executed": [
+        "blender_transform_object"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "104d0af836be6a500f26cb3a96d725c8b79ed08ae6e307c86af93cc394d8f836",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711920433-912d6d54",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_transform_object",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Transformed object Leola_Arm_L"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 14
+        }
+      },
+      "timestamp": "2026-09-29T19:58:40.572Z",
+      "evidence": [
+        "Transformed object Leola_Arm_L"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_transform_object",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 14
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711920308-d2b5ef1e",
+      "task_id": "job-blender-1790711920294-9a04fc86",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "969436780ae2c735adc684bf73078437273c0f797a080ae207ca87046170dc75",
+      "output_hash": "a2bcfa922ea37328641a5b92ed9f59de36d7eef61dadac71b50767d6dc2c602e",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "969436780ae2c735adc684bf73078437273c0f797a080ae207ca87046170dc75",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711920294-9a04fc86",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created cylinder named Leola_Arm_L at [-1.45, 0, 3.65]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 14
+        }
+      },
+      "timestamp": "2026-09-29T19:58:40.308Z",
+      "evidence": [
+        "Created cylinder named Leola_Arm_L at [-1.45, 0, 3.65]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 14
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711920182-d8e54901",
+      "task_id": "job-blender-1790711920154-b42053af",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "a2443c49af9de1d3b6c25a821136b72c44c2c58c6531d333c5f2cf6a377ca333",
+      "output_hash": "fff72aabcb7130a5106edee5e4f85ff9a64848ba02e9a8581724f3e9c0d1ed3f",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "a2443c49af9de1d3b6c25a821136b72c44c2c58c6531d333c5f2cf6a377ca333",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711920154-b42053af",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Pants to Leola_Pants"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 13
+        }
+      },
+      "timestamp": "2026-09-29T19:58:40.182Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Pants to Leola_Pants"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 13
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711920032-618ce31a",
+      "task_id": "job-blender-1790711920016-3d9d2cad",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "579ca19f8584523be3c31ab13c613e706a66b396efa78ae123a4b2554b0ebcc3",
+      "output_hash": "1dfe3a5f4a0d97deddf4d8cc77acbd615876e02f9f07e697afd892fc84ba2542",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "579ca19f8584523be3c31ab13c613e706a66b396efa78ae123a4b2554b0ebcc3",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711920016-3d9d2cad",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created cylinder named Leola_Pants at [0, 0, 1.85]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 13
+        }
+      },
+      "timestamp": "2026-09-29T19:58:40.032Z",
+      "evidence": [
+        "Created cylinder named Leola_Pants at [0, 0, 1.85]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 13
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711919888-ff8e18c1",
+      "task_id": "job-blender-1790711919873-bd2363dc",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "481cf0c06c4a3c171e2f70b4643327b0eb218d06705f12c74ab6171a384272dc",
+      "output_hash": "8eebd9351dadf27d54cb4529ef3a04e2c4957655cc0da840ef26c91c53dfd9d7",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "481cf0c06c4a3c171e2f70b4643327b0eb218d06705f12c74ab6171a384272dc",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711919873-bd2363dc",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Smile to Leola_Smile"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 12
+        }
+      },
+      "timestamp": "2026-09-29T19:58:39.888Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Smile to Leola_Smile"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 12
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711919753-93f91f8f",
+      "task_id": "job-blender-1790711919734-4e0f19e3",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "a9e5ed8ae817575eb7e613cc77e60f18d25bdf646f05dce91fd824b3a5ecab70",
+      "output_hash": "bcae50bf14703af05720ba94148143e82ee5eb1810a70acefc4280ee00edef74",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "a9e5ed8ae817575eb7e613cc77e60f18d25bdf646f05dce91fd824b3a5ecab70",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711919734-4e0f19e3",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created sphere named Leola_Smile at [0, -0.97, 5.96]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 12
+        }
+      },
+      "timestamp": "2026-09-29T19:58:39.754Z",
+      "evidence": [
+        "Created sphere named Leola_Smile at [0, -0.97, 5.96]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 12
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711919611-d79d0de0",
+      "task_id": "job-blender-1790711919597-bd2dbdf5",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "f5af367af8a115fc4c2fe7a035f89e46ef42e5df7a408152645cd97047620ad9",
+      "output_hash": "ce6d9fc80464a90763e4f683e3688434274c5e0c58c234d7a039e240f5a6f287",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "f5af367af8a115fc4c2fe7a035f89e46ef42e5df7a408152645cd97047620ad9",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711919597-bd2dbdf5",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Nose to Leola_Nose"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 11
+        }
+      },
+      "timestamp": "2026-09-29T19:58:39.611Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Nose to Leola_Nose"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 11
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711919477-5c138ab7",
+      "task_id": "job-blender-1790711919455-7d47e404",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "a8f4d1dad67859c8b01cbd7a32f7b815b6a3352fd6351baf3842d75ca464ce0b",
+      "output_hash": "17d531360aed1e924980d95089e0955b9e2ad84496ba3bea7ea1478bc1ec477b",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "a8f4d1dad67859c8b01cbd7a32f7b815b6a3352fd6351baf3842d75ca464ce0b",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711919455-7d47e404",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created sphere named Leola_Nose at [0, -1.02, 6.25]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 11
+        }
+      },
+      "timestamp": "2026-09-29T19:58:39.477Z",
+      "evidence": [
+        "Created sphere named Leola_Nose at [0, -1.02, 6.25]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 11
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711919329-2f5a342b",
+      "task_id": "job-blender-1790711919315-d38c8f5d",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "7167e62a713f85ddc18cfbb2636c92217f24d5c00cf539010c7d8cbf1c2a5e1d",
+      "output_hash": "2ce88fec98059de39f309a51c549bac474f91f6871224b4213628e38ec4f8ffa",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "7167e62a713f85ddc18cfbb2636c92217f24d5c00cf539010c7d8cbf1c2a5e1d",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711919315-d38c8f5d",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Eye_R to Leola_Eye_R"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 10
+        }
+      },
+      "timestamp": "2026-09-29T19:58:39.329Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Eye_R to Leola_Eye_R"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 10
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711919195-278ec902",
+      "task_id": "job-blender-1790711919175-4e34f12d",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "c154e9f9836a8a8bfc50833618c95a86048f7d1a22fb7e591fb7bddd1106632a",
+      "output_hash": "c309b395101aab0ef77e4dfd123404be41831b784a2317c7d8d5b3d05f57acac",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "c154e9f9836a8a8bfc50833618c95a86048f7d1a22fb7e591fb7bddd1106632a",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711919175-4e34f12d",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created sphere named Leola_Eye_R at [0.42, -0.93, 6.6]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 10
+        }
+      },
+      "timestamp": "2026-09-29T19:58:39.195Z",
+      "evidence": [
+        "Created sphere named Leola_Eye_R at [0.42, -0.93, 6.6]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 10
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711919053-3de880b1",
+      "task_id": "job-blender-1790711919033-c7f5f5c7",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "58cfde238ef8df2e19fd43871f74510b8990cd87b48b343e479257c0e797dfe9",
+      "output_hash": "cb659a3eeebffecaa1befbe8daa5f625521a1b9d0c31f1ec70846e71596d7b69",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "58cfde238ef8df2e19fd43871f74510b8990cd87b48b343e479257c0e797dfe9",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711919033-c7f5f5c7",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Eye_L to Leola_Eye_L"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 9
+        }
+      },
+      "timestamp": "2026-09-29T19:58:39.053Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Eye_L to Leola_Eye_L"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 9
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711918929-2495cdb5",
+      "task_id": "job-blender-1790711918891-bb8c2634",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "fffcf09fd314bcd1a733c28e02d31d2138dc0db7d3f9c67d2a05fd599f67f31c",
+      "output_hash": "f32275f68f8bbec808fc72f066182fab5d1b95d0aaabd2928c4633ec5d735937",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "fffcf09fd314bcd1a733c28e02d31d2138dc0db7d3f9c67d2a05fd599f67f31c",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711918891-bb8c2634",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created sphere named Leola_Eye_L at [-0.42, -0.93, 6.6]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 9
+        }
+      },
+      "timestamp": "2026-09-29T19:58:38.93Z",
+      "evidence": [
+        "Created sphere named Leola_Eye_L at [-0.42, -0.93, 6.6]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 9
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711918800-4b369c58",
+      "task_id": "job-blender-1790711918752-a7187200",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "738f87c05f7ca89323d279c068955ebabaebcd92e3ec003b04cc731e6d40e35a",
+      "output_hash": "51d783e14280a6873dad30b9d9655c760f6e2a3ca2bb1d2976be2badc111aee4",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "738f87c05f7ca89323d279c068955ebabaebcd92e3ec003b04cc731e6d40e35a",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711918752-a7187200",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_BraidCrown to Leola_BraidCrown"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 8
+        }
+      },
+      "timestamp": "2026-09-29T19:58:38.8Z",
+      "evidence": [
+        "Assigned material Clay_Leola_BraidCrown to Leola_BraidCrown"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 8
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711918676-84afec71",
+      "task_id": "job-blender-1790711918613-064d0401",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "f56968991fa5c9192139ea2451fbf8d201d3dbe93a24b0a1fa9faa258d218540",
+      "output_hash": "5128c7603a88dc731c2d8489abaca646430a6bd880679c86fadf8f6579531e10",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "f56968991fa5c9192139ea2451fbf8d201d3dbe93a24b0a1fa9faa258d218540",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711918613-064d0401",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created cylinder named Leola_BraidCrown at [0, 0.15, 7.25]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 8
+        }
+      },
+      "timestamp": "2026-09-29T19:58:38.676Z",
+      "evidence": [
+        "Created cylinder named Leola_BraidCrown at [0, 0.15, 7.25]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 8
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711918551-e5022db2",
+      "task_id": "job-blender-1790711918473-9da0e29b",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "462a69d0baae01cf04985fd5d2934d7422e181fcf5d14914d62954ae6ebabdde",
+      "output_hash": "6aec689c70993581d7d16d5b378d6e8272642e0af1e853e8ee76ef72fbfc0846",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "462a69d0baae01cf04985fd5d2934d7422e181fcf5d14914d62954ae6ebabdde",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711918473-9da0e29b",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Bun to Leola_Bun"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 7
+        }
+      },
+      "timestamp": "2026-09-29T19:58:38.551Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Bun to Leola_Bun"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 7
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711918413-a41c1974",
+      "task_id": "job-blender-1790711918333-2f72241a",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "7126428bf60f9ab74be51f4ca2952f9f80fd7eafa6b3846fda542fee6d57bc2f",
+      "output_hash": "ddb79e32fab845c98046b5cb5dd462fa8bc80fa8680c36a03d441aff33f95e4e",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "7126428bf60f9ab74be51f4ca2952f9f80fd7eafa6b3846fda542fee6d57bc2f",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711918333-2f72241a",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created sphere named Leola_Bun at [0, 0.72, 7]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 7
+        }
+      },
+      "timestamp": "2026-09-29T19:58:38.413Z",
+      "evidence": [
+        "Created sphere named Leola_Bun at [0, 0.72, 7]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 7
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711918284-fc7ca286",
+      "task_id": "job-blender-1790711918195-fcf3b18d",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "de41d8f45a5c9c4e81d418b8fa4f4164365f9a01a9525cf8f09b6515bb8a3174",
+      "output_hash": "8f15214e25e64fa043084b6c5883ea1fbfa714b5b5c22d8797f955d58de4c3c7",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "de41d8f45a5c9c4e81d418b8fa4f4164365f9a01a9525cf8f09b6515bb8a3174",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711918195-fcf3b18d",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Head to Leola_Head"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 6
+        }
+      },
+      "timestamp": "2026-09-29T19:58:38.284Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Head to Leola_Head"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 6
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711918133-0daeec5e",
+      "task_id": "job-blender-1790711918051-d4cb89dc",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "f9cd8f4265c9175fdfbfdf99a7a61812d5f4923c51ddad21781238f33398b9a5",
+      "output_hash": "6d4f10b7c5702b0881cbb566e27f4a0a14702fc6f67b2ab2211c700f62ddabaa",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "f9cd8f4265c9175fdfbfdf99a7a61812d5f4923c51ddad21781238f33398b9a5",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711918051-d4cb89dc",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created sphere named Leola_Head at [0, 0, 6.4]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 6
+        }
+      },
+      "timestamp": "2026-09-29T19:58:38.133Z",
+      "evidence": [
+        "Created sphere named Leola_Head at [0, 0, 6.4]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 6
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711918003-a377b1ee",
+      "task_id": "job-blender-1790711917913-8a737fff",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "93e7e3f71849172434f816fdaa7221ba7aa9f976742e61ab992ebb4692f2a9d5",
+      "output_hash": "0b5dd4764751f039cf0eb10b12e696a8ba1e1b0cb6a30792e76ba02ed9cd4394",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "93e7e3f71849172434f816fdaa7221ba7aa9f976742e61ab992ebb4692f2a9d5",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711917913-8a737fff",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Vest to Leola_Vest"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 5
+        }
+      },
+      "timestamp": "2026-09-29T19:58:38.003Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Vest to Leola_Vest"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 5
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711917863-2d8291d5",
+      "task_id": "job-blender-1790711917773-2063c7cc",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "9673258dbf70a6541b54c87b116fcc314984d9f11ee75d90c36cff9a24d1cb2a",
+      "output_hash": "da1bfaaf63a0c66054d6e8763978abcc7ab4b56f0d704907adb9abaa73fdbecc",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "9673258dbf70a6541b54c87b116fcc314984d9f11ee75d90c36cff9a24d1cb2a",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711917773-2063c7cc",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created cube named Leola_Vest at [0, -0.08, 3.8]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 5
+        }
+      },
+      "timestamp": "2026-09-29T19:58:37.863Z",
+      "evidence": [
+        "Created cube named Leola_Vest at [0, -0.08, 3.8]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 5
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711917726-92fe8ade",
+      "task_id": "job-blender-1790711917633-fab20ad0",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "8fccb087e2bce2a65e6c7e8f5f3538e232d55fa28964b7f44c3be5df13592cbc",
+      "output_hash": "999b61d1859d55d5a30ac3ade0c1d65388ce89931e3d5d698b1cee4120f4de44",
+      "tools_requested": [
+        "blender_set_material"
+      ],
+      "tools_executed": [
+        "blender_set_material"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "8fccb087e2bce2a65e6c7e8f5f3538e232d55fa28964b7f44c3be5df13592cbc",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711917633-fab20ad0",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_set_material",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Assigned material Clay_Leola_Torso to Leola_Torso"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 4
+        }
+      },
+      "timestamp": "2026-09-29T19:58:37.726Z",
+      "evidence": [
+        "Assigned material Clay_Leola_Torso to Leola_Torso"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_set_material",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 4
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711917600-c971a897",
+      "task_id": "job-blender-1790711917493-56585d5e",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "fb6585e52eb2812b22dc8c8b5f011ae7b2a3b70deb803c7e88dfb16dc14d762b",
+      "output_hash": "1791ad3aab1850c1d03b788157363aa704b3ce104d02d4c8f7ed97fdfb5d9e64",
+      "tools_requested": [
+        "blender_create_primitive"
+      ],
+      "tools_executed": [
+        "blender_create_primitive"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "fb6585e52eb2812b22dc8c8b5f011ae7b2a3b70deb803c7e88dfb16dc14d762b",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711917493-56585d5e",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_create_primitive",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Created sphere named Leola_Torso at [0, 0, 3.7]"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 4
+        }
+      },
+      "timestamp": "2026-09-29T19:58:37.6Z",
+      "evidence": [
+        "Created sphere named Leola_Torso at [0, 0, 3.7]"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_create_primitive",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 4
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711917458-2a2ae4e0",
+      "task_id": "job-blender-1790711917353-1b450596",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "fe64f71fc026833f74e1b3c9c372ef363262c2bf9bc2eb970dd647f2ac8b5ead",
+      "output_hash": "1894c71c7ccb23fefca873b58ad117e71c23bdf138a08244f7b9da5d22895645",
+      "tools_requested": [
+        "blender_transform_object"
+      ],
+      "tools_executed": [
+        "blender_transform_object"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "fe64f71fc026833f74e1b3c9c372ef363262c2bf9bc2eb970dd647f2ac8b5ead",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711917353-1b450596",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_transform_object",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Transformed object Light"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 3
+        }
+      },
+      "timestamp": "2026-09-29T19:58:37.458Z",
+      "evidence": [
+        "Transformed object Light"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_transform_object",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 3
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711917317-0c4f5155",
+      "task_id": "job-blender-1790711917209-ad7909a7",
+      "worker": "leolas-leola-avatar-0244f193",
+      "model": "blender-worker",
+      "input_hash": "1f527842e91106873fc41fd558597699c7d51d8054d08af9091e705f73230aad",
+      "output_hash": "888ccd6661b964e92d06e643cb0ddb7b085299d1ae0647348b5a2c8047176c07",
+      "tools_requested": [
+        "blender_transform_object"
+      ],
+      "tools_executed": [
+        "blender_transform_object"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "1f527842e91106873fc41fd558597699c7d51d8054d08af9091e705f73230aad",
+      "engine_hash": "blender-native-4.5.14",
+      "executor": "Blender Worker (leolas-leola-avatar-0244f193)",
+      "status": "SUCCESS",
+      "result": {
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "job_id": "job-blender-1790711917209-ad7909a7",
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "tool": "blender_transform_object",
+        "status": "SUCCEEDED",
+        "blender_version": "4.5.14",
+        "evidence": [
+          "Transformed object Cube"
+        ],
+        "artifacts": [],
+        "native_blender_execution": true,
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 3
+        }
+      },
+      "timestamp": "2026-09-29T19:58:37.317Z",
+      "evidence": [
+        "Transformed object Cube"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "worker_id": "leolas-leola-avatar-0244f193",
+        "blender_version": "4.5.14",
+        "artifacts": [],
+        "tool": "blender_transform_object",
+        "execution_mode": "NATIVE_BLENDER_RUNTIME",
+        "classification": "NATIVE_BLENDER_RUNTIME_EXECUTED",
+        "runtime_proof": {
+          "bpy_available": true,
+          "process_id": 11760,
+          "scene_name": "Scene",
+          "scene_object_count": 3
+        }
+      }
+    },
+    {
+      "receipt_id": "receipt-blender-1790711917205-b70c7813",
+      "task_id": "job-blender-1790711917205-6033856a",
+      "worker": "CONTROL_PLANE",
+      "model": "mcp-blender-control-plane",
+      "input_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "output_hash": "caf84bca4d6e75915d57492dfbf771ee46369806be110288c9d597316a59a639",
+      "tools_requested": [
+        "blender_status"
+      ],
+      "tools_executed": [
+        "blender_status"
+      ],
+      "tools_failed": [],
+      "result_state": "SUCCEEDED",
+      "formula_execution_state": "N/A",
+      "errors": [],
+      "contract_hash": "70f9ce529ce8277bf78efdf6c3c997ad30cf0352dbad0603ed1d466401cee1c3",
+      "engine_hash": "leeway-blender-mcp-control-plane-v1",
+      "executor": "LeeWay Blender MCP Control Plane",
+      "status": "SUCCESS",
+      "result": {
+        "mcp_source": "PRESENT",
+        "mcp_build": "PASS",
+        "mcp_endpoint": "READY",
+        "worker_state": "ONLINE",
+        "native_blender_execution": "NOT_EXECUTED",
+        "worker_pairing_configured": true,
+        "active_worker_count": 1,
+        "total_workers_registered": 1,
+        "total_jobs_dispatched": 0,
+        "total_receipts_created": 0,
+        "protocol_version": "LEEWAY-BLENDER-WORKER-v1",
+        "allowed_tools": [
+          "blender_status",
+          "blender_scene_summary",
+          "blender_create_primitive",
+          "blender_transform_object",
+          "blender_set_material",
+          "blender_add_light",
+          "blender_set_camera",
+          "blender_render_preview",
+          "blender_save_blend",
+          "blender_export_glb"
+        ]
+      },
+      "timestamp": "2026-09-29T19:58:37.206Z",
+      "evidence": [
+        "MCP status queried: ONLINE",
+        "Active workers: 1",
+        "Native execution: NOT_EXECUTED"
+      ],
+      "verification_state": "VERIFIED",
+      "veritas_verdict": "VALID",
+      "metadata": {
+        "execution_mode": "CONTROL_PLANE_ONLY",
+        "worker_id": "CONTROL_PLANE"
+      }
+    }
+  ]
+}
