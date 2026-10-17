@@ -1432,22 +1432,24 @@ export class ClayWorld3D extends EventTarget {
       }
     });
 
-    // Shade trees along the grass verge between the street and buildings.
+    // Shade trees along the grass verge between the street sidewalk (x = -20) and street pavement (x = -23),
+    // and west verge (x = -32.5), safely away from buildings (which start at x <= -36.5).
     const treeColors = [0xf3be38, 0xd85b24, 0x3a773d, 0xe09428];
-    for (let t = 0; t < 10; t++) {
-      const tz = 28 + t * 16;
-      const tx = -35.2 + (Math.random() - 0.5) * 0.5;
+    for (let t = 0; t < 9; t++) {
+      const tz = 28 + t * 18;
+      // Position on the open grass verge between east sidewalk and street (x ~ -19.5 to -20.2), never against west buildings
+      const tx = (t % 2 === 0) ? -19.8 : -32.2;
 
       // Tree trunk
-      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.35, 3.2, 8), this.clayMaterial(0x5a361e, 0.9));
-      trunk.position.set(tx, 1.6, tz);
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.38, 3.4, 8), this.clayMaterial(0x5a361e, 0.9));
+      trunk.position.set(tx, 1.7, tz);
       this.scene.add(trunk);
 
-      // Puffy autumn foliage
+      // Puffy autumn foliage - kept compact (radius ~1.0) so it stays completely clear of buildings
       const leafColor = treeColors[t % treeColors.length];
       for (let p = 0; p < 4; p++) {
-        const puff = new THREE.Mesh(new THREE.SphereGeometry(1.2 + Math.random() * 0.5, 8, 8), this.clayMaterial(leafColor, 0.85));
-        puff.position.set(tx + (Math.random() - 0.5) * 1.2, 3.8 + Math.random() * 1.2, tz + (Math.random() - 0.5) * 1.2);
+        const puff = new THREE.Mesh(new THREE.SphereGeometry(1.0 + Math.random() * 0.35, 8, 8), this.clayMaterial(leafColor, 0.85));
+        puff.position.set(tx + (Math.random() - 0.5) * 0.6, 3.8 + Math.random() * 0.9, tz + (Math.random() - 0.5) * 0.6);
         this.scene.add(puff);
       }
     }
@@ -7168,7 +7170,8 @@ export class ClayWorld3D extends EventTarget {
     if (this.keys.has('KeyD') || this.keys.has('ArrowRight')) move.add(right);
     if (this.keys.has('KeyA') || this.keys.has('ArrowLeft')) move.sub(right);
 
-    if (move.lengthSq() > 0.001) {
+    const hasKeyMove = move.lengthSq() > 0.001;
+    if (hasKeyMove) {
       this.isWalking = true;
       this.walkPath = [];
       this.walkTarget = null;
@@ -7179,6 +7182,8 @@ export class ClayWorld3D extends EventTarget {
       move.normalize().multiplyScalar(this.walkSpeed * dt);
       const candidate = this.playerPos.clone().add(move);
       this.playerPos.copy(this.resolveCollisions(candidate));
+    } else if (!this.walkTarget) {
+      this.isWalking = false;
     }
 
     if (this.walkTarget) {
