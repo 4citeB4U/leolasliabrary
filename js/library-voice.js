@@ -4,19 +4,28 @@ const ORIGIN = 'https://4citeb4u.github.io/LeeWay-Voice-Fabric';
 const STORAGE = 'leola.voice-role-assignments.v1';
 const ROLES = { narrator: 'Book narrator', desk: 'Seated librarian', helper: 'Roaming assistant', Needle: 'Needle', Yarn: 'Yarn', Leola: 'Leola — book author passages' };
 
+export const DEFAULT_VOICES = {
+  narrator: 'kokoro-af_heart', // Female narrator to read the books (Heart · Kokoro)
+  desk: 'kokoro-af_bella',      // Female seated librarian behind reception desk (Bella · Kokoro)
+  helper: 'kokoro-af_nicole',   // Distinct female roaming assistant walking around (Nicole · Kokoro)
+  Leola: 'kokoro-af_sarah',     // Dedicated female voice for Leola reading her stories (Sarah · Kokoro)
+  Needle: 'kokoro-af_river',    // Needle character dialogue (River · Kokoro)
+  Yarn: 'kokoro-af_alloy'       // Yarn character dialogue (Alloy · Kokoro)
+};
+
 export function installLibraryVoice(world) {
   if (world.libraryVoice) return world.libraryVoice;
   const client = new LeeWayVoiceClient({ origin: ORIGIN, timeoutMs: 45000 });
-  let assignments = {}, voices = [], generation = 0, narrationGeneration = 0, connection, preparation;
+  let assignments = { ...DEFAULT_VOICES }, voices = [], generation = 0, narrationGeneration = 0, connection, preparation;
   try { const saved = JSON.parse(localStorage.getItem(STORAGE) || '{}');
-    for (const role of Object.keys(ROLES)) if (typeof saved[role] === 'string') assignments[role] = saved[role];
+    for (const role of Object.keys(ROLES)) if (typeof saved[role] === 'string' && saved[role]) assignments[role] = saved[role];
   } catch { /* Local storage can be unavailable; session assignments still work. */ }
   const state = { connection: 'disconnected', engine: 'unprepared', speaking: false, error: '', progress: '' };
   const dialog = document.createElement('dialog');
   dialog.setAttribute('aria-labelledby', 'library-voice-heading');
   dialog.style.cssText = 'max-width:540px;width:calc(100% - 40px);max-height:85vh;overflow:auto;background:#fff8e9;color:#392616;border:3px solid #9a6b35;border-radius:16px;padding:24px;';
   const title = document.createElement('h2'); title.id = 'library-voice-heading'; title.textContent = 'Library voice setup'; dialog.append(title);
-  const explanation = document.createElement('p'); explanation.textContent = 'Choose a voice for each character or narrator. No voice is assigned automatically. The three Chatterbox Default styles share one reference voice; their labels do not identify separate female voices. Preparing a voice downloads the speech model to this browser.'; dialog.append(explanation);
+  const explanation = document.createElement('p'); explanation.textContent = 'Choose a voice for each character or narrator. Default female voices are pre-assigned out of the box for the book narrator, both librarians (seated and roaming), and Leola. Preparing a voice downloads the speech model to this browser.'; dialog.append(explanation);
   const notice = document.createElement('p'); notice.setAttribute('role', 'status'); notice.setAttribute('aria-live', 'polite'); dialog.append(notice);
   const form = document.createElement('form'); form.method = 'dialog'; dialog.append(form);
   const selectors = {};
@@ -33,9 +42,17 @@ export function installLibraryVoice(world) {
   function populate() {
     for (const role of Object.keys(ROLES)) {
       const select = selectors[role]; select.replaceChildren(new Option('Not assigned', ''));
-      for (const voice of voices) select.add(new Option(voice.name || voice.displayName || voice.id, voice.id));
-      if (assignments[role] && !voices.some(v => v.id === assignments[role])) select.add(new Option('Previously chosen voice — unavailable', assignments[role]));
-      select.value = assignments[role] || '';
+      for (const voice of voices) {
+        const isFemale = voice.gender === 'female' || voice.id?.startsWith('kokoro-af_') || voice.id?.startsWith('kokoro-bf_');
+        const tag = isFemale ? ' [Female]' : (voice.gender === 'male' || voice.id?.startsWith('kokoro-am_') || voice.id?.startsWith('kokoro-bm_') ? ' [Male]' : '');
+        select.add(new Option((voice.name || voice.displayName || voice.id) + tag, voice.id));
+      }
+      const current = assignments[role] || DEFAULT_VOICES[role];
+      if (current && !voices.some(v => v.id === current)) {
+        const cleanName = current.replace(/^kokoro-/, '') + ' [Default assigned]';
+        select.add(new Option(cleanName, current));
+      }
+      select.value = current || '';
     }
   }
   async function connect() {
@@ -54,6 +71,12 @@ export function installLibraryVoice(world) {
     try { localStorage.setItem(STORAGE, JSON.stringify(assignments)); state.error = ''; }
     catch { state.error = 'Choices work this session but could not be saved on this device.'; }
     state.progress = 'Voice choices saved. Speech starts only when you request it.'; publish();
+  });
+  button('Reset to defaults', () => {
+    assignments = { ...DEFAULT_VOICES };
+    try { localStorage.setItem(STORAGE, JSON.stringify(assignments)); state.error = ''; } catch {}
+    populate();
+    state.progress = 'Reset to default female voices.'; publish();
   });
   button('Refresh voices', async () => {
     try { await connect(); const result = await client.listVoices(); voices = result.voices || []; populate(); state.error = ''; publish(); }
@@ -80,12 +103,16 @@ export function installLibraryVoice(world) {
       if (narrationToken === null) narrationGeneration++;
       if (!Object.hasOwn(ROLES, role)) throw new Error('Unknown library voice role.');
       if (!String(text).trim()) return { skipped: true };
-      const id = assignments[role];
+      let id = assignments[role] || DEFAULT_VOICES[role];
       if (!id) { state.error = `Choose a voice for ${ROLES[role]} in Library voices first.`; publish(); api.openSetup(); throw new Error(state.error); }
       const turn = ++generation;
       try {
         await connect();
-        if (!voices.some(v => v.id === id)) throw new Error('The assigned voice is unavailable in this browser. Choose an available voice.');
+        if (!voices.some(v => v.id === id)) {
+          const fallback = voices.find(v => v.id.startsWith('kokoro-af_')) || voices[0];
+          if (fallback) id = fallback.id;
+          else throw new Error('The assigned voice is unavailable in this browser. Choose an available voice.');
+        }
         await client.stop(); if (turn !== generation) return { stopped: true };
         // Prepare first: the bridge restores its default reference during prepare.
         if (state.engine !== 'prepared') {
@@ -114,7 +141,7 @@ export function installLibraryVoice(world) {
       const segments = bookId === 'needle-and-yarn'
         ? data.pages.filter(page => page.pageIndex >= start).flatMap(page => page.segments.map(segment => ({ ...segment, pageIndex: page.pageIndex })))
         : data.chapters.slice(start).map((chapter, index) => ({ speaker: 'narrator', text: chapter.text, pageIndex: start + index }));
-      const missing = [...new Set(segments.map(segment => segment.speaker))].filter(role => !Object.hasOwn(ROLES, role) || !assignments[role]);
+      const missing = [...new Set(segments.map(segment => segment.speaker))].filter(role => !Object.hasOwn(ROLES, role) || !(assignments[role] || DEFAULT_VOICES[role]));
       if (missing.length) { state.error = `Choose voices for ${missing.join(', ')} before reading this book.`; publish(); api.openSetup(); throw new Error(state.error); }
       for (const segment of segments) {
         // Slice exact source text without paraphrasing or adding speaker labels.
