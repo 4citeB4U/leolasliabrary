@@ -31,7 +31,7 @@ export const DEFAULT_VOICES = {
 export function installLibraryVoice(world) {
   if (world.libraryVoice) return world.libraryVoice;
   const client = new LeeWayVoiceClient({ origin: ORIGIN, timeoutMs: 45000 });
-  let assignments = { ...DEFAULT_VOICES }, voices = [], generation = 0, narrationGeneration = 0, connection, preparation;
+  let assignments = { ...DEFAULT_VOICES }, voices = [], generation = 0, narrationGeneration = 0, connection, preparation, activeLocalAudio = null;
   try { const saved = JSON.parse(localStorage.getItem(STORAGE) || '{}');
     for (const role of Object.keys(ROLES)) if (typeof saved[role] === 'string' && saved[role]) assignments[role] = saved[role];
   } catch { /* Local storage can be unavailable; session assignments still work. */ }
@@ -118,7 +118,7 @@ export function installLibraryVoice(world) {
     async speak(text, role = 'narrator', narrationToken = null) {
       if (narrationToken === null) {
         narrationGeneration++;
-        await client.stop().catch(() => {});
+        await api.stop().catch(() => {});
       }
       if (!Object.hasOwn(ROLES, role)) throw new Error('Unknown library voice role.');
       const clean = String(text || '').trim();
@@ -126,6 +126,49 @@ export function installLibraryVoice(world) {
       let id = assignments[role] || DEFAULT_VOICES[role];
       if (!id) { state.error = `Choose a voice for ${ROLES[role]} in Library voices first.`; publish(); api.openSetup(); throw new Error(state.error); }
       const turn = ++generation;
+      const cleanVoiceId = id.replace(/^kokoro-/, '');
+
+      // Instant speech synthesis path via fast local Kokoro service proxy (<1 second)
+      try {
+        const response = await fetch('/api/voice/synthesize.wav', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ voiceId: cleanVoiceId, text: clean })
+        });
+        if (response.ok) {
+          const blob = await response.blob();
+          if (turn !== generation) return { stopped: true };
+          if (blob && blob.size > 100) {
+            state.speaking = true; state.error = ''; publish();
+            return await new Promise((resolve, reject) => {
+              const audioUrl = URL.createObjectURL(blob);
+              const audio = new Audio(audioUrl);
+              audio.playbackRate = 1.14;
+              activeLocalAudio = audio;
+              const cleanup = () => {
+                URL.revokeObjectURL(audioUrl);
+                if (activeLocalAudio === audio) activeLocalAudio = null;
+                if (turn === generation) { state.speaking = false; publish(); }
+              };
+              audio.onended = () => {
+                cleanup();
+                resolve({ completed: true, localFast: true });
+              };
+              audio.onerror = (e) => {
+                cleanup();
+                reject(new Error('Audio playback failed'));
+              };
+              audio.play().catch(err => {
+                cleanup();
+                reject(err);
+              });
+            });
+          }
+        }
+      } catch (fastErr) {
+        console.warn('Fast local voice proxy bypassed, using client bridge fallback:', fastErr.message);
+      }
+
       try {
         await connect();
         if (!voices.some(v => v.id === id)) {
@@ -190,6 +233,10 @@ export function installLibraryVoice(world) {
       narrationGeneration++;
       generation++;
       currentVoiceId = null;
+      if (activeLocalAudio) {
+        try { activeLocalAudio.pause(); activeLocalAudio.currentTime = 0; } catch {}
+        activeLocalAudio = null;
+      }
       state.speaking = false;
       publish();
       if (state.connection === 'connected') return client.stop();

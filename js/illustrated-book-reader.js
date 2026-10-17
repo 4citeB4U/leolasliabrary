@@ -17,7 +17,41 @@ export function installIllustratedBookReader(world) {
   const bigger=button(magnifier,'🔍 +',()=>setZoom(zoom*100+20));bigger.setAttribute('aria-label','Enlarge words');bigger.title='Enlarge words and pictures';
   const zoomPercent=document.createElement('output');zoomPercent.textContent='100%';zoomPercent.setAttribute('aria-live','polite');magnifier.append(zoomPercent);
   const fit=button(magnifier,'Fit page',()=>setZoom(100));fit.title='Reset magnification to fit the full page';
-  const listen=button(toolbar,'Listen',async()=>{if(!manifest)return;try{if(typeof world?.libraryVoice?.readBook==='function')await world.libraryVoice.readBook('needle-and-yarn',{pageIndex:index});else if(world?.libraryVoice?.openSetup){status.textContent='Choose a book narration voice in Library voices.';world.libraryVoice.openSetup();}else status.textContent='Book narration is not connected yet. The illustrated pages remain available to read.';}catch(error){status.textContent=error.message||'Narration could not start. Check Library voices.';}});listen.title='Listen to this book using your selected library voice';listen.setAttribute('aria-label','Listen to this book');
+  let readingNarration = false;
+  const listen=button(toolbar,'Listen',async()=>{
+    if(!manifest)return;
+    if(readingNarration) {
+      readingNarration = false;
+      listen.textContent = 'Listen';
+      listen.setAttribute('aria-pressed', 'false');
+      world?.libraryVoice?.stop?.();
+      status.textContent = 'Narration stopped.';
+      return;
+    }
+    try {
+      if(typeof world?.libraryVoice?.readBook==='function') {
+        readingNarration = true;
+        listen.textContent = 'Stop reading';
+        listen.setAttribute('aria-pressed', 'true');
+        status.textContent = 'Narrating ' + (manifest.title || 'story') + '…';
+        const res = await world.libraryVoice.readBook('needle-and-yarn',{pageIndex:index});
+        readingNarration = false;
+        listen.textContent = 'Listen';
+        listen.setAttribute('aria-pressed', 'false');
+        status.textContent = res?.stopped ? 'Narration stopped.' : 'Narration finished.';
+      } else if(world?.libraryVoice?.openSetup) {
+        status.textContent='Choose a book narration voice in Library voices.';
+        world.libraryVoice.openSetup();
+      } else {
+        status.textContent='Book narration is not connected yet. The illustrated pages remain available to read.';
+      }
+    } catch(error) {
+      readingNarration = false;
+      listen.textContent = 'Listen';
+      listen.setAttribute('aria-pressed', 'false');
+      status.textContent=error.message||'Narration could not start. Check Library voices.';
+    }
+  });listen.title='Listen to this book using your selected library voice';listen.setAttribute('aria-label','Listen to this book');
   const sound=button(toolbar,'Page sound on',()=>{muted=!muted;sound.textContent=muted?'Page sound off':'Page sound on';sound.setAttribute('aria-pressed',String(!muted));if(muted)stopRustle();});sound.setAttribute('aria-pressed','true');
   const download=document.createElement('a');download.textContent='Download EPUB';download.setAttribute('download','');toolbar.append(download);
   const viewport=document.createElement('div');viewport.className='illustrated-reader-viewport';viewport.tabIndex=0;viewport.setAttribute('aria-label','Illustrated page. Use arrow keys to turn pages.');dialog.append(viewport);
