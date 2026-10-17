@@ -771,6 +771,15 @@
         status.textContent=error.message;
       }
     };
+    window.addEventListener('library-narration-page', (e) => {
+      if (document.getElementById('reader-modal-backdrop')?.classList.contains('active')) {
+        const { pageIndex } = e.detail;
+        if (typeof pageIndex === 'number' && pageIndex !== activePage && bookData[activeBookKey]?.chapters?.[pageIndex]) {
+          activePage = pageIndex;
+          renderBookPage();
+        }
+      }
+    });
     document.getElementById('reader-stop').onclick=()=>{world.libraryVoice.stop();document.getElementById('reader-voice-status').textContent='Reading stopped.';};
     function renderBookPage(){const b=bookData[activeBookKey],chs=b.chapters,ch=chs[activePage],art=ch.illustration,figure=art?'<figure class="reader-story-illustration"><img src="'+art.src+'" alt="'+escapeHtml(art.alt)+'" loading="eager"><figcaption>'+escapeHtml(art.caption)+'</figcaption></figure>':'';document.getElementById('reader-book-title').textContent=b.title;document.getElementById('reader-book-sub').textContent=b.sub;document.getElementById('reader-book-icon').textContent=b.icon;document.getElementById('reader-book-body').innerHTML='<article class="reader-story-page">'+figure+ch.html+'</article>';document.getElementById('reader-page-indicator').textContent='Chapter '+(activePage+1)+' of '+chs.length;const tabs=document.getElementById('reader-chapter-tabs');tabs.innerHTML=chs.map((c,i)=>'<button class="'+(i===activePage?'card-primary-cta':'card-secondary-cta')+'" data-chapter="'+i+'" style="white-space:nowrap;">'+(i+1)+'. '+escapeHtml(c.title.replace(/^Chapter\s+[^:—-]+[:—-]?\s*/i,''))+'</button>').join('');tabs.querySelectorAll('[data-chapter]').forEach(x=>x.addEventListener('click',()=>{activePage=Number(x.dataset.chapter);renderBookPage();}));}
     document.querySelectorAll('.book-showcase-card').forEach(x=>x.addEventListener('click',()=>window.openBookReader(x.dataset.book)));

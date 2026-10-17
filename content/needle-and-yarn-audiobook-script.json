@@ -30,6 +30,21 @@
   ],
   "pages": [
     {
+      "pageIndex": 0,
+      "title": "Cover",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Needle and Yarn: A Love Stitched in Time. By Leola Sista Lee.",
+          "emotion": "neutral"
+        }
+      ],
+      "sourcePage": 1,
+      "printedPage": null,
+      "sourceImage": "assets/books/needle-and-yarn/pages/page-001.jpg",
+      "captionText": "Needle & Yarn: A Love Stitched in Time by Leola “Sista” Lee"
+    },
+    {
       "pageIndex": 1,
       "title": "Dedication",
       "segments": [
@@ -99,7 +114,12 @@
       "segments": [
         {
           "speaker": "narrator",
-          "text": "The hand returned. Two fingers pressed gently into her fibers. Up she went. \"Good gracious!\"",
+          "text": "The hand returned. Two fingers pressed gently into her fibers. Up she went.",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "Yarn",
+          "text": "\"Good gracious!\"",
           "emotion": "neutral"
         }
       ],
@@ -114,8 +134,13 @@
       "title": "A New World",
       "segments": [
         {
+          "speaker": "Yarn",
+          "text": "\"I'm gettin' chosen.\"",
+          "emotion": "neutral"
+        },
+        {
           "speaker": "narrator",
-          "text": "\"I'm gettin' chosen.\" Then everything changed. The shop was no longer the whole world.",
+          "text": "Then everything changed. The shop was no longer the whole world.",
           "emotion": "neutral"
         }
       ],
@@ -210,8 +235,13 @@
       "title": "The Scarf Begins",
       "segments": [
         {
+          "speaker": "Yarn",
+          "text": "\"A scarf!\"",
+          "emotion": "neutral"
+        },
+        {
           "speaker": "narrator",
-          "text": "\"A scarf!\" The idea thrilled her. A real thing. Something somebody could wear.",
+          "text": "The idea thrilled her. A real thing. Something somebody could wear.",
           "emotion": "neutral"
         }
       ],
@@ -242,8 +272,13 @@
       "title": "Made to Be Given",
       "segments": [
         {
+          "speaker": "Yarn",
+          "text": "\"We made somebody happy.\"",
+          "emotion": "neutral"
+        },
+        {
           "speaker": "narrator",
-          "text": "\"We made somebody happy.\" Maybe making was about giving something of yourself away and discovering that somehow you were not smaller for it.",
+          "text": "Maybe making was about giving something of yourself away and discovering that somehow you were not smaller for it.",
           "emotion": "neutral"
         }
       ],
@@ -338,8 +373,23 @@
       "title": "Where You Come Back",
       "segments": [
         {
+          "speaker": "Yarn",
+          "text": "\"I like it.\"",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "Needle",
+          "text": "\"Why?\"",
+          "emotion": "neutral"
+        },
+        {
           "speaker": "narrator",
-          "text": "\"I like it.\" \"Why?\" Yarn touched the faint repair line gently. \"Because that's where you came back.\"",
+          "text": "Yarn touched the faint repair line gently.",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "Yarn",
+          "text": "\"Because that's where you came back.\"",
           "emotion": "neutral"
         }
       ],
@@ -502,8 +552,13 @@
       "title": "Learning by Doing",
       "segments": [
         {
+          "speaker": "Leola",
+          "text": "\"Do you wanna learn?\"",
+          "emotion": "neutral"
+        },
+        {
           "speaker": "narrator",
-          "text": "\"Do you wanna learn?\" \"Yes.\" \"Then yes.\" The stitches were not perfect. They did not need to be.",
+          "text": "\"Yes.\" \"Then yes.\" The stitches were not perfect. They did not need to be.",
           "emotion": "neutral"
         }
       ],

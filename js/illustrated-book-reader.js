@@ -52,6 +52,14 @@ export function installIllustratedBookReader(world) {
       status.textContent=error.message||'Narration could not start. Check Library voices.';
     }
   });listen.title='Listen to this book using your selected library voice';listen.setAttribute('aria-label','Listen to this book');
+  window.addEventListener('library-narration-page', (e) => {
+    if (!root.hidden && manifest && typeof e.detail?.pageIndex === 'number') {
+      const target = e.detail.pageIndex;
+      if (target !== index && target >= 0 && target < manifest.pages.length) {
+        goTo(target);
+      }
+    }
+  });
   const sound=button(toolbar,'Page sound on',()=>{muted=!muted;sound.textContent=muted?'Page sound off':'Page sound on';sound.setAttribute('aria-pressed',String(!muted));if(muted)stopRustle();});sound.setAttribute('aria-pressed','true');
   const download=document.createElement('a');download.textContent='Download EPUB';download.setAttribute('download','');toolbar.append(download);
   const viewport=document.createElement('div');viewport.className='illustrated-reader-viewport';viewport.tabIndex=0;viewport.setAttribute('aria-label','Illustrated page. Use arrow keys to turn pages.');dialog.append(viewport);

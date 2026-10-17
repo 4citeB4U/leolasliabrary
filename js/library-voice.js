@@ -207,9 +207,49 @@ export function installLibraryVoice(world) {
       const data = await response.json();
       if (token !== narrationGeneration) return { stopped: true };
       const start = Math.max(0, Math.floor(Number(pageIndex) || 0));
-      const segments = bookId === 'needle-and-yarn'
-        ? data.pages.filter(page => page.pageIndex >= start).flatMap(page => page.segments.map(segment => ({ ...segment, pageIndex: page.pageIndex })))
-        : data.chapters.slice(start).map((chapter, index) => ({ speaker: 'narrator', text: chapter.text, pageIndex: start + index }));
+      const segments = [];
+      // If beginning at the very start of the book (page 0), provide a proper formal introduction
+      if (start === 0) {
+        if (bookId === 'needle-and-yarn') {
+          segments.push({
+            speaker: 'narrator',
+            text: 'Welcome to Needle and Yarn: A Love Stitched in Time, written by Leola Sista Lee.',
+            pageIndex: 0
+          });
+        } else if (bookId === 'crochet-mastery') {
+          segments.push({
+            speaker: 'narrator',
+            text: 'Welcome to Crochet Mastery: A Complete Guide, by Leola Sister Lee.',
+            pageIndex: 0
+          });
+        }
+      }
+
+      if (bookId === 'needle-and-yarn') {
+        for (const page of data.pages) {
+          if (page.pageIndex < start) continue;
+          // When starting a new chapter or titled section, announce chapter title
+          if (page.title && page.title.toLowerCase().startsWith('chapter')) {
+            segments.push({
+              speaker: 'narrator',
+              text: page.title + '.',
+              pageIndex: page.pageIndex
+            });
+          }
+          for (const segment of page.segments) {
+            segments.push({ ...segment, pageIndex: page.pageIndex });
+          }
+        }
+      } else {
+        for (let i = start; i < data.chapters.length; i++) {
+          const chapter = data.chapters[i];
+          segments.push({
+            speaker: 'narrator',
+            text: chapter.text,
+            pageIndex: i
+          });
+        }
+      }
       const missing = [...new Set(segments.map(segment => segment.speaker))].filter(role => !Object.hasOwn(ROLES, role) || !(assignments[role] || DEFAULT_VOICES[role]));
       if (missing.length) { state.error = `Choose voices for ${missing.join(', ')} before reading this book.`; publish(); api.openSetup(); throw new Error(state.error); }
       for (const segment of segments) {
