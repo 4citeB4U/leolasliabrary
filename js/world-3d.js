@@ -5,6 +5,7 @@ import { replaceDonationGift } from './donation-gift.js';
 import { addPlaygroundVisitors } from './playground-visitors.js';
 import { refreshLibraryVisuals } from './library-visual-refresh.js';
 import { buildAvenueMall } from './avenue-mall.js';
+import { SpatialAmbientAudio } from './spatial-ambient-audio.js';
 /*
 LEEWAY HEADER Ã¢â‚¬â€ DO NOT REMOVE
 REGION: UI.APP.3D.WORLD
@@ -6744,6 +6745,7 @@ export class ClayWorld3D extends EventTarget {
 
   initAudio() {
     this.audioCtx = null;
+    this.ambientAudio = new SpatialAmbientAudio(this);
   }
 
   ensureAudio() {
@@ -6994,6 +6996,10 @@ export class ClayWorld3D extends EventTarget {
     }
     if (data.type === 'grand_globe') {
       this.dispatchEvent(new CustomEvent('inspect_globe'));
+      return;
+    }
+    if (data.type === 'squirrel') {
+      this.ambientAudio?.playSquirrelChitter(1.0);
       return;
     }
     if (data.type === 'librarian_helper') { this.cancelWalking(); this.dispatchEvent(new CustomEvent('talk_helper')); return; }
@@ -7319,6 +7325,7 @@ export class ClayWorld3D extends EventTarget {
 
     this.updateDoors(dt);
     this.updateMovement(dt);
+    this.ambientAudio?.update(this.camera, this.playerPos, dt, time);
     this.updatePromenadeNPCs(dt);
     this.updateSkyElements(dt, time);
     this.playgroundVisitors?.update(time);

@@ -335,6 +335,7 @@
       if (label) label.textContent = voiceEnabled ? 'Voice On' : 'Voice Off';
       if (icon) icon.textContent = voiceEnabled ? '🔊' : '🔇';
       btn?.classList.toggle('voice-muted', !voiceEnabled);
+      world.ambientAudio?.setMuted(!voiceEnabled);
       if (!voiceEnabled) stopSpeech();
     });
 
