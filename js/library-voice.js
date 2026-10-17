@@ -102,6 +102,7 @@ export function installLibraryVoice(world) {
   document.body.append(dialog); populate();
   client.on('voice.state', event => { state.progress = event?.message || event?.status || ''; publish(); });
   client.on('voice.error', event => { state.error = event?.message || 'Voice Fabric reported an error.'; state.speaking = false; publish(); });
+  let currentVoiceId = null;
   const api = {
     client, connect,
     get status() { return { ...state, assignments: { ...assignments }, voiceCount: voices.length }; },
@@ -115,9 +116,13 @@ export function installLibraryVoice(world) {
       entry.addEventListener('click', () => api.openSetup()); container.append(entry); return entry;
     },
     async speak(text, role = 'narrator', narrationToken = null) {
-      if (narrationToken === null) narrationGeneration++;
+      if (narrationToken === null) {
+        narrationGeneration++;
+        await client.stop().catch(() => {});
+      }
       if (!Object.hasOwn(ROLES, role)) throw new Error('Unknown library voice role.');
-      if (!String(text).trim()) return { skipped: true };
+      const clean = String(text || '').trim();
+      if (!clean) return { skipped: true };
       let id = assignments[role] || DEFAULT_VOICES[role];
       if (!id) { state.error = `Choose a voice for ${ROLES[role]} in Library voices first.`; publish(); api.openSetup(); throw new Error(state.error); }
       const turn = ++generation;
@@ -129,7 +134,7 @@ export function installLibraryVoice(world) {
           if (fallback) id = fallback.id;
           else throw new Error('The assigned voice is unavailable in this browser. Choose an available voice.');
         }
-        await client.stop(); if (turn !== generation) return { stopped: true };
+        if (turn !== generation) return { stopped: true };
         // Prepare first: the bridge restores its default reference during prepare.
         if (state.engine !== 'prepared') {
           state.engine = 'preparing'; state.error = ''; publish();
@@ -137,9 +142,14 @@ export function installLibraryVoice(world) {
           await preparation; state.engine = 'prepared'; publish();
         }
         if (turn !== generation) return { stopped: true };
-        await client.selectVoice(id); if (turn !== generation) return { stopped: true };
+        if (currentVoiceId !== id) {
+          await client.selectVoice(id);
+          currentVoiceId = id;
+        }
+        await client.configure({ pace: 1.14 }).catch(() => {});
+        if (turn !== generation) return { stopped: true };
         state.speaking = true; state.error = ''; publish();
-        const result = await client.speak(String(text));
+        const result = await client.speak(clean);
         return result;
       } catch (error) {
         if (state.engine === 'preparing') state.engine = 'unprepared';
@@ -160,23 +170,38 @@ export function installLibraryVoice(world) {
       const missing = [...new Set(segments.map(segment => segment.speaker))].filter(role => !Object.hasOwn(ROLES, role) || !(assignments[role] || DEFAULT_VOICES[role]));
       if (missing.length) { state.error = `Choose voices for ${missing.join(', ')} before reading this book.`; publish(); api.openSetup(); throw new Error(state.error); }
       for (const segment of segments) {
-        // Slice exact source text without paraphrasing or adding speaker labels.
-        let remaining = segment.text;
-        while (remaining.length) {
+        if (token !== narrationGeneration) return { stopped: true };
+        window.dispatchEvent(new CustomEvent('library-narration-page', { detail: { bookId, pageIndex: segment.pageIndex, speaker: segment.speaker } }));
+        // Split long passages at natural sentence boundaries for fluid continuous reading
+        const sentences = segment.text
+          .split(/(?<=[.!?]["']?)\s+/)
+          .map(s => s.trim())
+          .filter(Boolean);
+        const list = sentences.length ? sentences : [segment.text.trim()];
+        for (const sentence of list) {
           if (token !== narrationGeneration) return { stopped: true };
-          let end = Math.min(remaining.length, 500);
-          if (end < remaining.length) { const gap = remaining.lastIndexOf(' ', end); if (gap > 200) end = gap + 1; }
-          const chunk = remaining.slice(0, end); remaining = remaining.slice(end);
-          window.dispatchEvent(new CustomEvent('library-narration-page', { detail: { bookId, pageIndex: segment.pageIndex, speaker: segment.speaker } }));
-          try { await api.speak(chunk, segment.speaker, token); }
+          try { await api.speak(sentence, segment.speaker, token); }
           catch (error) { if (token !== narrationGeneration) return { stopped: true }; throw error; }
         }
       }
       return token === narrationGeneration ? { completed: true } : { stopped: true };
     },
-    async stop() { narrationGeneration++; generation++; state.speaking = false; publish(); if (state.connection === 'connected') return client.stop(); return { stopped: true }; }
+    async stop() {
+      narrationGeneration++;
+      generation++;
+      currentVoiceId = null;
+      state.speaking = false;
+      publish();
+      if (state.connection === 'connected') return client.stop();
+      return { stopped: true };
+    }
   };
   world.libraryVoice = api;
-  connect().catch(() => {});
+  connect().then(() => {
+    if (state.engine !== 'prepared') {
+      state.engine = 'preparing'; publish();
+      preparation ||= client.prepare().then(() => { state.engine = 'prepared'; publish(); }).catch(() => {});
+    }
+  }).catch(() => {});
   return api;
 }

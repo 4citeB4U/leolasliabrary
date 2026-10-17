@@ -314,7 +314,7 @@
       if (!voiceEnabled || !synth) return;
       synth.cancel();
       currentUtterance = new SpeechSynthesisUtterance(text);
-      currentUtterance.rate = 0.95;
+      currentUtterance.rate = 1.10;
       currentUtterance.pitch = 1.05;
       const voices = synth.getVoices();
       const warmVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Google') || v.name.includes('Natural')));

@@ -188,8 +188,8 @@ export class LeolaSLMEngine {
     try {
       this.speechSynth.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.95;
-      utterance.pitch = 1.15; // Warm, friendly female cadence
+      utterance.rate = 1.10;
+      utterance.pitch = 1.10; // Warm, friendly female cadence
       
       const voices = this.speechSynth.getVoices();
       const friendlyVoice = voices.find(v => 
