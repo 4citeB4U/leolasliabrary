@@ -2,15 +2,30 @@ import { LeeWayVoiceClient } from './vendor/leeway-voice-sdk.js';
 
 const ORIGIN = 'https://4citeb4u.github.io/LeeWay-Voice-Fabric';
 const STORAGE = 'leola.voice-role-assignments.v1';
-const ROLES = { narrator: 'Book narrator', desk: 'Seated librarian', helper: 'Roaming assistant', Needle: 'Needle', Yarn: 'Yarn', Leola: 'Leola — book author passages' };
+const ROLES = {
+  narrator: 'Book narrator',
+  desk: 'Seated librarian',
+  helper: 'Roaming assistant',
+  Leola: 'Leola — book author passages',
+  Needle: 'Needle (Silver Needle)',
+  Yarn: 'Yarn (Soft Yarn)',
+  Scissors: 'Scissors (Old Scissors)',
+  Marker: 'Marker (Stitch Marker)',
+  Tape: 'Measuring Tape',
+  Hook: 'Crochet Hook'
+};
 
 export const DEFAULT_VOICES = {
-  narrator: 'kokoro-af_heart', // Female narrator to read the books (Heart · Kokoro)
+  narrator: 'kokoro-af_heart', // Female narrator to read books (Heart · Kokoro)
   desk: 'kokoro-af_bella',      // Female seated librarian behind reception desk (Bella · Kokoro)
-  helper: 'kokoro-af_nicole',   // Distinct female roaming assistant walking around (Nicole · Kokoro)
+  helper: 'kokoro-af_sky',      // Female roaming assistant walking around (Sky · Kokoro)
   Leola: 'kokoro-af_sarah',     // Dedicated female voice for Leola reading her stories (Sarah · Kokoro)
-  Needle: 'kokoro-af_river',    // Needle character dialogue (River · Kokoro)
-  Yarn: 'kokoro-af_alloy'       // Yarn character dialogue (Alloy · Kokoro)
+  Needle: 'kokoro-am_michael',  // Male voice for Needle (Michael · Kokoro)
+  Yarn: 'kokoro-af_alloy',      // Female voice for Yarn (Alloy · Kokoro)
+  Scissors: 'kokoro-am_adam',   // Male voice for Scissors (Adam · Kokoro)
+  Marker: 'kokoro-am_puck',     // Male voice for Marker (Puck · Kokoro)
+  Tape: 'kokoro-af_nicole',     // Female voice for Measuring Tape (Nicole · Kokoro)
+  Hook: 'kokoro-af_aoede'       // Female voice for Crochet Hook (Aoede · Kokoro)
 };
 
 export function installLibraryVoice(world) {
@@ -25,7 +40,7 @@ export function installLibraryVoice(world) {
   dialog.setAttribute('aria-labelledby', 'library-voice-heading');
   dialog.style.cssText = 'max-width:540px;width:calc(100% - 40px);max-height:85vh;overflow:auto;background:#fff8e9;color:#392616;border:3px solid #9a6b35;border-radius:16px;padding:24px;';
   const title = document.createElement('h2'); title.id = 'library-voice-heading'; title.textContent = 'Library voice setup'; dialog.append(title);
-  const explanation = document.createElement('p'); explanation.textContent = 'Choose a voice for each character or narrator. Default female voices are pre-assigned out of the box for the book narrator, both librarians (seated and roaming), and Leola. Preparing a voice downloads the speech model to this browser.'; dialog.append(explanation);
+  const explanation = document.createElement('p'); explanation.textContent = 'Choose a voice for each character or narrator. Pre-selected female voices are assigned for the narrator, seated librarian, walking assistant (Sky), and Leola. Male voices are assigned for Needle (Michael), Scissors (Adam), and Marker (Puck), with Yarn in her signature voice (Alloy). Preparing a voice downloads the speech model to this browser.'; dialog.append(explanation);
   const notice = document.createElement('p'); notice.setAttribute('role', 'status'); notice.setAttribute('aria-live', 'polite'); dialog.append(notice);
   const form = document.createElement('form'); form.method = 'dialog'; dialog.append(form);
   const selectors = {};
@@ -109,7 +124,8 @@ export function installLibraryVoice(world) {
       try {
         await connect();
         if (!voices.some(v => v.id === id)) {
-          const fallback = voices.find(v => v.id.startsWith('kokoro-af_')) || voices[0];
+          const isMale = id.startsWith('kokoro-am_') || id.startsWith('kokoro-bm_');
+          const fallback = voices.find(v => isMale ? (v.gender === 'male' || v.id.startsWith('kokoro-am_') || v.id.startsWith('kokoro-bm_')) : (v.gender === 'female' || v.id.startsWith('kokoro-af_') || v.id.startsWith('kokoro-bf_'))) || voices[0];
           if (fallback) id = fallback.id;
           else throw new Error('The assigned voice is unavailable in this browser. Choose an available voice.');
         }
